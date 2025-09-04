@@ -1,0 +1,35 @@
+@import url('header.css');
+@import url('home.css');
+@import url('about.css');
+@import url('difference.css');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    background-color: rgb(255, 255, 255);
+}
+
+#btn-default {
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(40, 99, 225, 1);
+    color:rgb(255, 255, 255);
+    border-radius: 4px;
+    padding: 6px 14px;
+    padding-inline: 28px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+html {
+    scroll-behavior: smooth !important;
+}

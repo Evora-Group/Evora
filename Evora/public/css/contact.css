@@ -1,0 +1,111 @@
+
+.contact{
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow: hidden;
+    width: 100%;
+    flex-direction: row;
+    background: linear-gradient(to right, #34a0d1, #1e639c);
+    min-height: 80vh;
+    flex-direction: column;
+}
+
+
+.ctt {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.ctt h1{
+    padding: 20px;
+    font-size: 40px;
+    color: white;
+    margin: 2rem;
+}
+
+.forms-name-email{
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+}
+
+.forms-name-email input{
+    width: 30rem;
+    height: 3rem;
+    align-items: center;
+    margin: 0.1rem;
+    font-size: medium;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+
+.others_inputs{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}
+
+
+.others_inputs input{
+    width: 60rem;
+    height: 3rem;
+    align-items: center;
+    font-size: medium;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 0.8rem;
+
+}
+
+#desc{
+    height: 6em;
+}
+
+
+.contact button{
+    background-color: #2862e1;
+    color: white;
+    align-self:center;
+    font-size: medium;
+    font-weight: bold;
+    border: none;
+    width: 8rem;
+    height: 2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(40, 98, 225, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.contact button:hover {
+    background-color: #1e4db7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+
+@media screen and (max-width: 1170px){
+    .forms-name-email{
+        flex-direction: column;
+    }
+
+    .forms-name-email input{
+    width: 22em;
+    height: 3rem;
+    margin: 0.8rem;
+    }
+
+    .others_inputs input{
+    width: 22rem;
+    height: 3rem;
+    margin: 0.8rem;
+
+}
+}

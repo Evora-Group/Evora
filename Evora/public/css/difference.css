@@ -1,4 +1,4 @@
-.difference{
+.difference {
     position: relative;
     display: flex;
     align-items: center;
@@ -6,25 +6,36 @@
     width: 100%;
     height: auto;
     flex-direction: column;
-    overflow: hidden;   
+    overflow: hidden;
+    z-index: 1;
 }
 
-.dfr{
+.shape2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    opacity: 0.4;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.dfr {
     display: flex;
     justify-content: space-between;
-    
+
 }
 
-.dfr h1{
+.dfr h1 {
     font-size: 60px;
-    
+    padding-top: 100px;
     background: linear-gradient(to right, #34a0d1, #1e639c);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     z-index: 1;
 }
-
 
 
 .cards {
@@ -36,49 +47,46 @@
     margin: 5rem;
 }
 
-
-
-.cards h2{
+.cards h2 {
     color: white;
     margin: 1rem;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.cards p{
-    font-weight:600;
-    text-align:left;
+.cards p {
+    font-weight: 600;
+    text-align: left;
     margin: 1rem;
 }
 
-.card_01, .card_02, .card_03 {
+.card_01,
+.card_02,
+.card_03 {
     width: 17rem;
     height: 18rem;
     padding: 1rem;
     text-align: left;
     background-color: #2862e1;
     color: white;
-    border-radius: 16px;
+    border-radius: 14px;
     overflow: hidden;
     cursor: pointer;
-    box-shadow: 0 8px 25px rgba(40, 96, 225, 0.8);
+    /* box-shadow: 0 8px 25px rgba(40, 96, 225, 0.8); */
     transition: all 0.3s ease;
     background: linear-gradient(135deg, #4a7ce8 0%, #3567d6 50%, #2855b8 100%);
 }
 
 
-.card_01:hover, 
-.card_02:hover, 
-.card_03:hover{
+.card_01:hover,
+.card_02:hover,
+.card_03:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 35px rgba(40, 98, 225, 0.9);
 }
 
 
-@media screen and (max-width: 1170px){
-    .dfr h1{
+@media screen and (max-width: 1170px) {
+    .dfr h1 {
         text-align: center;
     }
 }
-
-
-

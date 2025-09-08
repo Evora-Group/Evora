@@ -1,12 +1,8 @@
-
-.contact{
+.contact {
     position: relative;
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
     overflow: hidden;
     width: 100%;
-    flex-direction: row;
     background: linear-gradient(to right, #34a0d1, #1e639c);
     min-height: 80vh;
     flex-direction: column;
@@ -19,22 +15,28 @@
     justify-content: center;
 }
 
-.ctt h1{
+.ctt h1 {
     padding: 20px;
     font-size: 40px;
     color: white;
-    margin: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+
+    width: 63.4rem;
+    max-width: 90%;
+    box-sizing: border-box;
+    text-align: left;
 }
 
-.forms-name-email{
+.forms-name-email {
     display: flex;
     flex-direction: row;
-    align-self: center;
     gap: 12px;
+    margin: 0 auto;
 
 }
 
-.forms-name-email input{
+.forms-name-email input {
     width: 30rem;
     height: 3rem;
     align-items: center;
@@ -47,14 +49,15 @@
 }
 
 
-.others_inputs{
+.others_inputs {
     display: flex;
     flex-direction: column;
     align-self: center;
+    margin: 0 auto;
 }
 
 
-.others_inputs input{
+.others_inputs input {
     width: 61rem;
     height: 3rem;
     align-items: center;
@@ -66,27 +69,29 @@
 
 }
 
-#desc{
+#desc {
     height: 6em;
 }
 
 
-.contact button{
+.contact button {
     background-color: #2862e1;
     color: white;
-    align-self:center;
+    align-self: center;
     font-size: medium;
     font-weight: bold;
     border: none;
     width: 8rem;
     height: 2rem;
-    border-radius: 10px;
+    border-radius: 6px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 6px 20px rgba(40, 98, 225, 0.4);
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    /* box-shadow: 0 6px 20px rgba(40, 98, 225, 0.4); */
+    /* border: 2px solid rgba(255, 255, 255, 0.2); */
     margin: 1rem;
 
+    position: relative;
+    left: calc(-30rem + 3.5rem);/
 }
 
 .contact button:hover {
@@ -96,25 +101,31 @@
 }
 
 
-@media screen and (max-width: 1170px){
-    .forms-name-email{
+@media screen and (max-width: 1170px) {
+    .forms-name-email {
         flex-direction: column;
     }
 
-    .forms-name-email input{
-    width: 22rem;
-    height: 3rem;
-    margin-bottom: 0px;
+    .forms-name-email input {
+        width: 22rem;
+        height: 3rem;
+        margin-bottom: 0px;
     }
 
-    .others_inputs input{
-    max-width: 22rem;
-    height: 3rem;
-    margin: 0.8rem;
-    margin-bottom: 0px;
-}
+    .others_inputs input {
+        max-width: 22rem;
+        height: 3rem;
+        margin: 0.8rem;
+        margin-bottom: 0px;
+    }
+
+    .ctt h1 {
+        width: 22rem;
+        text-align: center;
+    }
 
     .contact button {
-        margin: 1rem;
+        left: 0;
+        margin: 1rem auto;
     }
 }

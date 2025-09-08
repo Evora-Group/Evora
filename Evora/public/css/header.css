@@ -8,6 +8,18 @@ header {
     z-index: 9999;
 }
 
+#navbar .icon-evora {
+    display: inline-flex;
+    align-items: center;
+    gap: 1px;
+
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: lighter;
+    color: rgba(14, 104, 161, 1);
+    font-style: inherit;
+}
+
 #navbar {
     width: 100%;
     display: flex;
@@ -31,19 +43,10 @@ header {
 }
 
 .menu-right {
-  display: flex;
-  gap: 24px;
-  list-style: none;
-  justify-content: flex-end;
-}
-
-
-#mobile_btn {
-    display: none;
-}
-
-#mobile_menu {
-    display: none;
+    display: flex;
+    gap: 24px;
+    list-style: none;
+    justify-content: flex-end;
 }
 
 
@@ -54,9 +57,14 @@ header {
         display: none;
     }
 
-    .menu-right{
-        padding-left: 40px ;
+    .menu-right {
+        padding-left: 40px;
         gap: 6px;
+    }
+
+    #navbar .icon-evora {
+        font-size: 0;
+        gap: 0;
     }
 
 }

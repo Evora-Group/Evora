@@ -47,6 +47,7 @@
 .cards p{
     font-weight:600;
     text-align:left;
+    margin: 1rem;
 }
 
 .card_01, .card_02, .card_03 {

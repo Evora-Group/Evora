@@ -30,6 +30,8 @@
     display: flex;
     flex-direction: row;
     align-self: center;
+    gap: 12px;
+
 }
 
 .forms-name-email input{
@@ -37,6 +39,7 @@
     height: 3rem;
     align-items: center;
     margin: 0.1rem;
+    margin-bottom: 0.4rem;
     font-size: medium;
     border: none;
     border-radius: 8px;
@@ -52,14 +55,14 @@
 
 
 .others_inputs input{
-    width: 60rem;
+    width: 61rem;
     height: 3rem;
     align-items: center;
     font-size: medium;
     border: none;
     border-radius: 8px;
     padding: 10px;
-    margin: 0.8rem;
+    margin: 0.4rem;
 
 }
 
@@ -82,6 +85,8 @@
     transition: all 0.3s ease;
     box-shadow: 0 6px 20px rgba(40, 98, 225, 0.4);
     border: 2px solid rgba(255, 255, 255, 0.2);
+    margin: 1rem;
+
 }
 
 .contact button:hover {
@@ -97,15 +102,19 @@
     }
 
     .forms-name-email input{
-    width: 22em;
+    width: 22rem;
     height: 3rem;
-    margin: 0.8rem;
+    margin-bottom: 0px;
     }
 
     .others_inputs input{
-    width: 22rem;
+    max-width: 22rem;
     height: 3rem;
     margin: 0.8rem;
-
+    margin-bottom: 0px;
 }
+
+    .contact button {
+        margin: 1rem;
+    }
 }

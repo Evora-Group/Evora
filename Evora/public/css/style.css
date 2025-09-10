@@ -3,6 +3,7 @@
 @import url('about.css');
 @import url('difference.css');
 @import url('contact.css');
+@import url('footer.css');
 
 * {
     font-family: 'Poppins', sans-serif;

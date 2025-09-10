@@ -4,7 +4,7 @@
     overflow: hidden;
     width: 100%;
     background: linear-gradient(to right, #34a0d1, #1e639c);
-    min-height: 80vh;
+    min-height: 60vh;
     flex-direction: column;
 }
 
@@ -86,17 +86,13 @@
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.3s ease;
-    /* box-shadow: 0 6px 20px rgba(40, 98, 225, 0.4); */
-    /* border: 2px solid rgba(255, 255, 255, 0.2); */
     margin: 1rem;
-
     position: relative;
     left: calc(-30rem + 3.5rem);/
 }
 
 .contact button:hover {
-    background-color: #1e4db7;
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 

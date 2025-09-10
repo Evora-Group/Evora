@@ -6,6 +6,7 @@ footer {
     background-color: rgb(255, 255, 255);
     overflow: hidden;
     padding: 1.3rem;
+    margin: 20px;
 
 }
 
@@ -21,8 +22,10 @@ footer {
 }
 
 hr {
-    width: 90%;
+    width: 86%;
     margin: 0 auto;
+    opacity: 0.4;
+    margin-top: 20px;
 }
 
 .footer_ceil h3 {
@@ -36,6 +39,7 @@ hr {
 
 
 .footer_floor {
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -49,9 +53,13 @@ hr {
 }
 
 .icons_footer img {
-    width: 2.5rem;
+    width: 1.5rem;
 }
 
+.footer_floor h5 {
+    position: absolute;
+    right: 42%;
+}
 
 @media screen and (max-width: 1170px) {
 
@@ -61,12 +69,13 @@ hr {
 
     .footer_ceil {
         flex-direction: row;
-        padding-left: 4rem;
-        padding-right: 4rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
         justify-content: space-around;
         text-align: center;
         align-items: center;
         margin: 1rem;
+        gap: 40px;
     }
 
     hr {
@@ -77,6 +86,11 @@ hr {
     .footer_floor {
         padding: 1rem;
         gap: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .footer_floor h5{
+        position: static;
     }
 
     .footer_ceil h3 {
@@ -89,8 +103,10 @@ hr {
     }
 
     .footer_floor {
+    
         justify-content: space-around;
         padding: 1rem;
+        
     }
 
 

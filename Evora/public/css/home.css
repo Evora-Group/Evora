@@ -1,6 +1,6 @@
 #home {
     width: 100%;
-    height: 100vh;
+    height: 94vh;
     position: relative;
     display: flex;
     align-items: center;
@@ -60,6 +60,11 @@
 #cta_buttons a {
     color: white;
     text-decoration: none;
+}
+
+#cta_buttons:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .description {

@@ -8,6 +8,7 @@
     flex-direction: column;
     overflow: hidden;
     z-index: 1;
+    margin-bottom: 140px;
 }
 
 .shape2 {
@@ -71,7 +72,6 @@
     border-radius: 14px;
     overflow: hidden;
     cursor: pointer;
-    /* box-shadow: 0 8px 25px rgba(40, 96, 225, 0.8); */
     transition: all 0.3s ease;
     background: linear-gradient(135deg, #4a7ce8 0%, #3567d6 50%, #2855b8 100%);
 }

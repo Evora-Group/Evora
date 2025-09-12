@@ -9,9 +9,21 @@
 }
 
 .banner {
+    position: relative;
+    display: flex;
     align-items: center;
     justify-content: center;
-    width: fit-content;
+    width: 100%;
+    height: 100%;
+}
+
+.banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(30, 64, 175, 0.285);
+    z-index: 1;
+    /* fica entre a img e o CTA */
 }
 
 .banner img {
@@ -22,7 +34,8 @@
     height: 100%;
     object-fit: cover;
     object-position: center bottom;
-    z-index: -1;
+    z-index: 0;
+    filter: blur(2px) brightness(0.8);
 }
 
 #cta {
@@ -33,7 +46,7 @@
     max-width: 640px;
     min-height: 300px;
     margin-right: 800px;
-    
+    z-index: 2;
 }
 
 #cta h1 {
@@ -46,12 +59,10 @@
     background-clip: text;
 
     -webkit-text-fill-color: transparent;
-    /* necessário para o gradiente aparecer */
 }
 
 #home h1 {
     font-size: 40px;
-
 }
 
 #cta_buttons {

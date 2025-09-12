@@ -7,7 +7,6 @@ footer {
     overflow: hidden;
     padding: 1.3rem;
     margin: 20px;
-
 }
 
 
@@ -29,7 +28,6 @@ hr {
 }
 
 .footer_ceil h3 {
-
     background: linear-gradient(to right, #34a0d1, #1e639c);
     -webkit-background-clip: text;
     background-clip: text;
@@ -90,7 +88,7 @@ hr {
         flex-wrap: wrap;
     }
 
-    .footer_floor h5{
+    .footer_floor h5 {
         position: static;
     }
 
@@ -100,16 +98,10 @@ hr {
 
     .icons_footer img {
         width: 2rem;
-
     }
 
     .footer_floor {
-    
         justify-content: space-around;
         padding: 1rem;
-        
     }
-
-
-
 }

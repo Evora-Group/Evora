@@ -123,10 +123,8 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin: 0 auto;       /* Centraliza horizontalmente */
-    width: 100%;          /* Garante que ocupe toda a largura */
-    max-width: 160px;     /* limita o tamanho para não ficar muito largo */
+    margin: 0 auto;       
+    width: 100%;          
+    max-width: 160px;     
   }
-
-
 }

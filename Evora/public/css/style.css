@@ -35,9 +35,8 @@ body {
 
 #btn-default1 {
     border: none;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
     color:rgb(0, 0, 0);
     border-radius: 4px;
     padding: 6px 14px;
@@ -45,11 +44,13 @@ body {
     font-weight: 500;
     cursor: pointer;
     text-decoration: none;
+    gap: 6px;
 }
 
 #btn-default1:hover{
     background-color: rgba(196, 204, 215, 0.615);
 }
+
 
 #btn-default:hover{
     background: #2249cc;

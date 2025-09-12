@@ -4,8 +4,12 @@ header {
     top: 0;
     height: 58px;
     padding: 0px 8%;
-    background: white;
     z-index: 9999;
+    background: rgba(255, 255, 255, 0.905);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    /* suporte Safari */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 #navbar .icon-evora {
@@ -20,6 +24,7 @@ header {
     font-style: inherit;
 }
 
+
 #navbar {
     width: 100%;
     display: flex;
@@ -33,19 +38,30 @@ header {
     justify-content: flex-end;
     list-style: none;
     gap: 40px;
-
 }
 
-#nav-home:hover{
-   font-weight: bold;
+#nav-home {
+    color: rgba(54, 65, 83, 1);
 }
 
-#nav-about:hover{
-   font-weight: bold;
+#nav-about {
+    color: rgba(54, 65, 83, 1);
 }
 
-#nav-contact:hover{
-   font-weight: bold;
+#nav-contact {
+    color: rgba(54, 65, 83, 1);
+}
+
+#nav-home:hover {
+    color: rgba(14, 104, 161, 1);
+}
+
+#nav-about:hover {
+    color: rgba(14, 104, 161, 1);
+}
+
+#nav-contact:hover {
+    color: rgba(14, 104, 161, 1);
 }
 
 .nav-item a {
@@ -59,6 +75,16 @@ header {
     gap: 24px;
     list-style: none;
     justify-content: flex-end;
+}
+
+.menu-right li {
+    display: flex;
+    align-items: center;
+}
+
+.menu-right img {
+    width: 1rem;
+    align-items: center;
 }
 
 

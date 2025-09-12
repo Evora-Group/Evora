@@ -3,7 +3,7 @@
     display: flex;
     overflow: hidden;
     width: 100%;
-    background: linear-gradient(to right, #34a0d1, #1e639c);
+    background: linear-gradient(to right, #5085f9, #1e40af);;
     min-height: 60vh;
     flex-direction: column;
 }
@@ -75,8 +75,8 @@
 
 
 .contact button {
-    background-color: #2862e1;
-    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 1);
     align-self: center;
     font-size: medium;
     font-weight: bold;

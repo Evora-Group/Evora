@@ -11,6 +11,24 @@
     margin-bottom: 140px;
 }
 
+.differences-icon {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: 100px;
+}
+
+.differences-icon img {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+}
+
 .shape2 {
     position: absolute;
     top: 0;
@@ -24,14 +42,32 @@
 
 .dfr {
     display: flex;
+    align-items: center;
+    flex-direction: column;
     justify-content: space-between;
+    gap: 20px;
 
 }
 
-.dfr h1 {
+.dfr h1{
+    font-size: 60px;
+    padding-top: 20px;
+}
+
+.dfr p {
+    width: 58%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: rgba(74, 85, 101, 1);
+    font-size: 20px;
+}
+
+.dfr span {
     font-size: 60px;
     padding-top: 100px;
-    background: linear-gradient(to right, #34a0d1, #1e639c);
+    background: linear-gradient(to right, #2563eb, #1e40af);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -88,5 +124,9 @@
 @media screen and (max-width: 1170px) {
     .dfr h1 {
         text-align: center;
+    }
+
+    .dfr p {
+        display: none;
     }
 }

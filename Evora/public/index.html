@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="assets/imgs/logoEvora.svg" type="image/x-icon">
@@ -30,8 +29,9 @@
       </ul>
 
       <ul class="menu-right">
-        <li><a id="btn-default" href="login.html">Login</a></li>
-        <li><a id="btn-default" href="cadastro.html">Cadastro</a></li>
+        <li><img src="assets/imgs/seta-entrada.png" alt=""><a id="btn-default1" href="login.html">Entrar</a>
+        </li>
+        <li><a id="btn-default" href="cadastro.html">Cadastrar</a></li>
       </ul>
     </nav>
   </header>
@@ -43,7 +43,7 @@
         <img src="assets/imgs/Rectangle 8.svg" alt="">
 
         <div id="cta">
-          <h1>Évora a plataforma que combate a evasão escolar</h1> <br><br>
+          <h1><span>Évora</span><br> a plataforma que combate a evasão escolar</h1> <br><br>
           <p class="description">Sua ferramenta para retenção e sucesso acadêmico.</p><br><br>
           <button id="cta_buttons">
             <a href="#contact">Contate-nos</a>
@@ -54,9 +54,14 @@
 
     <section id="about">
       <div id="abt">
-        <h1 class="section-title">Nosso Propósito</h1>
+        <div class="container-icon">
+          <img src="assets/imgs/setinha.svg" alt="">
+          Nosso Propósito
+        </div>
+        <h1 class="section-title">Transformar dados em <span>permanência</span></h1>
         <p class="section-description">
-          Transformar dados em permanência,<br> combatendo as altas taxas de evasão no Ensino a Distância (EAD).
+          Combatendo as altas taxas de evasão no Ensino a Distância (EAD) através de tecnologia avançada e análise
+          inteligente de dados.
         </p><br>
         <p class="section-description-2">
           Nossa plataforma capacita educadores a trocarem o acompanhamento reativo por intervenções proativas,
@@ -70,53 +75,56 @@
       <div class="shape">
         <img src="assets/imgs/waves.svg" alt="">
       </div>
-    
     </section>
 
-   
+    <section class="difference">
+      <div class="differences-icon">
+        <img src="assets/imgs/distintivo (1).svg" alt="">
+        Nossos Diferenciais
+      </div>
+      <div class="dfr">
+        <h1>O que nos <span>diferencia</span></h1>
+        <p>Combinamos tecnologia de ponta com expertise educacional para oferecer soluções que realmente fazem a
+          diferença na redução da evasão escolar.</p>
+      </div>
 
-      <section class="difference">
-        <div class="dfr">
-          <h1>O que nos diferencia</h1>
+      <div class="cards">
+        <div class="card_01">
+          <h2>Tecnologia e Inovação</h2>
+          <p>Plataformas intuitivas que simplificam o trabalho da equipe pedagógica, oferecendo
+            ferramentas avançadas para gestão educacional e análise de resultados em tempo real.</p>
         </div>
+        <div class="card_02">
+          <h2>Segurança</h2>
+          <p>Proteção total dos dados institucionais garantindo conformidade com as principais regulamentações de
+            privacidade.</p>
+        </div>
+        <div class="card_02">
+          <h2>Credibilidade</h2>
+          <p>Dashboards precisos e interativos que transformam dados em insights acionáveis, facilitando decisões
+            estratégicas baseadas em evidências.</p>
+        </div>
+        <div class="shape2">
+          <img src="assets/imgs/waves-two.svg" alt="">
+        </div>
+      </div>
+    </section>
 
-        <div class="cards">
-          <div class="card_01">
-            <h2>Tecnologia e Inovação</h2>
-            <p>Plataformas intuitivas que simplificam o trabalho da equipe pedagógica, oferecendo
-               ferramentas avançadas para gestão educacional e análise de resultados em tempo real.</p>
-          </div>
-          <div class="card_02">
-            <h2>Segurança</h2>
-            <p>Proteção total dos dados institucionais garantindo conformidade com as principais regulamentações de privacidade.</p>
-          </div>
-          <div class="card_02">
-            <h2>Credibilidade</h2>
-            <p>Dashboards precisos e interativos que transformam dados em insights acionáveis, facilitando decisões estratégicas baseadas em evidências.</p>
-          </div>
-          <div class="shape2">
-            <img src="assets/imgs/waves-two.svg" alt="">
-          </div>
-        </div>
-      </section>
-
-      <section class="contact" id="contact">
-        <div class="ctt">
-          <h1>Contate-nos</h1>
-        </div>
-        <div class="forms-name-email">
-          <input id="nome" type="text" placeholder="Nome:">
-          <input type="text" id="email" placeholder="E-mail:">
-        </div>
-        <div class="others_inputs">
-          <input type="text" placeholder="Assunto:">
-          <input type="text" id="desc" placeholder="Descrição:">
-        </div>
-
-        <button onclick="enviar()">Enviar</button>
-
-      </section>
-    </main>
+    <section class="contact" id="contact">
+      <div class="ctt">
+        <h1>Contate-nos</h1>
+      </div>
+      <div class="forms-name-email">
+        <input id="nome" type="text" placeholder="Nome:">
+        <input type="text" id="email" placeholder="E-mail:">
+      </div>
+      <div class="others_inputs">
+        <input type="text" placeholder="Assunto:">
+        <input type="text" id="desc" placeholder="Descrição:">
+      </div>
+      <button onclick="enviar()">Enviar</button>
+    </section>
+  </main>
 
   <footer>
     <div class="footer_ceil">
@@ -128,14 +136,14 @@
 
     <div class="footer_floor">
       <div class="icons_footer">
-        <img src="assets/imgs/icon-insta.png" alt="" >
+        <img src="assets/imgs/icon-insta.png" alt="">
         <img src="assets/imgs/linkedin 1.svg" alt="">
         <img src="assets/imgs/youtube 1.svg" alt="">
-    </div>
+      </div>
       <h5>© 2025 Évora. Todos os direitos reservados</h5>
-
     </div>
-  
-</footer>
+
+  </footer>
 </body>
+
 </html>

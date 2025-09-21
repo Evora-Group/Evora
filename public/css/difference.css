@@ -9,6 +9,7 @@
     overflow: hidden;
     z-index: 1;
     margin-bottom: 140px;
+    padding: 0 20px; 
 }
 
 .differences-icon {
@@ -46,12 +47,15 @@
     flex-direction: column;
     justify-content: space-between;
     gap: 20px;
+    width: 100%;
 
 }
 
 .dfr h1 {
     font-size: 60px;
     padding-top: 20px;
+    text-align: center;
+    margin: 0;
 }
 
 .dfr p {
@@ -62,6 +66,7 @@
     text-align: center;
     color: rgba(74, 85, 101, 1);
     font-size: 20px;
+    line-height: 1.6;
 }
 
 .dfr span {
@@ -79,37 +84,45 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    flex-wrap: wrap;
     gap: 2rem;
+    padding: 2rem;
     margin: 5rem;
+    width: 100%;
 }
 
-.cards h2 {
-    color: white;
-    margin: 1rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+.cards h3 {
+    color: #1a1a1a;
+    text-shadow: none;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-bottom: 0.75rem;
+    margin-top: 2rem;
 }
 
 .cards p {
-    font-weight: 600;
+    color: #606a78;
+    font-weight: 400;
     text-align: left;
-    margin: 1rem;
+    line-height: 1.8;
+    font-size: 1rem;
+ 
 }
 
 .card_01,
 .card_02,
 .card_03 {
-    width: 17rem;
-    height: 18rem;
+    width: 21rem;
+    height: 25rem;
     padding: 1rem;
-    text-align: left;
-    background-color: #2862e1;
-    color: white;
+    text-align: justify;
+    background-color: white;
+    color: black;
     border-radius: 14px;
     overflow: hidden;
-    cursor: pointer;
     transition: all 0.3s ease;
-    background: linear-gradient(135deg, #4a7ce8 0%, #3567d6 50%, #2855b8 100%);
+    border: 2px solid #e5e7eb;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
 }
 
 
@@ -117,7 +130,33 @@
 .card_02:hover,
 .card_03:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(40, 98, 225, 0.9);
+    box-shadow: 0 15px 35px rgba(40, 98, 225, 0.2);
+}
+
+.img_tec_e_inov,
+.img_seguranca, 
+.img_credibilidade{
+    background-color: #1d4ed8;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.img_tec_e_inov:hover,
+.img_seguranca:hover, 
+.img_credibilidade:hover{
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(29, 78, 216, 0.4);
+    background-color: #2563eb;
+}
+
+.icon_cards  {
+    width: 30px;
 }
 
 

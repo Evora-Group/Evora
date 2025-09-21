@@ -1,0 +1,36 @@
+.body, html {
+    margin: 0;
+    padding: 0;
+}
+#section_sign {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../assets/Captura\ de\ tela\ 2025-09-21\ 201131.png');
+    background-size: contain;
+    opacity: 0.5;
+}
+#div_sign-info {
+    width: 35%;
+    height: 25%;
+    background-color: rgba(255, 0, 0, 0.8);
+    border-radius: 10px;
+    margin-right: 20px;
+}
+#div_sign-progress {
+    width: 35%;
+    height: 9%;
+    background-color: rgba(81, 255, 0, 0.8);
+    border-radius: 10px;
+    margin-right: 20px;
+}
+#div_sign-form {
+    width: 35%;
+    height: 66%;
+    background-color: rgba(0, 81, 255, 0.8);
+    border-radius: 10px;
+    margin-right: 20px;
+}

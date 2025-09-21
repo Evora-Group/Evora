@@ -169,15 +169,18 @@
         display: none;
     }
 
-     .cards {
- 
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 2rem;
-    padding: 2rem;
-    margin: 5rem;
-    width: 100%;
+    .cards {
+        flex-direction: column;
+        margin: 2rem 2rem;
     }
+    
+    .card_01,
+    .card_02,
+    .card_03 {
+     
+        align-self: center;
+        justify-content: center;
+    }
+
     
 }

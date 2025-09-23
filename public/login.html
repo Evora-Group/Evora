@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="shortcut icon" href="assets/imgs/logoEvora.svg" type="image/x-icon">
+  <title>Entrar - Évora</title>
+</head>
+
+<body>
+
+  <section class="section-top">
+
+
+  <button class="back-btn" onclick="home_back()">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="black"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+    
+    Voltar ao site
+
+  </button>
+
+
+  </section>
+
+  <main>
+
+  <section class="login-section">
+    <header class="login-header">
+      <section class="logo-section">
+        <span class="logo-text"><img src="./assets/imgs/logoEvora.svg" alt=""></span>
+      </section>
+      <h1 class="welcome-title">Bem-Vindo a Évora</h1>
+      <p class="welcome-subtitle">Acesse sua conta para continuar sua jornada educacional</p>
+    </header>
+    
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label class="form-label" for="email">Email</label>
+        <div class="email-div">
+        <input 
+          type="email" 
+          id="email" 
+          class="form-input" 
+          placeholder="seu@email.com"
+          required
+        >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">Senha</label>
+        <div class="password-div">
+          <input 
+            type="password" 
+            id="password" 
+            class="form-input" 
+            placeholder="••••••••"
+            required
+          >
+          <button type="button" class="password-toggle" onclick="togglePassword()">
+            <span id="toggleText">Mostrar</span>
+          </button>
+        </div>
+      </div>
+
+<!-- 
+      <div class="forgot-password">
+        <a href="#" onclick="showForgotPassword()">Esqueceu a senha?</a>
+      </div> -->
+
+      <button type="submit" class="login-btn">
+        Entrar
+      </button>
+    </form>
+
+    <div class="register-link">
+      Não tem uma conta? <a href="cadastro.html">Cadastre-se gratuitamente</a>
+    </div>
+  </section>
+  </main>
+</body>
+
+
+
+  <script>
+    // Função para alternar visibilidade da senha
+    function togglePassword() {
+      const passwordInput = document.getElementById('password');
+      const toggleText = document.getElementById('toggleText');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleText.textContent = 'Ocultar';
+      } else {
+        passwordInput.type = 'password';
+        toggleText.textContent = 'Mostrar';
+      }
+    }
+
+  </script>
+
+</html>

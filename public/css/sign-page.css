@@ -143,8 +143,6 @@ form .div_label_input {
     height: 40px;
     border: none;
     border-radius: 7px;
-    background-color: #0b1a43;
-    color: white;
     font-weight: 600;
     cursor: pointer;
 }
@@ -156,4 +154,13 @@ form .div_label_input {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+#btn_left {
+    background-color: #ffffff;
+    border: 1px solid #a0a0a0;
+    color: #000000;
+}
+#btn_right {
+    background-color: #000000;
+    color: #ffffff;
 }

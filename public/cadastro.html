@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/sign-page.css">
     <link rel="shortcut icon" href="assets/imgs/logoEvora.svg" type="image/x-icon">
+    <link rel="import" href="js/cadastro_form.js">
     <title>Évora</title>
 </head>
 <body>
@@ -74,8 +75,8 @@
 
                 <!-- BOTÕES DE FORMULÁRIO -->
                 <div class="div_form_bottom">
-                    <button type="reset">Cancelar</button>
-                    <button type="submit">Próximo</button>
+                    <button type="reset" id="btn_left">Cancelar</button>
+                    <button type="submit" id="btn_right" onclick="pass_part2()">Próximo</button>
                 </div>
                 <div class="div_title_bottom">
                     <span>Já tem uma conta? <strong>Faça login</strong></span>

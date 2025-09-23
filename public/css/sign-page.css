@@ -2,6 +2,34 @@ body, html {
     margin: 0;
     padding: 0;
 }
+#div_background {
+  background-color: white;
+  background-image: 
+    linear-gradient(to right, #e5e5e5 1px, transparent 1px),
+    linear-gradient(to bottom, #e5e5e5 1px, transparent 1px);
+  background-size: 15px 30px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  z-index: 0;
+}
+#div_background::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 250%; /* altura do fade */
+  background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, white 100%);
+  pointer-events: none;
+}
+main, #section_sign, #div_sign-form, #div_sign-info, #div_sign-progress {
+  position: relative;
+  z-index: 1;
+}
 #section_sign {
     width: 100vw;
     height: 100vh;
@@ -82,6 +110,16 @@ body, html {
     top: 0;
     left: 0;
 }
+#div_67percent {
+    width: 67%;
+    height: 100%;
+    background-color: #000000;
+    border-radius: 10px 0 0 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+}
 #div_sign-form {
     width: 35%;
     height: 67%;
@@ -115,6 +153,15 @@ body, html {
     justify-content: space-evenly;
     align-items: center;
     gap: 5%;
+}
+.div_form select {
+    width: 100%;
+    height: 40px;
+    border-radius: 7px;
+    padding: 0 5px;
+    margin-top: 1%;
+    border: 1px solid #ccc;
+    color: #777777;
 }
 form .div_label_input {
     width: 100%;

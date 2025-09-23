@@ -10,6 +10,7 @@ body, html {
     justify-content: center;
     align-items: center;
     padding: 1%;
+    background-image: url('../assets/Captura\ de\ tela\ 2025-09-21\ 201131.png');
 }
 #div_sign-info {
     width: 35%;
@@ -52,6 +53,19 @@ body, html {
     width: 35%;
     height: 14%;
     border-radius: 10px;
+    background-color: red;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#div_text_progress {
+    width: 100%;
+    height: 40%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85em;
 }
 #div_sign-form {
     width: 35%;

@@ -7,6 +7,9 @@ function pass_part2() {
     const bar67 = document.getElementById("div_67percent");
     const labelForm = document.getElementById("label_form");
     const divFuncaoInput = document.getElementById("div_funcao_input");
+    const divBeneficios = document.getElementById("div_beneficios");
+    const divFuncaoInput1 = document.getElementById("div_funcao_input_1");
+    const divFuncaoInput2 = document.getElementById("div_funcao_input_2");
 
     title.innerText = "Sua função na educação";
     subtitle.innerText = "Isso nos ajuda a personalizar sua experiência";
@@ -31,11 +34,22 @@ function pass_part2() {
             <option value="pesquisador">Pesquisador(a)</option>
             <option value="estudante">Estudante(a)</option>
             <option value="outro">Outro</option>
-            
-
-
-
-
         </select><br>
+    `;
+
+    // Exibe benefícios da Évora
+    divFuncaoInput1.style.display = "none";
+    divFuncaoInput2.style.display = "none";
+    divBeneficios.style.display = "flex";
+    divBeneficios.innerHTML = `
+        <div class="beneficios_descricao">
+            <h5>Benefícios da sua conta Évora</h5><br>
+            <ul>
+                <li>Dashboard personalizado com métricas relevantes para sua função</li>
+                <li>Relatórios automáticos de permanência estudantil</li>
+                <li>Alertas integilentes sobre riscos de evasão</li>
+                <li>Acesso a biblioteca de recursos educacionais</li>
+            </ul>
+        </div>
     `;
 }

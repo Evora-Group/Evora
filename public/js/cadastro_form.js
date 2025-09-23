@@ -17,6 +17,10 @@ function pass_part2() {
     complet.innerText = "67% completo";
     bar33.style.display = "none";
     bar67.style.display = "block";
+    bar67.style.width = "33%";
+        setTimeout(() => {
+            bar67.style.width = "67%";
+        }, 50);
     labelForm.innerText = "Qual é a sua função?";
 
     // Substitui o input por um select
@@ -52,4 +56,38 @@ function pass_part2() {
             </ul>
         </div>
     `;
+
+    // Troca a função do botão para pass_part3
+    const btnRight = document.getElementById("btn_right");
+    btnRight.onclick = pass_part3;
+}
+
+function pass_part3() {
+    const title = document.getElementById("h3_title_form");
+    const subtitle = document.getElementById("span_title_form");
+    const pass = document.getElementById("span_text_progress_pass");
+    const complet = document.getElementById("span_text_progress_complet");
+    const bar33 = document.getElementById("div_33percent");
+    const bar67 = document.getElementById("div_67percent");
+    const bar100 = document.getElementById("div_100percent");
+
+    // Atualiza textos
+    title.innerText = "Segurança da conta";
+    subtitle.innerText = "Crie uma senha segura para proteger sua conta";
+    pass.innerText = "Passo 3 de 3";
+    complet.innerText = "100% completo";
+
+    // Esconde barras anteriores
+    if (bar33) bar33.style.display = "none";
+    if (bar67) bar67.style.display = "none";
+
+    // Mostra e preenche a barra 100%
+    if (bar100) {
+        bar100.style.display = "block";
+        // Para garantir animação, zera antes e depois preenche
+        bar100.style.width = "67%";
+        setTimeout(() => {
+            bar100.style.width = "100%";
+        }, 50);
+    }
 }

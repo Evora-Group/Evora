@@ -1,10 +1,78 @@
-*{
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap');
+
+:root {
+
+    --var-cor-primaria: #0b1a43;
+    --var-cor-primaria-clara: #0d1f50;
+    --var-cor-secundaria: #ffffff;
+    --var-cor-secundaria-escura: #f0ededb0;
+
+    --var-cor-texto: #000000;
+    --var-cor-sub-texto: #00000081;
+
+    --var-tamanho-titulo-1: 1.8rem;
+    --var-tamanho-titulo-2: 1.5rem;
+    --var-tamanho-texto-1: 1.0rem;
+    --var-tamanho-texto-2: 0.8rem;
+
+    --var-texto-bold: 600;
+    --var-texto-semibold: 500;
+    --var-texto-medium: 400;
+    --var-texto-normal: 300;
+
+    --var-borda: 0.5rem;
+}
+
+
+* {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-body{
+a{
+    text-decoration: none;
+    color: var(--var-cor-texto);
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+#div_background {
+    background-color: white;
+    background-image:
+        linear-gradient(to right, #e5e5e5 1px, transparent 1px),
+        linear-gradient(to bottom, #e5e5e5 1px, transparent 1px);
+    background-size: 15px 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    min-height: 100vh;
+    z-index: 0;
+}
+
+#div_background::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 250%;
+    /* altura do fade */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, white 100%);
+    pointer-events: none;
+}
+
+main {
+    position: relative;
+    z-index: 1;
+}
+
+body {
 
     width: 100vw;
     height: 100vh;
@@ -13,7 +81,7 @@ body{
 
 /*Botão de vorta*/
 
-.section-top{
+.section-top {
 
     padding: 10px;
     height: 5%;
@@ -21,7 +89,7 @@ body{
 
 }
 
-.back-btn{
+.back-btn {
 
     background: none;
     border: none;
@@ -34,17 +102,17 @@ body{
 
 }
 
-.back-btn:hover{
+.back-btn:hover {
 
-    background-color: rgb(211, 219, 226);
-    border-radius: 10px;
+    background-color: var(--var-cor-secundaria-escura);
+    border-radius: var(--var-borda);
     transition: 0.25s;
 
 }
 
 /*Main*/
 
-main{
+main {
 
     display: flex;
     flex-direction: column;
@@ -55,32 +123,147 @@ main{
 
 }
 
-.login-section{
+.login-section {
 
     height: 100%;
-    width: 40%;
-    padding: 100px;
+    width: 32rem;
+
 
 }
 
-.login-header{
+.login-header {
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 10px;
 
 }
 
 .logo-section {
 
-    background-color: #0b1a43;
+    background-color: var(--var-cor-secundaria);
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.308);
     display: flex;
     align-items: center;
     justify-content: center;
     width: 60px;
     height: 60px;
-    border-radius: 15%;
+    border-radius: var(--var-borda);
+    margin: 10px;
+    
 
 }
 
+.logo-evora {
+    width: 100%;
+}
+
+.login-header h1 {
+    font-size: var(--var-tamanho-titulo-1);
+    font-weight: var(--var-texto-bold);
+}
+
+.login-header p {
+    font-size: var(--var-tamanho-texto-1);
+    font-weight: var(--var-texto-normal);
+    color: var(--var-cor-sub-texto);
+}
+
+/*Formulario*/
+
+#loginForm {
+
+    background-color: var(--var-cor-secundaria);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    gap: 2rem;
+    padding: 20px;
+    margin-top: 40px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.308);
+    border-radius: var(--var-borda);
+    height: 60vh;
+    
+}
+
+.form-header{
+    padding: 10px;
+}
+
+.form-header h1 {
+    font-size: var(--var-tamanho-titulo-2);
+    font-weight: var(--var-texto-semibold);
+    text-align: center;
+}
+
+.form-header p {
+    font-size: var(--var-tamanho-texto-1);
+    font-weight: var(--var-texto-normal);
+    color: var(--var-cor-sub-texto);
+    text-align: center;
+
+}
+
+.form-input {
+    width: 100%;
+    height: 50px;
+    border-radius: 7px;
+    border: 1px solid #ccc;
+    padding: 0 5px;
+    margin-top: 1%;
+    background-color: var(--var-cor-secundaria-escura);
+    font-size: var(--var-tamanho-texto-2);
+    font-weight: var(--var-texto-normal);
+}
+
+.form-group {
+  width: 95%;
+}
+
+.form-label{
+    font-size: var(--var-tamanho-texto-1);
+    font-weight: var(--var-texto-normal);
+}
+
+
+.password-div{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.password-toggle{
+    background: none;
+    border: none;
+    position: absolute;
+    cursor: pointer;
+    padding: 10px;
+}
+
+#toggleImg {
+  width: 100%;
+  height: 100%;
+  display: inline;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-btn {
+  width: 95%;
+  height: 50px;
+  background-color: var(--var-cor-primaria);
+  border: none;
+  border-radius: var(--var-borda);
+  color: var(--var-cor-secundaria);
+  font-weight: var(--var-texto-semibold);
+  font-size: var(--var-tamanho-texto-1);
+}
+
+.register-link{
+    color: var(--var-cor-sub-texto);
+    font-weight: var(--var-texto-normal);
+}

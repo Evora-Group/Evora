@@ -10,7 +10,9 @@ function pass_part2() {
     const divBeneficios = document.getElementById("div_beneficios");
     const divFuncaoInput1 = document.getElementById("div_funcao_input_1");
     const divFuncaoInput2 = document.getElementById("div_funcao_input_2");
+    const divTitleBottom = document.getElementById("div_title_bottom");
 
+    divTitleBottom.style.display = "none";
     title.innerText = "Sua função na educação";
     subtitle.innerText = "Isso nos ajuda a personalizar sua experiência";
     pass.innerText = "Passo 2 de 3";
@@ -70,6 +72,11 @@ function pass_part3() {
     const bar33 = document.getElementById("div_33percent");
     const bar67 = document.getElementById("div_67percent");
     const bar100 = document.getElementById("div_100percent");
+    const divFuncaoInput = document.getElementById("div_funcao_input");
+    const divBeneficios = document.getElementById("div_beneficios");
+    const divFuncaoInput1 = document.getElementById("div_funcao_input_1");
+    const divFuncaoInput2 = document.getElementById("div_funcao_input_2");
+    const divTitleBottom = document.getElementById("div_title_bottom");
 
     // Atualiza textos
     title.innerText = "Segurança da conta";
@@ -84,10 +91,34 @@ function pass_part3() {
     // Mostra e preenche a barra 100%
     if (bar100) {
         bar100.style.display = "block";
-        // Para garantir animação, zera antes e depois preenche
-        bar100.style.width = "67%";
+        bar100.style.width = "0";
         setTimeout(() => {
             bar100.style.width = "100%";
         }, 50);
     }
+
+    // Esconde campos anteriores
+    if (divFuncaoInput1) divFuncaoInput1.style.display = "none";
+    if (divFuncaoInput2) divFuncaoInput2.style.display = "none";
+    if (divBeneficios) divBeneficios.style.display = "none";
+    if (divTitleBottom) divTitleBottom.style.display = "none";
+
+    // Troca o conteúdo de divFuncaoInput para senha e confirmação
+    divFuncaoInput.innerHTML = `
+        <div class="div_label_input">
+            <label for="senha" id="label_senha">Criar senha</label><br>
+            <input type="password" id="senha" name="senha" placeholder="Crie uma senha"><br><br>
+        </div>
+        <div class="div_label_input">
+            <label for="confirma_senha" id="label_confirma_senha">Confirmar senha</label><br>
+            <input type="password" id="confirma_senha" name="confirma_senha" placeholder="Repita a senha"><br><br>
+        </div>
+        <div class="div_termos" display:flex>
+            <input type="checkbox" id="aceito_termos" name="aceito_termos">
+            <label for="aceito_termos">Concordo com os Termos e Política de privacidade da Évora</label>
+        </div>
+        <div class="div_aviso">
+            <strong>Importante:</strong> A Évora é projetada para dados educacionais agregados. Não colete informações pessoais sensíveis de estudantes sem as devidas autorizações.
+        </div>
+    `;
 }

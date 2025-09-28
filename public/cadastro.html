@@ -51,12 +51,44 @@
                     <h1>Junte-se à Évora</h1>
                     <span>Crie sua conta em poucos passos simples</span>
                 </div>
-            </div>
-            <!-- PROGRESSO DO CADASTRO -->
-            <div id="div_sign-progress">
-                <div id="div_text_progress">
-                    <span id="span_text_progress_pass">Passo 1 de 3</span>
-                    <span id="span_text_progress_complet"></span>
+                <!-- CONTEÚDO DO FORMULÁRIO -->
+                <div id="div_sign-form">
+                    <!-- TÍTULO DO FORMULÁRIO -->
+                    <div class="div_title_form">
+                        <h3 id="h3_title_form">Informações básicas</h3>
+                        <span id="span_title_form">Valos começar com suas informações básicas</span><br>
+                    </div>
+                    <div class="div_form">
+                        <!-- CONTEÚDO DA PÁGINA DE CADASTRO -->
+                         <!-- PARTE 1 -->
+                        <form action="">
+                            <div class="div_label_input" id="div_funcao_input">
+                                <label for="fullName" id="label_form">Nome completo</label><br>
+                                <input type="text" id="input_form" name="fullName" placeholder="Seu nome completo"><br>
+                            </div>
+
+                            <div id="div_beneficios"></div>
+                            
+                                <div class="div_label_input" id="div_funcao_input_1">
+                                    <label for="email">Email profissional</label><br>
+                                    <input type="email" id="email" name="email" placeholder="Seu@instituição.edu.br"><br>
+                                </div>
+                                <div class="div_label_input" id="div_funcao_input_2">
+                                    <label for="nome_instituicao">Instituição de ensino</label><br>
+                                    <input type="nome_instituicao" id="nome_instituicao" name="nome_instituicao" placeholder="Nome da sua instituição"><br>
+                                </div>
+                            
+
+                        </form>
+                    </div>
+                    <!-- BOTÕES DE FORMULÁRIO -->
+                    <div class="div_form_bottom">
+                        <button type="reset" id="btn_left">Cancelar</button>
+                        <button type="submit" id="btn_right" onclick="pass_part2()">Próximo</button>
+                    </div>
+                    <div class="div_title_bottom" id="div_title_bottom">
+                        <span>Já tem uma conta? <strong>Faça login</strong></span>
+                    </div>
                 </div>
                 <div id="div_line_progress">
                     <div id="div_percent"></div>

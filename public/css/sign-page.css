@@ -86,7 +86,7 @@ main, #section_sign, #div_sign_form, #div_sign-info, #div_sign-progress {
 
 #section_sign {
     width: 100vw;
-    height: 95vh;
+    height: 110vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -199,7 +199,7 @@ main, #section_sign, #div_sign_form, #div_sign-info, #div_sign-progress {
 
 #div_sign_form {
     width: 35%;
-    height: 67%;
+    height: auto;
     background-color: #ffffff;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.308);
     border-radius: 10px;
@@ -212,17 +212,19 @@ main, #section_sign, #div_sign_form, #div_sign-info, #div_sign-progress {
 
 .div_title_form {
     width: 100%;
-    height: 15%;
+    /* height: 15%; */
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-top: 1.5%;
     gap: 15%;
+    flex-shrink: 0; /* Garante que este elemento não encolha */
 }
 
 .div_form {
     width: 100%;
-    height: 55%;
+    /* height: 55%; */
+    flex-grow: 1;
 }
 
 .div_form form {
@@ -278,14 +280,18 @@ form .div_label_input {
     border: 1px solid #ccc;
     padding: 0 5px;
     margin-top: 1%;
+    margin-bottom: 5%;
 }
 
 .div_form_bottom {
     width: 100%;
-    height: 20%;
+    /* height: 20%; */
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: auto; /* Empurra para o final, opcional mas útil */
+    padding-top: 15px; /* Adiciona um respiro */
+    flex-shrink: 0; /* Garante que este elemento não encolha */
 }
 
 .div_form_bottom button {
@@ -299,12 +305,14 @@ form .div_label_input {
 
 .div_title_bottom {
     width: 100%;
-    height: 7%;
+    /* height: 7%; */
     font-size: 0.85em;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-top: 15px; /* Adiciona um respiro */
+    flex-shrink: 0; /* Garante que este elemento não encolha */
 }
 
 #btn_left {

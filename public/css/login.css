@@ -1,27 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap');
+@import url(./var.css);
 
-:root {
-
-    --var-cor-primaria: #0b1a43;
-    --var-cor-primaria-clara: #0d1f50;
-    --var-cor-secundaria: #ffffff;
-    --var-cor-secundaria-escura: #f0ededb0;
-
-    --var-cor-texto: #000000;
-    --var-cor-sub-texto: #00000081;
-
-    --var-tamanho-titulo-1: 1.8rem;
-    --var-tamanho-titulo-2: 1.5rem;
-    --var-tamanho-texto-1: 1.0rem;
-    --var-tamanho-texto-2: 0.8rem;
-
-    --var-texto-bold: 600;
-    --var-texto-semibold: 500;
-    --var-texto-medium: 400;
-    --var-texto-normal: 300;
-
-    --var-borda: 0.5rem;
-}
 
 
 * {

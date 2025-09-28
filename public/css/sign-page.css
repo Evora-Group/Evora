@@ -381,3 +381,19 @@ form .div_label_input {
 #titulo-desc svg {
     color: rgb(79, 220, 23);
 }
+
+@media screen and (max-width: 1170px) {
+
+    /* Aumenta a largura do formulário em telas médias */
+    #div_sign-info,
+    #div_sign-progress,
+    #div_sign_form {
+        width: 60%;
+    }
+
+    /* Aumenta um pouco a largura dos botões */
+    .div_form_bottom button {
+        width: 30%;
+    }
+}
+

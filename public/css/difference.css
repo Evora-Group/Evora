@@ -133,6 +133,14 @@
     box-shadow: 0 15px 35px rgba(40, 98, 225, 0.2);
 }
 
+
+.icon_seguranca,
+.icon_cpu,
+.icon_credibilidade {
+    color: #eff6ff;
+    font-size: 25px;
+}
+
 .img_tec_e_inov,
 .img_seguranca, 
 .img_credibilidade{

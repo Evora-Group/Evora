@@ -96,7 +96,7 @@
       <div class="cards">
         <div class="card_01">
           <div class="img_tec_e_inov">
-            <img class= "icon_cards" src="assets/imgs/icon-cpu.png" alt="" >
+            <i class="fi fi-rr-microchip icon_cpu"></i>
           </div>
           <h3>Tecnologia e Inovação</h3>
           <p>Plataformas intuitivas que simplificam o trabalho da equipe pedagógica, oferecendo
@@ -104,7 +104,7 @@
         </div>
         <div class="card_02">
           <div class="img_seguranca">
-            <img class= "icon_cards" src="assets/imgs/icon-security-escudo.png" alt="">
+            <i class= "fi fi-rr-shield-check icon_seguranca"></i>
           </div>
           <h3>Segurança</h3>
           <p>Proteção total dos dados institucionais garantindo conformidade com as principais regulamentações de
@@ -112,7 +112,7 @@
         </div>
         <div class="card_02">
           <div class="img_credibilidade">
-            <img class= "icon_cards" src="assets/imgs/icon-credibilidade.png" alt="">
+            <i class="fi fi-rr-badge icon_credibilidade"></i>
           </div>
           <h3>Credibilidade</h3>
           <p>Dashboards precisos e interativos que transformam dados em insights acionáveis, facilitando decisões
@@ -124,19 +124,101 @@
       </div>
     </section>
 
-    <section class="contact" id="contact">
-      <div class="ctt">
-        <h1>Contate-nos</h1>
-      </div>
-      <div class="forms-name-email">
-        <input id="nome" type="text" placeholder="Nome:">
-        <input type="text" id="email" placeholder="E-mail:">
-      </div>
-      <div class="others_inputs">
-        <input type="text" placeholder="Assunto:">
-        <input type="text" id="desc" placeholder="Descrição:">
-      </div>
-      <button onclick="enviar()">Enviar</button>
+    <section class="contact">
+     <div class="container">
+        <div class="left-content">
+          <h1>Vamos conversar sobre o futuro da educação</h1>
+          <p>Nossa equipe está pronta para mostrar como a Évora pode transformar os resultados da sua instituição educacional</p>
+
+          <div class="contact-info">
+            <div class="contact-item">
+              <i class="fas fa-envelope contact-icon"></i>
+              <div class="contact-details">
+                <h3>Email</h3>
+                <p>contatoevora@gmail.com</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <i class="fas fa-phone contact-icon"></i>
+              <div class="contact-details">
+                <h3>Telefone</h3>
+                <p>+55 (11) 9999-9999</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <i class="fas fa-map-marker-alt contact-icon"></i>
+              <div class="contact-details">
+                <h3>Localização</h3>
+                <p>São Paulo, Brasil</p>
+              </div>
+            </div>
+              <div class="response">
+              <p class="response-txt"><strong>Resposta Rápida</strong><br>
+              Respondemos todas as mensagens em até 2 horas durante horário comercial.</p>
+            </div>
+          </div>
+        </div>
+     </div>
+  </div>
+  
+        <div class="right-content">
+              <div class="form-card">
+                    <div class="form-header">
+                        <div class="form-icon">
+                            <i class="fas fa-comments" style="color: #3b82f6; font-size: 20px;"></i>
+                        </div>
+                        <h2>Solicite uma demonstração</h2>
+                        <p>Preencha o formulário e nossa equipe entrará em contato.</p>
+                    </div>
+
+                    <form>
+                        <div class="form-email-name">
+                            <div class="form-camp">
+                                <label for="name">Nome completo</label>
+                                <input type="text" id="name" name="name" placeholder="Seu nome" required>
+                            </div>
+                            <div class="form-camp">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-camp">
+                            <label for="subject">Assunto</label>
+                            <input type="text" id="subject" name="subject" placeholder="Como podemos ajudar?" required>
+                        </div>
+
+                        <div class="form-camp">
+                            <label for="message">Mensagem</label>
+                            <textarea id="message" name="message" placeholder="Conte um pouco sobre suas necessidades..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane" style="margin-right: 8px;"></i>
+                            Enviar mensagem
+                        </button>
+
+                        <div class="form-footer">
+                            <div class="footer-item">
+                                <i class="fas fa-shield-alt footer-icon"></i>
+                                <span>100% Seguro</span>
+                            </div>
+                            <div class="footer-item">
+                                <i class="fas fa-check footer-icon"></i>
+                                <span>LGPD</span>
+                            </div>
+                            <div class="footer-item">
+                                <i class="fas fa-clock footer-icon"></i>
+                                <span>Resposta em 2h</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </section>
   </main>
 

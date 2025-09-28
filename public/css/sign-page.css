@@ -318,7 +318,7 @@ form .div_label_input {
 }
 
 #btn_right {
-    background-color: #000000;
+    background-color: var(--var-cor-primaria);
     color: #ffffff;
 }
 

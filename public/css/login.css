@@ -258,7 +258,7 @@ main {
     
     main {
         justify-content: flex-start;
-        padding-top: 6vh; /* Adiciona um espaço no topo */
+        padding-top: 2vh; /* Adiciona um espaço no topo */
         padding-bottom: 5vh;
     }
 

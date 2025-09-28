@@ -384,16 +384,74 @@ form .div_label_input {
 
 @media screen and (max-width: 1170px) {
 
-    /* Aumenta a largura do formulário em telas médias */
     #div_sign-info,
     #div_sign-progress,
     #div_sign_form {
         width: 60%;
     }
 
-    /* Aumenta um pouco a largura dos botões */
     .div_form_bottom button {
         width: 30%;
     }
 }
 
+
+/* Para telas pequenas (celulares) */
+@media screen and (max-width: 768px) {
+
+    #div_sign-info,
+    #div_sign-progress,
+    #div_sign_form {
+        width: 90%;
+    }
+
+  
+    #section_sign {
+        justify-content: flex-start;
+        padding-top: 5%;
+        height: auto; /* Altura se adapta ao conteúdo */
+        min-height: 100vh; /* ocupa pelo menos a tela inteira */
+    }
+
+    
+    .div_title_top h1 {
+        font-size: 1.6em;
+        text-align: center;
+    }
+    
+    
+    .div_form_bottom button {
+        width: 48%;
+    }
+
+   
+    #p_desc,
+    #lista_desc {
+        font-size: 0.8em;
+    }
+    
+    #titulo-desc {
+        font-size: 1em;
+    }
+
+    #span_text_progress_pass{
+        display: none;
+    }
+
+    #span_text_progress_complet{
+        display: none;
+    }
+
+    .div_title_top{
+        margin-bottom: 20px;
+    }
+
+    #div_sign_form {
+        padding: 20px;
+    }
+
+    #div_desc {
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+}

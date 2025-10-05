@@ -1,31 +1,22 @@
-var database = require("../database/config")
+var database = require("../database/config");
 
 function listarInstituicoes() {
-
-    var instrucaoSql = 
-    `
-    SELECT nome FROM Instituicao ORDER BY nome DESC;    
+    var instrucaoSql = `
+        SELECT nome FROM Instituicao ORDER BY nome DESC;
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
-
+    console.log("Executando listagem de instituições");
+    return database.executar(instrucaoSql); 
 }
 
 function buscarInstituicao(nome) {
-
-    var instrucaoSql = 
-    `
-    SELECT idInstituicao FROM Instituicao WHERE nome = "${nome}" LIMIT 1;
+    var instrucaoSql = `
+        SELECT idInstituicao FROM Instituicao WHERE nome = ? LIMIT 1;
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
-
+    console.log("Executando busca de instituição:", nome);
+    return database.executar(instrucaoSql, [nome]);
 }
 
-
 module.exports = {
-
     listarInstituicoes,
     buscarInstituicao
-
 }

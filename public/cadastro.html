@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/sign-page.css">
     <link rel="shortcut icon" href="assets/imgs/logoEvora.svg" type="image/x-icon">
+    <script src="./js/login-cadas.js"></script>
     <!-- <script src="js/cadastro_form.js"></script> -->
     <title>Évora</title>
 </head>
@@ -89,7 +90,9 @@
                             <label for="nome_instituicao">Instituição de ensino</label>
                             <input list="instituicoes" type="nome_instituicao" id="instituicao" name="nome_instituicao"
                                 placeholder="Nome da sua instituição"><br>
-                            <datalist id="instituicoes"></datalist>
+                            <datalist id="instituicoes">
+                                <option value=""></option>
+                            </datalist>
                         </div>
                     </form>
 
@@ -195,14 +198,22 @@
 
         } else {
 
+            validarEmail(email).then((existe) => {
 
-            buscarInstituicao(nome_instituicao);
-            emailVar = email;
-            nomeVar = nome_usuario;
+                if (existe === true) {
+                
+                    alert("Esse email já está em uso!")
+                
+                } else {
 
+                    buscarInstituicao(nome_instituicao);
+                    emailVar = email;
+                    nomeVar = nome_usuario;
 
+                    pass_bar()
 
-            pass_bar()
+                }
+            });
 
         }
 
@@ -583,17 +594,11 @@
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                // crie um atributo que recebe o valor recuperado aqui
-                // Agora vá para o arquivo routes/usuario.js
-                // nomeServer: "Erick Lopes Da Silva",
-                // emailServer: "erickReiDoGrau@gmail.com",
-                // senhaServer: "ErickDoGrau065",
                 cargoServer: cargoVar,
-                instuicaoServer: "1",
                 nomeServer: nomeVar,
                 emailServer: emailVar,
                 senhaServer: senhaVar,
-                // instuicaoServer: instuicaoVar,
+                instituicaoServer: instituicaoVar,
 
             }),
         })
@@ -608,7 +613,7 @@
 
                     setTimeout(() => {
                         window.location = "./login.html";
-                    }, 2000);
+                    }, 1000);
 
                 } else {
                     console.log("Houve um erro ao tentar realizar o cadastro!")
@@ -625,40 +630,5 @@
     }
 
 
-    function listarInstituicoes() {
-
-        var datalist = document.getElementById("instituicoes")
-
-        fetch(`/instituicao/listarInstituicoes`)
-            .then((resposta) => resposta.json())
-            .then((instituicoes) => {
-
-                instituicoes.forEach(instituicao => {
-
-                    datalist.innerHTML += `
-                
-                <option value="${instituicao.nome}">${instituicao.nome}</option>
-
-                `
-
-                });
-
-            })
-
-    }
-
-    function buscarInstituicao(nomeInstituicao){
-
-         fetch(`/instituicao/buscarInstituicao?nome=${nomeInstituicao}`)
-            .then((resposta) => resposta.json())
-            .then((instituicoes) => {
-
-                instituicaoVar = instituicoes[0].idInstituicao;
-
-                });
-
-    
-
-    }
 
 </script>

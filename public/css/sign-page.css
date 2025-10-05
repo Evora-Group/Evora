@@ -86,7 +86,7 @@ main, #section_sign, #div_sign_form, #div_sign-info, #div_sign-progress {
 
 #section_sign {
     width: 100vw;
-    height: 110vh;
+    height: 90vh;
     display: flex;
     flex-direction: column;
     justify-content: center;

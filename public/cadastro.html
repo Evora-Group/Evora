@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/sign-page.css">
     <link rel="shortcut icon" href="assets/imgs/logoEvora.svg" type="image/x-icon">
+    <script src="./js/login-cadas.js"></script>
     <!-- <script src="js/cadastro_form.js"></script> -->
     <title>Évora</title>
 </head>
 
-<body>
+<body onload="listarInstituicoes()">
     <div id="div_background"></div>
     <main>
 
@@ -77,15 +78,21 @@
                     <form action="">
                         <div class="div_label_input" id="div_funcao_input">
                             <label for="fullName" id="label_form">Nome completo</label>
-                            <input id="fullName" value="" type="text" id="input_form" name="fullName" placeholder="Seu nome completo"><br>
+                            <input id="fullName" value="" type="text" id="input_form" name="fullName"
+                                placeholder="Seu nome completo"><br>
                         </div>
                         <div class="div_label_input">
                             <label for="email">Email profissional</label>
-                            <input value="" type="email" id="email_id" name="email" placeholder="Seu@instituição.edu.br"><br>
+                            <input value="" type="email" id="email_id" name="email"
+                                placeholder="Seu@instituição.edu.br"><br>
                         </div>
                         <div class="div_label_input">
                             <label for="nome_instituicao">Instituição de ensino</label>
-                            <input value="" type="nome_instituicao" id="nome_instituicao" name="nome_instituicao" placeholder="Nome da sua instituição"><br>
+                            <input list="instituicoes" type="nome_instituicao" id="instituicao" name="nome_instituicao"
+                                placeholder="Nome da sua instituição"><br>
+                            <datalist id="instituicoes">
+                                <option value=""></option>
+                            </datalist>
                         </div>
                     </form>
 
@@ -165,11 +172,17 @@
 
     let progress = 0;
 
+    var emailVar = "";
+    var nomeVar = "";
+    var instituicaoVar = "";
+    var cargoVar = "";
+    var senhaVar = "";
+
     function verificarEmail() {
 
-        email = email_id.value
-        nome_usuario = fullName.value
-        nome_instituicao = nome_instituicao.value
+        var email = email_id.value
+        var nome_usuario = fullName.value
+        var nome_instituicao = instituicao.value
 
         if (
             email == "" ||
@@ -185,7 +198,22 @@
 
         } else {
 
-            pass_bar()
+            validarEmail(email).then((existe) => {
+
+                if (existe === true) {
+                
+                    alert("Esse email já está em uso!")
+                
+                } else {
+
+                    buscarInstituicao(nome_instituicao);
+                    emailVar = email;
+                    nomeVar = nome_usuario;
+
+                    pass_bar()
+
+                }
+            });
 
         }
 
@@ -193,13 +221,15 @@
 
     function verificarCargo() {
 
-        cargo = input_function.value
+        var cargo = input_function.value
 
         if (cargo == "none") {
 
             alert("Insira um cargo")
 
         } else {
+
+            cargoVar = cargo
 
             pass_bar()
 
@@ -209,45 +239,30 @@
 
     function verificarSenha() {
 
-        senha = password_usuario.value
-        confirmacao_senha = passwor_conf_usuario.value
+        var senha = password_usuario.value
+        var confirmacao_senha = passwor_conf_usuario.value
 
         const temMaiuscula = /[A-Z]/.test(senha);
         const temMinuscula = /[a-z]/.test(senha);
         const temNumero = /[0-9]/.test(senha);
         const temTamanhoMinimo = senha.length >= 8;
 
-        if(!temTamanhoMinimo ){
+        if (!temTamanhoMinimo) {
             alert("A senha deve ao menos 8 caracteres")
-        }else if(!temNumero){
+        } else if (!temNumero) {
             alert("A senha deve conter ao menos 1 número")
-        }else if(!temMaiuscula || !temMinuscula){
+        } else if (!temMaiuscula || !temMinuscula) {
             alert("A senha deve conter ao menos 1 caractere maiúsculo e minúsculo")
-        }else if(confirmacao_senha != senha){
+        } else if (confirmacao_senha != senha) {
             alert("As senhas não coincidem")
-        }else{
-            pass_bar()
+        } else {
+
+            senhaVar = senha;
+            cadastrar()
+
         }
 
-        // if (temMaiuscula && temMinuscula && temNumero && temTamanhoMinimo) {
-
-
-        //     if(confirmacao_senha == senha){
-
-        //         pass_bar()
-
-        //     }else{
-
-        //         alert("As senhas não coincidem")
-
-        //     }
-
-
-        // } else {
-
-        //     alert("Insira uma senha valida")
-
-        // }
+        senhaVar = senha;
 
     }
 
@@ -374,8 +389,6 @@
             console.log("progress-bar -> 100%")
             span_text_progress_complet.innerHTML = "100% completo"
 
-            window.location.href = "login.html"
-
         }
 
 
@@ -397,10 +410,11 @@
             console.log("progress-bar -> 0%")
             div_sign_form.innerHTML = `
 
+               
                 <!-- TÍTULO DO FORMULÁRIO -->
                 <div class="div_title_form">
                     <h3 id="h3_title_form">Informações básicas</h3>
-                    <span id="span_title_form">Valos começar com suas informações básicas</span><br>
+                    <span id="span_title_form">Vamos começar com suas informações básicas</span><br>
                 </div>
                 <div class="div_form" id="div_form_inputs">
                     <!-- CONTEÚDO DA PÁGINA DE CADASTRO -->
@@ -410,19 +424,73 @@
 
                     <form action="">
                         <div class="div_label_input" id="div_funcao_input">
-                            <label for="fullName" id="label_form">Nome completo</label><br>
+                            <label for="fullName" id="label_form">Nome completo</label>
                             <input id="fullName" value="" type="text" id="input_form" name="fullName" placeholder="Seu nome completo"><br>
                         </div>
                         <div class="div_label_input">
-                            <label for="email">Email profissional</label><br>
+                            <label for="email">Email profissional</label>
                             <input value="" type="email" id="email_id" name="email" placeholder="Seu@instituição.edu.br"><br>
                         </div>
                         <div class="div_label_input">
-                            <label for="nome_instituicao">Instituição de ensino</label><br>
-                            <input value="" type="nome_instituicao" id="nome_instituicao" name="nome_instituicao"
-                                placeholder="Nome da sua instituição"><br>
+                            <label for="nome_instituicao">Instituição de ensino</label>
+                            <input list="instituicoes" type="nome_instituicao" id="instituicao" name="nome_instituicao" placeholder="Nome da sua instituição"><br>
+                            <datalist id="instituicoes"></datalist>
                         </div>
                     </form>
+
+
+                    <!-- PARTE 2 -->
+                    <!--                     
+                    <form action="">
+                        <div class="div_label_input" id="div_funcao_input">
+                            <label for="function" id="label_form">Qual é sua função?</label><br>
+                            <select name="" id="input_function" name="function">
+                                <option value="none">Selecione sua função na Instituição</option>
+                                <option value="professor">Professor</option>
+                                <option value="diretor">Diretor Acadêmico</option>
+                            </select>
+                        </div>
+                        <div class="div_label_desc" id="div_desc">
+               
+                            <p id="titulo-desc" class="titulo_desc">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentcolor" id="check_icon"><path d="m424-296 282-282-56-56-226 226-114-114-56 56 170 170Zm56 216q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+                                Benefícios da sua conta na Évora
+                            </p>
+
+                            <ul id="lista_desc" class="lista_desc">
+
+                                <li>Dashboard personalizado com métricas relevantes para sua função</li>
+                                <li>Relatórios automáticos de permanência estudantil</li>
+                                <li>Alertas inteligentes sobre riscos de evasão</li>
+                            
+                            </ul>
+
+                        </div>
+                    </form>  -->
+
+
+                    <!-- Parte 3-->
+
+                    <!-- <form action="">
+                        
+                        <div class="div_label_input" id="div_senha_input">
+                            <label for="function" id="label_form">Crie uma senha</label>
+                            <input type="password" id="password_usuario" placeholder="Mínimo 8 caracteres">
+                        </div>
+                        
+                        <div class="div_label_input" id="div_confirma_input">
+                            <label for="function" id="label_form">Confirme a senha</label>
+                            <input type="password" placeholder="Confirme sua senha" id="passwor_conf_usuario">
+                        </div>
+                        
+                        <div class="div_label_desc" id="div_desc_2">
+
+                            <p id="p_desc">
+                                <b>Importante:</b> A Évora é projetada para dados educacionais agregados. Não colete informações pessoais sensíveis de estudantes sem as devidas autorizações.
+                            </p>
+
+                        </div>
+                    </form> -->
 
                 </div>
                 <!-- BOTÕES DE FORMULÁRIO -->
@@ -431,11 +499,14 @@
                     <button type="submit" id="btn_right" onclick="verificarEmail()">Próximo</button>
                 </div>
                 <div class="div_title_bottom">
-                     <span>Já tem uma conta? <strong><a href="./login.html">Faça login</a></strong></span>
+                    <span>Já tem uma conta? <strong><a href="./login.html">Faça login</a></strong></span>
                 </div>
+
             
 
             `;
+
+            listarInstituicoes();
 
             span_text_progress_complet.innerHTML = ""
 
@@ -514,5 +585,50 @@
     function home_back() {
         window.location.href = "index.html"
     }
+
+    function cadastrar() {
+
+        fetch("/user/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                cargoServer: cargoVar,
+                nomeServer: nomeVar,
+                emailServer: emailVar,
+                senhaServer: senhaVar,
+                instituicaoServer: instituicaoVar,
+
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+
+                    console.log("Cadastro com sucesso")
+
+                    pass_bar()
+
+                    setTimeout(() => {
+                        window.location = "./login.html";
+                    }, 1000);
+
+                } else {
+                    console.log("Houve um erro ao tentar realizar o cadastro!")
+                    throw "Houve um erro ao tentar realizar o cadastro!";
+
+                }
+
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+
+        return false;
+    }
+
+
 
 </script>

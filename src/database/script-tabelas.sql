@@ -1,62 +1,85 @@
--- Arquivo de apoio, caso você queira criar tabelas como as aqui criadas para a API funcionar.
--- Você precisa executar os comandos no banco de dados para criar as tabelas,
--- ter este arquivo aqui não significa que a tabela em seu BD estará como abaixo!
+CREATE DATABASE evora;
+USE evora;
 
-/*
-comandos para mysql server
-*/
-
-CREATE DATABASE aquatech;
-
-USE aquatech;
-
-CREATE TABLE empresa (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	razao_social VARCHAR(50),
-	cnpj CHAR(14),
-	codigo_ativacao VARCHAR(50)
+CREATE TABLE Instituicao (
+    idInstituicao INT NOT NULL PRIMARY KEY auto_increment,
+    nome VARCHAR(45) NOT NULL,
+    uf CHAR(2) NOT NULL,
+    idMunicipio INT NOT NULL
 );
 
-CREATE TABLE usuario (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(50),
-	email VARCHAR(50),
-	senha VARCHAR(50),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+CREATE TABLE Curso (
+    idCurso INT NOT NULL,
+    fkInstituicao INT NOT NULL,
+    descricao VARCHAR(100) NULL,
+    modalidade VARCHAR(40) NULL,
+    PRIMARY KEY (idCurso, fkInstituicao),
+    FOREIGN KEY (fkInstituicao)
+        REFERENCES Instituicao (idInstituicao)
 );
 
-CREATE TABLE aviso (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	titulo VARCHAR(100),
-	descricao VARCHAR(150),
-	fk_usuario INT,
-	FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
+CREATE TABLE Usuario (
+    idUsuario INT NOT NULL,
+    fkInstituicao INT NOT NULL,
+    cargo VARCHAR(45) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    nome VARCHAR(100) NOT NULL,
+    senha VARCHAR(200) NOT NULL,
+    PRIMARY KEY (idUsuario, fkInstituicao),
+    UNIQUE (senha),
+    FOREIGN KEY (fkInstituicao)
+        REFERENCES Instituicao (idInstituicao)
 );
 
-create table aquario (
-/* em nossa regra de negócio, um aquario tem apenas um sensor */
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	descricao VARCHAR(300),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+CREATE TABLE Disciplina (
+    idDisciplina INT NOT NULL PRIMARY KEY,
+    nome VARCHAR(45) NULL,
+    descricao VARCHAR(100) NULL
 );
 
-/* esta tabela deve estar de acordo com o que está em INSERT de sua API do arduino - dat-acqu-ino */
-
-create table medida (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	dht11_umidade DECIMAL,
-	dht11_temperatura DECIMAL,
-	luminosidade DECIMAL,
-	lm35_temperatura DECIMAL,
-	chave TINYINT,
-	momento DATETIME,
-	fk_aquario INT,
-	FOREIGN KEY (fk_aquario) REFERENCES aquario(id)
+CREATE TABLE Aluno (
+    RA INT NOT NULL,
+    fkInstituicao INT NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    nome VARCHAR(100) NOT NULL,
+    PRIMARY KEY (RA, fkInstituicao)
 );
 
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 1', 'ED145B');
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 2', 'A1B2C3');
-insert into aquario (descricao, fk_empresa) values ('Aquário de Estrela-do-mar', 1);
-insert into aquario (descricao, fk_empresa) values ('Aquário de Peixe-dourado', 2);
+CREATE TABLE grade_curricular (
+    fkDisciplina INT NOT NULL,
+    fkCurso INT NOT NULL,
+    fkInstituicao INT NOT NULL,
+    carga_horaria INT NOT NULL,
+    PRIMARY KEY (fkDisciplina, fkCurso, fkInstituicao),
+    FOREIGN KEY (fkDisciplina)
+        REFERENCES Disciplina (idDisciplina),
+    FOREIGN KEY (fkCurso, fkInstituicao)
+        REFERENCES Curso (idCurso, fkInstituicao)
+);
+
+CREATE TABLE Desempenho (
+    fkDisciplina INT NOT NULL,
+    fkAluno INT NOT NULL,
+    fkInstituicao INT NOT NULL,
+    frequencia DOUBLE NOT NULL,
+    nota DOUBLE NOT NULL,
+    PRIMARY KEY (fkDisciplina, fkAluno, fkInstituicao),
+    FOREIGN KEY (fkDisciplina)
+        REFERENCES Disciplina (idDisciplina),
+    FOREIGN KEY (fkAluno, fkInstituicao)
+        REFERENCES Aluno (RA, fkInstituicao)
+);
+
+CREATE TABLE Matricula (
+    idMatricula INT NOT NULL,
+    fkRA INT NOT NULL,
+    Aluno_fkInstituicao INT NOT NULL,
+    Curso_fkCurso INT NOT NULL,
+    Curso_fkInstituicao INT NOT NULL,
+    PRIMARY KEY (idMatricula, fkRA, Aluno_fkInstituicao, Curso_fkCurso, Curso_fkInstituicao),
+    FOREIGN KEY (fkRA, Aluno_fkInstituicao)
+        REFERENCES Aluno (RA, fkInstituicao),
+    FOREIGN KEY (Curso_fkCurso, Curso_fkInstituicao)
+        REFERENCES Curso (idCurso, fkInstituicao)
+);
+

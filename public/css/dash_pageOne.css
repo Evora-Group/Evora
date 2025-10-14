@@ -1,0 +1,124 @@
+
+
+* {
+    font-family: var(--default-font-family, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji");
+    margin: 0;
+    padding: 0;
+}
+
+
+#nav_bar{
+    background-color: #d9d9d9;
+    height: 4rem;
+    display: flex;
+    padding: 0 1rem;    
+}
+
+#nav_logo img{
+    height: 4rem;
+    width: 4rem;
+}
+
+#nav_logo {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+#nav_logo h2{
+    align-self: center;
+    color:#256297;
+}
+
+
+main {
+    display: flex;      /* deixa os filhos lado a lado */
+    height: 100vh;      /* altura total da tela */
+    flex-direction: row;
+}
+
+
+.menu{
+    background-color: #fff;
+    width: 20%;
+    height: 100vh;
+    display: flex;
+
+}
+
+.categories{
+    width: 70%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.categories p {
+    display: flex;
+    align-items: center; /* alinha verticalmente ícone e texto */
+    gap: 0.8rem; /* espaço entre ícone e texto */
+    color: gray;
+    transition: color 0.3s;
+}
+
+.categories p:hover {
+    color: blue; 
+}
+
+.categories_two{
+    margin-top: 2rem;
+}
+
+.container_one_page{
+    background-color: #f5f7fa;
+    height: 100vh;
+    width: 100%;
+    margin-top: 1rem;
+    
+}
+
+.container_one_page h2{
+    padding: 2rem;
+    color: #343c63;
+}
+
+.kpis{
+    display: flex;
+    justify-content: space-between; 
+}
+
+.low_avg,
+.low_freq,
+.qtd_alunos{
+    background-color: white;
+    border-radius: 20px;
+    height: 8rem;
+}
+
+.low_avg,
+.low_freq,
+.qtd_alunos {
+    display: flex;           
+    align-items: center;   
+    gap: 1rem;               
+    background-color: white;
+    border-radius: 20px;
+    padding: 1rem;  
+    width: 28%; 
+    position: relative;   
+}
+
+.icon-over{
+    position: absolute;       
+    top: 1rem;                
+    left: 1rem;               
+    font-size: 1.5rem;        
+    color: red;               
+    pointer-events: none;
+    z-index: 10;
+      
+}

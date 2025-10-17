@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/dash_home.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <title>Home Dashboard</title>
+</head>
+
+<body>
+    <header>
+        <nav id="nav_bar">
+            <div id="nav_logo">
+                <img src="assets/imgs/logoEvora.svg" alt="">
+                <h2>Évora</h2>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="menu">
+            <ul class="categories">
+                <li><a href=""></a><i class="fi fi-rr-home"></i>Dashboard</li>
+                <li><a href="dash_cursos.html"></a><i class="fi fi-rr-users-alt"></i>Cursos</li>
+                <li><a href=""></a><i class="fi fi-rr-bell"></i>Alertas</li> 
+
+                <li class="categories_two"><i class="fi fi-rr-settings"></i>Configurações</li>
+            </ul>
+        </section>
+        <section class="content">
+            <section class="container_one_page">
+                <div>
+                    <h2>Situação Geral</h2>
+                </div>
+
+                <div class="kpis">
+                    <div class="low_avg">
+                        <img src="assets/imgs/Ellipse 33.svg" alt=""><i class="fi fi-rr-chart-mixed icon" ></i>
+                        <p>Alunos abaixo da média</p>
+                    </div>
+
+                    <div class="low_freq">
+                        <img src="assets/imgs/Ellipse 33.svg" alt="">
+                        <i class="fi fi-rr-triangle-warning icon"></i>
+                        <p>Alunos com frequência abaixo de 75%</p>
+                    </div>
+                    <div class="qtd_alunos">
+                        <img src="assets/imgs/Ellipse 33.svg" alt="">
+                        <i class="fi fi-rr-users-alt icon"></i>
+                        <p>Quantidade de alunos matriculados na instituição</p>
+                    </div>
+                </div>
+
+                <section class="graphics">
+                    <div class="titles">
+                        <div class="title_graphic1">
+                            <p>Porcentagem de alunos abaixo de 75%</p>
+                        </div>
+
+                        <div class="title_graphic2">
+                            <p>Quantidade Evasão</p>
+                        </div>
+                    </div>
+
+                    <section class="graphic_one">
+
+                        <div class="contem_grafico">
+                            <div>
+                                <canvas id="myChart"></canvas>
+                            </div>
+                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+                            <div>
+                                <canvas id="myChart2"></canvas>
+                            </div>
+                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                        </div>
+
+
+                    </section>
+                </section>
+
+            </section>
+        </section>
+    </main>
+</body>
+
+</html>
+<script>
+
+    const ctx = document.getElementById('myChart');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+            datasets: [{
+                label: 'Alunos ',
+                data: [27, 19, 79, 50, 78, 200],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100, // limite do gráfico (100%)
+                    ticks: {
+                        stepSize: 15, // de 15 em 15
+                        callback: function (value) {
+                            return value + '%'; // adiciona o símbolo de porcentagem
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+
+    // ----- GRÁFICO 2 (LINHA SEM PORCENTAGEM) -----
+    const ctxx = document.getElementById('myChart2');
+    new Chart(ctxx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+            datasets: [{
+                label: 'Evasão (Qtd de alunos)',
+                data: [10, 15, 7, 20, 14, 9],
+                borderWidth: 2,
+                borderColor: '#27AE60',
+                tension: 0.3, // suaviza as curvas
+                fill: false,
+                pointBackgroundColor: '#27AE60'
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 5 // números inteiros, sem porcentagem
+                    }
+                }
+            }
+        }
+    });
+</script>

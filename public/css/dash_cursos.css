@@ -67,7 +67,7 @@ main {
     align-items: center; 
 }
 
-.categories_two{
+.categories_two a{
     margin-top: 2rem;
     list-style: none;
     padding: 12px 16px;
@@ -79,6 +79,7 @@ main {
     display: flex;                
     align-items: center;
 }
+
 .categories li a:hover {
     color: #007BFF;
 }

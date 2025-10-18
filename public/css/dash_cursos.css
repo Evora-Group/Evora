@@ -67,6 +67,26 @@ main {
     align-items: center; 
 }
 
+/* Estilo do item ativo (Configurações) */
+.categories li.active a {
+    color: blue;
+    font-weight: 600;
+}
+.categories li.active {
+    position: relative;
+}
+.categories li.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 70%;
+    width: 4px;
+    background-color: blue;
+    border-radius: 0 4px 4px 0;
+}
+
 .categories_two a{
     margin-top: 2rem;
     list-style: none;

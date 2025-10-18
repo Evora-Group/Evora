@@ -56,21 +56,31 @@ main {
     margin-top: 1rem;
 }
 
-.categories li {
+.categories li a{
+    text-decoration: none;
     padding: 12px 16px;
     cursor: pointer;
     position: relative;
     transition: color 0.3s ease;
     color: gray;
     gap: 0.8rem;
-    display: flex;                /* coloca ícone e texto lado a lado */
+    display: flex;                
     align-items: center; 
 }
 
-.categories_two{
+.categories_two {
+    text-decoration: none;
+    padding: 12px 16px;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+    color: gray;
+    gap: 0.8rem;
+    display: flex;                
+    align-items: center; 
     margin-top: 2rem;
 }
-.categories li:hover {
+.categories li a:hover {
     color: #007BFF;
 }
 

@@ -37,7 +37,7 @@
 
                 <nav class="tabs">
                     <a href="#" class="tab active">Editar Conta</a>
-                    <a href="#" class="tab">Preferências</a>
+                    <!-- <a href="#" class="tab">Preferências</a> -->
                 </nav>
 
                 <form class="settings-form">
@@ -51,16 +51,38 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="nome">Seu nome</label>
-                        <input type="text" id="nome" value="Charlene Reed">
-                    </div>
-                    <div class="form-group">
-                        <label for="instituicao">Instituição</label>
-                        <input type="text" id="instituicao" value="Estácio Brasil">
-                    </div>
-                    <div class="form-actions">
-                        <button type="submit" class="save-button">Salvar</button>
+                    <div class="form-fields-section">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="nome">Seu nome</label>
+                                <input type="text" id="nome" value="Charlene Reed">
+                            </div>
+                            <div class="form-group">
+                                <label for="instituicao">Instituição</label>
+                                <input type="text" id="instituicao" value="Estácio Brasil">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" value="charlenereed@gmail.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="senha">Senha</label>
+                                <input type="password" id="senha" value="************">
+                            </div>
+
+                            <div class="form-group form-group-full">
+                                <label for="cargo">Cargo</label>
+                                <select id="cargo">
+                                    <option selected>Diretora acadêmica</option>
+                                    <option>Coordenador(a)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="save-button">Salvar</button>
+                        </div>
                     </div>
                 </form>
 

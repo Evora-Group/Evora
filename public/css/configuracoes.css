@@ -1,4 +1,3 @@
-/* --- 1. Reset Básico e Variáveis --- */
 * {
     font-family: var(--default-font-family, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji");
     margin: 0;
@@ -6,7 +5,6 @@
 }
 
 :root {
-    --primary-blue: #4F46E5;
     --content-bg: #f8fafc;
     --border-color: #eef2f7;
     --text-primary: #111827;
@@ -16,7 +14,6 @@
 
 #nav_bar {
     background-color: #d9d9d9;
-    /* Fundo branco como no design */
     height: 4rem;
     display: flex;
     padding: 0 1rem;
@@ -58,8 +55,13 @@ main {
     height: 100vh;
     width: 100%;
     margin-top: 1rem;
-    display: flex;
-    flex-direction: column;
+
+    align-items: start;
+    justify-items: start;
+
+    padding-top: 3rem;
+    padding-left: 3rem;
+
 }
 
 
@@ -81,8 +83,8 @@ main {
     transition: color 0.3s ease;
     color: gray;
     gap: 0.8rem;
-    display: flex;                
-    align-items: center; 
+    display: flex;
+    align-items: center;
 }
 
 .categories li a:hover {
@@ -120,27 +122,30 @@ main {
     transition: color 0.3s ease;
     color: gray;
     gap: 0.8rem;
-    display: flex;                
-    align-items: center; 
+    display: flex;
+    align-items: center;
     margin-top: 2rem;
 }
 
 
-/* --- 4. Novos Estilos para o Card e Formulário --- */
+
 .settings-card {
     background-color: #fff;
     border-radius: 16px;
-    border: 1px solid var(--border-color);
+    border: 1px solid #eef2f7;
     box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.04);
-    padding: 1.5rem 2.5rem 2.5rem 2.5rem;
+    width: 100%;
+    max-width: 86%;
+    height: auto;
+
 }
 
 .tabs {
     display: flex;
-    gap: 1.5rem;
+    gap: 0.4rem;
     border-bottom: 1px solid var(--border-color);
-    margin-bottom: 2rem;
-    /* Espaço entre as abas e o formulário */
+    padding: 1rem 2.5rem 0 2.5rem;
+    /* Padding para alinhar com o form */
 }
 
 .tab {
@@ -155,13 +160,74 @@ main {
     color: blue;
     font-weight: 600;
     border-bottom-color: blue;
+    margin-top: 0;
 }
 
 .settings-form {
     display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    /* Espaço entre os campos do formulário */
+    flex-direction: row;
+    gap: 3rem;
+    padding: 2.5rem;
+}
+
+.profile-picture-section {
+    flex-shrink: 0;
+}
+
+.profile-picture-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+.profile-picture-container img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.edit-icon-button {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    background-color: blue;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+    padding: 0;
+}
+
+.edit-icon-button:hover {
+    transform: scale(1.1);
+}
+
+.edit-icon-button i {
+    font-size: 0.8rem;
+}
+
+.form-fields-section {
+    flex: 1;
+    width: 100%;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+
+    max-width: 94%;
+}
+
+.form-group-full {
+    grid-column: 1 / -1;
 }
 
 .form-group {
@@ -173,15 +239,40 @@ main {
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--text-primary);
-    margin-bottom: 0.5rem;/* --- 4. Novos Estilos para o Card e Formulário --- */
+    margin-bottom: 0.5rem;
 }
 
-.settings-card {
-    background-color: #fff;
-    border-radius: 16px;
-    border: 1px solid #eef2f7; /* Borda mais sutil */
-    box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.04);
+.form-group input,
+.form-group select {
     width: 100%;
-    height: auto; /* Altura se ajusta ao conteúdo */
+    padding: 0.6rem 0.75rem; 
+    
+    border: 1px solid #e5e7eb; 
+
+    border-radius: 8px;
+
+    font-size: 0.9rem;
+    
+    color: var(--text-primary);
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+.form-actions {
+    margin-top: 2.5rem;
+}
+
+.save-button {
+    background-color: blue;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.save-button:hover {
+    background-color: rgb(8, 8, 224);
+}

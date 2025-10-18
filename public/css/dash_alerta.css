@@ -93,6 +93,77 @@ main {
     list-style: none;        /* remove a bolinha da lista */
     cursor: pointer;
     margin: 2rem;
+}
+
+.cabecalho_one{
     display: flex;
     flex-direction: row;
 }
+
+
+.cabecalho{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 2rem;
+    background-color: #fff;
+    width: 90%;
+    height: 100%;
+    border-radius: 20px;
+    padding: 2rem;
+    border-bottom: 2px solid #ccc; /* ✅ linha embaixo */
+    flex-wrap: wrap;
+    row-gap: 1rem; /* ✅ controla o espaço vertical entre as linhas */
+}
+
+.cabecalho p{
+    font-weight: bold;
+    color: gray;
+}
+
+.dados_linha {
+    width: 100%; /* ✅ força quebra de linha */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.coluna_alunos,
+.coluna_turma,
+.coluna_descricao,
+.coluna_freq,
+.coluna_presenca {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.coluna_alunos p,
+.coluna_turma p,
+.coluna_descricao p,
+.coluna_freq p
+.coluna_presenca p {
+    color: black;
+    font-weight: 600;
+}
+
+
+.coluna_freq{
+    display: flex;
+    margin-right: 8rem;
+}
+
+
+.coluna_descricao{
+    display: flex;
+    margin-right: 0rem;
+}
+
+.coluna_presenca{
+    display: flex;
+    margin-right: 2rem;
+}
+
+
+
+

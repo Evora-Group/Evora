@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard - Aluno</title> 
+   <link rel="shortcut icon" href="EvoraIcon.png" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root{
+      --bg:#f5f7fb; --surface:#fff; --line:#e9eef5; --shadow:0 10px 24px rgba(16,24,40,.06);
+      --text:#1f2937; --muted:#6b7280; --brand:#2563eb; --accent:#ffb020; --danger:#e11d48; --indigo:#4f46e5;
+      --radius:20px;
+    }
+    *{
+        box-sizing:border-box
+    }
+    html,body{
+        height:100%
+    }
+    body{
+        margin:0;
+        font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial;
+        background:var(--bg);
+        color:var(--text)
+    }
+
+    .topbar{
+        position:fixed;
+        left:0;
+        top:0;
+        right:0;
+        height:56px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        padding:0 20px;
+        background:#d6d8db;
+        border-bottom:1px solid #cfd4da;
+        z-index:50
+    }
+    .topbrand{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        color:#0ea5e9;
+        font-weight:800
+    }
+    .topbrand svg{
+        width:26px;
+        height:26px
+    }
+    .top-avatar{
+        width:40px;
+        height:40px;
+        border-radius:999px;
+        object-fit:cover
+    }
+
+    .app{
+        display:grid;
+        grid-template-columns:260px 1fr;
+        max-width:1920px;
+        margin:56px auto 0;
+        min-height:calc(100vh - 56px)
+    }
+
+    .sidebar{
+        background:#fff;
+        border-right:1px solid var(--line);
+        padding:24px 12px
+    }
+    .nav{
+        display:flex;
+        flex-direction:column;
+        gap:6px
+    }
+    .nav a{
+        display:flex;
+        align-items:center;
+        gap:12px;
+        padding:12px 14px;
+        border-radius:12px;
+        text-decoration:none;
+        color:var(--text);
+        font-weight:500;
+        position:relative
+    }
+    .nav a svg{
+        color:#9ca3af
+    }
+    .nav a.active{
+        background:#ecf2ff
+    }
+    .nav a.active svg{
+        color:var(--brand);
+        fill:var(--brand)
+    }
+    .nav a.active:before{
+        content:"";
+        position:absolute;
+        left:-8px;
+        top:8px;
+        bottom:8px;
+        width:6px;
+        background:#22a6f2;
+        border-top-left-radius:12px;
+        border-bottom-left-radius:12px
+    }
+
+    .content{
+        padding:20px 28px
+    }
+    .page{
+        max-width:1400px;margin:0 auto
+    }
+    .header{
+        display:flex;
+        align-items:center;
+        justify-content:space-between
+        ;margin:6px 0 16px
+    }
+    .header h1{
+        font-size:20px;margin:0
+    }
+
+    .kpis{
+        display:grid;
+        grid-template-columns:1fr 1fr 1fr;
+        gap:22px;
+        margin-bottom:20px
+    }
+    .kpi{
+        background:var(--surface);
+        border:1px solid var(--line);
+        border-radius:20px;
+        box-shadow:var(--shadow);
+        padding:18px 22px;
+        display:flex;
+        align-items:center;
+        gap:14px
+    }
+    .kpi .icon{
+        width:44px;
+        height:44px;
+        border-radius:14px;
+        display:grid;
+        place-items:center
+    }
+    .kpi .label{
+        color:#6b7280;
+        font-weight:600
+    }
+    .kpi .big{
+        font-weight:800;
+        font-size:26px;
+        margin-top:6px
+    }
+    .kpi.freq .icon{
+        background:#fde2e5;
+        color:#d9173a
+    }
+    .kpi.nota .icon{
+        background:#ecebff;
+        color:#4f46e5
+    }
+    .kpi.situacao .icon{
+        background:#fff1db
+    }
+    .pill{
+        width:18px;
+        height:18px;
+        border-radius:999px;
+        background:var(--accent)
+    }
+    .kpi.situacao .big{
+        color:#f59e0b
+    }
+
+    .tabs{
+        display:flex;
+        gap:24px;
+        margin:2px 0 12px
+    }
+    .tab{
+        padding:10px 6px;
+        font-weight:700;
+        color:#4b5563;
+        border:none;
+        background:transparent;
+        border-bottom:2px solid transparent;
+        cursor:pointer
+    }
+    .tab.active{
+        color:var(--brand);
+        border-color:var(--brand)
+    }
+
+    .chart-card{
+        background:#fff;
+        border:1px solid var(--line);
+        border-radius:20px;box-shadow:var(--shadow);
+        padding:14px 22px
+    }
+    .tab-panel{
+        display:none
+    }
+    .tab-panel.active{
+        display:block
+    }
+    .reco-card{
+        background:#d9d9d9;
+        color:#374151;
+        border-radius:20px;
+        padding:22px 24px;
+        box-shadow:0 8px 22px rgba(16,24,40,.06);
+        font-weight:600;
+        line-height:1.45
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbrand">
+           <span><img src="EvoraLogo.png" width="160px"></span>
+    </div>
+    <img class="top-avatar" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=256&auto=format&fit=crop" alt="Usuária"/>
+  </header>
+
+  <div class="app">
+    <aside class="sidebar">
+      <nav class="nav">
+        <a href="#">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-10.5z"/></svg>
+          Dashboard
+        </a>
+        <a href="#" class="active">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="3"/><circle cx="6" cy="12" r="2" opacity=".5"/><circle cx="18" cy="12" r="2" opacity=".5"/><circle cx="9" cy="8" r="1.6" opacity=".35"/><circle cx="15" cy="8" r="1.6" opacity=".35"/><circle cx="9" cy="16" r="1.6" opacity=".35"/><circle cx="15" cy="16" r="1.6" opacity=".35"/></svg>
+          Cursos
+        </a>
+        <a href="#">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.73 21a2 2 0 0 1-3.46 0"/><path d="M18 8a6 6 0 1 0-12 0v5l-2.2 3.3A1 1 0 0 0 4.62 18h14.76a1 1 0 0 0 .82-1.6L18 13V8z"/></svg>
+          Alertas
+        </a>
+        <a href="#">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06A2 2 0 1 1 7.04 3.7l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09c0 .67.39 1.27 1 1.51.6.24 1.29.11 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06c-.44.53-.57 1.22-.33 1.82.24.61.84 1 1.51 1H21a2 2 0 1 1 0 4h-.09c-.67 0-1.27.39-1.51 1z"/></svg>
+          Configurações
+        </a>
+      </nav>
+    </aside>
+
+    <main>
+      <div class="content page">
+        <div class="header">
+          <h1>Aluno: Rogério Matos</h1>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi freq">
+            <div class="icon">
+             🚨
+            </div>
+            <div>
+              <div class="label" style="color: red;">Frequência</div>
+              <div class="big" style="color:#e11d48">73.5%</div>
+            </div>
+          </div>
+
+          <div class="kpi nota">
+            <div class="icon">
+              📝
+            </div>
+            <div>
+              <div class="label" style="color: blue;">Nota Média</div>
+              <div class="big" style="color:#1f3cf0">8.6</div>
+            </div>
+          </div>
+
+          <div class="kpi situacao">
+            <div class="icon">⚠️</span></div>
+            <div>
+              <div class="label" style="color:#f59e0b;">Situação</div>
+              <div class="big">Atenção</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs" id="tabs">
+          <button class="tab active" data-target="#tab-desempenho">Desempenho Individual</button>
+          <button class="tab" data-target="#tab-recomendacao">Recomendação</button>
+        </div>
+
+        <div id="tab-desempenho" class="tab-panel active">
+          <div class="chart-card">
+            <canvas id="mixChart" height="220"></canvas>
+          </div>
+        </div>
+
+        <div id="tab-recomendacao" class="tab-panel">
+          <div class="reco-card">
+            Converse com o aluno, mande uma mensagem e e-mail em questões de contato, de acordo com os dados, ele se encontra com perfil de evasão.
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('mixChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul'],
+        datasets: [
+          {label: 'Notas', data: [50,35,70,35,60,65,80], backgroundColor: '#1d4ed8', borderRadius: 6, barThickness: 16, borderSkipped: false},
+          {label: 'Frequência', data: [105,70,85,55,95,40,100], backgroundColor: '#f59e0b', borderRadius: 6, barThickness: 16, borderSkipped: false}
+        ]
+      },
+      options: {
+        animation: false,
+        maintainAspectRatio: false,
+        plugins: {legend: {display: true, position: 'top', align: 'end', labels: {boxWidth: 10}}, tooltip: {enabled: true}},
+        scales: {y: {beginAtZero: true, grid: {color: 'rgba(2,79,255,.06)'}}, x: {grid: {display: false}}}
+      }
+    });
+
+    
+    (function(){
+      const tabButtons = document.querySelectorAll('#tabs .tab');
+      const panels = document.querySelectorAll('.tab-panel');
+      tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          tabButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          panels.forEach(p => p.classList.remove('active'));
+          const target = document.querySelector(btn.dataset.target);
+          if (target) target.classList.add('active');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

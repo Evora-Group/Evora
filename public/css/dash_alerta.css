@@ -127,15 +127,34 @@ main {
 }
 
 
+.container ul {
+    display: flex;
+    gap: 4rem;
+    padding-left: 2rem;
+}
+
 .container ul li {
     list-style: none;        /* remove a bolinha da lista */
     cursor: pointer;
-    margin: 2rem;
 }
 
 .cabecalho_one{
     display: flex;
     flex-direction: row;
+    border-bottom: 1px solid rgb(196, 193, 193);
+}
+
+#ativo {
+    color: rgb(64, 64, 238);
+    font-weight: bold;
+
+    padding-bottom: 1rem;
+    border-bottom: 3px solid rgb(64, 64, 238);
+}
+
+.cabecalho_one li a {
+    text-decoration: none;
+    color: gray;
 }
 
 
@@ -156,7 +175,7 @@ main {
 
 .cabecalho p{
     font-weight: bold;
-    color: gray;
+    color: #718EBF;
 }
 
 .dados_linha {
@@ -178,11 +197,9 @@ main {
 
 .coluna_alunos p,
 .coluna_turma p,
-.coluna_descricao p,
-.coluna_freq p
-.coluna_presenca p {
+.coluna_descricao p {
     color: black;
-    font-weight: 600;
+    font-weight: 400;
 }
 
 
@@ -200,6 +217,20 @@ main {
 .coluna_presenca{
     display: flex;
     margin-right: 2rem;
+}
+
+.coluna_freq p {
+    color: black;
+    font-weight: 400;
+}
+
+.coluna_presenca p {
+    color: #b43934;
+}
+
+
+.indicador_atencao p {
+    color: rgb(189, 189, 47) !important; 
 }
 
 

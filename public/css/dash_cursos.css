@@ -94,7 +94,7 @@ main {
     cursor: pointer;
     position: relative;
     transition: color 0.3s ease;
-    color: gray;
+    color:gray;
     gap: 0.8rem;
     display: flex;                
     align-items: center;
@@ -122,7 +122,6 @@ main {
 .container ul li {
     list-style: none;        /* remove a bolinha da lista */
     cursor: pointer;
-    margin: 2rem;
 }
 
 .cabecalho{
@@ -142,7 +141,7 @@ main {
 
 .cabecalho p{
     font-weight: bold;
-    color: gray;
+    color: #718EBF;
 }
 
 .cabecalho_modal {
@@ -170,7 +169,7 @@ main {
 .coluna_descricao p,
 .coluna_modalidade p {
     color: black;
-    font-weight: bold;
+    font-weight: 400;
 }
 
 .coluna_cursos p {
@@ -192,4 +191,19 @@ main {
 .coluna_modalidade{
     display: flex;
     margin-right: 2rem;
+}
+
+.container-course {
+    border-bottom: 1px solid rgb(192, 190, 190);
+}
+
+.container-course li {
+    text-align: center;
+    color: rgb(64, 64, 238);
+    font-weight: bold;
+
+    border-bottom: 3px solid rgb(64, 64, 238);
+    border-radius: 2px;
+    padding: 1rem;
+    width: 10rem;
 }

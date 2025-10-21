@@ -207,3 +207,19 @@ main {
     padding: 1rem;
     width: 10rem;
 }
+.link {
+    list-style: none;          /* remove as bolinhas */
+    text-decoration: none !important;
+    
+}
+
+.link li {
+    list-style: none;  
+ 
+    margin-bottom: 1rem;      /* garante que os <li> dentro também fiquem sem bolinhas */
+}
+
+.link a {
+    text-decoration: none; /* remove o sublinhado */
+    color: inherit;        /* mantém a cor do texto original */
+}

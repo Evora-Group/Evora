@@ -1,12 +1,15 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dashboard - Aluno</title> 
-   <link rel="shortcut icon" href="EvoraIcon.png" type="image/x-icon">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="css/dash_cursos.css">
+  
   <style>
     :root{
       --bg:#f5f7fb; --surface:#fff; --line:#e9eef5; --shadow:0 10px 24px rgba(16,24,40,.06);
@@ -231,29 +234,22 @@
   <div class="app">
     <aside class="sidebar">
       <nav class="nav">
-        <a href="#">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-10.5z"/></svg>
-          Dashboard
-        </a>
-        <a href="#" class="active">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="3"/><circle cx="6" cy="12" r="2" opacity=".5"/><circle cx="18" cy="12" r="2" opacity=".5"/><circle cx="9" cy="8" r="1.6" opacity=".35"/><circle cx="15" cy="8" r="1.6" opacity=".35"/><circle cx="9" cy="16" r="1.6" opacity=".35"/><circle cx="15" cy="16" r="1.6" opacity=".35"/></svg>
-          Cursos
-        </a>
-        <a href="#">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.73 21a2 2 0 0 1-3.46 0"/><path d="M18 8a6 6 0 1 0-12 0v5l-2.2 3.3A1 1 0 0 0 4.62 18h14.76a1 1 0 0 0 .82-1.6L18 13V8z"/></svg>
-          Alertas
-        </a>
-        <a href="#">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06A2 2 0 1 1 7.04 3.7l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09c0 .67.39 1.27 1 1.51.6.24 1.29.11 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06c-.44.53-.57 1.22-.33 1.82.24.61.84 1 1.51 1H21a2 2 0 1 1 0 4h-.09c-.67 0-1.27.39-1.51 1z"/></svg>
-          Configurações
-        </a>
+       <section class="menu">
+            <ul class="categories">
+                <li class="active"><a href="dashboard_home.html"><i class="fi fi-rr-home"></i>Dashboard</li></a>
+                <li><a href="dash_cursos.html"><i class="fi fi-rr-users-alt"></i>Cursos</li></a>
+                <li><a href="dash_alerta.html"><i class="fi fi-rr-bell"></i>Alertas</li></a>
+
+                <li class="categories_two"><a href="configuracoes.html"><i class="fi fi-rr-settings"></i>Configurações</li></a>
+            </ul>
+        </section>
       </nav>
     </aside>
 
     <main>
       <div class="content page">
         <div class="header">
-          <h1>Aluno: Rogério Matos</h1>
+          <h1>Aluno: Sabrina F.</h1>
         </div>
 
         <div class="kpis">

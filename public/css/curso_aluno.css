@@ -23,6 +23,14 @@ body {
     background: var(--bg);
 }
 
+.content.page{
+    
+    background-color: #f5f7fa;
+    height: 100vh;
+    width: 100%;
+    margin-top: 1rem;
+}
+
 #nav_bar {
     background-color: #d9d9d9;
     height: 4rem;
@@ -64,6 +72,7 @@ body {
 
 
 main {
+    background-color:#fff;
     display: flex;
     height: 100vh;
     padding-top: 4rem; 
@@ -78,7 +87,6 @@ main {
     position: sticky;
     top: 4rem;
     display: flex;
-    border-right: 1px solid var(--line);
 }
 
 .categories {

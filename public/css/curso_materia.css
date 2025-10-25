@@ -185,9 +185,79 @@
 #div_alunoProblema {
     width: 100%;
     height: 85%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 #div_alunoAll {
     width: 100%;
     height: 85%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
+
+
+.people-card {
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .people {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .pill-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      border: 1px solid #eef2f7;
+      background: #fff;
+      box-shadow: 0 6px 16px rgba(16,24,40,.08);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    .pill-btn svg {
+      width: 18px;
+      height: 18px;
+      color: #6b7280;
+    }
+
+    .person {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .photo {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .name {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    ul.categories {
+      list-style: none;
+      padding: 0;
+    }

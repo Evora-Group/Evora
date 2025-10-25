@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     padding: 20px; 
-    height: calc(100vh - 0px); 
+    min-height: 100vh; 
     box-sizing: border-box; 
     gap: 20px; 
 }
@@ -28,32 +28,33 @@
 }
 
 .div_conteudos {
-    
+    background-color: white;
+    border-radius: 10px;
 }
 
 #div_parte_indicadores {
-    height: 25%;
-    margin-bottom: 20px;
+    height: 20%;
+    margin-bottom: 10px;
 }
 
 #div_nomeMateria {
     width: 100%;
-    height: 30%;
+    height: 15%;
+    display: flex;
+    align-items: center;
 }
 
 #div_indicadores {
     width: 100%;
-    height: 70%;
+    height: 85%;
     display: flex;
     flex-direction: row;
     gap: 20px;
 }
 
 .indicador {
-    width: 30%;
+    width: 25%;
     height: 100%;
-    background-color: white;
-    border-radius: 10px;
     display: flex;
     flex-direction: row;
 }
@@ -86,32 +87,33 @@
     width: 70%;
     height: 100%;
     box-sizing: border-box;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
 
 .indicador p {
-    font-weight: bold;
+    font-weight: 500;
 }
 
 .p_titulo {
     text-align: left;
     color: gray;
-    font-size: 15px;
+    font-size: 13px;
 }
 
 .p_subtitulo {
-    text-align: center;
+    text-align: left;
     color: #b43934;
-    font-size: 18px;
+    font-size: 15px;
 }
 
 #div_parte_graficos {
-    height: 60%;
+    height: 50%;
     display: flex;
     flex-direction: row;
+    margin-bottom: 10px;
 }
 
 #div_parte_graficos h3 {
@@ -120,7 +122,7 @@
 
 #div_grafico_notas {
     height: 100%;
-    width: 65%;
+    width: 60%;
 }
 
 .div_graficoTitulo {
@@ -133,8 +135,6 @@
 .div_bar {
     width: 100%;
     height: 90%; 
-    background-color: #ffffff;
-    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -148,14 +148,12 @@
 
 #div_grafico_frequencia {
     height: 100%;
-    width: 35%;
+    width: 40%;
 }
 
 .div_pizza {
     width: 100%; 
     height: 90%;
-    background-color: #ffffff;
-    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -169,5 +167,27 @@
 
 #div_parte_alunos {
     height: 20%;
-    background-color: rgba(255, 217, 0, 0.247);
+    display: flex;
+    flex-direction: row;
+}
+
+
+#div_parte_alunos h3 {
+    color: #256297;
+}
+
+#div_atencaoAlunos,
+#div_todosAlunos {
+    width: 40%; 
+    height: 100%;
+}
+
+#div_alunoProblema {
+    width: 100%;
+    height: 85%;
+}
+
+#div_alunoAll {
+    width: 100%;
+    height: 85%;
 }

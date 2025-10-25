@@ -1,350 +1,125 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dashboard - Aluno</title> 
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard - Aluno</title>
 
-  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="css/dash_cursos.css">
-  
-  <style>
-    :root{
-      --bg:#f5f7fb; --surface:#fff; --line:#e9eef5; --shadow:0 10px 24px rgba(16,24,40,.06);
-      --text:#1f2937; --muted:#6b7280; --brand:#2563eb; --accent:#ffb020; --danger:#e11d48; --indigo:#4f46e5;
-      --radius:20px;
-    }
-    *{
-        box-sizing:border-box;
-        margin:0;
-        padding:0;
-    }
-    html,body{
-        height:auto;
-        overflow-y:auto;
-        font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial;
-        background:var(--bg);
-        color:var(--text);
-    }
-
-    .topbar{
-        position:fixed;
-        left:0;
-        top:0;
-        right:0;
-        height:56px;
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        padding:0 20px;
-        background:#d6d8db;
-        border-bottom:1px solid #cfd4da;
-        z-index:50;
-    }
-    .topbrand{
-        display:flex;
-        align-items:center;
-        gap:10px;
-        color:#0ea5e9;
-        font-weight:800;
-    }
-    .topbrand svg{
-        width:26px;
-        height:26px;
-    }
-    .top-avatar{
-        width:40px;
-        height:40px;
-        border-radius:999px;
-        object-fit:cover;
-    }
-
-    .app{
-        display:grid;
-        grid-template-columns:260px 1fr;
-        max-width:1920px;
-        margin:56px auto 0;
-        min-height:calc(100vh - 56px);
-        overflow-y:visible;
-    }
-
-    .sidebar{
-        background:#fff;
-        border-right:1px solid var(--line);
-        padding:24px 12px;
-        position:sticky;
-        top:56px;
-        height:calc(100vh - 56px);
-         overflow: hidden;
-    }
-
-    .nav{
-        display:flex;
-        flex-direction:column;
-        gap:6px;
-    }
-    .nav a{
-        display:flex;
-        align-items:center;
-        gap:12px;
-        padding:12px 14px;
-        border-radius:12px;
-        text-decoration:none;
-        color:var(--text);
-        font-weight:500;
-        position:relative;
-    }
-    .nav a svg{
-        color:#9ca3af;
-    }
-    .nav a.active{
-        background:#ecf2ff;
-    }
-    .nav a.active svg{
-        color:var(--brand);
-        fill:var(--brand);
-    }
-    .nav a.active:before{
-        content:"";
-        position:absolute;
-        left:-8px;
-        top:8px;
-        bottom:8px;
-        width:6px;
-        background:#22a6f2;
-        border-top-left-radius:12px;
-        border-bottom-left-radius:12px;
-    }
-
-    main{
-        overflow-y:auto;
-        height:calc(100vh - 56px);
-        padding-bottom:30px;
-    }
-
-    .content{
-        padding:20px 28px;
-    }
-    .page{
-        max-width:1400px;
-        margin:0 auto;
-    }
-    .header{
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        margin:6px 0 16px;
-    }
-    .header h1{
-        font-size:20px;
-        margin:0;
-    }
-
-    .kpis{
-        display:grid;
-        grid-template-columns:1fr 1fr 1fr;
-        gap:22px;
-        margin-bottom:20px;
-    }
-    .kpi{
-        background:var(--surface);
-        border:1px solid var(--line);
-        border-radius:20px;
-        box-shadow:var(--shadow);
-        padding:18px 22px;
-        display:flex;
-        align-items:center;
-        gap:14px;
-    }
-    .kpi .icon{
-        width:44px;
-        height:44px;
-        border-radius:14px;
-        display:grid;
-        place-items:center;
-    }
-    .kpi .label{
-        color:#6b7280;
-        font-weight:600;
-    }
-    .kpi .big{
-        font-weight:800;
-        font-size:26px;
-        margin-top:6px;
-    }
-    .kpi.freq .icon{
-        background:#fde2e5;
-        color:#d9173a;
-    }
-    .kpi.nota .icon{
-        background:#ecebff;
-        color:#4f46e5;
-    }
-    .kpi.situacao .icon{
-        background:#fff1db;
-    }
-    .pill{
-        width:18px;
-        height:18px;
-        border-radius:999px;
-        background:var(--accent);
-    }
-    .kpi.situacao .big{
-        color:#f59e0b;
-    }
-
-    .tabs{
-        display:flex;
-        gap:24px;
-        margin:2px 0 12px;
-    }
-    .tab{
-        padding:10px 6px;
-        font-weight:700;
-        color:#4b5563;
-        border:none;
-        background:transparent;
-        border-bottom:2px solid transparent;
-        cursor:pointer;
-    }
-    .tab.active{
-        color:var(--brand);
-        border-color:var(--brand);
-    }
-
-    .chart-card{
-        background:#fff;
-        border:1px solid var(--line);
-        border-radius:20px;
-        box-shadow:var(--shadow);
-        padding:14px 22px;
-    }
-    .tab-panel{
-        display:none;
-    }
-    .tab-panel.active{
-        display:block;
-    }
-    .reco-card{
-        background:#d9d9d9;
-        color:#374151;
-        border-radius:20px;
-        padding:22px 24px;
-        box-shadow:0 8px 22px rgba(16,24,40,.06);
-        font-weight:600;
-        line-height:1.45;
-    }
-  </style>
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <link rel="stylesheet" href="css/curso_aluno.css">
 </head>
-<body>
-  <header class="topbar">
-    <div class="topbrand">
-      <span><img src="assets/imgs/logoEvora.svg"></span>
-    </div>
-    <img class="top-avatar" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=256&auto=format&fit=crop" alt="Usuária"/>
-  </header>
 
-  <div class="app">
-    <aside class="sidebar">
-      <nav class="nav">
-        <section class="menu">
-          <ul class="categories" style="list-style: none;">
-            <li class="active"><a href="dashboard_home.html"><i class="fi fi-rr-home"></i>Dashboard</a></li>
-            <li><a href="dash_cursos.html"><i class="fi fi-rr-users-alt"></i>Cursos</a></li>
-            <li><a href="dash_alerta.html"><i class="fi fi-rr-bell"></i>Alertas</a></li>
-            <li class="categories_two"><a href="configuracoes.html"><i class="fi fi-rr-settings"></i>Configurações</a></li>
-          </ul>
-        </section>
-      </nav>
-    </aside>
+<body>
+    
+    <header>
+        <nav id="nav_bar">
+            <div id="nav_logo">
+                <img src="assets/imgs/logoEvora.svg" alt="Logo Évora">
+                <h2>Évora</h2>
+            </div>
+            
+            <img class="top-avatar"
+                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=256&auto=format&fit=crop"
+                alt="Usuária" />
+        </nav>
+    </header>
 
     <main>
-      <div class="content page">
-        <div class="header">
-          <h1>Aluno: Sabrina F.</h1>
-        </div>
-
-        <div class="kpis">
-          <div class="kpi freq">
-            <div class="icon">🚨</div>
-            <div>
-              <div class="label" style="color: red;">Frequência</div>
-              <div class="big" style="color:#e11d48">73.5%</div>
+        
+        <section class="menu">
+            <ul class="categories">
+                <li><a href="dashboard_home.html"><i class="fi fi-rr-home"></i>Dashboard</a></li>
+                <li class="active"><a href="dash_cursos.html"><i class="fi fi-rr-users-alt"></i>Cursos</a></li> <li><a href="dash_alerta.html"><i class="fi fi-rr-bell"></i>Alertas</a></li>
+                <li class="categories_two"><a href="configuracoes.html"><i class="fi fi-rr-settings"></i>Configurações</a></li>
+            </ul>
+        </section>
+        <section class="content page">
+            
+            <div class="header">
+                <h1>Aluno: Sabrina F.</h1>
             </div>
-          </div>
 
-          <div class="kpi nota">
-            <div class="icon">📝</div>
-            <div>
-              <div class="label" style="color: blue;">Nota Média</div>
-              <div class="big" style="color:#1f3cf0">8.6</div>
+            <div class="kpis">
+                <div class="kpi freq">
+                    <div class="icon">🚨</div>
+                    <div>
+                        <div class="label">Frequência</div>
+                        <div class="big">73.5%</div>
+                    </div>
+                </div>
+                <div class="kpi nota">
+                    <div class="icon">📝</div>
+                    <div>
+                        <div class="label">Nota Média</div>
+                        <div class="big">8.6</div>
+                    </div>
+                </div>
+                <div class="kpi situacao">
+                    <div class="icon">⚠️</div>
+                    <div>
+                        <div class="label">Situação</div>
+                        <div class="big">Atenção</div>
+                    </div>
+                </div>
             </div>
-          </div>
 
-          <div class="kpi situacao">
-            <div class="icon">⚠️</div>
-            <div>
-              <div class="label" style="color:#f59e0b;">Situação</div>
-              <div class="big">Atenção</div>
+            <div class="tabs" id="tabs">
+                <button class="tab active" data-target="#tab-desempenho">Desempenho Individual</button>
+                <button class="tab" data-target="#tab-recomendacao">Recomendação</button>
             </div>
-          </div>
-        </div>
 
-        <div class="tabs" id="tabs">
-          <button class="tab active" data-target="#tab-desempenho">Desempenho Individual</button>
-          <button class="tab" data-target="#tab-recomendacao">Recomendação</button>
-        </div>
+            <div id="tab-desempenho" class="tab-panel active">
+                <div class="chart-card">
+                    <canvas id="mixChart" height="220"></canvas>
+                </div>
+            </div>
 
-        <div id="tab-desempenho" class="tab-panel active">
-          <div class="chart-card">
-            <canvas id="mixChart" height="220"></canvas>
-          </div>
-        </div>
-
-        <div id="tab-recomendacao" class="tab-panel">
-          <div class="reco-card">
-            Converse com o aluno, mande uma mensagem e e-mail em questões de contato.  
-            De acordo com os dados, ele se encontra com perfil de evasão.
-          </div>
-        </div>
-      </div>
+            <div id="tab-recomendacao" class="tab-panel">
+                <div class="reco-card">
+                    Converse com o aluno, mande uma mensagem e e-mail em questões de contato.
+                    De acordo com os dados, ele se encontra com perfil de evasão.
+                </div>
+            </div>
+            
+        </section>
     </main>
-  </div>
 
-  <script>
-    const ctx = document.getElementById('mixChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul'],
-        datasets: [
-          {label: 'Notas', data: [50,35,70,35,60,65,80], backgroundColor: '#1d4ed8', borderRadius: 6, barThickness: 16, borderSkipped: false},
-          {label: 'Frequência', data: [105,70,85,55,95,40,100], backgroundColor: '#f59e0b', borderRadius: 6, barThickness: 16, borderSkipped: false}
-        ]
-      },
-      options: {
-        animation: false,
-        maintainAspectRatio: false,
-        plugins: {legend: {display: true, position: 'top', align: 'end', labels: {boxWidth: 10}}, tooltip: {enabled: true}},
-        scales: {y: {beginAtZero: true, grid: {color: 'rgba(2,79,255,.06)'}}, x: {grid: {display: false}}}
-      }
-    });
-
-    // Tabs
-    (function(){
-      const tabButtons = document.querySelectorAll('#tabs .tab');
-      const panels = document.querySelectorAll('.tab-panel');
-      tabButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          tabButtons.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          panels.forEach(p => p.classList.remove('active'));
-          const target = document.querySelector(btn.dataset.target);
-          if (target) target.classList.add('active');
+    <script>
+        const ctx = document.getElementById('mixChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'],
+                datasets: [
+                    { label: 'Notas', data: [50, 35, 70, 35, 60, 65, 80], backgroundColor: '#1d4ed8', borderRadius: 6, barThickness: 16, borderSkipped: false },
+                    { label: 'Frequência', data: [105, 70, 85, 55, 95, 40, 100], backgroundColor: '#f59e0b', borderRadius: 6, barThickness: 16, borderSkipped: false }
+                ]
+            },
+            options: {
+                animation: false,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: true, position: 'top', align: 'end', labels: { boxWidth: 10 } }, tooltip: { enabled: true } },
+                scales: { y: { beginAtZero: true, grid: { color: 'rgba(2,79,255,.06)' } }, x: { grid: { display: false } } }
+            }
         });
-      });
-    })();
-  </script>
+
+        // Tabs
+        (function () {
+            const tabButtons = document.querySelectorAll('#tabs .tab');
+            const panels = document.querySelectorAll('.tab-panel');
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    panels.forEach(p => p.classList.remove('active'));
+                    const target = document.querySelector(btn.dataset.target);
+                    if (target) target.classList.add('active');
+                });
+            });
+        })();
+    </script>
 </body>
 </html>

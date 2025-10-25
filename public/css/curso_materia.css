@@ -1,20 +1,20 @@
 .container_one_page {
     display: flex;
     flex-direction: column;
-    padding: 10px; /* padding igual em todos os lados */
-    height: calc(100vh - 0px); /* subtrai o padding total vertical */
-    box-sizing: border-box; /* inclui padding no cálculo total */
-    gap: 10px; /* espaçamento entre os elementos filhos */
+    padding: 20px; 
+    height: calc(100vh - 0px); 
+    box-sizing: border-box; 
+    gap: 20px; 
 }
 
 #div_parte_indicadores,
 #div_parte_graficos,
 #div_parte_alunos {
-    width: calc(100% - 0px); /* subtrai o padding horizontal total */
-    margin: 0 auto; /* centraliza os elementos */
+    width: calc(100% - 0px); 
+    margin: 0 auto; 
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
     box-sizing: border-box;
 }
 
@@ -33,6 +33,7 @@
 
 #div_parte_indicadores {
     height: 25%;
+    margin-bottom: 20px;
 }
 
 #div_nomeMateria {
@@ -45,7 +46,7 @@
     height: 70%;
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 20px;
 }
 
 .indicador {
@@ -53,7 +54,6 @@
     height: 100%;
     background-color: white;
     border-radius: 10px;
-    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
     display: flex;
     flex-direction: row;
 }
@@ -86,7 +86,7 @@
     width: 70%;
     height: 100%;
     box-sizing: border-box;
-    padding: 10px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -110,7 +110,61 @@
 
 #div_parte_graficos {
     height: 60%;
-    background-color: rgba(89, 0, 255, 0.274);
+    display: flex;
+    flex-direction: row;
+}
+
+#div_parte_graficos h3 {
+    color: #256297;
+}
+
+#div_grafico_notas {
+    height: 100%;
+    width: 65%;
+}
+
+.div_graficoTitulo {
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.div_bar {
+    width: 100%;
+    height: 90%; 
+    background-color: #ffffff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#barChart {
+    width: 90% !important;
+    height: 80% !important; 
+    position: relative;
+}
+
+#div_grafico_frequencia {
+    height: 100%;
+    width: 35%;
+}
+
+.div_pizza {
+    width: 100%; 
+    height: 90%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#pieChart {
+    width: 350px !important; 
+    height: 350px !important; 
+    position: relative; 
 }
 
 #div_parte_alunos {

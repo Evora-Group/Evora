@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/dash_home.css">
-    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link rel="stylesheet" href="css/dash_home.css"> <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
     <title>Home Dashboard</title>
 </head>
 
@@ -30,6 +29,7 @@
                 </li></a>
             </ul>
         </section>
+
         <section class="content">
             <section class="container_one_page">
                 <div>
@@ -39,13 +39,12 @@
                 <div class="kpis">
                     <div class="low_avg">
                         <div>
-                        <img src="assets/imgs/Ellipse 33.svg" alt="">
-                        <i class="fi fi-rr-chart-mixed icon"></i>
-
+                            <img src="assets/imgs/Ellipse 33.svg" alt="">
+                            <i class="fi fi-rr-chart-mixed icon"></i>
                         </div>
                         <div class="div_kpi">
-                        <p>Alunos abaixo da média</p>
-                        <p class="title_number">30%</p>
+                            <p>Alunos abaixo da média</p>
+                            <p class="title_number">30%</p>
                         </div>
                     </div>
 
@@ -54,7 +53,6 @@
                             <img src="assets/imgs/Ellipse 33.svg" alt="">
                             <i class="fi fi-rr-triangle-warning icon"></i>
                         </div>
-
                         <div class="div_kpi">
                             <p class="title_p">Alunos com frequência abaixo de 75%</p>
                             <p class="title_number">500</p>
@@ -63,7 +61,7 @@
                     <div class="qtd_alunos">
                         <div>
                             <img src="assets/imgs/Ellipse 33.svg" alt="">
-                        <i class="fi fi-rr-users-alt icon"></i>
+                            <i class="fi fi-rr-users-alt icon"></i>
                         </div>
                         <div class="div_kpi">
                             <p class="title_p">Quantidade de alunos matriculados na instituição</p>
@@ -72,96 +70,116 @@
                     </div>
                 </div>
 
-                <section class="graphics">
-                    <div class="titles">
-                        <div class="title_graphic1">
-                            <p class="title_p">Porcentagem de alunos abaixo de 75%</p>
-                        </div>
+                <section class="charts-container">
+                    
+                    <div class="chart-card">
+                        <h3>Top 5 Cursos com Maior Risco</h3>
+                        <canvas id="percentageChart"></canvas> </div>
+                    
+                    <div class="chart-card">
+                        <h3>Quantidade de Evasão</h3>
+                        <canvas id="dropoutChart"></canvas> </div>
 
-                        <div class="title_graphic2">
-                            <p>Quantidade Evasão</p>
-                        </div>
-                    </div>
-
-                    <section class="graphic_one">
-
-                        <div class="contem_grafico">
-                            <div>
-                                <canvas id="myChart"></canvas>
-                            </div>
-                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-                            <div>
-                                <canvas id="myChart2"></canvas>
-                            </div>
-                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                        </div>
-
-
-                    </section>
                 </section>
-
-            </section>
+                </section>
         </section>
     </main>
-</body>
 
-</html>
-<script>
-
-    const ctx = document.getElementById('myChart');
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
-            datasets: [{
-                label: 'Alunos ',
-                data: [27, 19, 79, 50, 78, 200],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 100, // limite do gráfico (100%)
-                    ticks: {
-                        stepSize: 15, // de 15 em 15
-                        callback: function (value) {
-                            return value + '%'; // adiciona o símbolo de porcentagem
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        // ----- GRÁFICO 1 (BARRAS - TOP 5 CURSOS) -----
+        const ctx1 = document.getElementById('percentageChart');
+        if (ctx1) { 
+            new Chart(ctx1, {
+                type: 'bar', 
+                data: {
+                    labels: ['Pedagogia', 'Biologia', 'Quimica', 'Direito', 'T.I'],
+                    datasets: [{
+                        label: 'Índice de Risco',
+                        data: [78, 60, 50, 40, 30], 
+                        backgroundColor: [ 
+                            '#E57373', 
+                            '#F7B84B', 
+                            '#FFD54F', 
+                            '#81C784', 
+                            '#64B5F6'  
+                        ],
+                        borderWidth: 0 
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false 
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100, 
+                            ticks: {
+                                stepSize: 25,
+                                callback: function (value) {
+                                    return value + '%'; 
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false 
+                            }
                         }
                     }
                 }
-            }
+            });
         }
-    });
 
 
-    // ----- GRÁFICO 2 (LINHA SEM PORCENTAGEM) -----
-    const ctxx = document.getElementById('myChart2');
-    new Chart(ctxx, {
-        type: 'line',
-        data: {
-            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
-            datasets: [{
-                label: 'Evasão (Qtd de alunos)',
-                data: [10, 15, 7, 20, 14, 9],
-                borderWidth: 2,
-                borderColor: '#27AE60',
-                tension: 0.3, // suaviza as curvas
-                fill: false,
-                pointBackgroundColor: '#27AE60'
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 5 // números inteiros, sem porcentagem
+        // ----- GRÁFICO 2 (EVASÃO - LINHA VERDE/AZUL) -----
+        const ctx2 = document.getElementById('dropoutChart');
+        if (ctx2) { 
+            new Chart(ctx2, {
+                type: 'line', 
+                data: {
+                    labels: ['Jan', 'Fev', 'Mar', 'April', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Evasão (Qtd de alunos)',
+                        data: [20, 40, 10, 80, 70, 40, 110], 
+                        borderWidth: 3,
+                        borderColor: '#44A1A0',       
+                        pointBackgroundColor: '#44A1A0', 
+                        tension: 0.4,                  
+                        fill: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false 
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 150, 
+                            ticks: {
+                                stepSize: 50
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false 
+                            }
+                        }
                     }
                 }
-            }
+            });
         }
-    });
-</script>
+    </script>
+</body>
+</html>

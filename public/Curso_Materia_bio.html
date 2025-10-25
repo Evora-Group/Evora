@@ -1,406 +1,247 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <title>Dashboard - Curso</title>
-  <link rel="shortcut icon" href="/assets/imgs/logoEvora.svg" type="image/x-icon">
-  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="css/dash_cursos.css">
-  
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background-color: #f5f7fb;
-      color: #1f2937;
-    }
-
-    .app {
-      display: grid;
-      grid-template-columns: 260px 1fr;
-      margin-top: 56px; 
-    }
-
-    .sidebar {
-      background: #ffffff;
-      border-right: 1px solid #e5e7eb;
-      padding: 24px 12px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      color: #0ea5e9;
-      margin: 6px 8px 24px;
-    }
-
-    .nav {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .nav a {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
-      border-radius: 12px;
-      text-decoration: none;
-      color: #1f2937;
-      font-weight: 500;
-    }
-
-    .nav a.active {
-      background: #f0f6ff;
-      color: #0ea5e9;
-      border-left: 4px solid #0ea5e9;
-    }
-
-    .global-topbar {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      background: #dcdfe3;
-      border-bottom: 1px solid #cfd4da;
-      z-index: 50;
-    }
-
-    .avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .content {
-      padding: 20px 40px;
-      height: calc(100vh - 60px);
-      overflow-y: auto;
-      background: #f5f7fb;
-    }
-
-    .cards {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 30px;
-      margin-top: 10px;
-    }
-
-    .card {
-      flex: 1 1 400px;
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-
-    .card .icon {
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 12px;
-      background: #fdeef0;
-      color: #d00;
-      font-size: 22px;
-    }
-
-    .card .info {
-      text-align: right;
-    }
-
-    .card .label {
-      color: #6b7280;
-      font-size: 14px;
-    }
-
-    .card .value {
-      color: #ef4444;
-      font-weight: 800;
-      font-size: 20px;
-    }
-
-    .charts {
-   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 24px;
-  width: 500px;
-    }
-
-    .chart-box {
-      background: #fff;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      padding: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-
-  
-.people-panels{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 28px;
-  margin-top: 28px;
-}
-
-
-.panel-title{
-  margin: 0 0 12px 0;
-  color: #4b5563;      
-  font-size: 18px;
-  font-weight: 700;
-}
-
-
-.people-card{
-  background:#ffffff;
-  border:1px solid #eef2f7;
-  border-radius:20px;
-  box-shadow:0 8px 22px rgba(16,24,40,.06);
-  padding: 18px 18px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-
-.people-card .people{
-  gap: 28px;
-  margin: 0;             
-}
-
-
-.pill-btn{
-  width:40px;height:40px;border-radius:999px;
-  border:1px solid #eef2f7;background:#fff;
-  box-shadow:0 6px 16px rgba(16,24,40,.08);
-  display:grid;place-items:center;cursor:pointer;
-}
-.pill-btn svg{width:18px;height:18px;color:#6b7280}
-
-
-    .people-section {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      margin-top: 40px;
-    }
-
-    .people {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 30px;
-    }
-
-    .person {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .photo {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 3px solid #fff;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-    }
-
-    .photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .name {
-      font-size: 14px;
-      color: #6b7280;
-    }
-  </style>
-  <style>
-    .topbrand{display:flex;align-items:center;gap:10px;color:#0ea5e9;font-weight:700}
-    .topbrand svg{width:26px;height:26px}
-    .top-avatar{width:40px;height:40px;border-radius:50%;object-fit:cover}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/dash_home.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <title>Dashboard Cursos</title>
+    <link rel="stylesheet" href="css/curso_materia.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 </head>
+
 <body>
-  
-  <header class="global-topbar">
-    <div class="topbrand">
-      <img src="/assets/imgs/logoEvora.svg" >
-    </div>
-    <img class="top-avatar" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=256&auto=format&fit=crop" alt="Usuária" />
-  </header>
-  <div class="app">
-    <aside class="sidebar">
-  
-      <nav>
- <section class="menu">
-            <ul class="categories">
-                <li class="active"><a href="dashboard_home.html"><i class="fi fi-rr-home"></i>Dashboard</li></a>
-                <li><a href="dash_cursos.html"><i class="fi fi-rr-users-alt"></i>Cursos</li></a>
-                <li><a href="dash_alerta.html"><i class="fi fi-rr-bell"></i>Alertas</li></a>
-
-                <li class="categories_two"><a href="configuracoes.html"><i class="fi fi-rr-settings"></i>Configurações</li></a>
-            </ul>
-        </section>
-
-
-      </nav>
-    </aside>
+    <header>
+        <nav id="nav_bar">
+            <div id="nav_logo">
+                <img src="assets/imgs/logoEvora.svg" alt="">
+                <h2>Évora</h2>
+            </div>
+        </nav>
+    </header>
 
     <main>
-   
+        <section class="menu">
+            <ul class="categories">
 
-      <div class="content">
-        <h2 style="color: blue;">Biomedicina</h2>
-        <div class="cards">
-          <div class="card">
-            <div class="icon">🧑🏾</div>
-            <div class="info">
-              <span class="label">Quantidade de Alunos com risco de faltas</span>
-              <span class="value">53</span>
-            </div>
-          </div>
+                <li><a href="dashboard_home.html"><i class="fi fi-rr-home"></i>Dashboard</li></a>
+                <li class="active"><a href="dash_cursos.html"><i class="fi fi-rr-users-alt"></i>Cursos</li></a>
+                <li><a href="dash_alerta.html"><i class="fi fi-rr-bell"></i>Alertas</li></a>
 
-          <div class="card">
-            <div class="icon">📝</div>
-            <div class="info">
-              <span class="label">Quantidade de Alunos com risco de notas</span>
-              <span class="value">13</span>
-            </div>
-          </div>
-        </div>
+                <li class="categories_two"><a href="configuracoes.html"><i class="fi fi-rr-settings"></i>Configurações
+                </li></a>
 
-        <div class="charts">
-          <div class="chart-box">
-            <h2 style="color: blue;">Nota média por Aluno</h2>
-            <canvas id="barChart" height="250"></canvas>
-          </div>
+            </ul>
+        </section>
+        <section class="content">
+            <section class="container_one_page">
 
-          <div class="chart-box">
-            <h2 style="color: blue;">Frequência</h2>
-            <canvas id="pieChart" height="250"></canvas>
-          </div>
-        </div>
+                <div id="div_parte_indicadores">
 
-    <div class="people-panels">
+                    <div id="div_nomeMateria" class="div_titulos">
+                        <h2>Biomedicina</h2>
+                    </div>
 
-  <div class="panel">
-    <h2 class="panel-title"style="color: blue;" >Alunos situação de Problema e Atenção</h2>
-    <div class="people-card">
-      <div class="people">
-        <div class="person">
-          <div class="photo"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=256&auto=format&fit=crop"/></div>
-          <div class="name">Sabrina F.</div>
-        </div>
-        <div class="person">
-          <div class="photo"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=256&auto=format&fit=crop"/></div>
-          <div class="name">Romário S.</div>
-        </div>
-        <div class="person">
-          <div class="photo"><img src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=256&auto=format&fit=crop"/></div>
-          <div class="name">Paulo M.</div>
-        </div>
-      </div>
+                    <div id="div_indicadores">
+                        <div class="indicador div_conteudos">
+                            <div class="icone">
+                                <div class="circuloIcone"><i class="fi fi-rr-running"></i></div>
+                            </div>
+                            <div class="info">
+                                <p class="p_titulo">Quantidade de Alunos com risco de faltas</p>
+                                <p class="p_subtitulo">53</p>
+                            </div> 
+                        </div>
+                        <div class="indicador div_conteudos">
+                            <div class="icone">
+                                <div class="circuloIcone"><i class="fi fi-rr-ballot"></i></div>
+                            </div>
+                            <div class="info">
+                                <p class="p_titulo">Quantidade de Alunos com risco de notas</p>
+                                <p class="p_subtitulo">13</p>
+                            </div>
+                        </div>
+                    </div>
 
-      <button class="pill-btn" aria-label="avançar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M9 18l6-6-6-6"/>
-        </svg>
-      </button>
-    </div>
-  </div>
+                </div>
 
-  <div class="panel">
-    <h2 class="panel-title" style="color: blue;">Todos os Alunos</h2>
-    <div class="people-card">
-      <div class="people">
-        <div class="person">
-          <div class="photo"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=256&auto=format&fit=crop"/></div>
-          <div class="name">Sabrina F.</div>
-        </div>
-        <div class="person">
-          <div class="photo"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=256&auto=format&fit=crop"/></div>
-          <div class="name">Romário S.</div>
-        </div>
-        <div class="person">
-          <div class="photo"><img src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=256&auto=format&fit=crop"/></div>
-          <div class="name">Paulo M.</div>
-        </div>
-      </div>
+                <div id="div_parte_graficos">
+                    <div id="div_grafico_notas">
+                        <div class="div_graficoTitulo">
+                            <h3>Nota média por mês</h3>
+                        </div>
+                        <div class="div_bar div_conteudos">
+                            <canvas id="barChart" height="250"></canvas>
+                        </div>
+                    </div>
+                    <div id="div_grafico_frequencia">
+                        <div class="div_graficoTitulo">
+                            <h3>Frequência</h3>
+                        </div>
+                        <div class="div_pizza div_conteudos">
+                            <canvas id="pieChart" height="250"></canvas>
+                        </div>
+                    </div>
+                </div>
 
-      <button class="pill-btn" aria-label="avançar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M9 18l6-6-6-6"/>
-        </svg>
-      </button>
-    </div>
-  </div>
+                <div id="div_parte_alunos">
+                    <div id="div_atencaoAlunos">
+                        <div class="div_titulos">
+                            <h3>Alunos situação de Problema e Atenção</h3>
+                        </div>
+                        <div id="div_alunoProblema" class="div_conteudos">
+                            <div class="people-card">
+                                <div class="people">
+                                    <div class="person">
+                                    <div class="photo">
+                                        <a href="t2.html">
+                                        <img src="assets/imgs/anne.png"/>
+                                        </a>
+                                    </div>
+                                    <div class="name">Anne Y.</div>
+                                    </div>
+                                    <div class="person">
+                                    <div class="photo"><img src="assets/imgs/emilly.png"/></div>
+                                    <div class="name">Emilly</div>
+                                    </div>
+                                    <div class="person">
+                                    <div class="photo"><img src="assets/imgs/erick.png"/></div>
+                                    <div class="name">Erick L.</div>
+                                    </div>
+                                </div>
+                                <button class="pill-btn" aria-label="avançar">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 18l6-6-6-6"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="div_todosAlunos">
+                        <div class="div_titulos">
+                            <h3>Todos os Alunos</h3>
+                        </div>
+                        <div id="div_alunoAll" class="div_conteudos">
+                            <div class="people-card">
+                                <div class="people">
+                                    <div class="person">
+                                    <div class="photo">
+                                        <a href="t2.html">
+                                        <img src="assets/imgs/ezequiel.png"/>
+                                        </a>
+                                    </div>
+                                    <div class="name">Ezequiel C.</div>
+                                    </div>
+                                    <div class="person">
+                                    <div class="photo"><img src="assets/imgs/guilherme.png"/></div>
+                                    <div class="name">Guilherme</div>
+                                    </div>
+                                    <div class="person">
+                                    <div class="photo"><img src="assets/imgs/joao.png"/></div>
+                                    <div class="name">João R.</div>
+                                    </div>
+                                    <div class="person">
+                                    <div class="photo"><img src="assets/imgs/emilly.png"/></div>
+                                    <div class="name">Emilly</div>
+                                    </div>
+                                    
+                                </div>
+                                <button class="pill-btn" aria-label="avançar">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 18l6-6-6-6"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-</div>
-
-      </div>
+            </section>
+        </section>
     </main>
-  </div>
+</body>
 
-  <script>
+</html>
+<script>
+
+    Chart.register(ChartDataLabels);
+
     const barCtx = document.getElementById('barChart').getContext('2d');
+    const labelsBar = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro'];
     new Chart(barCtx, {
-      type: 'bar',
-      data: {
-        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'],
-        datasets: [{
-          label: 'Nota média',
-          data: [8.5, 10, 6.5, 2.8, 5.0, 7.9, 8.6],
-          backgroundColor: 'blue',
-          borderRadius: 8,
-          borderSkipped: false,
-        }]
-      },
-      options: {
-        animation: false,
-        scales: {
-          y: { beginAtZero: true },
-          x: { grid: { display: false } }
+        type: 'bar',
+        data: {
+            labels: labelsBar,
+            datasets: [{
+                label: 'Nota média',
+                data: [5, 2, 10, 4, 8, 7, 6, 4, 7, 5],
+                backgroundColor: 'blue',
+                borderWidth: 0
+            }]
         },
-        plugins: { legend: { display: false } }
-      }
+        options: {
+            animation: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 2,
+                        max: 10
+                    }
+                },
+                x: { grid: { display: false } }
+            },
+            plugins: {
+                legend: { display: true },
+                datalabels: {
+                    color: '#fff',
+                    anchor: 'center',
+                    align: 'center',
+                    font: {
+                        weight: 'bold',
+                        size: 14
+                    }
+                }
+            }
+        }
     });
 
     const pieCtx = document.getElementById('pieChart').getContext('2d');
     new Chart(pieCtx, {
-      type: 'pie',
-      data: {
-        labels: ['Situação NOK (30%)', 'Situação OK (70%)'],
-        datasets: [{
-          data: [30, 70],
-          backgroundColor: ['blue', '#0ea5e9'],
-          borderWidth: 2,
-          borderColor: '#fff'
-        }]
-      },
-      options: {
-        animation: false,
-        plugins: { legend: { display: false } }
-      }
+        type: 'pie',
+        data: {
+            labels: ['Situação NOK', 'Situação OK'],
+            datasets: [{
+                data: [30, 70],
+                backgroundColor: ['blue', '#0ea5e9'],
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            animation: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'right', // Posição da legenda
+                    labels: {
+                        usePointStyle: true, // Usa pontos ao invés de quadrados na legenda
+                        padding: 20 // Espaçamento entre itens da legenda
+                    }
+                },
+                datalabels: { // Plugin para mostrar as porcentagens
+                    formatter: (value, ctx) => {
+                        return value + '%';
+                    },
+                    color: '#fff',
+                    font: {
+                        weight: 'bold',
+                        size: 16
+                    }
+                }
+            }
+        }
     });
-  </script>
-</body>
-</html>
+</script>

@@ -44,8 +44,8 @@
                         <h2>Tecnologia da Informação</h2>
                     </div>
 
-                    <div id="div_indicadores" class="div_conteudos">
-                        <div class="indicador">
+                    <div id="div_indicadores">
+                        <div class="indicador div_conteudos">
                             <div class="icone">
                                 <div class="circuloIcone"><i class="fi fi-rr-running"></i></div>
                             </div>
@@ -54,7 +54,7 @@
                                 <p class="p_subtitulo">53</p>
                             </div> 
                         </div>
-                        <div class="indicador">
+                        <div class="indicador div_conteudos">
                             <div class="icone">
                                 <div class="circuloIcone"><i class="fi fi-rr-ballot"></i></div>
                             </div>
@@ -72,7 +72,7 @@
                         <div class="div_graficoTitulo">
                             <h3>Nota média por mês</h3>
                         </div>
-                        <div class="div_bar">
+                        <div class="div_bar div_conteudos">
                             <canvas id="barChart" height="250"></canvas>
                         </div>
                     </div>
@@ -80,13 +80,26 @@
                         <div class="div_graficoTitulo">
                             <h3>Frequência</h3>
                         </div>
-                        <div class="div_pizza">
+                        <div class="div_pizza div_conteudos">
                             <canvas id="pieChart" height="250"></canvas>
                         </div>
                     </div>
                 </div>
 
-                <div id="div_parte_alunos"></div>
+                <div id="div_parte_alunos">
+                    <div id="div_atencaoAlunos">
+                        <div class="div_titulos">
+                            <h3>Alunos situação de Problema e Atenção</h3>
+                        </div>
+                        <div id="div_alunoProblema" class="div_conteudos"></div>
+                    </div>
+                    <div id="div_todosAlunos">
+                        <div class="div_titulos">
+                            <h3>Todos os Alunos</h3>
+                        </div>
+                        <div id="div_alunoAll" class="div_conteudos"></div>
+                    </div>
+                </div>
 
             </section>
         </section>
@@ -95,7 +108,7 @@
 
 </html>
 <script>
-    
+
     Chart.register(ChartDataLabels);
 
     const barCtx = document.getElementById('barChart').getContext('2d');

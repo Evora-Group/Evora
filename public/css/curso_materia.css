@@ -1,0 +1,119 @@
+.container_one_page {
+    display: flex;
+    flex-direction: column;
+    padding: 10px; /* padding igual em todos os lados */
+    height: calc(100vh - 0px); /* subtrai o padding total vertical */
+    box-sizing: border-box; /* inclui padding no cálculo total */
+    gap: 10px; /* espaçamento entre os elementos filhos */
+}
+
+#div_parte_indicadores,
+#div_parte_graficos,
+#div_parte_alunos {
+    width: calc(100% - 0px); /* subtrai o padding horizontal total */
+    margin: 0 auto; /* centraliza os elementos */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-sizing: border-box;
+}
+
+.div_titulos {
+    color: #343c63;
+}
+
+.div_titulos h2 {
+    margin: 0;
+    padding: 0;
+}
+
+.div_conteudos {
+    
+}
+
+#div_parte_indicadores {
+    height: 25%;
+}
+
+#div_nomeMateria {
+    width: 100%;
+    height: 30%;
+}
+
+#div_indicadores {
+    width: 100%;
+    height: 70%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.indicador {
+    width: 30%;
+    height: 100%;
+    background-color: white;
+    border-radius: 10px;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+    display: flex;
+    flex-direction: row;
+}
+
+ .icone {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circuloIcone {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-color: #FE8484;
+}
+
+.icone i {
+    color: #b43934;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.info {
+    width: 70%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.indicador p {
+    font-weight: bold;
+}
+
+.p_titulo {
+    text-align: left;
+    color: gray;
+    font-size: 15px;
+}
+
+.p_subtitulo {
+    text-align: center;
+    color: #b43934;
+    font-size: 18px;
+}
+
+#div_parte_graficos {
+    height: 60%;
+    background-color: rgba(89, 0, 255, 0.274);
+}
+
+#div_parte_alunos {
+    height: 20%;
+    background-color: rgba(255, 217, 0, 0.247);
+}

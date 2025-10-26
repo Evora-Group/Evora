@@ -293,3 +293,12 @@ main {
     line-height: 1.45;
     width: 80%;
 }
+
+ul.sub-categories {
+        list-style: none;
+        padding-left: 12px;
+        background-color: rgba(0, 0, 0, 0.077);
+        border-radius: 0 0 15px 15px;
+        width: 100%;
+
+}

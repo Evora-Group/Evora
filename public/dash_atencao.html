@@ -36,52 +36,35 @@
             </div>
 
             <ul class="cabecalho_one">
-                <li> <a href="dash_alerta.html">Preocupante</a></li>
-                <li id="ativo">Atenção</li>
+                <li><a href="dash_alerta.html">Preocupante</a></li>
+                <li id="ativo"><a href="dash_atencao.html"> Atenção</a></li>
             </ul>
 
-            <section class="table">
-
+            <div class="tabela-alertas">
                 <div class="cabecalho">
                     <p>Aluno</p>
                     <p>Turma</p>
                     <p>Descrição</p>
-                    <p>Frequência de Acesso</p>
+                    <p>Acesso</p>
                     <p>Presença Geral</p>
-
-                    <div class="dados_linha">
-                        <div class="coluna_alunos">
-                            <p>Julia</p>
-                            <p>Paulo</p>
-                            <p>Jaqueline</p>
-                        </div>
-
-                        <div class="coluna_turma">
-                            <p>3C Física</p>
-                            <p>1B Filosofia</p>
-                            <p>2A Filosofia</p>
-                        </div>
-
-                  <div class="coluna_descricao">
-                    <p>Tirou 4 na última prova da matéria HdA</p>
-                    <p>Tirou 3 na prova da matéria de Cálculo</p>
-                    <p>Falta a 2 semanas seguidas</p>
-                  </div>
-
-                  <div class="coluna_freq">
-                    <p >70%</p>
-                    <p >62%</p>
-                    <p >55%</p>
-                  </div>
-
-                  <div class="coluna_presenca indicador_atencao"> 
-                    <p>80%</p>
-                    <p>75%</p>
-                    <p>78%</p>
-                  </div>
                 </div>
+
+                <div class="dados_linha">
+                    <div data-label="Aluno">Ravi Matos</div>
+                    <div data-label="Turma">1B</div>
+                    <div data-label="Descrição">Faltou na aula de hoje</div>
+                    <div data-label="Frequência">81%</div>
+                    <div data-label="Presença">76%</div>
                 </div>
-            </section>
+
+                <div class="dados_linha">
+                    <div data-label="Aluno">Luna Vieira</div>
+                    <div data-label="Turma">4C</div>
+                    <div data-label="Descrição">Faltou na aula de hoje</div>
+                    <div data-label="Frequência">78%</div>
+                    <div data-label="Presença">75%</div>
+                </div>
+            </div>
         </section>
     </main>
 </body>

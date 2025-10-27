@@ -164,6 +164,8 @@ main {
     color: #007BFF;
 }
 
+
+
 .content {
     display: flex;
     flex-direction: column;
@@ -175,8 +177,9 @@ main {
 
 .header {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: start;
+    justify-content: start;
+    flex-direction: column;
     margin: 6px 0 16px;
 }
 
@@ -184,6 +187,11 @@ main {
     font-size: 24px;
     font-weight: 600;
     color: #111827;
+}
+
+.header h3 {
+    font-size: 16px;
+    font-weight: normal;
 }
 
 .kpis {
@@ -301,4 +309,114 @@ ul.sub-categories {
         border-radius: 0 0 15px 15px;
         width: 100%;
 
+}
+
+/* ===== Responsividade ===== */
+@media (max-width: 1200px) {
+    .menu {
+        width: 220px;
+    }
+    .kpis {
+        height: 1rem;
+        padding-bottom: 6rem;
+    }
+    .chart-card {
+        margin-right: 0;
+        height: 35vh;
+    }
+    .reco-card {
+        width: 90%;
+    }
+
+    ul.sub-categories {
+        border-radius: 20px;
+    }
+}
+
+@media (max-width: 900px) {
+      body {
+        overflow-x: hidden;
+    }
+
+    main {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .menu {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        overflow-x: auto;
+    }
+
+    .categories {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+    }
+
+    .categories li {
+        white-space: nowrap;
+    }
+
+     .categories li.active::before {
+        margin: 0;
+        padding: 0;
+        width: 0;
+    }
+
+    .kpis {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .tabs {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .chart-card, .reco-card {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .categories_two, .categories_two a {
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .categories li a span {
+        display: none; /* economiza espaço em telas pequenas */
+    }
+
+    #nav_logo h2 {
+        display: none;
+    }
+    .top-avatar {
+        width: 32px;
+        height: 32px;
+    }
+    .kpi {
+        flex-basis: 100%;
+    }
+    .header h1 {
+        font-size: 20px;
+    }
+    .header h3 {
+        font-size: 14px;
+    }
+    .tabs {
+        gap: 8px;
+    }
+    .tab {
+        font-size: 0.875rem;
+        padding: 8px 4px;
+    }
+    ul.sub-categories {
+        position: relative;
+        z-index: 20;
+    }
 }

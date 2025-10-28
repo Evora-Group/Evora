@@ -23,25 +23,28 @@
     </header>
 
     <main>
-        <section class="menu">
+        <aside class="menu">
             <ul class="categories">
+                <li><a href="dashboard_home.html"><i class="fi fi-rr-home"></i> <span>Dashboard</span></a></li>
 
-                <li><a href="dashboard_home.html"><i class="fi fi-rr-home"></i>Dashboard</li></a>
-                <li class="active"><a href="dash_cursos.html"><i class="fi fi-rr-users-alt"></i>Cursos</li></a>
-                <li>
-                    <ul class="sub-categories">
-                        <li class="active"><a href=""><i class="fi fi-rr-users-alt"></i>Tecnologia da Informação</a></li>
-                        <li><a href="./Curso_Materia_bio.html"><i class="fi fi-rr-users-alt"></i>Biomedicina</a></li>
-                        <li><a href="./Curso_Materia_quimica.html"><i class="fi fi-rr-users-alt"></i>Química</a></li>
-                    </ul>
+                <!-- Item de Cursos com dropdown -->
+                <li class="dropdown">
+                <button class="dropdown-btn">
+                    <i class="fi fi-rr-users-alt"></i> 
+                    <span>Cursos</span>
+                    <i class="fi fi-rr-angle-down arrow-icon"></i>
+                </button>
+                <ul class="sub-categories">
+                    <li class="active"><a href="">Tecnologia da Informação</a></li>
+                    <li><a href="./Curso_Materia_bio.html">Biomedicina</a></li>
+                    <li><a href="./Curso_Materia_quimica.html">Química</a></li>
+                </ul>
                 </li>
-                <li><a href="dash_alerta.html"><i class="fi fi-rr-bell"></i>Alertas</li></a>
 
-                <li class="categories_two"><a href="configuracoes.html"><i class="fi fi-rr-settings"></i>Configurações
-                </li></a>
-
+                <li><a href="dash_alerta.html"><i class="fi fi-rr-bell"></i> <span>Alertas</span></a></li>
+                <li><a href="configuracoes.html"><i class="fi fi-rr-settings"></i> <span>Configurações</span></a></li>
             </ul>
-        </section>
+        </aside>
         <section class="content">
             <section class="container_one_page">
 
@@ -58,7 +61,7 @@
                             </div>
                             <div class="info">
                                 <p class="p_titulo">Quantidade de Alunos com risco de faltas</p>
-                                <p class="p_subtitulo">53</p>
+                                <p class="p_subtitulo">23</p>
                             </div> 
                         </div>
                         <div class="indicador div_conteudos">
@@ -67,7 +70,7 @@
                             </div>
                             <div class="info">
                                 <p class="p_titulo">Quantidade de Alunos com risco de notas</p>
-                                <p class="p_subtitulo">13</p>
+                                <p class="p_subtitulo">6</p>
                             </div>
                         </div>
                     </div>
@@ -168,87 +171,6 @@
             </section>
         </section>
     </main>
+    <script src="./js/curso-materia.js"></script>
 </body>
-
 </html>
-<script>
-
-    Chart.register(ChartDataLabels);
-
-    const barCtx = document.getElementById('barChart').getContext('2d');
-    const labelsBar = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro'];
-    new Chart(barCtx, {
-        type: 'bar',
-        data: {
-            labels: labelsBar,
-            datasets: [{
-                label: 'Nota média',
-                data: [5, 2, 10, 4, 8, 7, 6, 4, 7, 5],
-                backgroundColor: 'blue',
-                borderWidth: 0
-            }]
-        },
-        options: {
-            animation: false,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 2,
-                        max: 10
-                    }
-                },
-                x: { grid: { display: false } }
-            },
-            plugins: {
-                legend: { display: true },
-                datalabels: {
-                    color: '#fff',
-                    anchor: 'center',
-                    align: 'center',
-                    font: {
-                        weight: 'bold',
-                        size: 14
-                    }
-                }
-            }
-        }
-    });
-
-    const pieCtx = document.getElementById('pieChart').getContext('2d');
-    new Chart(pieCtx, {
-        type: 'pie',
-        data: {
-            labels: ['Situação NOK', 'Situação OK'],
-            datasets: [{
-                data: [30, 70],
-                backgroundColor: ['blue', '#0ea5e9'],
-                borderWidth: 2,
-                borderColor: '#fff'
-            }]
-        },
-        options: {
-            animation: false,
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'right', // Posição da legenda
-                    labels: {
-                        usePointStyle: true, // Usa pontos ao invés de quadrados na legenda
-                        padding: 20 // Espaçamento entre itens da legenda
-                    }
-                },
-                datalabels: { // Plugin para mostrar as porcentagens
-                    formatter: (value, ctx) => {
-                        return value + '%';
-                    },
-                    color: '#fff',
-                    font: {
-                        weight: 'bold',
-                        size: 16
-                    }
-                }
-            }
-        }
-    });
-</script>

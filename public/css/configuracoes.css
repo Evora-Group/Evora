@@ -91,7 +91,6 @@ main {
     color: #007BFF;
 }
 
-
 /* Estilo do item ativo (Configurações) */
 .categories li.active a {
     color: blue;
@@ -124,7 +123,6 @@ main {
     gap: 0.8rem;
     display: flex;
     align-items: center;
-    margin-top: 2rem;
 }
 
 
@@ -275,4 +273,115 @@ main {
 
 .save-button:hover {
     background-color: rgb(8, 8, 224);
+}
+
+/* RESPONSIVIDADE */
+
+/* Para telas menores que 1024px */
+@media (max-width: 1024px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    main {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .menu {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        overflow-x: auto;
+    }
+
+    .categories {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+    }
+
+    .categories li {
+        white-space: nowrap;
+    }
+
+     .categories li.active::before {
+        margin: 0;
+        padding: 0;
+        width: 0;
+    }
+
+    .container {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        padding-top: 1rem;
+        margin-top: 0;
+        height: auto;
+    }
+
+    .settings-card {
+        padding: 1rem;
+        width: 80%;
+    }
+
+    .settings-form {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1rem;
+    }
+
+    .profile-picture-container {
+        width: 80px;
+        height: 80px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        max-width: 100%;
+    }
+
+    .tabs {
+        padding: 1rem 1rem 0 1rem;
+    }
+}
+
+/* Para telas menores que 640px (celulares) */
+@media (max-width: 640px) {
+    #nav_logo h2 {
+        font-size: 1rem;
+    }
+
+    .edit-icon-button {
+        width: 24px;
+        height: 24px;
+    }
+
+    .edit-icon-button i {
+        font-size: 0.7rem;
+    }
+
+    .save-button {
+        width: 100%;
+        padding: 0.7rem 0;
+        font-size: 0.9rem;
+    }
+
+    .categories li a span {
+        display: none; /* economiza espaço em telas pequenas */
+    }
+
+    .categories li a i {
+        font-size: 1.2rem;
+    }
+}
+
+/* Ajuste geral para imagens responsivas */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
 }

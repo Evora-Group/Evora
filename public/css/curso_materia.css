@@ -261,11 +261,170 @@
       list-style: none;
     }
 
-ul.sub-categories {
+    ul.sub-categories {
         list-style: none;
         padding-left: 12px;
         background-color: rgba(0, 0, 0, 0.077);
         border-radius: 0 0 15px 15px;
-        width: 100%;
+    }
 
+/* Dropdown menu */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-btn {
+  background: none;
+  border: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: inherit;
+  padding: 10px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dropdown-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-top-right-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.dropdown .arrow-icon {
+  transition: transform 0.3s ease;
+}
+
+.dropdown.open .arrow-icon {
+  transform: rotate(180deg);
+}
+
+.sub-categories {
+  display: none;
+  transition: all 0.3s ease;
+}
+
+.dropdown.open .sub-categories {
+    display: block;
+}
+
+/* Responsividade */
+
+@media (max-width: 1280px) {
+    #div_parte_graficos {
+        flex-direction: column;
+    }
+    #div_grafico_notas,
+    #div_grafico_frequencia {
+        width: 100%;
+        height: 50%;
+    }
+    #pieChart {
+        width: 100% !important;
+        height: auto !important;
+    }
+    #barChart {
+        width: 100% !important;
+        height: auto !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    .indicador {
+        width: 50%;
+    }
+    #div_parte_alunos {
+        flex-direction: column;
+        gap: 20px;
+        height: auto;
+    }
+    #div_atencaoAlunos,
+    #div_todosAlunos {
+        width: 100%;
+        height: auto;
+    }
+    .people {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+    .people-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .pill-btn {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    #div_indicadores {
+        flex-direction: column;
+        gap: 16px;
+    }
+    .indicador {
+        width: 100%;
+    }
+    .info {
+        padding: 6px;
+    }
+    .p_titulo {
+        font-size: 12px;
+    }
+    .p_subtitulo {
+        font-size: 14px;
+    }
+    .div_graficoTitulo h3 {
+        font-size: 16px;
+    }
+    .name {
+        font-size: 12px;
+    }
+    .photo {
+        width: 40px;
+        height: 40px;
+    }
+    .dropdown-btn {
+        display: flex;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #nav_logo h2 {
+        font-size: 16px;
+    }
+    .container_one_page {
+        padding: 10px;
+    }
+    #div_parte_graficos {
+        gap: 10px;
+    }
+    .div_conteudos {
+        padding: 10px;
+    }
+    #barChart,
+    #pieChart {
+        width: 100% !important;
+        height: 250px !important;
+    }
+    .people {
+        gap: 12px;
+    }
+    .pill-btn {
+        width: 36px;
+        height: 36px;
+    }
+    .photo {
+        width: 35px;
+        height: 35px;
+    }
+    .name {
+        font-size: 11px;
+    }
+    .dropdown-btn {
+        display: flex;
+        gap: 0.5rem;
+    }
 }

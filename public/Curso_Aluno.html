@@ -12,7 +12,6 @@
 </head>
 
 <body>
-    
     <header>
         <nav id="nav_bar">
             <div id="nav_logo">
@@ -27,27 +26,24 @@
     </header>
 
     <main>
-        
         <section class="menu">
             <ul class="categories">
-                <li><a href="dashboard_home.html"><i class="fi fi-rr-home"></i>Dashboard</a></li>
-                <li class="active"><a href="dash_cursos.html"><i class="fi fi-rr-users-alt"></i>Cursos</a></li>
+                <li><a href="dashboard_home.html"><i class="fi fi-rr-home"></i><span>Dashboard</span></a></li>
+                <li class="active"><a href="dash_cursos.html"><i class="fi fi-rr-users-alt"></i><span>Cursos</span></a></li>
                 <li>
                     <ul class="sub-categories">
-                        <li class="active"><a href=""><i class="fi fi-rr-users-alt"></i>Anne Y.</a></li>
-                        <li><a href="./Curso_Materia_technologia.html"><i class="fi fi-rr-users-alt"></i>Tecnologia da Informação</a></li>
-                        <li><a href="./Curso_Materia_bio.html"><i class="fi fi-rr-users-alt"></i>Biomedicina</a></li>
-                        <li><a href="./Curso_Materia_quimica.html"><i class="fi fi-rr-users-alt"></i>Química</a></li>
+                        <li><a href=""></i>Anne Y.</a></li>
                     </ul>
                 </li>
-                <li><a href="dash_alerta.html"><i class="fi fi-rr-bell"></i>Alertas</a></li>
-                <li class="categories_two"><a href="configuracoes.html"><i class="fi fi-rr-settings"></i>Configurações</a></li>
+                <li><a href="dash_alerta.html"><i class="fi fi-rr-bell"></i><span>Alertas</span></a></li>
+                <li class="categories_two"><a href="configuracoes.html"><i class="fi fi-rr-settings"></i><span>Configurações</span></a></li>
             </ul>
         </section>
         <section class="content page">
             
             <div class="header">
                 <h1>Aluno: Anne Y.</h1>
+                <h3>Curso: Técnologia da Informação</h3>
             </div>
 
             <div class="kpis">
@@ -95,39 +91,6 @@
         </section>
     </main>
 
-    <script>
-        const ctx = document.getElementById('mixChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'],
-                datasets: [
-                    { label: 'Notas', data: [50, 35, 70, 35, 60, 65, 80], backgroundColor: '#1d4ed8', borderRadius: 6, barThickness: 16, borderSkipped: false },
-                    { label: 'Frequência', data: [105, 70, 85, 55, 95, 40, 100], backgroundColor: '#f59e0b', borderRadius: 6, barThickness: 16, borderSkipped: false }
-                ]
-            },
-            options: {
-                animation: false,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: true, position: 'top', align: 'end', labels: { boxWidth: 10 } }, tooltip: { enabled: true } },
-                scales: { y: { beginAtZero: true, grid: { color: 'rgba(2,79,255,.06)' } }, x: { grid: { display: false } } }
-            }
-        });
-
-        // Tabs
-        (function () {
-            const tabButtons = document.querySelectorAll('#tabs .tab');
-            const panels = document.querySelectorAll('.tab-panel');
-            tabButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    tabButtons.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    panels.forEach(p => p.classList.remove('active'));
-                    const target = document.querySelector(btn.dataset.target);
-                    if (target) target.classList.add('active');
-                });
-            });
-        })();
-    </script>
+    <script src="./js/curso-aluno.js"></script>
 </body>
 </html>

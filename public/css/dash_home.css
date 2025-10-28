@@ -85,19 +85,6 @@ main {
     border-radius: 0 4px 4px 0;
 }
 
-.categories_two a {
-    margin-top: 2rem;
-    list-style: none;
-    padding: 12px 16px;
-    cursor: pointer;
-    position: relative;
-    transition: color 0.3s ease;
-    color: gray;
-    gap: 0.8rem;
-    display: flex;
-    align-items: center;
-}
-
 .categories li a:hover {
     color: #007BFF;
 }
@@ -208,4 +195,188 @@ main {
     width: 100% !important;
 }
 
+/* ---------- RESPONSIVIDADE ---------- */
 
+/* Tablets e telas médias */
+@media (max-width: 1024px) {
+  body {
+        overflow-x: hidden;
+    }
+
+    main {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .menu {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        overflow-x: auto;
+    }
+
+    .categories {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+    }
+
+    .categories li {
+        white-space: nowrap;
+    }
+
+     .categories li.active::before {
+        margin: 0;
+        padding: 0;
+        width: 0;
+    }
+
+    .container_one_page {
+        height: auto;
+        margin-top: 0.5rem;
+        padding-bottom: 2rem;
+    }
+
+    .kpis {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1.5rem;
+    }
+
+    .low_avg,
+    .low_freq,
+    .qtd_alunos {
+        flex-direction: row;
+        gap: 2rem;
+        height: auto;
+    }
+
+    .charts-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .chart-card {
+        width: 100%;
+        min-width: auto;
+    }
+}
+
+/* Celulares e telas pequenas */
+@media (max-width: 768px) {
+        #nav_logo h2 {
+        font-size: 1rem;
+    }
+
+    .edit-icon-button {
+        width: 24px;
+        height: 24px;
+    }
+
+    .edit-icon-button i {
+        font-size: 0.7rem;
+    }
+
+    .save-button {
+        width: 100%;
+        padding: 0.7rem 0;
+        font-size: 0.9rem;
+    }
+
+    .categories li a span {
+        display: none; /* economiza espaço em telas pequenas */
+    }
+    
+    .categories li a i {
+        font-size: 1.2rem;
+    }
+
+    .kpis {
+        margin: 1rem;
+        gap: 1rem;
+    }
+
+    .low_avg,
+    .low_freq,
+    .qtd_alunos {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .low_avg img,
+    .low_freq img,
+    .qtd_alunos img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .icon {
+        font-size: 24px;
+        top: 0.5rem;
+        left: 0.5rem;
+    }
+
+    .charts-container {
+        margin: 1rem;
+        gap: 1rem;
+    }
+
+    .chart-card {
+        padding: 1rem;
+        border-radius: 15px;
+    }
+
+    .chart-card h3 {
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    #percentageChart,
+    #dropoutChart {
+        max-height: 220px;
+    }
+}
+
+/* Telas muito pequenas (≤ 480px) */
+@media (max-width: 480px) {
+    body {
+        font-size: 0.9rem;
+    }
+
+    #nav_logo h2 {
+        font-size: 1rem;
+    }
+
+    .categories li a {
+        font-size: 0.85rem;
+    }
+
+    .low_avg,
+    .low_freq,
+    .qtd_alunos {
+        gap: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .title_number {
+        font-size: 1.2rem;
+    }
+
+    .chart-card {
+        padding: 0.8rem;
+    }
+
+    .chart-card h3 {
+        font-size: 0.9rem;
+    }
+
+    #percentageChart,
+    #dropoutChart {
+        max-height: 180px;
+    }
+}

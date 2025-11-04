@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
@@ -271,12 +270,14 @@
 
         div_percent = document.getElementById("div_percent")
         div_sign_form = document.getElementById("div_sign_form")
+        span_step_progress = document.getElementById("span_text_progress_pass")
 
         if (progress == 0) {
 
             progress++;
             div_percent.style.width = "33%";
             console.log("progress-bar -> 33%")
+            span_step_progress.innerHTML = "Passo 2 de 3"
             div_sign_form.innerHTML = ` 
 
                 <!-- TÍTULO DO FORMULÁRIO -->
@@ -334,6 +335,7 @@
             progress++;
             div_percent.style.width = "66%";
             console.log("progress-bar -> 66%")
+            span_step_progress.innerHTML = "Passo 3 de 3"
             div_sign_form.innerHTML = `
             
 
@@ -399,6 +401,7 @@
 
         div_percent = document.getElementById("div_percent")
         div_sign_form = document.getElementById("div_sign_form")
+        span_step_progress = document.getElementById("span_text_progress_pass")
 
 
         console.log("back_bar")
@@ -408,6 +411,7 @@
             progress--;
             div_percent.style.width = "0%";
             console.log("progress-bar -> 0%")
+            span_step_progress.innerHTML = "Passo 1 de 3"
             div_sign_form.innerHTML = `
 
                
@@ -516,6 +520,8 @@
             progress--;
             div_percent.style.width = "33%";
             console.log("progress-bar -> 33%")
+            span_step_progress.innerHTML = "Passo 2 de 3"
+
             div_sign_form.innerHTML = `
             
 

@@ -38,6 +38,12 @@ body {
     background: #2249cc;
 }
 
+#message{
+
+    resize: none;
+
+}
+
 html {
     scroll-behavior: smooth !important;
 }

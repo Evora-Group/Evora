@@ -1,0 +1,157 @@
+/* ==== 1. Boas Práticas e Variáveis ==== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap');
+
+:root {
+    --font-family: 'Poppins', sans-serif;
+    
+    /* Cores Base */
+    --primary-color: #4487DE; /* Roxo/Azul principal */
+    --primary-color-dark: #3a67cf; /* Roxo/Azul principal */
+    --white-color: #ffffff;
+    --fade-color-dark: #00000021;
+    --bg-color: #EAF3F6; /* Fundo principal da página */
+    
+    /* Cores de Texto */
+    --text-dark: #000000;
+    --text-dark-fade: #000000c2;
+    --text-light: #ffffff;
+
+    /* Tamanho Texto */
+
+    --font-title: 22px;
+
+
+
+    /* Cores de Status */
+    --status-active: #A2FF94;
+    --status-blocked: #4D4D4D;
+
+    /* Outros */
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.144);
+}
+
+/* ==== 2. Reset Global ==== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+}
+
+body{
+    background-color: var(--bg-color);
+    width: 100vw;
+    height: 100vh;
+    font-family: "Roboto", sans-serif;
+    font-size: medium;
+    font-weight: 500;
+}
+
+header{
+    background-color: var(--white-color);
+    padding: 15px;
+    width: 100%;
+    height: 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--card-shadow);
+
+}
+
+header .img_logo{
+    width: 10%;
+    min-width: 100px;
+}
+
+header section{
+    width: 30%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 5%;
+}
+
+
+header section h1{
+    font-size: var(--font-title);
+    font-weight: 500;
+}
+
+header i{
+    font-size: 35px;
+    color: var(--primary-color);
+}
+
+.img_icon_usuario{
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+}
+
+aside{
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    width: 15%;
+    height: 92%;
+    padding-top: 40px;
+    box-shadow: var(--card-shadow);
+}
+
+aside section{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+aside section ul{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+aside section ul li{
+
+    width: 100%;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    
+}
+
+aside section ul li:hover{
+
+    background-color: var(--primary-color-dark);
+
+}
+
+aside section ul li a{
+    
+    color: var(--text-light);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
+    padding: 14%;
+    font-size: var(--font-title);
+
+
+}
+
+
+aside section ul li a i{
+
+    font-size: 30px;
+
+}

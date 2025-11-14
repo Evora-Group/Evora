@@ -380,8 +380,12 @@ main header .kpi{
     z-index: 1;
   }
 
+    summary{
+         list-style: none; /* Remove a setinha/triângulo padrão */
+    }
+
   /* O botão visível */
-  .filtro-dropdown summary {
+  .filtro-dropdown .titulo_sumario {
     background-color: var(--bg-color);
     padding: var(--padding);
     cursor: pointer;
@@ -390,7 +394,7 @@ main header .kpi{
   }
 
   /* Opcional: Adiciona um ícone de "seta" que gira */
-  .filtro-dropdown summary::before {
+  .filtro-dropdown .titulo_sumario::before {
     /* Você pode usar um ícone de menu hamburguer aqui como na sua foto */
     content: '☰ '; 
     margin-right: 8px;
@@ -413,6 +417,11 @@ main header .kpi{
   .filtro-lista label:hover {
     background-color: var(--bg-color);
   }
+
+/* 
+  .tipo_de_usuario{
+    background-color: black;
+  } */
 
 
   .main_usuarios{

@@ -166,6 +166,10 @@ main{
 
 }
 
+aside .active{
+    background-color: var(--primary-color-dark);
+}
+
 .main_dash{
     display: flex;
     flex-direction: column;
@@ -477,4 +481,14 @@ main header .kpi{
   padding: 5px 10px;
   margin: 0; /* Remove margem padrão do <p> */
   display: inline-block; /* Faz o fundo se ajustar ao texto */
+}
+
+.fi-sr-pencil{
+    color: var(--primary-color);
+    font-size: var(--font-title);
+}
+
+.fi-sr-trash{
+    color: red;
+    font-size: var(--font-title);
 }

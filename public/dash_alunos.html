@@ -1,41 +1,337 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Painel Admin - Usuários</title>
-    <link rel="stylesheet" href="./css/modeloStyle.css">
     <link rel="stylesheet" href="./css/dash_alunos.css">
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 </head>
+
 <body>
-    <header>
+
+    <!-- ================= MODAL CRIAR USUÁRIO ================= -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <div class="modal" id="modalCriar" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-header">
+        <h2>Complete as informações do Novo Aluno:</h2>
+        <button class="modal-close" id="btnFechar" aria-label="Fechar modal">&times;</button>
+    </div>
+
+    <form class="modal-form-grid" id="formCriar">
+
+        <div class="form-group">
+            <label>RA:</label>
+            <input type="text" name="ra" placeholder="Digite aqui..." required>
+        </div>
+
+        <div class="form-group">
+            <label>Turma:</label>
+            <select name="turma" required>
+                <option disabled selected>Selecione ou Pesquise por Turma</option>
+                <option>1-A</option>
+                <option>1-B</option>
+                <option>2-A</option>
+                <option>2-B</option>
+                <option>3-A</option>
+                <option>3-B</option>
+                <option>4-A</option>
+                <option>4-B</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Curso:</label>
+            <select name="curso" required>
+                <option disabled selected>Selecione ou Pesquise por Curso</option>
+                <option>ADS</option>
+                <option>SIS</option>
+                <option>CCO</option>
+            </select>
+        </div>
+
+            <button type="submit" class="btn-criar-aluno">Criar Novo Aluno</button>
+            <div class="created-at-box">
+                <label>Criado em:</label>
+                <input type="text" value="10/11/2025" readonly>
+            </div>
+
+    </form>
+</div>
+
+    <!-- ======================================================== -->
+
+
+    <header class="header_info_aluno">
 
         <img src="./assets/imgs/logo-nome.svg" alt="" class="img_logo">
 
-        <section class="section_infoUsuario">
-            <h1 class="h1_nome_usuario" id="h1_nome_usuario">Nome do Usuario</h1>
-            <img src="./assets/imgs/anne.png" alt="" class="img_icon_usuario" id="img_logo_usuario">
-            <span><i class="fi fi-sr-caret-down"></i>
-</span>
+        <section class="section_infoaluno">
+            <h1 class="h1_nome_aluno" id="h1_nome_aluno">Anne Yamasaki</h1>
+            <img src="./assets/imgs/anne.png" alt="" class="img_icon_aluno" id="img_logo_aluno">
+            <span><i class="fi fi-sr-caret-down"></i></span>
         </section>
 
     </header>
-    <aside>
-        <section class="section_aside">
-            <ul>
-                <li><a href="#" class="active"><i class="fi fi-sr-home"></i>Dashboard</a></li> 
-                <li><a href="#"><i class="fi fi-sr-users-alt"></i>Cursos</a></li> 
-                <li><a href="#"><i class="fi fi-sr-user"></i>Alunos</a></li> 
-                <li><a href="#"><i class="fi fi-sr-bell"></i>Alertas</a></li> 
-                <li><a href="#"><i class="fi fi-sr-settings"></i>Configurações</a></li> 
-            </ul>
-        </section>
-    </aside>
     <main>
-        
+        <aside>
+            <section class="section_aside">
+                <ul>
+                    <li><a href="#" ><i class="fi fi-sr-home"></i>Dashboard</a></li>
+                    <li><a href="#"><i class="fi fi-sr-users-alt"></i>Cursos</a></li>
+                    <li class="active"><a href="#"><i class="fi fi-sr-user"></i>Alunos</a></li>
+                    <li><a href="#"><i class="fi fi-sr-bell"></i>Alertas</a></li>
+                    <li><a href="#"><i class="fi fi-sr-settings"></i>Configurações</a></li>
+                </ul>
+            </section>
+        </aside>
+
+
+        <section class="section_dash">
+            <main class="main_dash">
+                <header class="header_kpis">
+                    <section class="kpi">
+                        <div class="kpi_header" id="kpi_situacao">
+                            <div class="div_titulo_kpi" id="div_situacao">
+                                <p class="p_titulo_kpi">DESEMPENHO GERAL</p>
+                                <h1 id="h1_situacao">3 ATENÇÃO</h1>
+                            </div>
+                            <div class="div_comparativo">
+
+                                <p class="p_titulo_kpi">3 atenção</p>
+                                <p class="p_titulo_kpi">1 regular</p>
+                                <p class="p_titulo_kpi">1 ótimo</p>
+
+                            </div>
+                        </div>
+                        <div class="div_progress_bar">
+                            <div class="progress_bar">
+                                <progress id="progress_bar" value="60" max="100"> 60% </progress>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="kpi">
+
+                        <div class="kpi_header">
+                            <div class="div_titulo_kpi" id="div_situacao">
+                                <p class="p_titulo_kpi">FREQUÊNCIA GERAL</p>
+                                <h1 id="h1_situacao">85%</h1>
+                            </div>
+
+                        </div>
+                        <div>
+
+                            <div class="kpi_footer">
+
+                                <p class="p_titulo_kpi">2 alunos em atenção por freq.</p>
+
+                            </div>
+
+                        </div>
+
+
+
+                    </section>
+                </header>
+
+                <section class="section_main">
+                    <header class="header_alunos">
+
+                        <input type="search" placeholder="Digite nome ou RA para procurar pelo aluno..."
+                            class="input_pesquisa">
+
+                        <div class="div_criar_aluno" id="btnAbrirModal" role="button" tabindex="0">
+                            <p><strong>+ Criar Novo Usuário</strong></p>
+                        </div>
+
+                    </header>
+                    <section class="section_filter_alunos">
+
+                        <details class="filtro-dropdown">
+
+                            <summary class="titulo_sumario">filtrar por</summary>
+
+                            <div class="filtro-lista">
+
+                                <label>
+                                    <details>
+                                        <summary><input type="checkbox"> Curso</summary>
+                                        <label><input type="checkbox"> ADS</label>
+                                        <label><input type="checkbox"> CCO</label>
+                                        <label><input type="checkbox"> SIS</label>
+                                    </details>
+                                </label>
+
+                                <label>
+                                    <details>
+                                        <summary><input type="checkbox"> Turma</summary>
+                                        <label><input type="checkbox"> 1-A</label>
+                                        <label><input type="checkbox"> 1-B</label>
+                                        <label><input type="checkbox"> 2-A</label>
+                                        <label><input type="checkbox"> 2-B</label>
+                                        <label><input type="checkbox"> 3-A</label>
+                                        <label><input type="checkbox"> 3-B</label>
+                                        <label><input type="checkbox"> 4-A</label>
+                                        <label><input type="checkbox"> 4-B</label>
+                                    </details>
+                                </label>
+
+                                <label>
+                                    <details>
+                                        <summary><input type="checkbox"> Situação</summary>
+                                        <label><input type="checkbox"> atenção</label>
+                                        <label><input type="checkbox"> regular</label>
+                                        <label><input type="checkbox"> ótimo</label>
+                                    </details>
+                                </label>
+
+                                <label>
+                                    <input type="checkbox"> Limpar
+                                </label>
+                            </div>
+
+                        </details>
+                    </section>
+                    <main class="main_alunos">
+                        <table class="tabela">
+                            <thead>
+                                <tr>
+                                    <th>RA</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Turma</th>
+                                    <th>Curso</th>
+                                    <th>Desempenho</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody class="corpo_tabela">
+
+                                 <tr>
+                                    <td>01251089</td>
+                                    <td>Anne Yamsaki</td>
+                                    <td>anne.yamasaki@sptech.school</td>
+                                    <td>2-B</td>
+                                    <td>Análise Desenvolvimento de Sistemas</td>
+                                    <td><p class="p_status_atencao">Atenção</p></td>
+                                    <td><i class="fi fi-sr-pencil"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>01251089</td>
+                                    <td>Anne Yamasaki</td>
+                                    <td>anne.yamasaki@sptech.school</td>
+                                    <td>2-B</td>
+                                    <td>Análise Desenvolvimento de Sistemas</td>
+                                    <td><p class="p_status_atencao">Atenção</p></td>
+                                    <td><i class="fi fi-sr-pencil"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>01251089</td>
+                                    <td>Anne Yamasaki</td>
+                                    <td>anne.yamasaki@sptech.school</td>
+                                    <td>2-B</td>
+                                    <td>Análise Desenvolvimento de Sistemas</td>
+                                    <td><p class="p_status_atencao">Atenção</p></td>
+                                    <td><i class="fi fi-sr-pencil"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>01251089</td>
+                                    <td>Anne Yamasaki</td>
+                                    <td>anne.yamasaki@sptech.school</td>
+                                    <td>2-B</td>
+                                    <td>Análise Desenvolvimento de Sistemas</td>
+                                    <td><p class="p_status_regular">Regular</p></td>
+                                    <td><i class="fi fi-sr-pencil"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>01251089</td>
+                                    <td>Anne Yamasaki</td>
+                                    <td>anne.yamasaki@sptech.school</td>
+                                    <td>2-B</td>
+                                    <td>Análise Desenvolvimento de Sistemas</td>
+                                    <td><p class="p_status_otimo">Ótimo</p></td>
+                                    <td><i class="fi fi-sr-pencil"></i></td>
+                                </tr> 
+
+                            </tbody>
+                        </table>
+
+                    </main>
+                </section>
+            </main>
+        </section>
     </main>
+
+
+    <!-- === SCRIPT DO MODAL === -->
+    <script>
+        // elementos
+        const btnAbrir = document.getElementById("btnAbrirModal");
+        const btnFechar = document.getElementById("btnFechar");
+        const btnCancelar = document.getElementById("btnCancelar");
+        const modal = document.getElementById("modalCriar");
+        const overlay = document.getElementById("modalOverlay");
+        const form = document.getElementById("formCriar");
+
+        // abre modal
+        function abrirModal() {
+            modal.classList.add("ativo");
+            overlay.classList.add("ativo");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.classList.add("no-scroll");
+            // foco no primeiro campo
+            setTimeout(() => {
+                const primeiro = modal.querySelector("input, select, textarea");
+                if (primeiro) primeiro.focus();
+            }, 150);
+        }
+
+        // fecha modal
+        function fecharModal() {
+            modal.classList.remove("ativo");
+            overlay.classList.remove("ativo");
+            modal.setAttribute("aria-hidden", "true");
+            document.body.classList.remove("no-scroll");
+        }
+
+        btnAbrir.addEventListener("click", abrirModal);
+        btnAbrir.addEventListener("keyup", (e) => { if (e.key === "Enter" || e.key === " ") abrirModal(); });
+
+        btnFechar.addEventListener("click", fecharModal);
+        btnCancelar.addEventListener("click", fecharModal);
+
+        overlay.addEventListener("click", fecharModal);
+
+        // fechar com ESC
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && modal.classList.contains("ativo")) {
+                fecharModal();
+            }
+        });
+
+        // exemplo: submit do form (prevenção padrão para demo). Aqui você pega os dados e envia.
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            // pegar valores de exemplo
+            const dados = new FormData(form);
+            const aluno = {
+                nome: dados.get("nome"),
+                email: dados.get("email"),
+                ra: dados.get("ra"),
+                turma: dados.get("turma"),
+                curso: dados.get("curso")
+            };
+            console.log("Criar aluno:", aluno);
+            // fechar modal após criar
+            fecharModal();
+            // aqui você pode adicionar a lógica para inserir a linha na tabela ou enviar para backend
+        });
+    </script>
+
 </body>
+
 </html>

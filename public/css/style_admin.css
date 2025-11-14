@@ -501,3 +501,204 @@ main header .kpi{
     color: red;
     font-size: var(--font-title);
 }
+
+dialog {
+    border: none;
+  max-width: 40%;
+  position: absolute;
+  left: 50%;
+  right: 50%;
+    top: 50%;
+    bottom: 50%;
+    transform: translate(-50%, -50%);
+    background: none;
+    
+}
+
+/* Este é o OVERLAY (fundo escuro) */
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.dialog_modal{
+    width: 100%;
+    height: 75%;
+}
+
+.div_main_modal {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 92%;
+  align-content: center;
+  justify-content: unset;
+  background: var(--white-color);
+  padding: var(--padding);
+  border-radius: 0 15px 15px 15px;
+  box-shadow: var(--card-shadow);
+  gap: calc(var(--gap) * 0.25);
+}
+
+.div_main_modal h3{
+    font-size: var(--font-title);
+    font-weight: 500;
+    color: var(--text-dark);
+    height: 5%;
+    
+}
+
+.circulo_status {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    background-color: var(--status-active);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-light);
+
+}
+
+.div_status{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+   }
+
+.form_modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 70%;
+}
+
+.form_modal label{
+    font-size: calc(var(--font-title) * 0.8);
+    font-weight: 500;
+    color: var(--text-dark);
+    display: flex;
+    align-items: end;
+    height: 100%;
+    padding-bottom: calc(var(--padding)*0.5);
+}
+
+.form_modal input{
+    padding: calc(var(--padding)*0.5);
+    border: solid 1px var(--text-dark-fade);
+    border-radius: 5px;
+    height: 300px;
+    font-size: calc(var(--font-title)*0.8);
+    
+}
+
+.div_footer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: var(--padding);
+    height: 20%;
+    width: 100%;
+    color: var(--text-dark-fade);
+}
+
+.div_footer .div_criar_usuario{
+    width: 30%;
+    height: 55%;
+    color: var(--text-light);
+}
+
+
+.div_header_modal{
+    display: flex;
+    justify-content: start;
+    align-items: end;
+    height: 8%;
+    width: 100%;
+}
+
+.div_btn_usuario{
+    background-color: var(--primary-color-dark);
+    color: rgba(255, 255, 255, 0.652);
+    cursor: pointer;
+    width: 30%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px 15px 0 0;
+    font-size: var(--font-title);
+}
+
+.div_header_modal .active{
+    background-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+#modal_editar_usuario{
+    max-width: 60%;
+    border-radius: 15px;
+}
+
+#modal_editar_usuario .div_header_modal{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+}
+
+#modal_editar_usuario .div_header_modal h3{
+
+    width: 80%;
+    height: 100%;
+    text-align: center;
+    margin-left: var(--padding);
+
+
+}
+
+#modal_editar_usuario .div_header_modal .div_status{
+
+    width: 15%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-;
+    border-radius: 50px;
+
+
+}
+
+#modal_editar_usuario .form_modal{
+    height: 70%;
+    width: 100%;
+}
+
+#modal_editar_usuario .div_input label{
+    display: contents;
+    height: 10%;
+    width: 100%;
+}
+
+.div_dois_inputs{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: calc(var(--gap)*0.2);
+}
+
+.div_input {
+  width: 100%;
+  height: 100%;
+}
+
+.div_input input,select{
+    width: 100%;
+    height: 40%;
+}
+

@@ -1,0 +1,480 @@
+/* ==== 1. Boas Práticas e Variáveis ==== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap');
+
+:root {
+    --font-family: 'Poppins', sans-serif;
+    
+    /* Cores Base */
+    --primary-color: #4487DE; /* Roxo/Azul principal */
+    --primary-color-dark: #3a67cf; /* Roxo/Azul principal */
+    --white-color: #ffffff;
+    --fade-color-dark: #00000021;
+    --bg-color: #EAF3F6; /* Fundo principal da página */
+    
+    /* Cores de Texto */
+    --text-dark: #000000;
+    --text-dark-fade: #0000006c;
+    --text-light: #ffffff;
+
+    /* Tamanho Texto */
+
+    --font-title: 22px;
+
+
+
+    /* Cores de Status */
+    --status-active: #A2FF94;
+    --status-blocked: #4D4D4D;
+
+    /* Outros */
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.144);
+    --padding: 15px;
+    --gap: 5%;
+}
+
+/* ==== 2. Reset Global ==== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+}
+
+body{
+    background-color: var(--bg-color);
+    width: 100vw;
+    height: 100vh;
+    font-family: "Roboto", sans-serif;
+    font-size: medium;
+    font-weight: 500;
+}
+
+.header_info_usuario{
+    background-color: var(--white-color);
+    padding: var(--padding);
+    width: 100%;
+    height: 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--card-shadow);
+
+}
+
+.header_info_usuario .img_logo{
+    width: 10%;
+    min-width: 100px;
+}
+
+.header_info_usuario section{
+    width: 30%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: var(--gap);
+}
+
+
+.header_info_usuario section h1{
+    font-size: var(--font-title);
+    font-weight: 500;
+}
+
+.header_info_usuario i{
+    font-size: calc(var(--font-title)* 1.5);
+    color: var(--primary-color);
+}
+
+.img_icon_usuario{
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+}
+
+aside{
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    width: 15%;
+    height: 100%;
+    padding-top: 40px;
+    box-shadow: var(--card-shadow);
+}
+
+aside section{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+aside section ul{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+aside section ul li{
+
+    width: 100%;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    
+}
+
+aside section ul li:hover{
+
+    background-color: var(--primary-color-dark);
+
+}
+
+aside section ul li a{
+    
+    color: var(--text-light);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
+    padding: 14%;
+    font-size: var(--font-title);
+
+
+}
+
+
+aside section ul li a i{
+
+    font-size: 30px;
+
+}
+
+main{
+
+    width: 100%;
+    height: 92%;
+    display: flex;
+
+}
+
+.main_dash{
+    display: flex;
+    flex-direction: column;
+
+}
+
+main .section_dash{
+
+    width: 85%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--padding)*1.25);
+}
+
+.section_dash .main_dash{
+
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    background-color: var(--white-color);
+    padding: calc(var(--padding)*1.25);
+    gap: calc(var(--gap) * 0.5);
+    box-shadow: var(--card-shadow);
+
+
+}
+
+.section_dash .main_dash .header_kpis{
+
+    /* background-color: #ff00002b; */
+    width: 100%;
+    height: 35%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: calc(var(--gap)*0.3);
+}
+
+main header .kpi{
+
+    box-shadow: var(--card-shadow);
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    padding: var(--padding);
+
+}
+
+.kpi .kpi_header{
+    width: 100%;
+    height: 65%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: calc(var(--padding)*1);
+}
+
+.kpi_header .div_titulo_kpi{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    height: 100%;
+    gap: calc(var(--gap)*2);
+}
+
+.div_titulo_kpi h1{
+    /* font-size: 70px; */
+    font-size: calc(var(--font-title)*2.8);
+}
+
+.p_titulo_kpi{
+    font-size: calc(var(--font-title) * 1.2);
+    font-weight: 400;
+}
+
+
+
+.kpi_header .div_comparativo{
+    width: 30%;
+    height: 100%;
+}
+
+.kpi_footer{
+    padding: var(--padding);
+}
+
+
+.div_progress_bar{
+    padding: calc(var(--padding)*0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 35%;
+}
+
+.progress_bar{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#kpi_situacao{
+    border-bottom: solid 2px rgba(128, 128, 128, 0.341);
+
+}
+
+#progress_bar {
+    /* Remove o estilo padrão para personalizarmos do zero */
+    appearance: none;
+    -webkit-appearance: none; /* Para navegadores WebKit */
+    
+    width: 100%;
+    height: 25px; /* Recomendo usar 'px' para altura */
+    border: none;
+    border-radius: 5px;
+    
+    /* Cor de fundo (trilha) para o FIREFOX */
+    background-color: #f0f0f0;
+}
+
+/* Cor de fundo (trilha) para WEBKIT (Chrome, Safari) */
+#progress_bar::-webkit-progress-bar {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+/* Cor do valor (preenchimento) para WEBKIT */
+#progress_bar::-webkit-progress-value {
+    background-color: green;
+    border-radius: 5px;
+}
+
+/* Cor do valor (preenchimento) para FIREFOX */
+#progress_bar::-moz-progress-bar {
+    background-color: var(--status-active);
+    border-radius: 5px;
+}
+
+
+.section_main{
+
+    box-shadow: var(--card-shadow);
+    border-radius: 20px;
+    width: 100%;
+    height: 65%;
+    padding: var(--padding);
+    gap: calc(var(--gap)*0.5);
+    display: flex;
+    flex-direction: column;
+
+}
+
+.main_usuarios{
+    background: none;
+    box-shadow: none;
+    width: 100%;
+    height: 100%;
+}
+
+.section_filter_usuarios{
+    background: none;
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+  
+}
+
+.header_usuarios{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--gap) * 0.15);
+    width: 100%;
+    height: 10%;
+}
+
+.input_pesquisa{
+    width: 85%;
+    height: 100%;
+    border: none;
+    background-color: var(--bg-color);
+    padding: 0 calc(var(--padding));
+}
+
+.div_criar_usuario{
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: calc(var(--padding)*0.5);
+    cursor: pointer;
+    width: 15%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Um pouco de estilo para parecer com o seu design */
+  .filtro-dropdown {
+    background-color: var(--bg-color);
+    width: 10%;
+    z-index: 1;
+  }
+
+  /* O botão visível */
+  .filtro-dropdown summary {
+    background-color: var(--bg-color);
+    padding: var(--padding);
+    cursor: pointer;
+    color: var(--text-dark-fade);
+    list-style: none; /* Remove a setinha/triângulo padrão */
+  }
+
+  /* Opcional: Adiciona um ícone de "seta" que gira */
+  .filtro-dropdown summary::before {
+    /* Você pode usar um ícone de menu hamburguer aqui como na sua foto */
+    content: '☰ '; 
+    margin-right: 8px;
+  }
+  
+  /* A lista que aparece */
+  .filtro-lista {
+    background-color: var(--bg-color);
+    padding: var(--padding);
+    border-top: 1px solid #ccc;
+  }
+  
+  .filtro-lista label {
+    display: block; /* Cada item em sua própria linha */
+    padding: calc(var(--padding)*0.5);
+    cursor: pointer;
+    background-color: var(--bg-color);
+  }
+  
+  .filtro-lista label:hover {
+    background-color: var(--bg-color);
+  }
+
+
+  .main_usuarios{
+    width: 100%;
+    height: 75%; 
+    overflow-y: auto;
+    max-height: 75%;   
+  }
+
+  .tabela{
+    width: 100%;
+    overflow-y: scroll;
+  }
+
+  .corpo_tabela{
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+  }
+
+  .corpo_tabela tr{
+    width: 100%;
+    height: 15px;
+    text-align: center;
+  }
+
+/* Remove a borda do thead */
+.tabela thead {
+  position: sticky;
+  top: 0;
+  /* A altura aqui é desnecessária, 
+     o padding no 'th' vai cuidar disso */
+}
+
+/* Aplica o fundo e a borda nos 'th' */
+.tabela thead th {
+  background-color: var(--white-color);
+  padding: 15px 10px; /* Controla a altura */
+  border-bottom: solid 2px black;
+  
+  /* Garantia extra para o sticky funcionar 
+     (alguns navegadores precisam disso) */
+  position: sticky; 
+  top: 0;
+}
+
+
+.tabela td {
+  padding: 15px 10px; /* 15px em cima/baixo, 10px nos lados */
+  text-align: center;
+}
+
+.p_status_liberado {
+  background-color: var(--status-active);
+  border-radius: 15px;
+  color: var(--text-dark); /* Adicionei uma cor para legibilidade */
+  padding: 5px 10px;
+  margin: 0; /* Remove margem padrão do <p> */
+  display: inline-block; /* Faz o fundo se ajustar ao texto */
+}
+
+.p_status_bloqueado{
+    background-color: var(--status-blocked);
+  border-radius: 15px;
+  color: var(--text-light); /* Adicionei uma cor para legibilidade */
+  padding: 5px 10px;
+  margin: 0; /* Remove margem padrão do <p> */
+  display: inline-block; /* Faz o fundo se ajustar ao texto */
+}

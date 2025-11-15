@@ -93,7 +93,8 @@
 
                         <input type="search" placeholder="Digite nome ou ID para procurar pelo usuário..."
                             class="input_pesquisa">
-                        <div class="div_criar_usuario" id="btnAbrirDialog" onclick="listarInstituicoes(), abrirModal('modal_criar_usuario')">
+                        <div class="div_criar_usuario" id="btnAbrirDialog"
+                            onclick="listarInstituicoes(), abrirModal('modal_criar_usuario')">
                             <p><strong>+ Criar Novo Usuário</strong></p>
                         </div>
 
@@ -171,8 +172,10 @@
                                     <td>
                                         <p class="p_status_bloqueado">Bloqueado</p>
                                     </td>
-                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i></td>
-                                    <td><i class="fi fi-sr-trash"></i></td>
+                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i>
+                                    </td>
+                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>1111111111</td>
@@ -184,8 +187,10 @@
                                     <td>
                                         <p class="p_status_liberado">Liberado</p>
                                     </td>
-                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i></td>
-                                    <td><i class="fi fi-sr-trash"></i></td>
+                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i>
+                                    </td>
+                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>1111111111</td>
@@ -197,8 +202,10 @@
                                     <td>
                                         <p class="p_status_liberado">Liberado</p>
                                     </td>
-                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i></td>
-                                    <td><i class="fi fi-sr-trash"></i></td>
+                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i>
+                                    </td>
+                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>1111111111</td>
@@ -210,8 +217,10 @@
                                     <td>
                                         <p class="p_status_liberado">Liberado</p>
                                     </td>
-                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i></td>
-                                    <td><i class="fi fi-sr-trash"></i></td>
+                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i>
+                                    </td>
+                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>1111111111</td>
@@ -223,8 +232,10 @@
                                     <td>
                                         <p class="p_status_liberado">Liberado</p>
                                     </td>
-                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i></td>
-                                    <td><i class="fi fi-sr-trash"></i></td>
+                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i>
+                                    </td>
+                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>1111111111</td>
@@ -236,8 +247,10 @@
                                     <td>
                                         <p class="p_status_liberado">Liberado</p>
                                     </td>
-                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i></td>
-                                    <td><i class="fi fi-sr-trash"></i></td>
+                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i>
+                                    </td>
+                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>1111111111</td>
@@ -249,8 +262,10 @@
                                     <td>
                                         <p class="p_status_liberado">Liberado</p>
                                     </td>
-                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i></td>
-                                    <td><i class="fi fi-sr-trash"></i></td>
+                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i>
+                                    </td>
+                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>1111111111</td>
@@ -262,8 +277,10 @@
                                     <td>
                                         <p class="p_status_liberado">Liberado</p>
                                     </td>
-                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i></td>
-                                    <td><i class="fi fi-sr-trash"></i></td>
+                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i>
+                                    </td>
+                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+                                    </td>
                                 </tr>
 
 
@@ -313,7 +330,7 @@
 
             </form>
 
-            <div class="div_footer" >
+            <div class="div_footer">
 
                 <div class="div_criar_usuario" id="btnEnviarDialog" onclick="enviarModal('modal_criar_usuario')">
                     <p><strong>Criar Novo Usuário</strong></p>
@@ -328,66 +345,68 @@
 
 
     <dialog id="modal_editar_usuario" class="dialog_modal">
-    
+
         <div class="div_main_modal">
             <div class="div_header_modal">
                 <h3>Edite as informações do Usuário:</h3>
-            <div class="div_status">
-                <div class="circulo_status"><p>L</p></div>
-            </div>
+                <div class="div_status">
+                    <div class="circulo_status">
+                        <p>L</p>
+                    </div>
+                </div>
             </div>
             <form class="form_modal">
 
 
                 <div class="div_dois_inputs">
 
-                <div class="div_input">
-                <label for="ra">RA:</label>
-                <input type="text" class="input_modal" name="ra" placeholder="Digite o RA do aluno">
-                </div>
+                    <div class="div_input_menor">
+                        <label for="ra">RA:</label>
+                        <input type="text" class="input_modal" name="ra" placeholder="Digite o RA do aluno">
+                    </div>
 
-                <div class="div_input">
-                <label for="tipo_de_usuario">Tipo:</label>
-                <select class="select_tipo_de_usuario" name="tipo_de_usuario" id="">
-                    <option value=""></option>
-                    <option value="estudante"></option>
-                    <option value="professor"></option>
-                </select>
-                </div>
+                    <div class="div_input_maior">
+                        <label for="tipo_de_usuario">Tipo:</label>
+                        <select class="select_tipo_de_usuario" name="tipo_de_usuario" id="">
+                            <option value=""></option>
+                            <option value="estudante"></option>
+                            <option value="professor"></option>
+                        </select>
+                    </div>
 
                 </div>
 
                 <div class="div_dois_inputs">
 
-                                    <div class="div_input">
+                    <div class="div_input_menor">
 
-                    <label for="ra">Nome:</label>
-                    <input type="text" class="input_modal" name="nome" placeholder="Digite o RA do aluno">
+                        <label for="ra">Nome:</label>
+                        <input type="text" class="input_modal" name="nome" placeholder="Digite o Nome do aluno">
                     </div>
-                    <div class="div_input">
+                    <div class="div_input_maior">
                         <label for="ra">Email:</label>
-                <input type="text" class="input_modal"  name="email" placeholder="Digite o RA do aluno">
+                        <input type="text" class="input_modal" name="email" placeholder="Digite o Email do aluno">
 
                     </div>
-                    
+
                 </div>
 
                 <div class="div_dois_inputs">
 
-                    <div class="div_input">
+                    <div class="div_input_menor">
                         <label for="turma">Turma:</label>
-                    <select name="turma" id="">
-                        <option value="">Selecione a Turma</option>
-                        <option value="1ADSB/CCO">1ADSB/CCO</option>
-                        <option value="2ADSB/CCO">2ADSB/CCO</option>
-                    </select>
+                        <select name="turma" id="">
+                            <option value="">Selecione a Turma</option>
+                            <option value="1ADSB/CCO">1ADSB/CCO</option>
+                            <option value="2ADSB/CCO">2ADSB/CCO</option>
+                        </select>
                     </div>
-                    
 
-                     <div class="div_input">
-                    <label for="instituicao">Instituição:</label>
-                    <input type="text" name="instituicao">
-</div>
+
+                    <div class="div_input_maior">
+                        <label for="instituicao">Instituição:</label>
+                        <input type="text" name="instituicao">
+                    </div>
 
 
                 </div>
@@ -400,15 +419,45 @@
 
             </form>
 
-            <div class="div_footer" >
+            <div class="div_footer">
 
-                <div class="div_criar_usuario" id="btnEnviarDialog" onclick="fecharModal('modal_editar_usuario')">
-                    <p><strong>Criar Novo Usuário</strong></p>
+                <div class="div_editar_usuario" id="btnEnviarDialog" onclick="fecharModal('modal_editar_usuario')">
+                    <p><strong>Salvar</strong></p>
                 </div>
 
                 <p id="btnFecharDialog" onclick="fecharModal('modal_editar_usuario')"><u>cancelar</u></p>
 
             </div>
+
+        </div>
+    </dialog>
+
+    <dialog id="modal_remover_usuario" class="dialog_modal">
+
+
+
+
+
+            <div class="div_main_modal">
+
+                <div class="div_info_excluir">
+                    <h1>Excluir cadastro</h1>
+                    <p>Tem certeza que deseja deletar esse cadastro? <br>Não é possível desfazer essa ação</p>
+                </div>
+
+                <div class="div_btn_remover_usuario">
+
+                <div class="div_editar_usuario" onclick="fecharModal('modal_remover_usuario')">
+                    <p><strong>Cancelar</strong></p>
+                </div>
+
+                <div class="div_editar_usuario" id="div_excluir_usuario" onclick="enviarModal('modal_remover_usuario')">
+                    <p><strong>Excluir</strong></p>
+                </div>
+                </div>
+
+            </div>
+
 
         </div>
     </dialog>
@@ -418,22 +467,22 @@
 
 <script>
 
-    function abrirModal(modalId){
+    function abrirModal(modalId) {
         const dialog = document.getElementById(modalId);
-        dialog.showModal(); 
+        dialog.showModal();
     }
 
-    function fecharModal(modalId){
+    function fecharModal(modalId) {
         const dialog = document.getElementById(modalId);
-        dialog.close(); 
+        dialog.close();
     }
 
-    function enviarModal(modalId){
+    function enviarModal(modalId) {
         const dialog = document.getElementById(modalId);
 
         // Lógica para enviar os dados do modal pode ser adicionada aqui
 
-        dialog.close(); 
+        dialog.close();
     }
 
 </script>

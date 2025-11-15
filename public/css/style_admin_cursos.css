@@ -203,7 +203,7 @@ main .section_dash{
 
     /* background-color: #ff00002b; */
     width: 100%;
-    height: 35%;
+    height: 33.5%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -220,6 +220,15 @@ main header .kpi{
 
 }
 
+main header .kpi_menor{
+    width: 20%;
+}
+
+main header .kpi_maior{
+    width: 80%;
+} 
+
+
 .kpi .kpi_header{
     width: 100%;
     height: 65%;
@@ -232,7 +241,7 @@ main header .kpi{
 .kpi_header .div_titulo_kpi{
     display: flex;
     flex-direction: column;
-    width: 70%;
+    width: 100%;
     height: 100%;
     gap: calc(var(--gap)*2);
 }
@@ -256,32 +265,52 @@ main header .kpi{
 
 .kpi_footer{
     padding: var(--padding);
+    text-align: end;
 }
 
-
-.div_progress_bar{
-    padding: calc(var(--padding)*0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 35%;
+.div_progress_bars {
+  height: 65%;
+  overflow: auto;
 }
 
-.progress_bar{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.div_progress_bar {
+  padding: calc(var(--padding)*0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50px;
+}
+
+.div_cursos_progress_bar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: calc(var(--gap)*0.5);
+}
+
+.progress_bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 63%;
+}
+
+.indicadores {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 #kpi_situacao{
-    border-bottom: solid 2px rgba(128, 128, 128, 0.341);
+  height: 25%;
 
 }
 
-#progress_bar {
+.progress_instituicao {
     /* Remove o estilo padrão para personalizarmos do zero */
     appearance: none;
     -webkit-appearance: none; /* Para navegadores WebKit */
@@ -292,24 +321,24 @@ main header .kpi{
     border-radius: 5px;
     
     /* Cor de fundo (trilha) para o FIREFOX */
-    background-color: #f0f0f0;
+    background-color: #F9BE58;
 }
 
 /* Cor de fundo (trilha) para WEBKIT (Chrome, Safari) */
-#progress_bar::-webkit-progress-bar {
-    background-color: #f0f0f0;
+.progress_instituicao::-webkit-progress-bar {
+    background-color: #F9BE58;
     border-radius: 5px;
 }
 
 /* Cor do valor (preenchimento) para WEBKIT */
-#progress_bar::-webkit-progress-value {
-    background-color: green;
+.progress_instituicao::-webkit-progress-value {
+    background-color: var(--primary-color);
     border-radius: 5px;
 }
 
 /* Cor do valor (preenchimento) para FIREFOX */
-#progress_bar::-moz-progress-bar {
-    background-color: var(--status-active);
+.progress_instituicao::-moz-progress-bar {
+    background-color: var(--primary-color);
     border-radius: 5px;
 }
 
@@ -377,7 +406,7 @@ main header .kpi{
     color: var(--white-color);
     padding: calc(var(--padding)*0.5);
     cursor: pointer;
-    width: 15%;
+    width: 30%;
     height: 60%;
     display: flex;
     align-items: center;
@@ -542,9 +571,9 @@ dialog::backdrop {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 92%;
+  height: 100%;
   align-content: center;
-  justify-content: unset;
+  justify-content: space-around;
   background: var(--white-color);
   padding: var(--padding);
   border-radius: 0 15px 15px 15px;
@@ -556,8 +585,18 @@ dialog::backdrop {
     font-size: var(--font-title);
     font-weight: 500;
     color: var(--text-dark);
-    height: 5%;
+    height: 10%;
+    display: flex;
+    align-items: center;
     
+}
+
+
+#modal_criar_curso{
+    max-width: 40%;
+    height: 60%;
+    box-shadow: var(--card-shadow);
+    border-radius: 15px;
 }
 
 .circulo_status {
@@ -583,7 +622,7 @@ dialog::backdrop {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  height: 70%;
+  height: 60%;
 }
 
 .form_modal label{
@@ -618,7 +657,7 @@ dialog::backdrop {
 
 .div_footer .div_criar_usuario{
     width: 30%;
-    height: 55%;
+    height: 70%;
     color: var(--text-light);
 }
 
@@ -649,16 +688,18 @@ dialog::backdrop {
     color: var(--text-light);
 }
 
-#modal_editar_usuario{
-    max-width: 60%;
+#modal_editar_curso {
+  max-width: 35%;
+  height: 60%;
 }
 
-#modal_editar_usuario .div_main_modal{
+#modal_editar_curso .div_main_modal{
         border-radius: 15px;
     padding: calc(var(--padding)*2);
+    height: 100%;
 }
 
-#modal_editar_usuario .div_header_modal{
+#modal_editar_curso .div_header_modal{
 
     display: flex;
     align-items: center;
@@ -667,7 +708,7 @@ dialog::backdrop {
 
 }
 
-#modal_editar_usuario .div_header_modal h3{
+#modal_editar_curso .div_header_modal h3{
 
     width: 80%;
     height: auto;
@@ -677,7 +718,7 @@ dialog::backdrop {
 
 }
 
-#modal_editar_usuario .div_header_modal .div_status{
+#modal_editar_curso .div_header_modal .div_status{
 
     width: 20%;
     height: 100%;
@@ -689,13 +730,13 @@ dialog::backdrop {
 
 }
 
-#modal_editar_usuario .form_modal{
+#modal_editar_curso .form_modal{
     height: 70%;
     width: 100%;
 }
 
-#modal_editar_usuario .div_input_maior label, #modal_editar_usuario .div_input_menor label,
-#modal_editar_usuario .div_input label{
+#modal_editar_curso .div_input_maior label, #modal_editar_curso .div_input_menor label,
+#modal_editar_curso .div_input label{
     display: contents;
     height: 10%;
     width: 100%;
@@ -713,6 +754,9 @@ dialog::backdrop {
 .div_input {
   width: 100%;
   height: 100%;
+  gap: var(--gap);
+  display: flex;
+  flex-direction: column;
 }
 
 .div_input_maior {

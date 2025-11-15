@@ -1,0 +1,819 @@
+/* ==== 1. Boas Práticas e Variáveis ==== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap');
+
+:root {
+    --font-family: 'Poppins', sans-serif;
+    
+    /* Cores Base */
+    --primary-color: #4487DE; /* Roxo/Azul principal */
+    --primary-color-dark: #3a67cf; /* Roxo/Azul principal */
+    --white-color: #ffffff;
+    --fade-color-dark: #00000021;
+    --bg-color: #EAF3F6; /* Fundo principal da página */
+    
+    /* Cores de Texto */
+    --text-dark: #000000;
+    --text-dark-fade: #0000006c;
+    --text-light: #ffffff;
+
+    /* Tamanho Texto */
+
+    --font-title: 22px;
+
+
+
+    /* Cores de Status */
+    --status-active: #A2FF94;
+    --status-blocked: #4D4D4D;
+
+    /* Outros */
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.144);
+    --padding: 15px;
+    --gap: 5%;
+}
+
+/* ==== 2. Reset Global ==== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+}
+
+body{
+    background-color: var(--bg-color);
+    width: 100vw;
+    height: 100vh;
+    font-family: "Roboto", sans-serif;
+    font-size: medium;
+    font-weight: 500;
+}
+
+.header_info_usuario{
+    background-color: var(--white-color);
+    padding: var(--padding);
+    width: 100%;
+    height: 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--card-shadow);
+
+}
+
+.header_info_usuario .img_logo{
+    width: 10%;
+    min-width: 100px;
+}
+
+.header_info_usuario section{
+    width: 30%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: var(--gap);
+}
+
+
+.header_info_usuario section h1{
+    font-size: var(--font-title);
+    font-weight: 500;
+}
+
+.header_info_usuario i{
+    font-size: calc(var(--font-title)* 1.5);
+    color: var(--primary-color);
+}
+
+.img_icon_usuario{
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+}
+
+aside{
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    width: 15%;
+    height: 100%;
+    padding-top: 40px;
+    box-shadow: var(--card-shadow);
+}
+
+aside section{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+aside section ul{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+aside section ul li{
+
+    width: 100%;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    
+}
+
+aside section ul li:hover{
+
+    background-color: var(--primary-color-dark);
+
+}
+
+aside section ul li a{
+    
+    color: var(--text-light);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
+    padding: 14%;
+    font-size: var(--font-title);
+
+
+}
+
+
+aside section ul li a i{
+
+    font-size: 30px;
+
+}
+
+main{
+
+    width: 100%;
+    height: 92%;
+    display: flex;
+
+}
+
+aside .active{
+    background-color: var(--primary-color-dark);
+}
+
+.main_dash{
+    display: flex;
+    flex-direction: column;
+
+}
+
+main .section_dash{
+
+    width: 85%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--padding)*1.25);
+}
+
+.section_dash .main_dash{
+
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    background-color: var(--white-color);
+    padding: calc(var(--padding)*1.25);
+    gap: calc(var(--gap) * 0.5);
+    box-shadow: var(--card-shadow);
+
+
+}
+
+.section_dash .main_dash .header_kpis{
+
+    /* background-color: #ff00002b; */
+    width: 100%;
+    height: 35%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: calc(var(--gap)*0.3);
+}
+
+main header .kpi{
+
+    box-shadow: var(--card-shadow);
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    padding: var(--padding);
+
+}
+
+.kpi .kpi_header{
+    width: 100%;
+    height: 65%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: calc(var(--padding)*1);
+}
+
+.kpi_header .div_titulo_kpi{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    height: 100%;
+    gap: calc(var(--gap)*2);
+}
+
+.div_titulo_kpi h1{
+    /* font-size: 70px; */
+    font-size: calc(var(--font-title)*2.8);
+}
+
+.p_titulo_kpi{
+    font-size: calc(var(--font-title) * 1.2);
+    font-weight: 400;
+}
+
+
+
+.kpi_header .div_comparativo{
+    width: 30%;
+    height: 100%;
+}
+
+.kpi_footer{
+    padding: var(--padding);
+}
+
+
+.div_progress_bar{
+    padding: calc(var(--padding)*0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 35%;
+}
+
+.progress_bar{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#kpi_situacao{
+    border-bottom: solid 2px rgba(128, 128, 128, 0.341);
+
+}
+
+#progress_bar {
+    /* Remove o estilo padrão para personalizarmos do zero */
+    appearance: none;
+    -webkit-appearance: none; /* Para navegadores WebKit */
+    
+    width: 100%;
+    height: 25px; /* Recomendo usar 'px' para altura */
+    border: none;
+    border-radius: 5px;
+    
+    /* Cor de fundo (trilha) para o FIREFOX */
+    background-color: #f0f0f0;
+}
+
+/* Cor de fundo (trilha) para WEBKIT (Chrome, Safari) */
+#progress_bar::-webkit-progress-bar {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+/* Cor do valor (preenchimento) para WEBKIT */
+#progress_bar::-webkit-progress-value {
+    background-color: green;
+    border-radius: 5px;
+}
+
+/* Cor do valor (preenchimento) para FIREFOX */
+#progress_bar::-moz-progress-bar {
+    background-color: var(--status-active);
+    border-radius: 5px;
+}
+
+
+.section_main{
+
+    box-shadow: var(--card-shadow);
+    border-radius: 20px;
+    width: 100%;
+    height: 65%;
+    padding: var(--padding);
+    gap: calc(var(--gap)*0.5);
+    display: flex;
+    flex-direction: column;
+
+}
+
+.main_usuarios{
+    background: none;
+    box-shadow: none;
+    width: 100%;
+    height: 100%;
+}
+
+.section_filter_usuarios{
+    background: none;
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+  
+}
+
+.header_usuarios{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--gap) * 0.15);
+    width: 100%;
+    height: 10%;
+}
+
+.input_pesquisa{
+    width: 85%;
+    height: 100%;
+    border: none;
+    background-color: var(--bg-color);
+    padding: 0 calc(var(--padding));
+}
+
+.div_criar_usuario{
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: calc(var(--padding)*0.5);
+    cursor: pointer;
+    width: 15%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.div_editar_usuario{
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: calc(var(--padding)*0.5);
+    cursor: pointer;
+    width: 15%;
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Um pouco de estilo para parecer com o seu design */
+  .filtro-dropdown {
+    background-color: var(--bg-color);
+    width: 10%;
+    z-index: 1;
+  }
+
+    summary{
+         list-style: none; /* Remove a setinha/triângulo padrão */
+    }
+
+  /* O botão visível */
+  .filtro-dropdown .titulo_sumario {
+    background-color: var(--bg-color);
+    padding: var(--padding);
+    cursor: pointer;
+    color: var(--text-dark-fade);
+    list-style: none; /* Remove a setinha/triângulo padrão */
+  }
+
+  /* Opcional: Adiciona um ícone de "seta" que gira */
+  .filtro-dropdown .titulo_sumario::before {
+    /* Você pode usar um ícone de menu hamburguer aqui como na sua foto */
+    content: '☰ '; 
+    margin-right: 8px;
+  }
+  
+  /* A lista que aparece */
+  .filtro-lista {
+    background-color: var(--bg-color);
+    padding: var(--padding);
+    border-top: 1px solid #ccc;
+  }
+  
+  .filtro-lista label {
+    display: block; /* Cada item em sua própria linha */
+    padding: calc(var(--padding)*0.5);
+    cursor: pointer;
+    background-color: var(--bg-color);
+  }
+  
+  .filtro-lista label:hover {
+    background-color: var(--bg-color);
+  }
+
+/* 
+  .tipo_de_usuario{
+    background-color: black;
+  } */
+
+
+  .main_usuarios{
+    width: 100%;
+    height: 75%; 
+    overflow-y: auto;
+    max-height: 75%;   
+  }
+
+  .tabela{
+    width: 100%;
+    overflow-y: scroll;
+  }
+
+  .corpo_tabela{
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+  }
+
+  .corpo_tabela tr{
+    width: 100%;
+    height: 15px;
+    text-align: center;
+  }
+
+/* Remove a borda do thead */
+.tabela thead {
+  position: sticky;
+  top: 0;
+  /* A altura aqui é desnecessária, 
+     o padding no 'th' vai cuidar disso */
+}
+
+/* Aplica o fundo e a borda nos 'th' */
+.tabela thead th {
+  background-color: var(--white-color);
+  padding: 15px 10px; /* Controla a altura */
+  border-bottom: solid 2px black;
+  
+  /* Garantia extra para o sticky funcionar 
+     (alguns navegadores precisam disso) */
+  position: sticky; 
+  top: 0;
+}
+
+
+.tabela td {
+  padding: 15px 10px; /* 15px em cima/baixo, 10px nos lados */
+  text-align: center;
+}
+
+.p_status_liberado {
+  background-color: var(--status-active);
+  border-radius: 15px;
+  color: var(--text-dark); /* Adicionei uma cor para legibilidade */
+  padding: 5px 10px;
+  margin: 0; /* Remove margem padrão do <p> */
+  display: inline-block; /* Faz o fundo se ajustar ao texto */
+}
+
+.p_status_bloqueado{
+    background-color: var(--status-blocked);
+  border-radius: 15px;
+  color: var(--text-light); /* Adicionei uma cor para legibilidade */
+  padding: 5px 10px;
+  margin: 0; /* Remove margem padrão do <p> */
+  display: inline-block; /* Faz o fundo se ajustar ao texto */
+}
+
+.fi-sr-pencil{
+    color: var(--primary-color);
+    font-size: var(--font-title);
+}
+
+.fi-sr-trash{
+    color: red;
+    font-size: var(--font-title);
+}
+
+dialog {
+    border: none;
+  max-width: 40%;
+  position: absolute;
+  left: 50%;
+  right: 50%;
+    top: 50%;
+    bottom: 50%;
+    transform: translate(-50%, -50%);
+    background: none;
+     outline: none;
+    
+}
+
+/* Este é o OVERLAY (fundo escuro) */
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.dialog_modal{
+    width: 100%;
+    height: 75%;
+}
+
+.div_main_modal {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 92%;
+  align-content: center;
+  justify-content: unset;
+  background: var(--white-color);
+  padding: var(--padding);
+  border-radius: 0 15px 15px 15px;
+  box-shadow: var(--card-shadow);
+  gap: calc(var(--gap) * 0.25);
+}
+
+.div_main_modal h3{
+    font-size: var(--font-title);
+    font-weight: 500;
+    color: var(--text-dark);
+    height: 5%;
+    
+}
+
+.circulo_status {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    background-color: var(--status-active);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-light);
+
+}
+
+.div_status{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+   }
+
+.form_modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 70%;
+}
+
+.form_modal label{
+    font-size: calc(var(--font-title) * 0.8);
+    font-weight: 500;
+    color: var(--text-dark);
+    display: flex;
+    align-items: end;
+    height: 100%;
+    padding-bottom: calc(var(--padding)*0.5);
+}
+
+.form_modal input{
+    padding: calc(var(--padding)*0.5);
+    border: solid 1px var(--text-dark-fade);
+    border-radius: 5px;
+    height: 300px;
+    font-size: calc(var(--font-title)*0.8);
+    
+}
+
+.div_footer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: var(--padding);
+    height: 20%;
+    width: 100%;
+    color: var(--text-dark-fade);
+}
+
+.div_footer .div_criar_usuario{
+    width: 30%;
+    height: 55%;
+    color: var(--text-light);
+}
+
+
+.div_header_modal{
+    display: flex;
+    justify-content: start;
+    align-items: end;
+    height: 8%;
+    width: 100%;
+}
+
+.div_btn_usuario{
+    background-color: var(--primary-color-dark);
+    color: rgba(255, 255, 255, 0.652);
+    cursor: pointer;
+    width: 30%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px 15px 0 0;
+    font-size: var(--font-title);
+}
+
+.div_header_modal .active{
+    background-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+#modal_editar_usuario{
+    max-width: 60%;
+}
+
+#modal_editar_usuario .div_main_modal{
+        border-radius: 15px;
+    padding: calc(var(--padding)*2);
+}
+
+#modal_editar_usuario .div_header_modal{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+}
+
+#modal_editar_usuario .div_header_modal h3{
+
+    width: 80%;
+    height: auto;
+    text-align: start;
+
+
+
+}
+
+#modal_editar_usuario .div_header_modal .div_status{
+
+    width: 20%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    border-radius: 50px;
+
+
+}
+
+#modal_editar_usuario .form_modal{
+    height: 70%;
+    width: 100%;
+}
+
+#modal_editar_usuario .div_input_maior label, #modal_editar_usuario .div_input_menor label,
+#modal_editar_usuario .div_input label{
+    display: contents;
+    height: 10%;
+    width: 100%;
+}
+
+.div_dois_inputs{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: calc(var(--gap)*0.2);
+}
+
+.div_input {
+  width: 100%;
+  height: 100%;
+}
+
+.div_input_maior {
+  width: 70%;
+  height: 100%;
+}
+
+.div_input_menor {
+  width: 40%;
+  height: 100%;
+}
+
+.div_input_maior input,select{
+    width: 100%;
+    height: 50%;
+    background-color: var(--bg-color);
+    border: solid 1px var(--text-dark-fade);
+        border-radius: 5px;
+    padding: var(--padding);
+    font-size: calc(var(--font-title)*0.8);
+    color: var(--text-dark);
+}
+
+.div_input_menor input,select{
+    width: 100%;
+    height: 50%;
+    background-color: var(--bg-color);
+    border: solid 1px var(--text-dark-fade);
+        border-radius: 5px;
+    padding: var(--padding);
+    font-size: calc(var(--font-title)*0.8);
+    color: var(--text-dark);
+}
+
+.div_input input,select{
+    width: 100%;
+    height: 50%;
+    background-color: var(--bg-color);
+    border: solid 1px var(--text-dark-fade);
+    border-radius: 5px;
+    padding: var(--padding);
+    font-size: calc(var(--font-title)*0.8);
+    color: var(--text-dark);
+ 
+}
+
+#modal_remover_usuario{
+    max-width: 30%;
+    height: 30%;
+    box-shadow: var(--card-shadow);
+}
+
+#modal_remover_usuario .div_main_modal{
+    border-radius: 15px;
+    padding: calc(var(--padding)*2);;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap);
+}
+
+#modal_remover_usuario .div_info_excluir{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+}
+
+#modal_remover_usuario .div_info_excluir h1{
+    height: auto;
+    font-size: calc(var(--font-title)*1.5);
+}
+
+#modal_remover_usuario .div_info_excluir p{
+    height: auto;
+    font-size: calc(var(--font-title)*1);
+    font-weight: 400;
+}
+
+#modal_remover_usuario .div_btn_remover_usuario{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: calc(var(--gap)*0.5);
+    width: 100%;
+    height: 50%;
+}
+
+#modal_remover_usuario .div_btn_remover_usuario .div_editar_usuario{
+    width: 40%;
+    height: 60%;
+    font-size: var(--font-title);
+}
+
+#modal_remover_usuario .div_btn_remover_usuario #div_excluir_usuario{
+    background-color: red;
+    width: 40%;
+    height: 60%;
+    font-size: var(--font-title);
+}

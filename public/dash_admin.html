@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - Usuários</title>
+    <link rel="stylesheet" href="./css/style_admin.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="./js/login-cadas.js"></script>
+</head>
+
+
+<body>
+    <header class="header_info_usuario">
+
+        <img src="./assets/imgs/logo-nome.svg" alt="" class="img_logo">
+
+        <section class="section_infoUsuario">
+            <h1 class="h1_nome_usuario" id="h1_nome_usuario">Nome do Usuario</h1>
+            <img src="./assets/imgs/anne.png" alt="" class="img_icon_usuario" id="img_logo_usuario">
+            <span><i class="fi fi-sr-caret-down"></i></span>
+        </section>
+
+    </header>
+    <main>
+        <aside>
+            <section class="section_aside">
+                <ul>
+                    <li><a href="#"><i class="fi fi-sr-home"></i>Dashboard</a></li>
+                    <li><a href="#"><i class="fi fi-sr-users-alt"></i>Cursos</a></li>
+                    <li><a href="#"><i class="fi fi-sr-user"></i>Alunos</a></li>
+                    <li><a href="#"><i class="fi fi-sr-bell"></i>Alertas</a></li>
+                    <li><a href="#"><i class="fi fi-sr-settings"></i>Configurações</a></li>
+                    <li class="active"><a href="#"><i class="fi fi-sr-user-add"></i>Criar Ususario</a></li>
+                    <li><a href="./dash_admin_cursos.html"><i class="fi fi-sr-books-medical"></i>Criar Curso</a></li>
+                </ul>
+            </section>
+        </aside>
+
+
+        <section class="section_dash">
+            <main class="main_dash">
+                <header class="header_kpis">
+                  
+                    <section class="kpi">
+
+                        <div class="kpi_header">
+                            <div class="div_titulo_kpi" id="div_situacao">
+                                <p class="p_titulo_kpi">TOTAL DE USUÁRIOS CRIADOS</p>
+                                <h1 id="h1_situacao">234</h1>
+                            </div>
+
+                        </div>
+                        <div>
+
+                            <div class="kpi_footer">
+
+                                <p class="p_titulo_kpi">34 com tipo de<strong> Professor</strong></p>
+                                <p class="p_titulo_kpi">200 com tipo de <strong> Aluno</strong></p>
+
+                            </div>
+
+                        </div>
+
+
+
+                    </section>
+
+                      <section class="kpi">
+                        <div class="kpi_header" id="kpi_situacao">
+                            <div class="div_titulo_kpi" id="div_situacao">
+                                <p class="p_titulo_kpi">SITUAÇÂO ATUAL</p>
+                                <h1 id="h1_situacao">1 BLOQUEADO</h1>
+                            </div>
+                            <div class="div_comparativo">
+
+                                <p class="p_titulo_kpi"><strong>239 Liberados</strong></p>
+                                <p class="p_titulo_kpi"><strong>1 Bloqueado</strong></p>
+
+                            </div>
+                        </div>
+                        <div class="div_progress_bar">
+                            <div class="progress_bar">
+                                <progress id="progress_bar" value="32" max="100"> 32% </progress>
+                            </div>
+                        </div>
+                    </section>
+                </header>
+
+                <section class="section_main">
+                    <header class="header_usuarios">
+
+                        <input type="search" placeholder="Digite nome ou ID para procurar pelo usuário..."
+                            class="input_pesquisa">
+                        <div class="div_criar_usuario" id="btnAbrirDialog"
+                            onclick="listarInstituicoes(), abrirModal('modal_criar_usuario')">
+                            <p><strong>+ Criar Novo Usuário</strong></p>
+                        </div>
+
+                    </header>
+                    <section class="section_filter_usuarios">
+
+
+                        <details class="filtro-dropdown">
+
+                            <summary class="titulo_sumario">
+                                filtrar por
+                            </summary>
+
+                            <div class="filtro-lista">
+                                <label>
+                                    <!-- <input type="checkbox"> Turma -->
+
+                                    <details>
+
+                                        <summary><input type="checkbox"> Tipo</summary>
+
+                                        <div class="tipo_de_usuario">
+
+                                            <label><input type="checkbox"> professor</label>
+                                            <label><input type="checkbox"> aluno</label>
+
+                                        </div>
+
+                                    </details>
+                                </label>
+                                <label>
+                                    <input type="checkbox"> Turma
+                                </label>
+                                <label>
+                                    <input type="checkbox"> Curso
+                                </label>
+                                <label>
+                                    <input type="checkbox"> Situação
+                                </label>
+                                <label>
+                                    <input type="checkbox"> Instituição
+                                </label>
+                                <label>
+                                    <input type="checkbox"> Limpar
+                                </label>
+                            </div>
+
+                        </details>
+                    </section>
+                    <main class="main_usuarios">
+                        <!-- Tabela de usuários será inserida aqui -->
+                        <table class="tabela">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Tipo</th>
+                                    <th>Turma/Curso</th>
+                                    <th>Instituição</th>
+                                    <th>Situação</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody class="corpo_tabela">
+
+                                <tr>
+                                    <td>1111111111</td>
+                                    <td>João Silva</td>
+                                    <td>joao.silva@sptech.school</td>
+                                    <td>Aluno</td>
+                                    <td>1ADSB/CCO</td>
+                                    <td>SPTECH SCHOOL</td>
+                                    <td>
+                                        <p class="p_status_bloqueado">Bloqueado</p>
+                                    </td>
+                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i>
+                                    </td>
+                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1111111111</td>
+                                    <td>João Silva</td>
+                                    <td>joao.silva@sptech.school</td>
+                                    <td>Aluno</td>
+                                    <td>1ADSB/CCO</td>
+                                    <td>SPTECH SCHOOL</td>
+                                    <td>
+                                        <p class="p_status_liberado">Liberado</p>
+                                    </td>
+                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i>
+                                    </td>
+                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1111111111</td>
+                                    <td>João Silva</td>
+                                    <td>joao.silva@sptech.school</td>
+                                    <td>Professor</td>
+                                    <td>1ADSB/CCO</td>
+                                    <td>SPTECH SCHOOL</td>
+                                    <td>
+                                        <p class="p_status_liberado">Liberado</p>
+                                    </td>
+                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i>
+                                    </td>
+                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1111111111</td>
+                                    <td>João Silva</td>
+                                    <td>joao.silva@sptech.school</td>
+                                    <td>Aluno</td>
+                                    <td>1ADSB/CCO</td>
+                                    <td>SPTECH SCHOOL</td>
+                                    <td>
+                                        <p class="p_status_liberado">Liberado</p>
+                                    </td>
+                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i>
+                                    </td>
+                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1111111111</td>
+                                    <td>João Silva</td>
+                                    <td>joao.silva@sptech.school</td>
+                                    <td>Aluno</td>
+                                    <td>1ADSB/CCO</td>
+                                    <td>SPTECH SCHOOL</td>
+                                    <td>
+                                        <p class="p_status_liberado">Liberado</p>
+                                    </td>
+                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i>
+                                    </td>
+                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1111111111</td>
+                                    <td>João Silva</td>
+                                    <td>joao.silva@sptech.school</td>
+                                    <td>Aluno</td>
+                                    <td>1ADSB/CCO</td>
+                                    <td>SPTECH SCHOOL</td>
+                                    <td>
+                                        <p class="p_status_liberado">Liberado</p>
+                                    </td>
+                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i>
+                                    </td>
+                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1111111111</td>
+                                    <td>João Silva</td>
+                                    <td>joao.silva@sptech.school</td>
+                                    <td>Aluno</td>
+                                    <td>1ADSB/CCO</td>
+                                    <td>SPTECH SCHOOL</td>
+                                    <td>
+                                        <p class="p_status_liberado">Liberado</p>
+                                    </td>
+                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i>
+                                    </td>
+                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1111111111</td>
+                                    <td>João Silva</td>
+                                    <td>joao.silva@sptech.school</td>
+                                    <td>Aluno</td>
+                                    <td>1ADSB/CCO</td>
+                                    <td>SPTECH SCHOOL</td>
+                                    <td>
+                                        <p class="p_status_liberado">Liberado</p>
+                                    </td>
+                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i>
+                                    </td>
+                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+                                    </td>
+                                </tr>
+
+
+                                <!-- Adicione mais linhas conforme necessário -->
+                            </tbody>
+                        </table>
+
+                    </main>
+                </section>
+            </main>
+        </section>
+    </main>
+
+    <dialog id="modal_criar_usuario" class="dialog_modal">
+        <div class="div_header_modal">
+            <div class="div_btn_usuario active">Novo Aluno</div>
+            <div class="div_btn_usuario">Novo Professor</div>
+        </div>
+        <div class="div_main_modal">
+            <h3>Complete as informações do Novo Aluno:</h3>
+            <form class="form_modal">
+
+                <label for="nome_instituicao">Instituição:</label>
+                <input list="instituicoes" type="nome_instituicao" id="instituicao" name="nome_instituicao"
+                    placeholder="Pesquise pela sua instituicao" class="input_modal">
+                <datalist id="instituicoes">
+                    <option value=""></option>
+                </datalist>
+
+                <label for="ra">RA:</label>
+                <input type="text" class="input_modal" id="ra" name="ra" placeholder="Digite o RA do aluno">
+
+
+                <label for="nome_turma">Turma:</label>
+                <input list="instituicoes" type="nome_turma" id="turma" name="nome_turma"
+                    placeholder="Pesquise pela sua turma" class="input_modal">
+                <datalist id="turmas">
+                    <option value=""></option>
+                </datalist>
+
+                <label for="nome_curso">Curso:</label>
+                <input list="instituicoes" type="nome_curso" id="curso" name="nome_curso"
+                    placeholder="Pesquise pela sua curso" class="input_modal">
+                <datalist id="cursos">
+                    <option value=""></option>
+                </datalist>
+
+            </form>
+
+            <div class="div_footer">
+
+                <div class="div_criar_usuario" id="btnEnviarDialog" onclick="enviarModal('modal_criar_usuario')">
+                    <p><strong>Criar Novo Usuário</strong></p>
+                </div>
+
+                <p id="btnFecharDialog" onclick="fecharModal('modal_criar_usuario')"><u>cancelar</u></p>
+
+            </div>
+
+        </div>
+    </dialog>
+
+
+    <dialog id="modal_editar_usuario" class="dialog_modal">
+
+        <div class="div_main_modal">
+            <div class="div_header_modal">
+                <h3>Edite as informações do Usuário:</h3>
+                <div class="div_status">
+                    <div class="circulo_status">
+                        <p>L</p>
+                    </div>
+                </div>
+            </div>
+            <form class="form_modal">
+
+
+                <div class="div_dois_inputs">
+
+                    <div class="div_input_menor">
+                        <label for="ra">RA:</label>
+                        <input type="text" class="input_modal" name="ra" placeholder="Digite o RA do aluno">
+                    </div>
+
+                    <div class="div_input_maior">
+                        <label for="tipo_de_usuario">Tipo:</label>
+                        <select class="select_tipo_de_usuario" name="tipo_de_usuario" id="">
+                            <option value=""></option>
+                            <option value="estudante"></option>
+                            <option value="professor"></option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="div_dois_inputs">
+
+                    <div class="div_input_menor">
+
+                        <label for="ra">Nome:</label>
+                        <input type="text" class="input_modal" name="nome" placeholder="Digite o Nome do aluno">
+                    </div>
+                    <div class="div_input_maior">
+                        <label for="ra">Email:</label>
+                        <input type="text" class="input_modal" name="email" placeholder="Digite o Email do aluno">
+
+                    </div>
+
+                </div>
+
+                <div class="div_dois_inputs">
+
+                    <div class="div_input_menor">
+                        <label for="turma">Turma:</label>
+                        <select name="turma" id="">
+                            <option value="">Selecione a Turma</option>
+                            <option value="1ADSB/CCO">1ADSB/CCO</option>
+                            <option value="2ADSB/CCO">2ADSB/CCO</option>
+                        </select>
+                    </div>
+
+
+                    <div class="div_input_maior">
+                        <label for="instituicao">Instituição:</label>
+                        <input type="text" name="instituicao">
+                    </div>
+
+
+                </div>
+
+
+                <div class="div_input">
+                    <label for="instituicao">Cursos:</label>
+                    <input type="text" name="instituicao">
+                </div>
+
+            </form>
+
+            <div class="div_footer">
+
+                <div class="div_editar_usuario" id="btnEnviarDialog" onclick="fecharModal('modal_editar_usuario')">
+                    <p><strong>Salvar</strong></p>
+                </div>
+
+                <p id="btnFecharDialog" onclick="fecharModal('modal_editar_usuario')"><u>cancelar</u></p>
+
+            </div>
+
+        </div>
+    </dialog>
+
+    <dialog id="modal_remover_usuario" class="dialog_modal">
+
+
+
+
+
+            <div class="div_main_modal">
+
+                <div class="div_info_excluir">
+                    <h1>Excluir cadastro</h1>
+                    <p>Tem certeza que deseja deletar esse cadastro? <br>Não é possível desfazer essa ação</p>
+                </div>
+
+                <div class="div_btn_remover_usuario">
+
+                <div class="div_editar_usuario" onclick="fecharModal('modal_remover_usuario')">
+                    <p><strong>Cancelar</strong></p>
+                </div>
+
+                <div class="div_editar_usuario" id="div_excluir_usuario" onclick="enviarModal('modal_remover_usuario')">
+                    <p><strong>Excluir</strong></p>
+                </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </dialog>
+</body>
+
+</html>
+
+<script>
+
+    function abrirModal(modalId) {
+        const dialog = document.getElementById(modalId);
+        dialog.showModal();
+    }
+
+    function fecharModal(modalId) {
+        const dialog = document.getElementById(modalId);
+        dialog.close();
+    }
+
+    function enviarModal(modalId) {
+        const dialog = document.getElementById(modalId);
+
+        // Lógica para enviar os dados do modal pode ser adicionada aqui
+
+        dialog.close();
+    }
+
+</script>

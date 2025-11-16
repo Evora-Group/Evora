@@ -155,3 +155,11 @@ aside section ul li a i{
     font-size: 30px;
 
 }
+
+main {
+
+    width: 100%;
+    height: 92%;
+    display: flex;
+
+}

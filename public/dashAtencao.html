@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Curso</title>
+    <link rel="stylesheet" href="./css/dashAtencao.css">
+    <link rel="shortcut icon" href="assets/imgs/logoEvora.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+</head>
+
+<body>
+    <header>
+
+        <img src="./assets/imgs/logo-nome.svg" alt="" class="img_logo">
+
+        <section class="section_infoUsuario">
+            <h1 class="h1_nome_usuario" id="h1_nome_usuario">Nome do Usuario</h1>
+            <img src="./assets/imgs/anne.png" alt="" class="img_icon_usuario" id="img_logo_usuario">
+            <span><i class="fi fi-sr-caret-down"></i>
+            </span>
+        </section>
+
+    </header>
+    <main>
+        <aside>
+            <section class="section_aside">
+                <ul>
+                    <li><a href="./dashHome.html"><i class="fi fi-sr-home"></i>Dashboard</a></li>
+                    <li><a href="./dashCurso.html"><i class="fi fi-sr-users-alt"></i>Cursos</a></li>
+                    <li><a href="./dashAlunos.html"><i class="fi fi-sr-user"></i>Alunos</a></li>
+                    <li><a href="./dashAlerta.html" class="active"><i class="fi fi-sr-bell"></i>Alertas</a></li>
+                    <li><a href="./dashConf.html"><i class="fi fi-sr-settings"></i>Configurações</a></li>
+                </ul>
+            </section>
+        </aside>
+
+        <section class="section-curso">
+            <main class="main-curso">
+               <div class="title">
+                <h2>Alertas</h2>
+            </div>
+
+            <ul class="cabecalho_one">
+                <li><a href="dashAlerta.html">Preocupante</a></li>
+                <li id="ativo"><a href="dashAtencao.html"> Atenção</a></li>
+            </ul>
+
+            <div class="tabela-alertas">
+                <div class="cabecalho">
+                    <p>Aluno</p>
+                    <p>Turma</p>
+                    <p>Descrição</p>
+                    <p>Acesso</p>
+                    <p>Presença Geral</p>
+                </div>
+
+                <div class="dados_linha">
+                    <div data-label="Aluno">Ravi Matos</div>
+                    <div data-label="Turma">1B</div>
+                    <div data-label="Descrição">Faltou na aula de hoje</div>
+                    <div data-label="Frequência">81%</div>
+                    <div data-label="Presença">76%</div>
+                </div>
+
+                <div class="dados_linha">
+                    <div data-label="Aluno">Luna Vieira</div>
+                    <div data-label="Turma">4C</div>
+                    <div data-label="Descrição">Faltou na aula de hoje</div>
+                    <div data-label="Frequência">78%</div>
+                    <div data-label="Presença">75%</div>
+                </div>
+            </div>
+            </main>
+        </section>
+    </main>
+</body>
+
+</html>

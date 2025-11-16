@@ -1,69 +1,211 @@
-* {
-    font-family: var(--default-font-family, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji");
-    margin: 0;
-    padding: 0;
-}
+/* ==== 1. Boas Práticas e Variáveis ==== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap');
 
 :root {
-    --content-bg: #f8fafc;
-    --border-color: #eef2f7;
-    --text-primary: #111827;
-    --text-secondary: #6b7280;
+    --font-family: 'Poppins', sans-serif;
+
+    /* Cores Base */
+    --primary-color: #4487DE;
+    /* Roxo/Azul principal */
+    --primary-color-dark: #3a67cf;
+    /* Roxo/Azul principal */
+    --white-color: #ffffff;
+    --fade-color-dark: #00000021;
+    --bg-color: #EAF3F6;
+    /* Fundo principal da página */
+
+    /* Cores de Texto */
+    --text-dark: #000000;
+    --text-dark-fade: #000000c2;
+    --text-light: #ffffff;
+
+    /* Tamanho Texto */
+
+    --font-title: 22px;
+
+
+
+    /* Cores de Status */
+    --status-active: #A2FF94;
+    --status-blocked: #4D4D4D;
+
+    /* Outros */
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.144);
+    --padding: 15px;
+    --gap: 5%;
+    --color-description: rgba(124, 141, 181, 1);
+    --green-arrow: #1ac100;
+    --red-arrow: red;
+    --icon-color: rgba(52, 122, 226, 1);
 }
 
+/* ==== 2. Reset Global ==== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-#nav_bar {
-    background-color: #d9d9d9;
-    height: 4rem;
+a {
+    text-decoration: none;
+}
+
+body {
+    background-color: var(--bg-color);
+    width: 100vw;
+    height: 100vh;
+    font-family: "Roboto", sans-serif;
+    font-size: medium;
+    font-weight: 500;
+}
+
+header {
+    background-color: var(--white-color);
+    padding: 15px;
+    width: 100%;
+    height: 8%;
     display: flex;
-    padding: 0 1rem;
-}
-
-#nav_logo img {
-    height: 4rem;
-    width: 4rem;
-}
-
-#nav_logo {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
     align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--card-shadow);
+
 }
 
-#nav_logo h2 {
-    color: #256297;
+header .img_logo {
+    width: 8%;
+    min-width: 100px;
 }
 
+header section {
+    width: 30%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 5%;
+}
+
+
+header section h1 {
+    font-size: var(--font-title);
+    font-weight: 500;
+}
+
+header i {
+    font-size: 35px;
+    color: var(--primary-color);
+}
+
+.img_icon_usuario {
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+}
+
+aside {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    width: 15%;
+    height: 100%;
+    padding-top: 40px;
+    box-shadow: var(--card-shadow);
+}
+
+aside section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+aside section ul {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+aside section ul li {
+
+    width: 100%;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+aside section ul li:hover {
+
+    background-color: var(--primary-color-dark);
+
+}
+
+aside section ul li a {
+
+    color: var(--text-light);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
+    padding: 14%;
+    font-size: var(--font-title);
+
+
+}
+
+
+aside section ul li a i {
+
+    font-size: 30px;
+
+}
 
 main {
-    display: flex;
-    height: 100vh;
-    flex-direction: row;
-}
 
-.menu {
-    background-color: #fff;
-    width: 20%;
-    height: 100vh;
-    display: flex;
-}
-
-
-.container {
-    background-color: #f5f7fa;
-    height: 100vh;
     width: 100%;
-    margin-top: 1rem;
-
-    align-items: start;
-    justify-items: start;
-
-    padding-top: 3rem;
-    padding-left: 3rem;
+    height: 92%;
+    display: flex;
 
 }
 
+
+aside .active {
+    background-color: var(--primary-color-dark);
+}
+
+.main-conf {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+main .section-conf {
+
+    width: 85%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--padding)*1.25);
+}
+
+.section-conf .main-conf {
+
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    background-color: var(--white-color);
+    padding: calc(var(--padding)*1.25);
+    gap: calc(var(--gap) * 0.5);
+    box-shadow: var(--card-shadow);
+
+}
 
 .categories {
     list-style: none;
@@ -91,41 +233,6 @@ main {
     color: #007BFF;
 }
 
-/* Estilo do item ativo (Configurações) */
-.categories li.active a {
-    color: blue;
-    font-weight: 600;
-}
-
-.categories li.active {
-    position: relative;
-}
-
-.categories li.active::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 70%;
-    width: 4px;
-    background-color: blue;
-    border-radius: 0 4px 4px 0;
-}
-
-.active {
-    text-decoration: none;
-    padding: 12px 16px;
-    cursor: pointer;
-    position: relative;
-    transition: color 0.3s ease;
-    color: gray;
-    gap: 0.8rem;
-    display: flex;
-    align-items: center;
-}
-
-
 
 .settings-card {
     background-color: #fff;
@@ -135,31 +242,35 @@ main {
     width: 100%;
     max-width: 86%;
     height: auto;
+    margin-top: 4%;
 
 }
 
 .tabs {
     display: flex;
     gap: 0.4rem;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid  rgba(124, 141, 181, 0.232);
     padding: 1rem 2.5rem 0 2.5rem;
     /* Padding para alinhar com o form */
 }
 
 .tab {
+    padding-top: 1rem;
     padding-bottom: 1rem;
     text-decoration: none;
     color: var(--text-secondary);
-    font-weight: 500;
+    
+    font-size: 18px;
     border-bottom: 2px solid transparent;
 }
 
 .tab.active {
     color: blue;
-    font-weight: 600;
+    font-weight: 500;
     border-bottom-color: blue;
     margin-top: 0;
 }
+
 
 .settings-form {
     display: flex;
@@ -174,8 +285,8 @@ main {
 
 .profile-picture-container {
     position: relative;
-    width: 100px;
-    height: 100px;
+    width: 160px;
+    height: 160px;
 }
 
 .profile-picture-container img {
@@ -234,7 +345,7 @@ main {
 }
 
 .form-group label {
-    font-size: 0.875rem;
+    font-size: 16px;
     font-weight: 500;
     color: var(--text-primary);
     margin-bottom: 0.5rem;
@@ -243,7 +354,7 @@ main {
 .form-group input,
 .form-group select {
     width: 100%;
-    padding: 0.6rem 0.75rem; 
+    padding: 1.4rem 1.0rem; 
     
     border: 1px solid #e5e7eb; 
 

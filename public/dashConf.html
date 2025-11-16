@@ -1,39 +1,46 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/configuracoes.css">
-    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <title>Configurações</title>
+    <link rel="stylesheet" href="./css/dashConf.css">
+    <link rel="shortcut icon" href="assets/imgs/logoEvora.svg" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
-    <title>Configurações - Évora</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 </head>
 
 <body>
     <header>
-        <nav id="nav_bar">
-            <div id="nav_logo">
-                <img src="assets/imgs/logoEvora.svg" alt="Logo">
-                <h2>Évora</h2>
-            </div>
-        </nav>
+
+        <img src="./assets/imgs/logo-nome.svg" alt="" class="img_logo">
+
+        <section class="section_infoUsuario">
+            <h1 class="h1_nome_usuario" id="h1_nome_usuario">Nome do Usuario</h1>
+            <img src="./assets/imgs/anne.png" alt="" class="img_icon_usuario" id="img_logo_usuario">
+            <span><i class="fi fi-sr-caret-down"></i>
+            </span>
+        </section>
+
     </header>
-
     <main>
-        <aside class="menu">
-            <ul class="categories">
-                <li><a href="dashboard_home.html"><i class="fi fi-rr-home"></i> <span>Dashboard</span></a></li>
-                <li><a href="dash_cursos.html"><i class="fi fi-rr-users-alt"></i> <span>Cursos</span></a></li>
-                <li><a href="dash_alerta.html"><i class="fi fi-rr-bell"></i> <span>Alertas</span></a></li>
-
-                <li class="active"><a href="configuracoes.html"><i class="fi fi-sr-settings"></i>
-                        <span>Configurações</span></a></li>
-            </ul>
+        <aside>
+            <section class="section_aside">
+                <ul>
+                    <li><a href="./dashHome.html"><i class="fi fi-sr-home"></i>Dashboard</a></li>
+                    <li><a href="./dashCurso.html"><i class="fi fi-sr-users-alt"></i>Cursos</a></li>
+                    <li><a href="./dash_alunos.html"><i class="fi fi-sr-user"></i>Alunos</a></li>
+                    <li><a href="./dashAlerta.html"><i class="fi fi-sr-bell"></i>Alertas</a></li>
+                    <li><a href="./dashConf.html" class="active"><i class="fi fi-sr-settings"></i>Configurações</a></li>
+                </ul>
+            </section>
         </aside>
 
-        <section class="container">
-            <div class="settings-card">
+        <section class="section-conf">
+           <main class="main-conf">
+                <div class="settings-card">
 
                 <nav class="tabs">
                     <a href="#" class="tab active">Editar Conta</a>
@@ -87,6 +94,7 @@
                 </form>
 
             </div>
+           </main>
         </section>
     </main>
 </body>

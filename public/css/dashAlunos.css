@@ -28,3 +28,27 @@
   margin: 0; /* Remove margem padrão do <p> */
   display: inline-block; /* Faz o fundo se ajustar ao texto */
 }
+
+.botao-sair {
+    position: absolute; 
+    bottom: 30px;       
+    left: 100px;         
+    right: 100px;        
+
+    background-color: #dd1c2f; 
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 5px;
+
+    /* --- Para alinhar o ícone e o texto --- */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espaço entre o ícone e o texto */
+}
+
+.botao-sair:hover {
+    background-color: #c82333; 
+}

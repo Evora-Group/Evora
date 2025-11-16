@@ -1,0 +1,30 @@
+#progress_bar::-webkit-progress-value {
+    background-color: rgb(255, 197, 143);
+}
+
+.p_status_atencao {
+  background-color: rgb(255, 199, 161);
+  border-radius: 15px;
+  color: var(--text-dark); /* Adicionei uma cor para legibilidade */
+  padding: 5px 10px;
+  margin: 0; /* Remove margem padrão do <p> */
+  display: inline-block; /* Faz o fundo se ajustar ao texto */
+}
+
+.p_status_regular{
+    background-color: rgb(255, 253, 155);
+  border-radius: 15px;
+  color: var(--text-dark); /* Adicionei uma cor para legibilidade */
+  padding: 5px 10px;
+  margin: 0; /* Remove margem padrão do <p> */
+  display: inline-block; /* Faz o fundo se ajustar ao texto */
+}
+
+.p_status_otimo {
+  background-color: rgb(150, 255, 150);
+  border-radius: 15px;
+  color: var(--text-dark); /* Adicionei uma cor para legibilidade */
+  padding: 5px 10px;
+  margin: 0; /* Remove margem padrão do <p> */
+  display: inline-block; /* Faz o fundo se ajustar ao texto */
+}

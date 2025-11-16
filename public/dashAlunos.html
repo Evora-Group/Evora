@@ -1,79 +1,29 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Painel - Cursos</title>
-    <link rel="stylesheet" href="./css/dash_alunos.css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Professor - Alunos</title>
+    <link rel="stylesheet" href="./css/style_admin.css">
+    <link rel="stylesheet" href="./css/dashAlunos.css">
     <link rel="shortcut icon" href="assets/imgs/logoEvora.svg" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="./js/login-cadas.js"></script>
 </head>
 
+
 <body>
-
-    <!-- ================= MODAL CRIAR USUÁRIO ================= -->
-    <div class="modal-overlay" id="modalOverlay"></div>
-
-    <div class="modal" id="modalCriar" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-header">
-        <h2>Complete as informações do Novo Aluno:</h2>
-        <button class="modal-close" id="btnFechar" aria-label="Fechar modal">&times;</button>
-    </div>
-
-    <form class="modal-form-grid" id="formCriar">
-
-        <div class="form-group">
-            <label>RA:</label>
-            <input type="text" name="ra" placeholder="Digite aqui..." required>
-        </div>
-
-        <div class="form-group">
-            <label>Turma:</label>
-            <select name="turma" required>
-                <option disabled selected>Selecione ou Pesquise por Turma</option>
-                <option>1-A</option>
-                <option>1-B</option>
-                <option>2-A</option>
-                <option>2-B</option>
-                <option>3-A</option>
-                <option>3-B</option>
-                <option>4-A</option>
-                <option>4-B</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>Curso:</label>
-            <select name="curso" required>
-                <option disabled selected>Selecione ou Pesquise por Curso</option>
-                <option>ADS</option>
-                <option>SIS</option>
-                <option>CCO</option>
-            </select>
-        </div>
-
-            <button type="submit" class="btn-criar-aluno">Criar Novo Aluno</button>
-            <div class="created-at-box">
-                <label>Criado em:</label>
-                <input type="text" value="10/11/2025" readonly>
-            </div>
-
-    </form>
-</div>
-
-    <!-- ======================================================== -->
-
-
-    <header class="header_info_aluno">
+    <header class="header_info_usuario">
 
         <img src="./assets/imgs/logo-nome.svg" alt="" class="img_logo">
 
-        <section class="section_infoaluno">
-            <h1 class="h1_nome_aluno" id="h1_nome_aluno">Anne Yamasaki</h1>
-            <img src="./assets/imgs/anne.png" alt="" class="img_icon_aluno" id="img_logo_aluno">
+        <section class="section_infoUsuario">
+            <h1 class="h1_nome_usuario" id="h1_nome_professor">Nome do Professor</h1>
+            <img src="./assets/imgs/anne.png" alt="" class="img_icon_usuario" id="img_logo_professor">
             <span><i class="fi fi-sr-caret-down"></i></span>
         </section>
 
@@ -84,7 +34,7 @@
                 <ul>
                     <li><a href="./dashHome.html" ><i class="fi fi-sr-home"></i>Dashboard</a></li>
                     <li><a href="./dashCurso.html"><i class="fi fi-sr-users-alt"></i>Cursos</a></li>
-                    <li class="active"><a href="./dash_alunos.html"><i class="fi fi-sr-user"></i>Alunos</a></li>
+                    <li class="active"><a href="./dashAlunos.html"><i class="fi fi-sr-user"></i>Alunos</a></li>
                     <li><a href="./dashAlerta.html"><i class="fi fi-sr-bell"></i>Alertas</a></li>
                     <li><a href="./dashConf.html"><i class="fi fi-sr-settings"></i>Configurações</a></li>
                 </ul>
@@ -135,21 +85,24 @@
                 </header>
 
                 <section class="section_main">
-                    <header class="header_alunos">
+                    <header class="header_usuarios">
 
                         <input type="search" placeholder="Digite nome ou RA para procurar pelo aluno..."
                             class="input_pesquisa">
-
-                        <div class="div_criar_aluno" id="btnAbrirModal" role="button" tabindex="0">
-                            <p><strong>+ Criar Novo Usuário</strong></p>
+                        <div class="div_criar_usuario" id="btnAbrirDialog"
+                            onclick="listarInstituicoes(), abrirModal('modal_criar_aluno')">
+                            <p><strong>+ Criar Novo Aluno</strong></p>
                         </div>
 
                     </header>
-                    <section class="section_filter_alunos">
+                    <section class="section_filter_usuarios">
+
 
                         <details class="filtro-dropdown">
 
-                            <summary class="titulo_sumario">filtrar por</summary>
+                            <summary class="titulo_sumario">
+                                filtrar por
+                            </summary>
 
                             <div class="filtro-lista">
 
@@ -192,7 +145,8 @@
 
                         </details>
                     </section>
-                    <main class="main_alunos">
+                    <main class="main_usuarios">
+                        <!-- Tabela de usuários será inserida aqui -->
                         <table class="tabela">
                             <thead>
                                 <tr>
@@ -214,7 +168,7 @@
                                     <td>2-B</td>
                                     <td>Análise Desenvolvimento de Sistemas</td>
                                     <td><p class="p_status_atencao">Atenção</p></td>
-                                    <td><i class="fi fi-sr-pencil"></i></td>
+                                    <td onclick="abrirModal('modal_editar_aluno')"><i class="fi fi-sr-pencil"></i></td>
                                 </tr>
                                 <tr>
                                     <td>01251089</td>
@@ -223,7 +177,7 @@
                                     <td>2-B</td>
                                     <td>Análise Desenvolvimento de Sistemas</td>
                                     <td><p class="p_status_atencao">Atenção</p></td>
-                                    <td><i class="fi fi-sr-pencil"></i></td>
+                                    <td onclick="abrirModal('modal_editar_aluno')"><i class="fi fi-sr-pencil"></i></td>
                                 </tr>
                                 <tr>
                                     <td>01251089</td>
@@ -232,7 +186,7 @@
                                     <td>2-B</td>
                                     <td>Análise Desenvolvimento de Sistemas</td>
                                     <td><p class="p_status_atencao">Atenção</p></td>
-                                    <td><i class="fi fi-sr-pencil"></i></td>
+                                    <td onclick="abrirModal('modal_editar_aluno')"><i class="fi fi-sr-pencil"></i></td>
                                 </tr>
                                 <tr>
                                     <td>01251089</td>
@@ -241,7 +195,7 @@
                                     <td>2-B</td>
                                     <td>Análise Desenvolvimento de Sistemas</td>
                                     <td><p class="p_status_regular">Regular</p></td>
-                                    <td><i class="fi fi-sr-pencil"></i></td>
+                                    <td onclick="abrirModal('modal_editar_aluno')"><i class="fi fi-sr-pencil"></i></td>
                                 </tr>
                                 <tr>
                                     <td>01251089</td>
@@ -250,7 +204,7 @@
                                     <td>2-B</td>
                                     <td>Análise Desenvolvimento de Sistemas</td>
                                     <td><p class="p_status_otimo">Ótimo</p></td>
-                                    <td><i class="fi fi-sr-pencil"></i></td>
+                                    <td onclick="abrirModal('modal_editar_aluno')"><i class="fi fi-sr-pencil"></i></td>
                                 </tr> 
 
                             </tbody>
@@ -262,72 +216,140 @@
         </section>
     </main>
 
+    <dialog id="modal_criar_aluno" class="dialog_modal">
+        <div class="div_header_modal">
+        </div>
+        <div class="div_main_modal">
+            <h3>Complete as informações do Novo Aluno:</h3>
+            <form class="form_modal">
 
-    <!-- === SCRIPT DO MODAL === -->
-    <script>
-        // elementos
-        const btnAbrir = document.getElementById("btnAbrirModal");
-        const btnFechar = document.getElementById("btnFechar");
-        const btnCancelar = document.getElementById("btnCancelar");
-        const modal = document.getElementById("modalCriar");
-        const overlay = document.getElementById("modalOverlay");
-        const form = document.getElementById("formCriar");
+                <label for="ra">RA:</label>
+                <input type="text" class="input_modal" id="ra" name="ra" placeholder="Digite o RA do aluno">
 
-        // abre modal
-        function abrirModal() {
-            modal.classList.add("ativo");
-            overlay.classList.add("ativo");
-            modal.setAttribute("aria-hidden", "false");
-            document.body.classList.add("no-scroll");
-            // foco no primeiro campo
-            setTimeout(() => {
-                const primeiro = modal.querySelector("input, select, textarea");
-                if (primeiro) primeiro.focus();
-            }, 150);
-        }
 
-        // fecha modal
-        function fecharModal() {
-            modal.classList.remove("ativo");
-            overlay.classList.remove("ativo");
-            modal.setAttribute("aria-hidden", "true");
-            document.body.classList.remove("no-scroll");
-        }
+                <label for="nome_turma">Turma:</label>
+                <input list="instituicoes" type="nome_turma" id="turma" name="nome_turma"
+                    placeholder="Pesquise pela sua turma" class="input_modal">
+                <datalist id="turmas">
+                    <option value=""></option>
+                </datalist>
 
-        btnAbrir.addEventListener("click", abrirModal);
-        btnAbrir.addEventListener("keyup", (e) => { if (e.key === "Enter" || e.key === " ") abrirModal(); });
+                <label for="nome_curso">Curso:</label>
+                <input list="instituicoes" type="nome_curso" id="curso" name="nome_curso"
+                    placeholder="Pesquise pela sua curso" class="input_modal">
+                <datalist id="cursos">
+                    <option value=""></option>
+                </datalist>
 
-        btnFechar.addEventListener("click", fecharModal);
-        btnCancelar.addEventListener("click", fecharModal);
+            </form>
 
-        overlay.addEventListener("click", fecharModal);
+            <div class="div_footer">
 
-        // fechar com ESC
-        document.addEventListener("keydown", (e) => {
-            if (e.key === "Escape" && modal.classList.contains("ativo")) {
-                fecharModal();
-            }
-        });
+                <div class="div_criar_usuario" id="btnEnviarDialog" onclick="enviarModal('modal_criar_aluno')">
+                    <p><strong>Criar Novo Aluno</strong></p>
+                </div>
 
-        // exemplo: submit do form (prevenção padrão para demo). Aqui você pega os dados e envia.
-        form.addEventListener("submit", (e) => {
-            e.preventDefault();
-            // pegar valores de exemplo
-            const dados = new FormData(form);
-            const aluno = {
-                nome: dados.get("nome"),
-                email: dados.get("email"),
-                ra: dados.get("ra"),
-                turma: dados.get("turma"),
-                curso: dados.get("curso")
-            };
-            console.log("Criar aluno:", aluno);
-            // fechar modal após criar
-            fecharModal();
-            // aqui você pode adicionar a lógica para inserir a linha na tabela ou enviar para backend
-        });
-    </script>
+                <p id="btnFecharDialog" onclick="fecharModal('modal_criar_aluno')"><u>cancelar</u></p>
 
+            </div>
+
+        </div>
+    </dialog>
+
+
+    <dialog id="modal_editar_aluno" class="dialog_modal" style="height: 90%;">
+
+        <div class="div_main_modal">
+            <div class="div_header_modal">
+                <h3>Edite as informações do Aluno:</h3>
+            </div>
+            <form class="form_modal">
+                <div class="div_dois_inputs">
+
+                    <div class="div_input_menor">
+                        <label for="ra">RA:</label>
+                        <input type="text" class="input_modal" name="ra" placeholder="01251089" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
+                    </div>
+
+                </div>
+
+                <div class="div_dois_inputs">
+
+                    <div class="div_input_menor">
+
+                        <label for="ra">Nome:</label>
+                        <input type="text" class="input_modal" name="nome" placeholder="Anne Yukari Yamasaki" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
+                    </div>
+                    <div class="div_input_maior">
+                        <label for="ra">Email:</label>
+                        <input type="text" class="input_modal" name="email" placeholder="anne.yamasaki@sptech.school" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
+
+                    </div>
+
+                </div>
+
+                <div class="div_dois_inputs">
+
+                    <div class="div_input_menor">
+                        <label for="turma">Turma:</label>
+                        <select name="turma" id="">
+                            <option value="">Selecione a Turma</option>
+                            <option value="1ADSB/CCO">1ADSB/CCO</option>
+                            <option value="2ADSB/CCO">2ADSB/CCO</option>
+                        </select>
+                    </div>
+
+
+                    <div class="div_input_maior">
+                        <label for="instituicao">Instituição:</label>
+                        <input type="text" class="input_noinput" name="instituicao" placeholder="SPTECH SCHOOL" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
+                    </div>
+
+
+                </div>
+
+
+                <div class="div_input">
+                    <label for="instituicao">Cursos:</label>
+                    <input type="text" name="instituicao">
+                </div>
+
+            </form>
+
+            <div class="div_footer" style="margin-top: 50px;">
+
+                <div class="div_editar_usuario" id="btnEnviarDialog" onclick="fecharModal('modal_editar_aluno')">
+                    <p><strong>Salvar</strong></p>
+                </div>
+
+                <p id="btnFecharDialog" onclick="fecharModal('modal_editar_aluno')"><u>cancelar</u></p>
+
+            </div>
+
+        </div>
+    </dialog>
 </body>
 
 </html>
+
+<script>
+
+    function abrirModal(modalId) {
+        const dialog = document.getElementById(modalId);
+        dialog.showModal();
+    }
+
+    function fecharModal(modalId) {
+        const dialog = document.getElementById(modalId);
+        dialog.close();
+    }
+
+    function enviarModal(modalId) {
+        const dialog = document.getElementById(modalId);
+
+        // Lógica para enviar os dados do modal pode ser adicionada aqui
+
+        dialog.close();
+    }
+
+</script>

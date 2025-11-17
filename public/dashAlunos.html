@@ -171,50 +171,55 @@
                             </thead>
                             <tbody class="corpo_tabela">
 
-                                 <tr>
+                                 <tr onclick="irParaAluno('alunoEspecifico.html')">
+
                                     <td>01251089</td>
                                     <td>Anne Yamsaki</td>
                                     <td>anne.yamasaki@sptech.school</td>
                                     <td>2-B</td>
                                     <td>Análise Desenvolvimento de Sistemas</td>
                                     <td><p class="p_status_atencao">Atenção</p></td>
-                                    <td onclick="abrirModal('modal_editar_aluno')"><i class="fi fi-sr-pencil"></i></td>
+                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
                                 </tr>
-                                <tr>
+                                <tr onclick="irParaAluno('alunoEspecifico.html')">
+
                                     <td>01251089</td>
                                     <td>Anne Yamasaki</td>
                                     <td>anne.yamasaki@sptech.school</td>
                                     <td>2-B</td>
                                     <td>Análise Desenvolvimento de Sistemas</td>
                                     <td><p class="p_status_atencao">Atenção</p></td>
-                                    <td onclick="abrirModal('modal_editar_aluno')"><i class="fi fi-sr-pencil"></i></td>
+                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
                                 </tr>
-                                <tr>
+                                <tr onclick="irParaAluno('alunoEspecifico.html')">
+
                                     <td>01251089</td>
                                     <td>Anne Yamasaki</td>
                                     <td>anne.yamasaki@sptech.school</td>
                                     <td>2-B</td>
                                     <td>Análise Desenvolvimento de Sistemas</td>
                                     <td><p class="p_status_atencao">Atenção</p></td>
-                                    <td onclick="abrirModal('modal_editar_aluno')"><i class="fi fi-sr-pencil"></i></td>
+                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
                                 </tr>
-                                <tr>
+                                <tr onclick="irParaAluno('alunoEspecifico.html')">
+
                                     <td>01251089</td>
                                     <td>Anne Yamasaki</td>
                                     <td>anne.yamasaki@sptech.school</td>
                                     <td>2-B</td>
                                     <td>Análise Desenvolvimento de Sistemas</td>
                                     <td><p class="p_status_regular">Regular</p></td>
-                                    <td onclick="abrirModal('modal_editar_aluno')"><i class="fi fi-sr-pencil"></i></td>
+                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
                                 </tr>
-                                <tr>
+                                <tr onclick="irParaAluno('alunoEspecifico.html')">
+
                                     <td>01251089</td>
                                     <td>Anne Yamasaki</td>
                                     <td>anne.yamasaki@sptech.school</td>
                                     <td>2-B</td>
                                     <td>Análise Desenvolvimento de Sistemas</td>
                                     <td><p class="p_status_otimo">Ótimo</p></td>
-                                    <td onclick="abrirModal('modal_editar_aluno')"><i class="fi fi-sr-pencil"></i></td>
+                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
                                 </tr> 
 
                             </tbody>
@@ -343,6 +348,10 @@
 </html>
 
 <script>
+    function irParaAluno(url) {
+        window.location.href = url;
+    }
+
 
     function abrirModal(modalId) {
         const dialog = document.getElementById(modalId);

@@ -77,3 +77,21 @@
     border: none;   
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 } 
+
+.tabela tbody tr {
+    cursor: pointer;
+    transition: background-color .25s ease;
+}
+
+.tabela tbody tr:hover {
+    background-color: #e5efff;
+}
+
+.tabela {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.tabela tbody tr:last-child {
+    border-bottom: none;
+}

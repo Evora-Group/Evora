@@ -1,0 +1,218 @@
+/* style_dashboard.css */
+
+/* Estilos extraídos da <section class="section_dash"> */
+.section_dash {
+    display: block;
+}
+
+/* Estilos extraídos da div container dos botões "Desempenho" e "Recomendações" */
+.btn-container {
+    height: 7%;
+    width: 100%;
+    display: flex;
+    gap: 3px;
+}
+.btn-container > div {
+    height: 100%;
+    width: 20%;
+    border-radius: 10px 10px 0px 0px;
+}
+.div_btn_usuario {
+    width: 100%;
+    color: white;
+}
+
+/* Estilos extraídos da <main class="main_dash"> */
+.main_dash {
+    height: 93%;
+    border-radius: 0px 15px 15px 15px;
+}
+
+/* Estilos para a <section class="kpi"> */
+.kpi.freq {
+    width: 35%;
+}
+.kpi.nota {
+    width: 25%;
+}
+.kpi.vazio {
+    width: 40%;
+    height: 160%;
+    background-color: white;
+}
+
+/* Contêiner interno do KPI de Frequência */
+.kpi.freq > div {
+    width: 100%;
+    display: flex;
+}
+.parteInfo {
+    width: 60%;
+}
+.parteGraf {
+    width: 35%;
+}
+
+/* Estilos para o KPI de Nota Média */
+.kpi_header.situacao {
+    border: none;
+    height: 100%;
+}
+.div_titulo_kpi.situacao {
+    width: 100%;
+}
+
+/* Estilos para o rótulo de FREQUÊNCIA MÉDIA */
+.p_titulo_kpi.freq-label {
+    width: max-content;
+}
+
+/* Estilos extraídos da <section class="section_main"> (onde o gráfico está) */
+.section_main {
+    box-shadow: none;
+}
+
+/* Estilos para o cabeçalho de Desempenho */
+.header-desempenho-titulo {
+    display: flex;
+    align-items: center;
+}
+.header-desempenho-titulo h1 {
+    font-size: 2.5rem;
+}
+.header-desempenho-titulo .p_status_otimo {
+    height: min-content;
+    margin-left: 2%;
+    font-size: 1.2rem;
+}
+
+/* Estilos para a legenda do gráfico (Frequência e Nota) */
+.header-desempenho-legenda {
+    display: flex;
+    align-items: center;
+}
+.header-desempenho-legenda .legenda-item {
+    margin-left: 2%;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.legenda-frequencia-cor,
+.legenda-nota-cor {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+.legenda-frequencia-cor {
+    background-color: rgb(54, 162, 235);
+}
+.legenda-nota-cor {
+    background-color: rgb(173, 216, 230);
+}
+.header-desempenho-legenda p {
+    font-size: 1.2rem;
+}
+
+/* Estilo do contêiner do gráfico */
+.chart-container {
+    background-color: white;
+    height: 65%;
+    width: 100%;
+    padding: 20px; /* Adicionado para margem interna */
+}
+
+/* Card Informações do Aluno */
+.card_info_aluno {
+    height: 100%;
+    width: 100%;
+    padding: 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+
+.aluno_header {
+    width: 90%;
+    height: 53%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.aluno_header img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.aluno_title_section {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.aluno_nome {
+    font-size: 25px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.edit_icon {
+    font-size: 18px;
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+.aluno_details {
+    text-align: left;
+    width: 100%;
+    height: 40%;
+    font-size: 1.2rem;
+    line-height: 1.8;
+}
+
+.aluno_details strong {
+    font-weight: 700;
+    color: #4D4D4D;
+    display: inline-block;
+}
+
+.aluno_details span {
+    font-weight: 500;
+    color: var(--text-dark-fade);
+}
+
+.btn_voltar_alunos {
+    /* Define o botão como transparente e sem borda */
+    background-color: transparent;
+    border: none; 
+    
+    /* Estilos de texto */
+    color: #4D4D4D;
+    font-size: 16px;
+    font-weight: 500;
+    
+    /* Configuração de layout */
+    cursor: pointer;
+    align-self: flex-start; /* Alinha o botão à esquerda dentro do card */
+    margin-top: 20px;
+    
+    /* Permite que o texto e o ícone fiquem lado a lado */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 0;
+}
+
+.btn_voltar_alunos i {
+    /* Estilo específico para o ícone de seta */
+    font-size: 25px;
+    color: #4D4D4D;
+}

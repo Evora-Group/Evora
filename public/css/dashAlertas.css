@@ -1,0 +1,395 @@
+/* ==== 1. Boas Práticas e Variáveis ==== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap');
+
+:root {
+    --font-family: 'Poppins', sans-serif;
+
+    /* Cores Base */
+    --primary-color: #4487DE;
+    /* Roxo/Azul principal */
+    --primary-color-dark: #3a67cf;
+    /* Roxo/Azul principal */
+    --white-color: #ffffff;
+    --fade-color-dark: #00000021;
+    --bg-color: #EAF3F6;
+    /* Fundo principal da página */
+
+    /* Cores de Texto */
+    --text-dark: #000000;
+    --text-dark-fade: #000000c2;
+    --text-light: #ffffff;
+
+    /* Tamanho Texto */
+
+    --font-title: 22px;
+
+
+
+    /* Cores de Status */
+    --status-active: #A2FF94;
+    --status-blocked: #4D4D4D;
+
+    /* Outros */
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.144);
+    --padding: 15px;
+    --gap: 5%;
+    --color-description: rgba(124, 141, 181, 1);
+    --green-arrow: #1ac100;
+    --red-arrow: red;
+    --icon-color: rgba(52, 122, 226, 1);
+}
+
+/* ==== 2. Reset Global ==== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    background-color: var(--bg-color);
+    width: 100vw;
+    height: 100vh;
+    font-family: "Roboto", sans-serif;
+    font-size: medium;
+    font-weight: 500;
+}
+
+header {
+    background-color: var(--white-color);
+    padding: 15px;
+    width: 100%;
+    height: 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--card-shadow);
+
+}
+
+header .img_logo {
+    width: 8%;
+    min-width: 100px;
+}
+
+header section {
+    width: 30%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 5%;
+}
+
+
+header section h1 {
+    font-size: var(--font-title);
+    font-weight: 500;
+}
+
+header i {
+    font-size: 35px;
+    color: var(--primary-color);
+}
+
+.img_icon_usuario {
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+}
+
+aside {
+    position: relative;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    width: 15%;
+    height: 100%;
+    padding-top: 40px;
+    box-shadow: var(--card-shadow);
+}
+
+aside section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+aside section ul {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+aside section ul li {
+
+    width: 100%;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+aside section ul li:hover {
+
+    background-color: var(--primary-color-dark);
+
+}
+
+aside section ul li a {
+
+    color: var(--text-light);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
+    padding: 14%;
+    font-size: var(--font-title);
+
+
+}
+
+
+aside section ul li a i {
+
+    font-size: 30px;
+
+}
+
+main {
+
+    width: 100%;
+    height: 92%;
+    display: flex;
+
+}
+
+
+aside .active {
+    background-color: var(--primary-color-dark);
+}
+
+.main-alertas {
+    display: flex;
+    flex-direction: column;
+
+}
+
+main .section-alertas {
+
+    width: 85%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--padding)*1.25);
+}
+
+.section-alertas .main-alertas {
+
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    background-color: var(--white-color);
+    padding: calc(var(--padding)*1.25);
+    gap: calc(var(--gap) * 0.5);
+    box-shadow: var(--card-shadow);
+
+
+}
+
+.botao-sair {
+    position: absolute; 
+    bottom: 30px;       
+    left: 100px;         
+    right: 100px;        
+
+    background-color: #dd1c2f; 
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 5px;
+
+    /* --- Para alinhar o ícone e o texto --- */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espaço entre o ícone e o texto */
+}
+
+.botao-sair:hover {
+    background-color: #c82333; 
+}
+
+.categories {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 2rem;
+    padding: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.categories li a {
+    text-decoration: none;
+    list-style: none;
+    padding: 12px 16px;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+    color: gray;
+    gap: 0.8rem;
+    display: flex;
+    align-items: center;
+}
+
+.categories li.active a {
+    color: blue;
+    font-weight: 600;
+}
+
+.categories li.active {
+    position: relative;
+}
+
+.categories li.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 70%;
+    width: 4px;
+    background-color: blue;
+    border-radius: 0 4px 4px 0;
+}
+
+.categories li a:hover {
+    color: #007BFF;
+}
+
+/* CONTAINER PRINCIPAL */
+.container {
+    background-color: #f5f7fa;
+    height: 100vh;
+    width: 100%;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.title h2 {
+    padding: 2rem;
+    color: black;
+}
+
+/* ===================== */
+/* CABEÇALHO SUPERIOR (ABA DE NAVEGAÇÃO) */
+/* ===================== */
+
+.cabecalho_one {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    border-bottom: 1px solid rgb(196, 193, 193);
+    background: #fff;
+    padding: 1rem;
+}
+
+.cabecalho_one li {
+    display: flex;
+    gap: 10rem;
+    text-decoration: none;
+}
+
+.cabecalho_one li a {
+    text-decoration: none;
+    color: #111827;
+}
+
+.cabecalho_one li a:hover {
+    color: #256297;
+}
+
+#ativo {
+    color: rgb(64, 64, 238);
+    font-weight: bold;
+    padding-bottom: 0.4rem;
+    border-bottom: 3px solid rgb(64, 64, 238);
+}
+
+/* ===================== */
+/* TABELA ALERTAS */
+/* ===================== */
+
+.tabela-alertas {
+    background-color: #fff;
+    border-radius: 12px;
+    width: 90%;
+    margin: 2rem 1rem auto;
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    overflow-x: auto;
+}
+
+.cabecalho {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 2px solid #eef2f7;
+    background-color: #f9fafb;
+    border-radius: 10px 10px 0 0;
+    font-weight: bold;
+    color: #256297;
+}
+
+.dados_linha {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.dados_linha:last-child {
+    border-bottom: none;
+}
+
+.coluna_alunos,
+.coluna_turma,
+.coluna_descricao,
+.coluna_freq,
+.coluna_presenca {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.coluna_descricao p,
+.coluna_alunos p,
+.coluna_turma p,
+.coluna_freq p {
+    color: #111827;
+    font-weight: 400;
+}
+
+.coluna_presenca p {
+    color: #b43934;
+}
+
+/* Indicador de atenção (alertas específicos) */
+.indicador_atencao p {
+    color: rgb(189, 189, 47) !important;
+}

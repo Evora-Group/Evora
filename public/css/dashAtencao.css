@@ -1,44 +1,234 @@
+/* ==== 1. Boas Práticas e Variáveis ==== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap');
+
+:root {
+    --font-family: 'Poppins', sans-serif;
+
+    /* Cores Base */
+    --primary-color: #4487DE;
+    /* Roxo/Azul principal */
+    --primary-color-dark: #3a67cf;
+    /* Roxo/Azul principal */
+    --white-color: #ffffff;
+    --fade-color-dark: #00000021;
+    --bg-color: #EAF3F6;
+    /* Fundo principal da página */
+
+    /* Cores de Texto */
+    --text-dark: #000000;
+    --text-dark-fade: #000000c2;
+    --text-light: #ffffff;
+
+    /* Tamanho Texto */
+
+    --font-title: 22px;
+
+
+
+    /* Cores de Status */
+    --status-active: #A2FF94;
+    --status-blocked: #4D4D4D;
+
+    /* Outros */
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.144);
+    --padding: 15px;
+    --gap: 5%;
+    --color-description: rgba(124, 141, 181, 1);
+    --green-arrow: #1ac100;
+    --red-arrow: red;
+    --icon-color: rgba(52, 122, 226, 1);
+}
+
+/* ==== 2. Reset Global ==== */
 * {
-    font-family: var(--default-font-family, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji");
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
+a {
+    text-decoration: none;
+}
 
-#nav_bar {
-    background-color: #d9d9d9;
-    height: 4rem;
+body {
+    background-color: var(--bg-color);
+    width: 100vw;
+    height: 100vh;
+    font-family: "Roboto", sans-serif;
+    font-size: medium;
+    font-weight: 500;
+}
+
+header {
+    background-color: var(--white-color);
+    padding: 15px;
+    width: 100%;
+    height: 8%;
     display: flex;
-    padding: 0 1rem;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--card-shadow);
+
 }
 
-#nav_logo img {
-    height: 4rem;
-    width: 4rem;
+header .img_logo {
+    width: 8%;
+    min-width: 100px;
 }
 
-#nav_logo {
+header section {
+    width: 30%;
     display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
+    justify-content: end;
+    align-items: center;
+    gap: 5%;
 }
 
-#nav_logo h2 {
-    align-self: center;
-    color: #256297;
+
+header section h1 {
+    font-size: var(--font-title);
+    font-weight: 500;
+}
+
+header i {
+    font-size: 35px;
+    color: var(--primary-color);
+}
+
+.img_icon_usuario {
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+}
+
+aside {
+    position: relative;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    width: 15%;
+    height: 100%;
+    padding-top: 40px;
+    box-shadow: var(--card-shadow);
+}
+
+aside section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+aside section ul {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+aside section ul li {
+
+    width: 100%;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+aside section ul li:hover {
+
+    background-color: var(--primary-color-dark);
+
+}
+
+aside section ul li a {
+
+    color: var(--text-light);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
+    padding: 14%;
+    font-size: var(--font-title);
+
+
+}
+
+
+aside section ul li a i {
+
+    font-size: 30px;
+
 }
 
 main {
+
+    width: 100%;
+    height: 92%;
     display: flex;
-    height: 100vh;
-    flex-direction: row;
+
 }
 
-.menu {
-    background-color: #fff;
-    width: 20%;
-    height: 100vh;
+
+aside .active {
+    background-color: var(--primary-color-dark);
+}
+
+.main-curso {
     display: flex;
+    flex-direction: column;
+
+}
+
+main .section-curso {
+
+    width: 85%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--padding)*1.25);
+}
+
+.section-curso .main-curso {
+
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    background-color: var(--white-color);
+    padding: calc(var(--padding)*1.25);
+    gap: calc(var(--gap) * 0.5);
+    box-shadow: var(--card-shadow);
+
+}
+
+.botao-sair {
+    position: absolute; 
+    bottom: 30px;       
+    left: 100px;         
+    right: 100px;        
+
+    background-color: #dd1c2f; 
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 5px;
+
+    /* --- Para alinhar o ícone e o texto --- */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espaço entre o ícone e o texto */
+}
+
+.botao-sair:hover {
+    background-color: #c82333; 
 }
 
 .categories {
@@ -99,9 +289,9 @@ main {
     flex-direction: column;
 }
 
-.container h2 {
+.title h2 {
     padding: 2rem;
-    color: #343c63;
+    color: black;
 }
 
 /* ===================== */

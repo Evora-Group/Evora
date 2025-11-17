@@ -1,0 +1,375 @@
+/* ==== 1. Boas Práticas e Variáveis ==== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap');
+
+:root {
+    --font-family: 'Poppins', sans-serif;
+
+    /* Cores Base */
+    --primary-color: #4487DE;
+    /* Roxo/Azul principal */
+    --primary-color-dark: #3a67cf;
+    /* Roxo/Azul principal */
+    --white-color: #ffffff;
+    --fade-color-dark: #00000021;
+    --bg-color: #EAF3F6;
+    /* Fundo principal da página */
+
+    /* Cores de Texto */
+    --text-dark: #000000;
+    --text-dark-fade: #000000c2;
+    --text-light: #ffffff;
+
+    /* Tamanho Texto */
+
+    --font-title: 22px;
+
+
+
+    /* Cores de Status */
+    --status-active: #A2FF94;
+    --status-blocked: #4D4D4D;
+
+    /* Outros */
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.144);
+    --padding: 15px;
+    --gap: 5%;
+    --color-description: rgba(124, 141, 181, 1);
+    --green-arrow: #1ac100;
+    --red-arrow: red;
+    --icon-color: rgba(52, 122, 226, 1);
+}
+
+/* ==== 2. Reset Global ==== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    background-color: var(--bg-color);
+    width: 100vw;
+    height: 100vh;
+    font-family: "Roboto", sans-serif;
+    font-size: medium;
+    font-weight: 500;
+}
+
+header {
+    background-color: var(--white-color);
+    padding: 15px;
+    width: 100%;
+    height: 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--card-shadow);
+
+}
+
+header .img_logo {
+    width: 8%;
+    min-width: 100px;
+}
+
+header section {
+    width: 30%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 5%;
+}
+
+
+header section h1 {
+    font-size: var(--font-title);
+    font-weight: 500;
+}
+
+header i {
+    font-size: 35px;
+    color: var(--primary-color);
+}
+
+.img_icon_usuario {
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+}
+
+aside {
+    position: relative;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    width: 15%;
+    height: 100%;
+    padding-top: 40px;
+    box-shadow: var(--card-shadow);
+}
+
+aside section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+aside section ul {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+aside section ul li {
+
+    width: 100%;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+aside section ul li:hover {
+
+    background-color: var(--primary-color-dark);
+
+}
+
+aside section ul li a {
+
+    color: var(--text-light);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
+    padding: 14%;
+    font-size: var(--font-title);
+
+
+}
+
+
+aside section ul li a i {
+
+    font-size: 30px;
+
+}
+
+main {
+
+    width: 100%;
+    height: 92%;
+    display: flex;
+
+}
+
+
+aside .active {
+    background-color: var(--primary-color-dark);
+}
+
+.main-curso {
+    display: flex;
+    flex-direction: column;
+
+}
+
+main .section-curso {
+
+    width: 85%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--padding)*1.25);
+}
+
+.section-curso .main-curso {
+
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    background-color: var(--white-color);
+    padding: calc(var(--padding)*1.25);
+    gap: calc(var(--gap) * 0.5);
+    box-shadow: var(--card-shadow);
+
+}
+
+.botao-sair {
+    position: absolute; 
+    bottom: 30px;       
+    left: 100px;         
+    right: 100px;        
+
+    background-color: #dd1c2f; 
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 5px;
+
+    /* --- Para alinhar o ícone e o texto --- */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espaço entre o ícone e o texto */
+}
+
+.botao-sair:hover {
+    background-color: #c82333; 
+}
+
+.categories {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 2rem;
+    padding: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.categories li a {
+    text-decoration: none;
+    list-style: none;
+    padding: 12px 16px;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+    color: gray;
+    gap: 0.8rem;
+    display: flex;
+    align-items: center;
+}
+
+.main-curso{
+    background-color: #f5f7fa;
+    height: 100vh;
+    width: 100%;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-curso h2{
+    padding: 2rem;
+    color: black;
+}
+
+.main-curso ul li {
+    list-style: none;        /* remove a bolinha da lista */
+    cursor: pointer;
+}
+
+.cabecalho{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 2rem;
+    background-color: #fff;
+    width: 90%;
+    height: 100%;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.067);
+    flex-wrap: wrap;
+    row-gap: 1rem; /* ✅ controla o espaço vertical entre as linhas */
+}
+
+.cabecalho p{
+    font-weight: bold;
+    color: black;
+}
+
+.cabecalho_modal {
+    margin-left: 8rem;
+}
+
+.dados_linha {
+    width: 100%; /* ✅ força quebra de linha */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.coluna_cursos,
+.coluna_quantidade,
+.coluna_descricao,
+.coluna_modalidade {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-left: 2rem;
+}
+
+.coluna_cursos p,
+.coluna_quantidade p,
+.coluna_descricao p,
+.coluna_modalidade p {
+    color: black;
+    font-weight: 400;
+}
+
+.coluna_cursos p {
+    max-width: 250px;
+    word-wrap: break-word;
+}
+
+.coluna_quantidade{
+    display: flex;
+    margin-right: 15rem;
+
+}
+
+.coluna_descricao{
+    display: flex;
+    margin-right: 10rem;
+}
+
+.coluna_modalidade{
+    display: flex;
+    margin-right: 2rem;
+}
+
+.container-course {
+    border-bottom: 1px solid rgb(192, 190, 190);
+}
+
+.container-course li {
+    text-align: center;
+    color: rgb(64, 64, 238);
+    font-weight: bold;
+
+    border-bottom: 3px solid rgb(64, 64, 238);
+    border-radius: 2px;
+    padding: 1rem;
+    width: 10rem;
+}
+.link {
+    list-style: none;          /* remove as bolinhas */
+    text-decoration: none !important;
+    
+}
+
+.link li {
+    list-style: none;  
+ 
+    margin-bottom: 1rem;      /* garante que os <li> dentro também fiquem sem bolinhas */
+}
+
+.link a {
+    text-decoration: none; /* remove o sublinhado */
+    color: inherit;        /* mantém a cor do texto original */
+}

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Home</title>
+    <link rel="stylesheet" href="../css/dashHome.css">
+    <link rel="shortcut icon" href="../assets/imgs/logoEvora.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+</head>
+
+<body>
+    <header>
+
+        <img src="../assets/imgs/logo-nome.svg" alt="" class="img_logo">
+
+        <section class="section_infoUsuario">
+            <h1 class="h1_nome_usuario" id="h1_nome_usuario">Nome do Usuario</h1>
+            <img src="../assets/imgs/anne.png" alt="" class="img_icon_usuario" id="img_logo_usuario">
+            <span><i class="fi fi-sr-caret-down"></i>
+            </span>
+        </section>
+
+    </header>
+    <main>
+        <aside>
+            <section class="section_aside">
+                <ul>
+                    <li><a href="./dashHome.html" class="active"><i class="fi fi-sr-home"></i>Dashboard</a></li>
+                    <li><a href="./dashCurso.html"><i class="fi fi-sr-users-alt"></i>Cursos</a></li>
+                    <li><a href="./dashAlunos.html"><i class="fi fi-sr-user"></i>Alunos</a></li>
+                    <li><a href="./dashAlerta.html"><i class="fi fi-sr-bell"></i>Alertas</a></li>
+                    <li><a href="./dashConf.html"><i class="fi fi-sr-settings"></i>Configurações</a></li>
+                </ul>
+
+                <a href="../index.html" class="botao-sair">
+                    <i class="fi fi-sr-exit"></i> SAIR
+                </a>
+            </section>
+        </aside>
+
+
+        <section class="section_dash">
+            <main class="main_dash">
+
+                <div class="info-entrada">
+                    <span id="titulo-entrada">
+                        Bem Vindo, <span id="nome-usuario">Rosim</span>!
+                    </span>
+
+                    <br>
+
+                    <span id="descricao-entrada">
+                        Aqui estão suas principais informações
+                    </span>
+                </div>
+
+                <section class="header_kpis">
+
+                    <section class="kpi">
+                        <div class="kpi_header">
+                            <div class="icon_kpi">
+                                <i id="icon_indicador" class="fi fi-sr-users"></i>
+                            </div>
+                            <div class="div_titulo_kpi" id="div_situacao_1">
+                                <h1 id="indicativo-total">1,030</h1>
+                                <p class="p_titulo_kpi">Total Alunos</p>
+                                <span class="indicativos-desc">
+                                    <i id="seta" class="fi fi-sr-arrow-up-right"></i>
+                                    <p id="indicativo-total-semana">+0,49% <span>Esta Semana</span></p>
+                                </span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="kpi">
+                        <div class="kpi_header">
+                            <div class="icon_kpi">
+                                <i id="icon_indicador" class="fi fi-sr-users"></i>
+                            </div>
+                            <div class="div_titulo_kpi" id="div_situacao_2">
+                                <h1 id="indicativo-abaixo-media">30%</h1>
+                                <p class="p_titulo_kpi">Alunos Abaixo da Média</p>
+                                <span class="indicativos-desc">
+                                    <i id="seta-abaixo" class="fi fi-sr-arrow-down-left"></i>
+                                    <p id="indicativo-abaixo-semana"> +0,49% <span>Esta Semana</span></p>
+                                </span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="kpi">
+                        <div class="kpi_header">
+                            <div class="icon_kpi">
+                                <i id="icon_indicador" class="fi fi-sr-arrow-down-left"></i>
+                            </div>
+                            <div class="div_titulo_kpi" id="div_situacao_3">
+                                <h1 id="indicativo-abandono">10%</h1>
+                                <p class="p_titulo_kpi">Taxa de Abandono</p>
+                                <span class="indicativos-desc">
+                                    <i id="seta-abaixo" class="fi fi-sr-arrow-down-left"></i>
+                                    <p id="indicativo-abandono-semana">+0,91% <span>Esta Semana</span></p>
+                                </span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="kpi">
+                        <div class="kpi_header">
+                            <div class="icon_kpi">
+                                <i id="icon_indicador" class="fi fi-sr-plus"></i>
+                            </div>
+                            <div class="div_titulo_kpi" id="div_situacao_4">
+                                <h1 id="indicativo-matricula">15%</h1>
+                                <p class="p_titulo_kpi">Novas Mátriculas</p>
+                                <span class="indicativos-desc">
+                                    <i id="seta" class="fi fi-sr-arrow-up-right"></i>
+                                    <p id="indicativo-matricula-semana">+1,51% <span>Esta Semana</span></p>
+                                </span>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+
+                <section class="section_main">
+                    <div class="chart-container">
+                        <h3>Top 5 cursos com maior risco de evasão</h3>
+
+                        <ul class="bar-chart">
+                            <li>
+                                <span class="label">Pedagogia</span>
+                                <div class="bar-wrapper">
+                                    <div class="bar" style="width: 90%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="label">Biologia</span>
+                                <div class="bar-wrapper">
+                                    <div class="bar" style="width: 70%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="label">Química</span>
+                                <div class="bar-wrapper">
+                                    <div class="bar" style="width: 55%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="label">Direito</span>
+                                <div class="bar-wrapper">
+                                    <div class="bar" style="width: 25%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="label">T.I</span>
+                                <div class="bar-wrapper">
+                                    <div class="bar" style="width: 15%;"></div>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div class="chart-axis">
+                            <span>0</span>
+                            <span>25%</span>
+                            <span>50%</span>
+                            <span>75%</span>
+                            <span>100%</span>
+                        </div>
+                    </div>
+
+                    <div class="donut-container">
+                        <h3>Taxa de Aprovação Média</h3>
+                        <div class="donut-chart" style="--value: 72; --color: #2563eb;">
+                            <div class="donut-center-text">
+                                <span>Aprovação</span>
+                                <strong>72%</strong>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </section>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,694 @@
+/* ==== 1. Boas Práticas e Variáveis ==== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap');
+
+:root {
+    --font-family: 'Poppins', sans-serif;
+
+    /* Cores Base */
+    --primary-color: #4487DE;
+    /* Roxo/Azul principal */
+    --primary-color-dark: #3a67cf;
+    /* Roxo/Azul principal */
+    --white-color: #ffffff;
+    --fade-color-dark: #00000021;
+    --bg-color: #EAF3F6;
+    /* Fundo principal da página */
+
+    /* Cores de Texto */
+    --text-dark: #000000;
+    --text-dark-fade: #000000c2;
+    --text-light: #ffffff;
+
+    /* Tamanho Texto */
+
+    --font-title: 22px;
+
+
+
+    /* Cores de Status */
+    --status-active: #A2FF94;
+    --status-blocked: #4D4D4D;
+
+    /* Outros */
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.144);
+    --padding: 15px;
+    --gap: 5%;
+    --color-description: rgba(124, 141, 181, 1);
+    --green-arrow: #1ac100;
+    --red-arrow: red;
+    --icon-color: rgba(52, 122, 226, 1);
+}
+
+/* ==== 2. Reset Global ==== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    background-color: var(--bg-color);
+    width: 100vw;
+    height: 100vh;
+    font-family: "Roboto", sans-serif;
+    font-size: medium;
+    font-weight: 500;
+}
+
+header {
+    background-color: var(--white-color);
+    padding: 15px;
+    width: 100%;
+    height: 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--card-shadow);
+
+}
+
+header .img_logo {
+    width: 8%;
+    min-width: 100px;
+}
+
+header section {
+    width: 30%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 5%;
+}
+
+
+header section h1 {
+    font-size: var(--font-title);
+    font-weight: 500;
+}
+
+header i {
+    font-size: 35px;
+    color: var(--primary-color);
+}
+
+.img_icon_usuario {
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+}
+
+aside {
+    position: relative;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    width: 15%;
+    height: 100%;
+    padding-top: 40px;
+    box-shadow: var(--card-shadow);
+}
+
+aside section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+aside section ul {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+aside section ul li {
+
+    width: 100%;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+aside section ul li:hover {
+
+    background-color: var(--primary-color-dark);
+
+}
+
+aside section ul li a {
+
+    color: var(--text-light);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
+    padding: 14%;
+    font-size: var(--font-title);
+
+
+}
+
+
+aside section ul li a i {
+
+    font-size: 30px;
+
+}
+
+main {
+
+    width: 100%;
+    height: 92%;
+    display: flex;
+
+}
+
+
+aside .active {
+    background-color: var(--primary-color-dark);
+}
+
+.main_dash {
+    display: flex;
+    flex-direction: column;
+
+}
+
+main .section_dash {
+
+    width: 85%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--padding)*1.25);
+}
+
+.section_dash .main_dash {
+
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    background-color: var(--white-color);
+    padding: calc(var(--padding)*1.25);
+    gap: calc(var(--gap) * 0.5);
+    box-shadow: var(--card-shadow);
+
+
+}
+
+.botao-sair {
+    position: absolute; 
+    bottom: 30px;       
+    left: 100px;         
+    right: 100px;        
+
+    background-color: #dd1c2f; 
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 5px;
+
+    /* --- Para alinhar o ícone e o texto --- */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espaço entre o ícone e o texto */
+}
+
+.botao-sair:hover {
+    background-color: #c82333; 
+}
+
+.section_dash .main_dash .header_kpis {
+
+    /* background-color: #ff00002b; */
+    width: 100%;
+    height: 30%;
+
+    padding: var(--padding);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: calc(var(--gap)*0.3);
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.067);
+    border-radius: 20px;
+}
+
+.icon_kpi {
+    background-color: #ffffff;
+    padding: 16px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    width: 20%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    right: 8%;
+}
+
+#icon_indicador {
+    font-size: 24px;
+    color: var(--icon-color);
+}
+
+.kpi {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.kpi::before {
+
+    content: '';
+    /* Obrigatório para pseudo-elementos */
+    position: absolute;
+    left: -40px;
+    top: 50%;
+    /* Posiciona o topo do elemento no meio */
+    transform: translateY(-50%);
+    /* Alinha o centro do elemento ao meio */
+
+    width: 1px;
+    height: 50%;
+    background-color: rgba(124, 141, 181, 0.232);
+}
+
+.kpi .kpi_header {
+    width: 100%;
+    height: 65%;
+    display: flex;
+
+    align-items: center;
+    justify-content: start;
+    padding: calc(var(--padding)* 2.4);
+}
+
+.kpi_header .div_titulo_kpi {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 100%;
+    gap: calc(var(--gap)*2);
+}
+
+.div_titulo_kpi h1 {
+    font-size: calc(var(--font-title)*1.8);
+}
+
+.p_titulo_kpi {
+    font-size: calc(var(--font-title) * 1.0);
+    font-weight: 400;
+    padding-bottom: 10px;
+}
+
+.indicativos-desc {
+    display: flex;
+    gap: var(--gap);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--color-description);
+}
+
+.info-entrada {
+    display: flex;
+    flex-direction: column;
+    padding: var(--padding);
+    gap: var(--gap);
+}
+
+#titulo-entrada {
+    font-size: calc(var(--font-title) * 1.2);
+}
+
+#descricao-entrada {
+    font-size: var(--font-title);
+    font-weight: 400;
+    color: var(--color-description);
+}
+
+#seta {
+    font-size: 16px;
+    color: var(--green-arrow);
+}
+
+#seta-abaixo {
+    font-size: 16px;
+    color: var(--red-arrow);
+}
+
+
+
+/* Container principal do gráfico */
+.chart-container {
+    background-color: #ffffff;
+    padding: 60px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.067);
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-container h3 {
+    font-size: 30px;
+    font-weight: 500;
+
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Lista do gráfico */
+.bar-chart {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    padding: 40px 0;
+    flex-grow: 1;
+    /* Faz a <ul> ESTICAR para preencher o espaço vago */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    /* Espaça as barras verticalmente */
+
+    /* "Desenha" 5 linhas como imagens de fundo */
+    background-image:
+        linear-gradient(to right, rgba(124, 141, 181, 0.232) 1px, transparent 2px),
+        /* Linha 0% */
+        linear-gradient(to right, rgba(124, 141, 181, 0.232) 1px, transparent 1px),
+        /* Linha 25% */
+        linear-gradient(to right, rgba(124, 141, 181, 0.232) 1px, transparent 1px),
+        /* Linha 50% */
+        linear-gradient(to right, rgba(124, 141, 181, 0.232) 1px, transparent 1px),
+        /* Linha 75% */
+        linear-gradient(to right, rgba(124, 141, 181, 0.232) 1px, transparent 1px);
+    /* Linha 100% */
+
+    background-repeat: no-repeat;
+    background-size: 1px 100%;
+
+    background-position:
+        100px 0,
+        /* Linha 0 */
+        calc(25% + 75px) 0,
+        /* Linha 25% */
+        calc(50% + 50px) 0,
+        /* Linha 50% */
+        calc(75% + 25px) 0,
+        /* Linha 75% */
+        100% 0;
+    /* Linha 100% */
+}
+
+.bar-chart li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+
+}
+
+.bar-chart .label {
+    width: 100px;
+    font-size: 14px;
+    color: #555;
+    flex-shrink: 0;
+    /* Impede que o rótulo encolha */
+}
+
+/* Wrapper da barra (cinza de fundo) */
+.bar-chart .bar-wrapper {
+    flex-grow: 1;
+    border-radius: 4px;
+    height: 18px;
+}
+
+/* A barra vermelha */
+.bar-chart .bar {
+    height: 100%;
+    background-color: #e53e3e;
+    border-radius: 4px;
+}
+
+/* Eixo X (0, 25%, etc.) */
+.chart-axis {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 100px;
+    margin-top: 4px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: #888;
+}
+
+.grafic_header {
+    width: 50%;
+    height: 100%;
+}
+
+.bar-chart .label {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* ============================================== */
+/* CSS PARA LINHA DE GRÁFICOS E GRÁFICO DE ROSCA */
+/* ============================================== */
+
+/* Esta é a seção "pai" que segura os dois gráficos */
+.section_main {
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    height: 50%;
+}
+
+/* Define a largura do gráfico de barras */
+.section_main .chart-container {
+    width: 70%;
+    padding: 40px;
+}
+
+
+/* 2. CSS do Gráfico de Rosca*/
+.donut-container {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    width: 35%;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.donut-container h3 {
+    font-size: 30px;
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+/* O gráfico de rosca em si */
+.donut-chart {
+    --bg-color: #f0f0f0;
+    position: relative;
+
+    width: 48%;
+    aspect-ratio: 1 / 1;
+    /* Força a altura a ser igual à largura (mantém o círculo) */
+
+    border-radius: 50%;
+    margin: auto;
+    /* Centraliza no espaço flex (vertical e horizontal) */
+    background-image: conic-gradient(var(--color) calc(var(--value) * 1%),
+            var(--bg-color) calc(var(--value) * 1%) 100%);
+}
+
+.donut-chart::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 80%;
+    height: 80%;
+    background: #ffffff;
+    /* Cor do fundo do card */
+    border-radius: 70%;
+    transform: translate(-50%, -50%);
+}
+
+.donut-center-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* Adicionado para garantir que fique acima do buraco */
+    z-index: 10;
+}
+
+.donut-center-text span {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.donut-center-text strong {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+}
+
+/* ============================================== */
+/* ==== 3. RESPONSIVIDADE */
+/* ============================================== */
+
+@media (max-width: 1024px) {
+
+    .section_main {
+        flex-direction: column;
+        height: auto;
+        gap: 30px;
+    }
+
+    /* Faz ambos os gráficos ocuparem 100% da largura */
+    .section_main .chart-container,
+    .section_main .donut-container {
+        width: 100%;
+        height: auto;
+        /* Altura automática */
+    }
+
+    .div_titulo_kpi h1 {
+        font-size: calc(var(--font-title)* 2.2);
+    }
+
+    .p_titulo_kpi {
+        font-size: calc(var(--font-title) * 1);
+    }
+
+    .donut-center-text strong {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* 1. Layout Principal */
+    main {
+        flex-direction: column;
+        /* Empilha o menu (que vai sumir) e o conteúdo */
+        height: auto;
+    }
+
+    aside {
+        display: none;
+        /* ESCONDE O MENU LATERAL */
+    }
+
+    main .section_dash {
+        width: 100%;
+        height: auto;
+        padding: 10px;
+    }
+
+    .section_dash .main_dash {
+        padding: 15px;
+    }
+
+    /* 2. Header */
+    header .h1_nome_usuario {
+        display: none;
+        /* Esconde "Nome do Usuario" para caber */
+    }
+
+    header section {
+        width: 40%;
+        /* Ajusta espaço para o logo e ícone */
+    }
+
+    /* 3. KPIs */
+    .section_dash .main_dash .header_kpis {
+        flex-direction: column;
+        /* Empilha os KPIs */
+        gap: 20px;
+        padding: 20px 10px;
+    }
+
+    .header_kpis .kpi {
+        width: 100%;
+        /* Cada KPI ocupa 100% */
+    }
+
+    .kpi::before {
+        display: none;
+        /* Remove todas as bordas verticais */
+    }
+
+    /* 4. Gráficos */
+    .donut-chart {
+        /* Ajusta o gráfico de rosca para não ficar gigante */
+        width: 80%;
+        max-width: 300px;
+        /* Limite máximo */
+    }
+
+    .bar-chart {
+        padding: 10px;
+        /* Menos preenchimento no gráfico de barras */
+    }
+
+    /* 5. Fontes */
+    .div_titulo_kpi h1 {
+        font-size: calc(var(--font-title)* 1.6);
+        /* Menor */
+    }
+
+    .indicativos-desc {
+        font-size: 18px;
+    }
+
+    #titulo-entrada {
+        font-size: 1.3rem;
+    }
+
+    #descricao-entrada {
+        font-size: 1rem;
+    }
+
+    .donut-center-text strong {
+        font-size: 1.8rem;
+        /* Menor */
+    }
+
+    .donut-center-text span {
+        font-size: 1rem;
+        /* Menor */
+    }
+}

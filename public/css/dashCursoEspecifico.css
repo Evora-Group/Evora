@@ -1,0 +1,773 @@
+/* ==== 1. Boas Práticas e Variáveis ==== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap');
+
+:root {
+    --font-family: 'Poppins', sans-serif;
+
+    /* Cores Base */
+    --primary-color: #4487DE;
+    /* Roxo/Azul principal */
+    --primary-color-dark: #3a67cf;
+    /* Roxo/Azul principal */
+    --white-color: #ffffff;
+    --fade-color-dark: #00000021;
+    --bg-color: #EAF3F6;
+    /* Fundo principal da página */
+
+    /* Cores de Texto */
+    --text-dark: #000000;
+    --text-dark-fade: #000000c2;
+    --text-light: #ffffff;
+
+    /* Tamanho Texto */
+
+    --font-title: 22px;
+
+
+
+    /* Cores de Status */
+    --status-active: #A2FF94;
+    --status-blocked: #4D4D4D;
+
+    /* Outros */
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.144);
+    --padding: 15px;
+    --gap: 5%;
+    --color-description: rgba(124, 141, 181, 1);
+    --green-arrow: #1ac100;
+    --red-arrow: red;
+    --icon-color: rgba(52, 122, 226, 1);
+}
+
+/* ==== 2. Reset Global ==== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    background-color: var(--bg-color);
+    width: 100vw;
+    height: 100vh;
+    font-family: "Roboto", sans-serif;
+    font-size: medium;
+    font-weight: 500;
+}
+
+header {
+    background-color: var(--white-color);
+    padding: 15px;
+    width: 100%;
+    height: 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--card-shadow);
+
+}
+
+header .img_logo {
+    width: 8%;
+    min-width: 100px;
+}
+
+header section {
+    width: 30%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 5%;
+}
+
+
+header section h1 {
+    font-size: var(--font-title);
+    font-weight: 500;
+}
+
+header i {
+    font-size: 35px;
+    color: var(--primary-color);
+}
+
+.img_icon_usuario {
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+}
+
+aside {
+    position: relative;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    width: 15%;
+    height: 100%;
+    padding-top: 40px;
+    box-shadow: var(--card-shadow);
+}
+
+aside section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+aside section ul {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+aside section ul li {
+
+    width: 100%;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+aside section ul li:hover {
+
+    background-color: var(--primary-color-dark);
+
+}
+
+aside section ul li a {
+
+    color: var(--text-light);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
+    padding: 14%;
+    font-size: var(--font-title);
+
+
+}
+
+
+aside section ul li a i {
+
+    font-size: 30px;
+
+}
+
+main {
+
+    width: 100%;
+    height: 92%;
+    display: flex;
+
+}
+
+
+aside .active {
+    background-color: var(--primary-color-dark);
+}
+
+.main-curso {
+    display: flex;
+    flex-direction: column;
+
+}
+
+main .section-curso {
+
+    width: 85%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--padding)*1.25);
+}
+
+.section-curso .main-curso {
+
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    background-color: var(--white-color);
+    padding: calc(var(--padding)*1.25);
+    gap: calc(var(--gap) * 0.5);
+    box-shadow: var(--card-shadow);
+
+}
+
+.botao-sair {
+    position: absolute; 
+    bottom: 30px;       
+    left: 100px;         
+    right: 100px;        
+
+    background-color: #dd1c2f; 
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 5px;
+
+    /* --- Para alinhar o ícone e o texto --- */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espaço entre o ícone e o texto */
+}
+
+.botao-sair:hover {
+    background-color: #c82333; 
+}
+
+.categories {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 2rem;
+    padding: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.categories li a {
+    text-decoration: none;
+    list-style: none;
+    padding: 12px 16px;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+    color: black;
+    gap: 0.8rem;
+    display: flex;
+    align-items: center;
+}
+
+.main-curso {
+    background-color: #f5f7fa;
+    height: 100vh;
+    width: 100%;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-curso h2 {
+    padding: 2rem;
+    color: black;
+}
+
+.main-curso ul li {
+    list-style: none;
+    /* remove a bolinha da lista */
+    cursor: pointer;
+}
+
+.container_one_page {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    min-height: 100%;
+    box-sizing: border-box;
+    gap: 20px;
+}
+
+#div_parte_indicadores,
+#div_parte_graficos,
+#div_parte_alunos {
+    width: calc(100% - 0px);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+.div_titulos {
+    color: black;
+    flex-shrink: 0;
+}
+
+.div_titulos h2 {
+    margin: 0;
+    padding: 0;
+}
+
+.div_conteudos {
+    background-color: white;
+    border-radius: 16px;
+}
+
+#div_parte_indicadores {
+    height: 30%;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#div_nomeMateria {
+    width: 100%;
+    height: 15%;
+    display: flex;
+    align-items: center;
+}
+
+#div_indicadores {
+    width: 100%;
+    height: 85%;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+
+}
+
+.indicador {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.067);
+}
+
+.icone {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circuloIcone {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    background-color: #FE8484;
+}
+
+.icone i {
+    color: #b43934;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.info {
+    width: 70%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.indicador p {
+    font-weight: 500;
+    font-size: var(--font-title);
+}
+
+.p_titulo {
+    text-align: left;
+    color: black;
+    font-size: 13px;
+}
+
+.p_subtitulo {
+    text-align: left;
+    color: #b43934;
+    font-size: 15px;
+}
+
+#div_parte_graficos {
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+    justify-content: flex-start;
+}
+
+#div_parte_graficos h3 {
+    color: black;
+    font-weight: 500;
+    padding: var(--padding);
+}
+
+#div_grafico_notas {
+    width: 60%;
+    height: 100%;
+    /* Garante que ele ocupe toda a altura da linha-pai */
+}
+
+.div_graficoTitulo {
+    /* height: 10%;
+    flex-shrink: 0; */
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    /* Garante que ocupe a largura do card */
+    padding: 10px 20px 0;
+    /* Adiciona um padding (Topo, Lados, Baixo) */
+}
+
+.div_bar {
+    width: 100%;
+    height: 100%;
+    /* flex-grow: 1; */
+    display: flex;
+    flex-direction: column;
+    /* NOVO: empilha título e canvas */
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.067);
+}
+
+#barChart {
+    width: 90% !important;
+    flex-grow: 1;
+    /* NOVO: Faz o canvas crescer */
+    height: auto !important;
+    /* Deixa o flex-grow cuidar da altura */
+    position: relative;
+    padding: 10px;
+    /* Impede o gráfico de colar nas bordas */
+}
+
+#div_grafico_frequencia {
+    height: 100%;
+    width: 60%;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.div_pizza {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    /* NOVO: empilha título e canvas */
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.067);
+}
+
+#pieChart {
+    width: 350px !important;
+    max-width: 100%;
+    /* Garante responsividade */
+    flex-grow: 1;
+    /* NOVO: Faz o canvas crescer */
+    height: auto !important;
+    /* Deixa o flex-grow cuidar da altura */
+    position: relative;
+}
+
+#div_parte_alunos {
+    height: 30%;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+
+#div_parte_alunos h3 {
+    color: black;
+    font-weight: 500;
+    padding: var(--padding);
+}
+
+#div_atencaoAlunos,
+#div_todosAlunos {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#div_alunoProblema {
+    width: 100%;
+    /* flex-grow: 1; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.067);
+}
+
+#div_alunoAll {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.067);
+}
+
+
+.people-card {
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.people {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.pill-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: 1px solid #eef2f7;
+    background: #fff;
+    box-shadow: 0 6px 16px rgba(16, 24, 40, .08);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+}
+
+.pill-btn svg {
+    width: 18px;
+    height: 18px;
+    color: #6b7280;
+}
+
+.person {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.photo {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.name {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+ul.categories {
+    list-style: none;
+}
+
+ul.sub-categories {
+    list-style: none;
+    padding-left: 12px;
+    background-color: rgba(0, 0, 0, 0.077);
+    border-radius: 0 0 15px 15px;
+}
+
+/* Dropdown menu */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-btn {
+    background: none;
+    border: none;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: inherit;
+    padding: 10px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.dropdown-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-top-right-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.dropdown .arrow-icon {
+    transition: transform 0.3s ease;
+}
+
+.dropdown.open .arrow-icon {
+    transform: rotate(180deg);
+}
+
+.sub-categories {
+    display: none;
+    transition: all 0.3s ease;
+}
+
+.dropdown.open .sub-categories {
+    display: block;
+}
+
+/* Responsividade */
+
+@media (max-width: 1280px) {
+    #div_parte_graficos {
+        flex-direction: column;
+    }
+
+    #div_grafico_notas,
+    #div_grafico_frequencia {
+        width: 100%;
+        height: 50%;
+    }
+
+    #pieChart {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    #barChart {
+        width: 100% !important;
+        height: auto !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    .indicador {
+        width: 50%;
+    }
+
+    #div_parte_alunos {
+        flex-direction: column;
+        gap: 20px;
+        height: auto;
+    }
+
+    #div_atencaoAlunos,
+    #div_todosAlunos {
+        width: 100%;
+        height: auto;
+    }
+
+    .people {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .people-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .pill-btn {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    #div_indicadores {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .indicador {
+        width: 100%;
+    }
+
+    .info {
+        padding: 6px;
+    }
+
+    .p_titulo {
+        font-size: 12px;
+    }
+
+    .p_subtitulo {
+        font-size: 14px;
+    }
+
+    .div_graficoTitulo h3 {
+        font-size: 16px;
+    }
+
+    .name {
+        font-size: 12px;
+    }
+
+    .photo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .dropdown-btn {
+        display: flex;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #nav_logo h2 {
+        font-size: 16px;
+    }
+
+    .container_one_page {
+        padding: 10px;
+    }
+
+    #div_parte_graficos {
+        gap: 10px;
+    }
+
+    .div_conteudos {
+        padding: 10px;
+    }
+
+    #barChart,
+    #pieChart {
+        width: 100% !important;
+        height: 250px !important;
+    }
+
+    .people {
+        gap: 12px;
+    }
+
+    .pill-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .photo {
+        width: 35px;
+        height: 35px;
+    }
+
+    .name {
+        font-size: 11px;
+    }
+
+    .dropdown-btn {
+        display: flex;
+        gap: 0.5rem;
+    }
+}

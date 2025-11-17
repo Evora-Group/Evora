@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Curso - Professor</title>
+    <link rel="stylesheet" href="../css/dashCursoEspecifico.css">
+    <link rel="shortcut icon" href="../assets/imgs/logoEvora.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+</head>
+
+<body>
+    <header>
+
+        <img src="../assets/imgs/logo-nome.svg" alt="" class="img_logo">
+
+        <section class="section_infoUsuario">
+            <h1 class="h1_nome_usuario" id="h1_nome_usuario">Nome do Usuario</h1>
+            <img src="../assets/imgs/anne.png" alt="" class="img_icon_usuario" id="img_logo_usuario">
+            <span><i class="fi fi-sr-caret-down"></i>
+            </span>
+        </section>
+
+    </header>
+    <main>
+        <aside>
+            <section class="section_aside">
+                <ul>
+                    <li><a href="./dashHome.html"><i class="fi fi-sr-home"></i>Dashboard</a></li>
+                    <li><a href="./dashCurso.html" class="active"><i class="fi fi-sr-users-alt"></i>Cursos</a></li>
+                    <li><a href="./dashAlunos.html"><i class="fi fi-sr-user"></i>Alunos</a></li>
+                    <li><a href="./dashAlerta.html"><i class="fi fi-sr-bell"></i>Alertas</a></li>
+                    <li><a href="./dashConf.html"><i class="fi fi-sr-settings"></i>Configurações</a></li>
+                </ul>
+
+                <a href="../index.html" class="botao-sair">
+                    <i class="fi fi-sr-exit"></i> SAIR
+                </a>
+            </section>
+        </aside>
+
+        <section class="section-curso">
+            <main class="main-curso">
+                <section class="container_one_page">
+
+                    <div id="div_parte_indicadores">
+
+                        <div id="div_nomeMateria" class="div_titulos">
+                            <h2>Química</h2>
+                        </div>
+
+                        <div id="div_indicadores">
+                            <div class="indicador div_conteudos">
+                                <div class="icone">
+                                    <div class="circuloIcone"><i class="fi fi-sr-running"></i></div>
+                                </div>
+                                <div class="info">
+                                    <p class="p_titulo">Quantidade de Alunos com risco de faltas</p>
+                                    <p class="p_subtitulo">53</p>
+                                </div>
+                            </div>
+                            <div class="indicador div_conteudos">
+                                <div class="icone">
+                                    <div class="circuloIcone"><i class="fi fi-sr-ballot"></i></div>
+                                </div>
+                                <div class="info">
+                                    <p class="p_titulo">Quantidade de Alunos com risco de notas</p>
+                                    <p class="p_subtitulo">13</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="div_parte_graficos">
+                        <div id="div_grafico_notas">
+                            <div class="div_bar div_conteudos">
+                                <div class="div_graficoTitulo">
+                                    <h3>Nota média por mês</h3>
+                                </div>
+                                <canvas id="barChart" height="250"></canvas>
+                            </div>
+                        </div>
+                        <div id="div_grafico_frequencia">
+                            <div class="div_pizza div_conteudos">
+                                <div class="div_graficoTitulo">
+                                    <h3>Frequência</h3>
+                                </div>
+                                <canvas id="pieChart" height="250"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="div_parte_alunos">
+                        <div id="div_atencaoAlunos">
+                            <div id="div_alunoProblema" class="div_conteudos">
+                                <div class="div_titulos">
+                                    <h3>Alunos situação de Problema e Atenção</h3>
+                                </div>
+                                <div class="people-card">
+                                    <div class="people">
+                                        <div class="person">
+                                            <div class="photo">
+                                                <a href="Curso_Aluno.html">
+                                                    <img src="../assets/imgs/anne.png" />
+                                                </a>
+                                            </div>
+                                            <div class="name">Anne Y.</div>
+                                        </div>
+                                        <div class="person">
+                                            <div class="photo"><img src="../assets/imgs/emilly.png" /></div>
+                                            <div class="name">Emilly</div>
+                                        </div>
+                                        <div class="person">
+                                            <div class="photo"><img src="../assets/imgs/erick.png" /></div>
+                                            <div class="name">Erick L.</div>
+                                        </div>
+                                    </div>
+                                    <button class="pill-btn" aria-label="avançar">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M9 18l6-6-6-6" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_todosAlunos">
+                            <div id="div_alunoAll" class="div_conteudos">
+                                <div class="div_titulos">
+                                    <h3>Todos os Alunos</h3>
+                                </div>
+                                <div class="people-card">
+                                    <div class="people">
+                                        <div class="person">
+                                            <div class="photo">
+                                                <a href="t2.html">
+                                                    <img src="../assets/imgs/ezequiel.png" />
+                                                </a>
+                                            </div>
+                                            <div class="name">Ezequiel C.</div>
+                                        </div>
+                                        <div class="person">
+                                            <div class="photo"><img src="../assets/imgs/guilherme.png" /></div>
+                                            <div class="name">Guilherme</div>
+                                        </div>
+                                        <div class="person">
+                                            <div class="photo"><img src="../assets/imgs/joao.png" /></div>
+                                            <div class="name">João R.</div>
+                                        </div>
+                                        <div class="person">
+                                            <div class="photo"><img src="../assets/imgs/emilly.png" /></div>
+                                            <div class="name">Emilly</div>
+                                        </div>
+
+                                    </div>
+                                    <button class="pill-btn" aria-label="avançar">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M9 18l6-6-6-6" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+            </main>
+            <script src="../js/curso-materia.js"></script>
+        </section>
+    </main>
+</body>
+
+</html>

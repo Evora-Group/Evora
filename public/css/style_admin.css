@@ -65,7 +65,7 @@ body{
 }
 
 .header_info_usuario .img_logo{
-    width: 10%;
+    width: 8%;
     min-width: 100px;
 }
 
@@ -95,6 +95,7 @@ body{
 }
 
 aside{
+    position: relative;
     background-color: var(--primary-color);
     color: var(--white-color);
     width: 15%;
@@ -208,6 +209,30 @@ main .section_dash{
     justify-content: center;
     align-items: center;
     gap: calc(var(--gap)*0.3);
+}
+
+.botao-sair {
+    position: absolute; 
+    bottom: 30px;       
+    left: 100px;         
+    right: 100px;        
+
+    background-color: #dd1c2f; 
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 5px;
+
+    /* --- Para alinhar o ícone e o texto --- */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espaço entre o ícone e o texto */
+}
+
+.botao-sair:hover {
+    background-color: #c82333; 
 }
 
 main header .kpi{

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Professor - Alunos</title>
+    <link rel="stylesheet" href="../css/style_admin.css">
+    <link rel="stylesheet" href="../css/dashAlunos.css">
+    <link rel="shortcut icon" href="../assets/imgs/logoEvora.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="../js/login-cadas.js"></script>
+</head>
+
+
+<body>
+    <header class="header_info_usuario">
+
+        <img src="../assets/imgs/logo-nome.svg" alt="" class="img_logo">
+
+        <section class="section_infoUsuario">
+            <h1 class="h1_nome_usuario" id="h1_nome_professor">Nome do Professor</h1>
+            <img src="../assets/imgs/anne.png" alt="" class="img_icon_usuario" id="img_logo_professor">
+            <span><i class="fi fi-sr-caret-down"></i></span>
+        </section>
+
+    </header>
+    <main>
+        <aside>
+            <section class="section_aside">
+                <ul>
+                    <li><a href="./dashHome.html" ><i class="fi fi-sr-home"></i>Dashboard</a></li>
+                    <li><a href="./dashCurso.html"><i class="fi fi-sr-users-alt"></i>Cursos</a></li>
+                    <li class="active"><a href="./dashAlunos.html"><i class="fi fi-sr-user"></i>Alunos</a></li>
+                    <li><a href="./dashAlerta.html"><i class="fi fi-sr-bell"></i>Alertas</a></li>
+                    <li><a href="./dashConf.html"><i class="fi fi-sr-settings"></i>Configurações</a></li>
+                </ul>
+
+                <a href="../index.html" class="botao-sair">
+                    <i class="fi fi-sr-exit"></i> SAIR
+                </a>
+            </section>
+        </aside>
+
+
+        <section class="section_dash">
+            <main class="main_dash">
+                <header class="header_kpis">
+                    <section class="kpi">
+                        <div class="kpi_header" id="kpi_situacao">
+                            <div class="div_titulo_kpi" id="div_situacao">
+                                <p class="p_titulo_kpi">DESEMPENHO GERAL</p>
+                                <h1 id="h1_situacao">3 ATENÇÃO</h1>
+                            </div>
+                            <div class="div_comparativo">
+
+                                <p class="p_titulo_kpi">3 atenção</p>
+                                <p class="p_titulo_kpi">1 regular</p>
+                                <p class="p_titulo_kpi">1 ótimo</p>
+
+                            </div>
+                        </div>
+                        <div class="div_progress_bar">
+                            <div class="progress_bar">
+                                <progress id="progress_bar" value="60" max="100"> 60% </progress>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="kpi">
+
+                        <div style="width: 100%; display: flex;">
+
+                            <div class="parteInfo" style="width: 65%;">
+                                <div class="kpi_header">
+                                    <div class="div_titulo_kpi" id="div_situacao">
+                                        <p class="p_titulo_kpi">FREQUÊNCIA GERAL</p>
+                                        <h1 id="h1_situacao">85%</h1>
+                                    </div>
+                                </div>
+                        <div>
+                            <div class="kpi_footer">
+                                <p class="p_titulo_kpi">2 alunos em atenção por freq.</p>
+                            </div>
+<<<<<<< HEAD:public/dashAlunos.html
+                        </div>
+
+                        </div>
+
+                        <div class="parteGraf" style="width: 35%;">
+                            <div class="grafico_container">
+                                <div class="circular-progress" id="circFreq">
+                                    <span id="freqText">Freq</span>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+
+=======
+                        </div>
+>>>>>>> 0233041099e47c162f94b6e878b822e3a042daca:public/section-prof/dashAlunos.html
+                    </section>
+                </header>
+
+                <section class="section_main">
+                    <header class="header_usuarios">
+
+                        <input type="search" placeholder="Digite nome ou RA para procurar pelo aluno..."
+                            class="input_pesquisa">
+                        <div class="div_criar_usuario" id="btnAbrirDialog"
+                            onclick="listarInstituicoes(), abrirModal('modal_criar_aluno')">
+                            <p><strong>+ Criar Novo Aluno</strong></p>
+                        </div>
+
+                    </header>
+                    <section class="section_filter_usuarios">
+
+
+                        <details class="filtro-dropdown">
+
+                            <summary class="titulo_sumario">
+                                filtrar por
+                            </summary>
+
+                            <div class="filtro-lista">
+
+                                <label>
+                                    <details>
+                                        <summary><input type="checkbox"> Curso</summary>
+                                        <label><input type="checkbox"> ADS</label>
+                                        <label><input type="checkbox"> CCO</label>
+                                        <label><input type="checkbox"> SIS</label>
+                                    </details>
+                                </label>
+
+                                <label>
+                                    <details>
+                                        <summary><input type="checkbox"> Turma</summary>
+                                        <label><input type="checkbox"> 1-A</label>
+                                        <label><input type="checkbox"> 1-B</label>
+                                        <label><input type="checkbox"> 2-A</label>
+                                        <label><input type="checkbox"> 2-B</label>
+                                        <label><input type="checkbox"> 3-A</label>
+                                        <label><input type="checkbox"> 3-B</label>
+                                        <label><input type="checkbox"> 4-A</label>
+                                        <label><input type="checkbox"> 4-B</label>
+                                    </details>
+                                </label>
+
+                                <label>
+                                    <details>
+                                        <summary><input type="checkbox"> Situação</summary>
+                                        <label><input type="checkbox"> atenção</label>
+                                        <label><input type="checkbox"> regular</label>
+                                        <label><input type="checkbox"> ótimo</label>
+                                    </details>
+                                </label>
+
+                                <label>
+                                    <input type="checkbox"> Limpar
+                                </label>
+                            </div>
+
+                        </details>
+                    </section>
+                    <main class="main_usuarios">
+                        <!-- Tabela de usuários será inserida aqui -->
+                        <table class="tabela">
+                            <thead>
+                                <tr>
+                                    <th>RA</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Turma</th>
+                                    <th>Curso</th>
+                                    <th>Desempenho</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody class="corpo_tabela">
+
+                                 <tr onclick="irParaAluno('alunoEspecifico.html')">
+
+                                    <td>01251089</td>
+                                    <td>Anne Yamsaki</td>
+                                    <td>anne.yamasaki@sptech.school</td>
+                                    <td>2-B</td>
+                                    <td>Análise Desenvolvimento de Sistemas</td>
+                                    <td><p class="p_status_atencao">Atenção</p></td>
+                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
+                                </tr>
+                                <tr onclick="irParaAluno('alunoEspecifico.html')">
+
+                                    <td>01251089</td>
+                                    <td>Anne Yamasaki</td>
+                                    <td>anne.yamasaki@sptech.school</td>
+                                    <td>2-B</td>
+                                    <td>Análise Desenvolvimento de Sistemas</td>
+                                    <td><p class="p_status_atencao">Atenção</p></td>
+                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
+                                </tr>
+                                <tr onclick="irParaAluno('alunoEspecifico.html')">
+
+                                    <td>01251089</td>
+                                    <td>Anne Yamasaki</td>
+                                    <td>anne.yamasaki@sptech.school</td>
+                                    <td>2-B</td>
+                                    <td>Análise Desenvolvimento de Sistemas</td>
+                                    <td><p class="p_status_atencao">Atenção</p></td>
+                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
+                                </tr>
+                                <tr onclick="irParaAluno('alunoEspecifico.html')">
+
+                                    <td>01251089</td>
+                                    <td>Anne Yamasaki</td>
+                                    <td>anne.yamasaki@sptech.school</td>
+                                    <td>2-B</td>
+                                    <td>Análise Desenvolvimento de Sistemas</td>
+                                    <td><p class="p_status_regular">Regular</p></td>
+                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
+                                </tr>
+                                <tr onclick="irParaAluno('alunoEspecifico.html')">
+
+                                    <td>01251089</td>
+                                    <td>Anne Yamasaki</td>
+                                    <td>anne.yamasaki@sptech.school</td>
+                                    <td>2-B</td>
+                                    <td>Análise Desenvolvimento de Sistemas</td>
+                                    <td><p class="p_status_otimo">Ótimo</p></td>
+                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
+                                </tr> 
+
+                            </tbody>
+                        </table>
+
+                    </main>
+                </section>
+            </main>
+        </section>
+    </main>
+
+    <dialog id="modal_criar_aluno" class="dialog_modal">
+        <div class="div_header_modal">
+        </div>
+        <div class="div_main_modal">
+            <h3>Complete as informações do Novo Aluno:</h3>
+            <form class="form_modal">
+
+                <label for="ra">RA:</label>
+                <input type="text" class="input_modal" id="ra" name="ra" placeholder="Digite o RA do aluno">
+
+
+                <label for="nome_turma">Turma:</label>
+                <input list="instituicoes" type="nome_turma" id="turma" name="nome_turma"
+                    placeholder="Pesquise pela sua turma" class="input_modal">
+                <datalist id="turmas">
+                    <option value=""></option>
+                </datalist>
+
+                <label for="nome_curso">Curso:</label>
+                <input list="instituicoes" type="nome_curso" id="curso" name="nome_curso"
+                    placeholder="Pesquise pela sua curso" class="input_modal">
+                <datalist id="cursos">
+                    <option value=""></option>
+                </datalist>
+
+            </form>
+
+            <div class="div_footer">
+
+                <div class="div_criar_usuario" id="btnEnviarDialog" onclick="enviarModal('modal_criar_aluno')">
+                    <p><strong>Criar Novo Aluno</strong></p>
+                </div>
+
+                <p id="btnFecharDialog" onclick="fecharModal('modal_criar_aluno')"><u>cancelar</u></p>
+
+            </div>
+
+        </div>
+    </dialog>
+
+
+    <dialog id="modal_editar_aluno" class="dialog_modal" style="height: 80%;">
+
+        <div class="div_main_modal">
+            <div class="div_header_modal">
+                <h3>Edite as informações do Aluno:</h3>
+            </div>
+            <form class="form_modal">
+                <div class="div_dois_inputs">
+
+                    <div class="div_input_menor">
+                        <label for="ra" style="height: 60%;">RA:</label>
+                        <input type="text" class="input_modal" name="ra" placeholder="01251089" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
+                    </div>
+
+                </div>
+
+                <div class="div_dois_inputs">
+
+                    <div class="div_input_menor">
+
+                        <label for="ra">Nome:</label>
+                        <input type="text" class="input_modal" name="nome" placeholder="Anne Yukari Yamasaki" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
+                    </div>
+                    <div class="div_input_maior">
+                        <label for="ra">Email:</label>
+                        <input type="text" class="input_modal" name="email" placeholder="anne.yamasaki@sptech.school" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
+
+                    </div>
+
+                </div>
+
+                <div class="div_dois_inputs">
+
+                    <div class="div_input_menor">
+                        <label for="turma">Turma:</label>
+                        <select name="turma" id="">
+                            <option value="">Selecione a Turma</option>
+                            <option value="1ADSB/CCO">1ADSB/CCO</option>
+                            <option value="2ADSB/CCO">2ADSB/CCO</option>
+                        </select>
+                    </div>
+
+
+                    <div class="div_input_maior">
+                        <label for="instituicao">Instituição:</label>
+                        <input type="text" class="input_noinput" name="instituicao" placeholder="SPTECH SCHOOL" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
+                    </div>
+
+
+                </div>
+
+
+                <div class="div_input">
+                    <label for="instituicao">Cursos:</label>
+                    <input type="text" name="instituicao">
+                </div>
+
+            </form>
+
+            <div class="div_footer" style="margin-top: 50px;">
+
+                <div class="div_editar_usuario" id="btnEnviarDialog" onclick="fecharModal('modal_editar_aluno')">
+                    <p><strong>Salvar</strong></p>
+                </div>
+
+                <p id="btnFecharDialog" onclick="fecharModal('modal_editar_aluno')"><u>cancelar</u></p>
+
+            </div>
+
+        </div>
+    </dialog>
+</body>
+
+</html>
+
+<script>
+    function irParaAluno(url) {
+        window.location.href = url;
+    }
+
+
+    function abrirModal(modalId) {
+        const dialog = document.getElementById(modalId);
+        dialog.showModal();
+    }
+
+    function fecharModal(modalId) {
+        const dialog = document.getElementById(modalId);
+        dialog.close();
+    }
+
+    function enviarModal(modalId) {
+        const dialog = document.getElementById(modalId);
+
+        // Lógica para enviar os dados do modal pode ser adicionada aqui
+
+        dialog.close();
+    }
+
+</script>

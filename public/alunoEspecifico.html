@@ -41,13 +41,13 @@
         <section class="section_dash" style="display: block;">
             <div class="btn-container">
                 <div>
-                    <div class="div_btn_usuario active">Desempenho Individual</div>
+                    <div class="div_btn_usuario active tab-button" id="tabDesempenho">Desempenho Individual</div>
                 </div>
                 <div>
-                    <div class="div_btn_usuario">Recomendações</div>
+                    <div class="div_btn_usuario tab-button" id="tabRecomendacoes">Recomendações</div>
                 </div>
             </div>
-            <main class="main_dash" style="height: 93%;">
+            <main class="main_dash" id="contentContainer" style="height: 93%;">
                 <header class="header_kpis">
                     
                     <section class="kpi freq">
@@ -235,5 +235,7 @@
     // Cria o novo gráfico
     new Chart(ctx, config);
 });
+
+
     
 </script>

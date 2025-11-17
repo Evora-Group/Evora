@@ -29,6 +29,72 @@
   display: inline-block; /* Faz o fundo se ajustar ao texto */
 }
 
+.grafico_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.circular-progress {
+    --porcento: 85; /* valor padrão */
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    background: conic-gradient(
+        #94d879 calc(var(--porcento) * 1%), 
+        #e0e0e0 0
+    );
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.circular-progress::before {
+    content: "";
+    width: 130px;
+    height: 130px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.circular-progress span {
+    position: absolute;
+    font-size: 30px;
+    font-weight: semi-bold;
+    color: #333;
+}
+
+.div_header_modal {
+    display: none;
+}
+
+.dialog_modal {
+    border-radius: 10px;
+    border: none;   
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+} 
+
+.tabela tbody tr {
+    cursor: pointer;
+    transition: background-color .25s ease;
+}
+
+.tabela tbody tr:hover {
+    background-color: #e5efff;
+}
+
+.tabela {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.tabela tbody tr:last-child {
+    border-bottom: none;
+}
 .botao-sair {
     position: absolute; 
     bottom: 30px;       

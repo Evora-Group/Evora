@@ -178,60 +178,10 @@
                                     <th></th>
                                 </tr>
                             </thead>
+
                             <tbody class="corpo_tabela" id="corpo_tabela_alunos">
-
-                                 <!-- <tr onclick="irParaAluno('alunoEspecifico.html')">
-
-                                    <td>01251089</td>
-                                    <td>Anne Yamsaki</td>
-                                    <td>anne.yamasaki@sptech.school</td>
-                                    <td>2-B</td>
-                                    <td>Análise Desenvolvimento de Sistemas</td>
-                                    <td><p class="p_status_atencao">Atenção</p></td>
-                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
-                                </tr>
-                                <tr onclick="irParaAluno('alunoEspecifico.html')">
-
-                                    <td>01251089</td>
-                                    <td>Anne Yamasaki</td>
-                                    <td>anne.yamasaki@sptech.school</td>
-                                    <td>2-B</td>
-                                    <td>Análise Desenvolvimento de Sistemas</td>
-                                    <td><p class="p_status_atencao">Atenção</p></td>
-                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
-                                </tr>
-                                <tr onclick="irParaAluno('alunoEspecifico.html')">
-
-                                    <td>01251089</td>
-                                    <td>Anne Yamasaki</td>
-                                    <td>anne.yamasaki@sptech.school</td>
-                                    <td>2-B</td>
-                                    <td>Análise Desenvolvimento de Sistemas</td>
-                                    <td><p class="p_status_atencao">Atenção</p></td>
-                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
-                                </tr>
-                                <tr onclick="irParaAluno('alunoEspecifico.html')">
-
-                                    <td>01251089</td>
-                                    <td>Anne Yamasaki</td>
-                                    <td>anne.yamasaki@sptech.school</td>
-                                    <td>2-B</td>
-                                    <td>Análise Desenvolvimento de Sistemas</td>
-                                    <td><p class="p_status_regular">Regular</p></td>
-                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
-                                </tr>
-                                <tr onclick="irParaAluno('alunoEspecifico.html')">
-
-                                    <td>01251089</td>
-                                    <td>Anne Yamasaki</td>
-                                    <td>anne.yamasaki@sptech.school</td>
-                                    <td>2-B</td>
-                                    <td>Análise Desenvolvimento de Sistemas</td>
-                                    <td><p class="p_status_otimo">Ótimo</p></td>
-                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
-                                </tr>  -->
-
                             </tbody>
+
                         </table>
 
                     </main>
@@ -243,7 +193,7 @@
     <dialog id="modal_criar_aluno" class="dialog_modal">
         <div class="div_header_modal">
         </div>
-        <div class="div_main_modal">
+        <div class="div_main_modal" style="height: 100%; padding: 5% 5% 0% 5%;">
             <h3>Complete as informações do Novo Aluno:</h3>
             <form class="form_modal">
 
@@ -281,18 +231,17 @@
     </dialog>
 
 
-    <dialog id="modal_editar_aluno" class="dialog_modal" style="height: 80%;">
-
-        <div class="div_main_modal">
-            <div class="div_header_modal">
+    <dialog id="modal_editar_aluno" class="dialog_modal">
+        <div class="div_header_modal"> </div>
+            <div class="div_main_modal" style="height: 100%; padding: 5% 5% 0% 5%;">
                 <h3>Edite as informações do Aluno:</h3>
-            </div>
+            
             <form class="form_modal">
                 <div class="div_dois_inputs">
 
                     <div class="div_input_menor">
-                        <label for="ra" style="height: 60%;">RA:</label>
-                        <input type="text" class="input_modal" name="ra" placeholder="01251089" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
+                        <label for="ra" style="height: 50%;">RA:</label>
+                        <input type="text" class="input_modal" name="ra" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
                     </div>
 
                 </div>
@@ -301,12 +250,12 @@
 
                     <div class="div_input_menor">
 
-                        <label for="ra">Nome:</label>
-                        <input type="text" class="input_modal" name="nome" placeholder="Anne Yukari Yamasaki" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
+                        <label for="ra" style="height: 50%;">Nome:</label>
+                        <input type="text" class="input_modal" name="nome" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
                     </div>
                     <div class="div_input_maior">
-                        <label for="ra">Email:</label>
-                        <input type="text" class="input_modal" name="email" placeholder="anne.yamasaki@sptech.school" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
+                        <label for="ra" style="height: 50%;">Email:</label>
+                        <input type="text" class="input_modal" name="email" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
 
                     </div>
 
@@ -315,7 +264,7 @@
                 <div class="div_dois_inputs">
 
                     <div class="div_input_menor">
-                        <label for="turma">Turma:</label>
+                        <label for="turma" style="height: 50%;">Turma:</label>
                         <select name="turma" id="">
                             <option value="">Selecione a Turma</option>
                             <option value="1ADSB/CCO">1ADSB/CCO</option>
@@ -325,8 +274,8 @@
 
 
                     <div class="div_input_maior">
-                        <label for="instituicao">Instituição:</label>
-                        <input type="text" class="input_noinput" name="instituicao" placeholder="SPTECH SCHOOL" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
+                        <label for="instituicao" style="height: 50%;">Instituição:</label>
+                        <input type="text" class="input_noinput" name="instituicao" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
                     </div>
 
 
@@ -334,13 +283,13 @@
 
 
                 <div class="div_input">
-                    <label for="instituicao">Cursos:</label>
+                    <label for="instituicao" style="height: 50%;">Cursos:</label>
                     <input type="text" name="instituicao">
                 </div>
 
             </form>
 
-            <div class="div_footer" style="margin-top: 50px;">
+            <div class="div_footer">
 
                 <div class="div_editar_usuario" id="btnEnviarDialog" onclick="fecharModal('modal_editar_aluno')">
                     <p><strong>Salvar</strong></p>

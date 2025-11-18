@@ -51,7 +51,36 @@ function listarUsuariosInstituicao() {
                 elementosQtdAlunos.forEach(elemento => {
                     elemento.innerHTML = qtdAlunos;
                 });
+
+                const corpoTabela = document.getElementById("corpo_tabela_usuarios");
+
+                listaUsuarios.forEach(usuario => {
+                    
+                      corpoTabela.innerHTML += `
                 
+                                                <tr>
+                                    <td>${usuario.id}</td>
+                                    <td>${usuario.nome}</td>
+                                    <td>${usuario.email}</td>
+                                    <td>${usuario.tipo}</td>
+                                    <td>${usuario.turma}</td>
+                                    <td>${usuario.instituicao}</td>
+                                    <td>
+                                        <p class="p_status_bloqueado">Bloqueado</p>
+                                    </td>
+                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i>
+                                    </td>
+                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+                                    </td>
+                                </tr>
+
+                `; // Limpa o conteúdo existente na tabela
+    
+
+                });
+            
+
+                          
             });
         } else {
             console.error("Erro ao listar usuários: ", resposta.status);

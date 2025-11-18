@@ -15,4 +15,8 @@ router.get("/listarUsuariosInstituicao/:idInstituicao", function (req, res) {
     instituicaoController.listarUsuariosInstituicao(req, res)
 })
 
+router.get("/listarAlunosInstituicao/:idInstituicao", function (req, res) {
+    instituicaoController.listarAlunosInstituicao(req, res)
+})
+
 module.exports = router;

@@ -15,4 +15,6 @@ router.get("/validarEmail", function (req, res) {
     userController.validarEmail(req,res);
 });
 
+
+
 module.exports = router;

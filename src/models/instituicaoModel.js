@@ -16,7 +16,53 @@ function buscarInstituicao(nome) {
     return database.executar(instrucaoSql, [nome]);
 }
 
+function listarUsuariosInstituicao(idInstituicao) {
+//     var instrucaoSql = `SELECT 
+//     U.*, 
+//     I.nome AS nome_instituicao 
+// FROM Usuario U
+// INNER JOIN Instituicao I ON U.fkInstituicao = I.idInstituicao
+// WHERE U.fkInstituicao = ?;
+//     `;
+
+    // var instrucaoSql = `SELECT * FROM Usuario WHERE fkInstituicao = ?;`;
+
+    var instrucaoSql = `SELECT 
+    u.idUsuario as id,
+    u.nome,
+    u.email,
+    'Professor' as tipo,
+    'N/A' as turma_curso,
+    'N/A' as modalidade,
+    i.nome as instituicao
+FROM Usuario u
+INNER JOIN Instituicao i ON u.fkInstituicao = i.idInstituicao
+WHERE u.fkInstituicao = ? AND u.cargo = 'Professor'
+
+UNION ALL
+
+SELECT 
+    a.RA as id,
+    a.nome,
+    a.email,
+    'Aluno' as tipo,
+    CONCAT(c.descricao, ' (', c.modalidade, ')') as turma_curso,
+    c.modalidade,
+    i.nome as instituicao
+FROM Aluno a
+INNER JOIN Instituicao i ON a.fkInstituicao = i.idInstituicao
+INNER JOIN Matricula m ON a.RA = m.fkRA AND a.fkInstituicao = m.Aluno_fkInstituicao
+INNER JOIN Curso c ON m.Curso_fkCurso = c.idCurso AND m.Curso_fkInstituicao = c.fkInstituicao
+WHERE a.fkInstituicao = ?
+
+ORDER BY tipo, nome;`;
+
+    console.log("Executando listagem de usuários da instituição:", idInstituicao);
+    return database.executar(instrucaoSql, [idInstituicao, idInstituicao]);
+}
+
 module.exports = {
     listarInstituicoes,
-    buscarInstituicao
+    buscarInstituicao,
+    listarUsuariosInstituicao
 }

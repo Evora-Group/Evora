@@ -10,17 +10,18 @@
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-    <script src="./js/login-cadas.js"></script>
+    <script src="../js/login-cadas.js"></script>
+    <script src="../js/dash.js"></script>
 </head>
 
 
-<body>
+<body onload="puxarNomeUsuario(), listarUsuariosInstituicao()">
     <header class="header_info_usuario">
 
         <img src="../assets/imgs/logo-nome.svg" alt="" class="img_logo">
 
         <section class="section_infoUsuario">
-            <h1 class="h1_nome_usuario" id="h1_nome_usuario">Nome do Usuario</h1>
+            <h1 class="h1_nome_usuario nome-usuario" id="h1_nome_usuario">Nome do Usuario</h1>
             <img src="../assets/imgs/anne.png" alt="" class="img_icon_usuario" id="img_logo_usuario">
             <span><i class="fi fi-sr-caret-down"></i></span>
         </section>
@@ -55,7 +56,7 @@
                         <div class="kpi_header">
                             <div class="div_titulo_kpi" id="div_situacao">
                                 <p class="p_titulo_kpi">TOTAL DE USUÁRIOS CRIADOS</p>
-                                <h1 id="h1_situacao">234</h1>
+                                <h1 id="h1_situacao" class="qtd_usuarios">234</h1>
                             </div>
 
                         </div>
@@ -63,8 +64,8 @@
 
                             <div class="kpi_footer">
 
-                                <p class="p_titulo_kpi">34 com tipo de<strong> Professor</strong></p>
-                                <p class="p_titulo_kpi">200 com tipo de <strong> Aluno</strong></p>
+                                <p class="p_titulo_kpi"><span class="qtd_professores">34</span> com tipo de<strong> Professor</strong></p>
+                                <p class="p_titulo_kpi"><span class="qtd_alunos">200</span> com tipo de <strong> Aluno</strong></p>
 
                             </div>
 

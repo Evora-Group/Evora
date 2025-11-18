@@ -11,16 +11,17 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <script src="../js/login-cadas.js"></script>
+    <script src="../js/dash.js"></script>
 </head>
 
 
-<body>
+<body onload="puxarNomeUsuario()">
     <header class="header_info_usuario">
 
         <img src="../assets/imgs/logo-nome.svg" alt="" class="img_logo">
 
         <section class="section_infoUsuario">
-            <h1 class="h1_nome_usuario" id="h1_nome_usuario">Nome do Usuario</h1>
+            <h1 class="h1_nome_usuario nome-usuario" id="h1_nome_usuario">Nome do Usuario</h1>
             <img src="./assets/imgs/anne.png" alt="" class="img_icon_usuario" id="img_logo_usuario">
             <span><i class="fi fi-sr-caret-down"></i></span>
         </section>

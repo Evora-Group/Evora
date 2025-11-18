@@ -10,15 +10,16 @@
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="../js/dash.js"></script>
 </head>
 
-<body>
+<body onload="puxarNomeUsuario()">
     <header>
 
         <img src="../assets/imgs/logo-nome.svg" alt="" class="img_logo">
 
         <section class="section_infoUsuario">
-            <h1 class="h1_nome_usuario" id="h1_nome_usuario">Nome do Usuario</h1>
+            <h1 class="h1_nome_usuario nome-usuario" id="nome-usuario" class="nome-usuario">Nome do Usuario</h1>
             <img src="../assets/imgs/anne.png" alt="" class="img_icon_usuario" id="img_logo_usuario">
             <span><i class="fi fi-sr-caret-down"></i>
             </span>
@@ -50,7 +51,7 @@
 
                 <div class="info-entrada">
                     <span id="titulo-entrada">
-                        Bem Vindo, <span id="nome-usuario">Rosim</span>!
+                        Bem Vindo, <span id="nome-usuario" class="nome-usuario" >Rosim</span>!
                     </span>
 
                     <br>

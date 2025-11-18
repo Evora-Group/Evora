@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Curso - Admin</title>
-    <link rel="stylesheet" href="../css/dashCursoEspecifico.css">
+    <link rel="stylesheet" href="../css/dashCursoEspecificoteste.css">
+    <link rel="stylesheet" href="../css/dashAlunos.css">
     <link rel="shortcut icon" href="../assets/imgs/logoEvora.svg" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -13,7 +14,7 @@
 </head>
 
 <body>
-    <header>
+    <header class="header_info_usuario">
 
         <img src="../assets/imgs/logo-nome.svg" alt="" class="img_logo">
 
@@ -46,128 +47,109 @@
 
         <section class="section-curso">
             <main class="main-curso">
-                <section class="container_one_page">
-
-                    <div id="div_parte_indicadores">
-
-                        <div id="div_nomeMateria" class="div_titulos">
-                            <h2>Química</h2>
-                        </div>
-
-                        <div id="div_indicadores">
-                            <div class="indicador div_conteudos">
-                                <div class="icone">
-                                    <div class="circuloIcone"><i class="fi fi-sr-running"></i></div>
-                                </div>
-                                <div class="info">
-                                    <p class="p_titulo">Quantidade de Alunos com risco de faltas</p>
-                                    <p class="p_subtitulo">53</p>
-                                </div>
+                <div id="titulo-usuario">
+                    <span id="numeracao-curso">1°</span>
+                    <span>Análise e Desenvolvimento de Sistemas</span>
+                </div>
+        
+                <header class="header_kpis">
+                    <section class="kpi">
+                        
+                        <div class="kpi_header" id="kpi_situacao">
+                            <div class="div_titulo_kpi" id="div_situacao">
+                                <p class="p_titulo_kpi">DESEMPENHO GERAL</p>
+                                <h1 id="h1_situacao">3 ATENÇÃO</h1>
                             </div>
-                            <div class="indicador div_conteudos">
-                                <div class="icone">
-                                    <div class="circuloIcone"><i class="fi fi-sr-ballot"></i></div>
-                                </div>
-                                <div class="info">
-                                    <p class="p_titulo">Quantidade de Alunos com risco de notas</p>
-                                    <p class="p_subtitulo">13</p>
-                                </div>
+                            <div class="div_comparativo">
+
+                                <p class="p_titulo_kpi">3 atenção</p>
+                                <p class="p_titulo_kpi">1 regular</p>
+                                <p class="p_titulo_kpi">1 ótimo</p>
+
                             </div>
                         </div>
-
-                    </div>
-
-                    <div id="div_parte_graficos">
-                        <div id="div_grafico_notas">
-                            <div class="div_bar div_conteudos">
-                                <div class="div_graficoTitulo">
-                                    <h3>Nota média por mês</h3>
-                                </div>
-                                <canvas id="barChart" height="250"></canvas>
+                        <div class="div_progress_bar">
+                            <div class="progress_bar">
+                                <progress id="progress_bar" value="60" max="100"> 60% </progress>
                             </div>
                         </div>
-                        <div id="div_grafico_frequencia">
-                            <div class="div_pizza div_conteudos">
-                                <div class="div_graficoTitulo">
-                                    <h3>Frequência</h3>
-                                </div>
-                                <canvas id="pieChart" height="250"></canvas>
+                    </section>
+                    <section class="kpi">
+
+                        <div class="kpi_header">
+                            <div class="div_titulo_kpi" id="div_situacao">
+                                <p class="p_titulo_kpi">FREQUÊNCIA GERAL</p>
+                                <h1 id="h1_situacao">85%</h1>
+                            </div>
+
+                        </div>
+                        <div>
+                            <div class="kpi_footer">
+
+                                <p class="p_titulo_kpi">2 alunos em atenção por freq.</p>
+
                             </div>
                         </div>
-                    </div>
+                    </section>
+                </header>
 
-                    <div id="div_parte_alunos">
-                        <div id="div_atencaoAlunos">
-                            <div id="div_alunoProblema" class="div_conteudos">
-                                <div class="div_titulos">
-                                    <h3>Alunos situação de Problema e Atenção</h3>
-                                </div>
-                                <div class="people-card">
-                                    <div class="people">
-                                        <div class="person">
-                                            <div class="photo">
-                                                <a href="Curso_Aluno.html">
-                                                    <img src="../assets/imgs/anne.png" />
-                                                </a>
-                                            </div>
-                                            <div class="name">Anne Y.</div>
-                                        </div>
-                                        <div class="person">
-                                            <div class="photo"><img src="../assets/imgs/emilly.png" /></div>
-                                            <div class="name">Emilly</div>
-                                        </div>
-                                        <div class="person">
-                                            <div class="photo"><img src="../assets/imgs/erick.png" /></div>
-                                            <div class="name">Erick L.</div>
-                                        </div>
-                                    </div>
-                                    <button class="pill-btn" aria-label="avançar">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M9 18l6-6-6-6" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="div_todosAlunos">
-                            <div id="div_alunoAll" class="div_conteudos">
-                                <div class="div_titulos">
-                                    <h3>Todos os Alunos</h3>
-                                </div>
-                                <div class="people-card">
-                                    <div class="people">
-                                        <div class="person">
-                                            <div class="photo">
-                                                <a href="t2.html">
-                                                    <img src="../assets/imgs/ezequiel.png" />
-                                                </a>
-                                            </div>
-                                            <div class="name">Ezequiel C.</div>
-                                        </div>
-                                        <div class="person">
-                                            <div class="photo"><img src="../assets/imgs/guilherme.png" /></div>
-                                            <div class="name">Guilherme</div>
-                                        </div>
-                                        <div class="person">
-                                            <div class="photo"><img src="../assets/imgs/joao.png" /></div>
-                                            <div class="name">João R.</div>
-                                        </div>
-                                        <div class="person">
-                                            <div class="photo"><img src="../assets/imgs/emilly.png" /></div>
-                                            <div class="name">Emilly</div>
-                                        </div>
+                <section class="section_main">
+                    <main class="main_usuarios">
+                        <!-- Tabela de usuários será inserida aqui -->
+                        <table class="tabela">
+                            <thead>
+                                <tr>
+                                    <th>RA</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Turma</th>
+                                    <!-- <th>Curso</th> -->
+                                    <th>Desempenho</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody class="corpo_tabela">
 
-                                    </div>
-                                    <button class="pill-btn" aria-label="avançar">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M9 18l6-6-6-6" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                 <tr>
+                                    <td>01251089</td>
+                                    <td>Anne Yamsaki</td>
+                                    <td>anne.yamasaki@sptech.school</td>
+                                    <td>2-B</td>
+                                    <td><p class="p_status_atencao">Atenção</p></td>
+                                </tr>
+                                <tr>
+                                    <td>01251089</td>
+                                    <td>Anne Yamasaki</td>
+                                    <td>anne.yamasaki@sptech.school</td>
+                                    <td>2-B</td>
+                                    <td><p class="p_status_atencao">Atenção</p></td>
+                                </tr>
+                                <tr>
+                                    <td>01251089</td>
+                                    <td>Anne Yamasaki</td>
+                                    <td>anne.yamasaki@sptech.school</td>
+                                    <td>2-B</td>
+                                    <td><p class="p_status_atencao">Atenção</p></td>
+                                </tr>
+                                <tr>
+                                    <td>01251089</td>
+                                    <td>Anne Yamasaki</td>
+                                    <td>anne.yamasaki@sptech.school</td>
+                                    <td>2-B</td>
+                                    <td><p class="p_status_regular">Regular</p></td>
+                                </tr>
+                                <tr>
+                                    <td>01251089</td>
+                                    <td>Anne Yamasaki</td>
+                                    <td>anne.yamasaki@sptech.school</td>
+                                    <td>2-B</td>
+                                    <td><p class="p_status_otimo">Ótimo</p></td>
+                                </tr> 
 
+                            </tbody>
+                        </table>
+
+                    </main>
                 </section>
             </main>
             <script src="../js/curso-materia.js"></script>

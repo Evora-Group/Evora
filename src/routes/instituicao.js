@@ -11,4 +11,8 @@ router.get("/buscarInstituicao", function (req, res) {
     instituicaoController.buscarInstituicao(req, res)
 })
 
+router.get("/listarUsuariosInstituicao/:idInstituicao", function (req, res) {
+    instituicaoController.listarUsuariosInstituicao(req, res)
+})
+
 module.exports = router;

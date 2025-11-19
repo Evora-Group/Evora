@@ -45,9 +45,33 @@ function buscarInstituicao(req, res) {
 
 };
 
+function listarUsuariosInstituicao(req, res) {
+
+    const idInstituicao = req.params.idInstituicao;
+
+    instituicaoModel.listarUsuariosInstituicao(idInstituicao)
+        .then(
+            function (resultado) {
+                
+                res.json(resultado)
+
+            }
+        ).catch(function (erro) {
+            console.log(erro);
+            console.log(
+                 "\nHouve um erro ao listar usuários da instituição! Erro: ",
+                    erro.sqlMessage
+            );
+            res.status(500).json(erro.sqlMessage)
+            
+        });
+
+}
+
 module.exports = {
     
     listarInstituicoes,
-    buscarInstituicao
+    buscarInstituicao,
+    listarUsuariosInstituicao
 
 }

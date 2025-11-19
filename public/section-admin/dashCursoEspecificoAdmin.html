@@ -51,46 +51,50 @@
                     <span id="numeracao-curso">1°</span>
                     <span>Análise e Desenvolvimento de Sistemas</span>
                 </div>
-        
+
                 <header class="header_kpis">
                     <section class="kpi">
-                        
-                        <div class="kpi_header" id="kpi_situacao">
-                            <div class="div_titulo_kpi" id="div_situacao">
-                                <p class="p_titulo_kpi">DESEMPENHO GERAL</p>
-                                <h1 id="h1_situacao">3 ATENÇÃO</h1>
+
+                        <h2 class="chart-title">MÉDIA DE NOTAS POR MÊS</h2>
+
+                        <div class="chart-and-legend">
+                            <div class="chart-area">
+                                <canvas id="notasChart"></canvas>
+                                <div class="center-text">
+                                    <span class="center-label">Total Alunos</span>
+                                    <span class="center-value">1,500</span>
+                                </div>
                             </div>
-                            <div class="div_comparativo">
 
-                                <p class="p_titulo_kpi">3 atenção</p>
-                                <p class="p_titulo_kpi">1 regular</p>
-                                <p class="p_titulo_kpi">1 ótimo</p>
-
+                            <div class="legend-container">
+                                <div class="legend-item">
+                                    <span class="legend-color-box green"></span>
+                                    <span class="legend-label">NOTAS ACIMA DA MÉDIA</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color-box blue"></span>
+                                    <span class="legend-label">NOTAS NA MÉDIA</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color-box orange"></span>
+                                    <span class="legend-label">NOTAS ABAIXO DA MÉDIA</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="div_progress_bar">
-                            <div class="progress_bar">
-                                <progress id="progress_bar" value="60" max="100"> 60% </progress>
-                            </div>
-                        </div>
+
+
                     </section>
                     <section class="kpi">
+                        <h2 class="chart-title">FREQUÊNCIA DO CURSO</h2>
 
-                        <div class="kpi_header">
-                            <div class="div_titulo_kpi" id="div_situacao">
-                                <p class="p_titulo_kpi">FREQUÊNCIA GERAL</p>
-                                <h1 id="h1_situacao">85%</h1>
-                            </div>
-
-                        </div>
-                        <div>
-                            <div class="kpi_footer">
-
-                                <p class="p_titulo_kpi">2 alunos em atenção por freq.</p>
-
-                            </div>
+                        <div class="chart-area-bar">
+                            <canvas id="frequenciaChart"></canvas>
                         </div>
                     </section>
+                    <a href="dashAlunos.html" class="btn_voltar_alunos">
+                        <i class="fi fi-sr-arrow-small-left"></i>
+                        Voltar p/ Cursos
+                    </a>
                 </header>
 
                 <section class="section_main">
@@ -110,43 +114,53 @@
                             </thead>
                             <tbody class="corpo_tabela">
 
-                                 <tr>
+                                <tr>
                                     <td>01251089</td>
                                     <td>Anne Yamsaki</td>
                                     <td>anne.yamasaki@sptech.school</td>
                                     <td>2-B</td>
-                                    <td><p class="p_status_atencao">Atenção</p></td>
+                                    <td>
+                                        <p class="p_status_atencao">Atenção</p>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>01251089</td>
                                     <td>Anne Yamasaki</td>
                                     <td>anne.yamasaki@sptech.school</td>
                                     <td>2-B</td>
-                                    <td><p class="p_status_atencao">Atenção</p></td>
+                                    <td>
+                                        <p class="p_status_atencao">Atenção</p>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>01251089</td>
                                     <td>Anne Yamasaki</td>
                                     <td>anne.yamasaki@sptech.school</td>
                                     <td>2-B</td>
-                                    <td><p class="p_status_atencao">Atenção</p></td>
+                                    <td>
+                                        <p class="p_status_atencao">Atenção</p>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>01251089</td>
                                     <td>Anne Yamasaki</td>
                                     <td>anne.yamasaki@sptech.school</td>
                                     <td>2-B</td>
-                                    <td><p class="p_status_regular">Regular</p></td>
+                                    <td>
+                                        <p class="p_status_regular">Regular</p>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>01251089</td>
                                     <td>Anne Yamasaki</td>
                                     <td>anne.yamasaki@sptech.school</td>
                                     <td>2-B</td>
-                                    <td><p class="p_status_otimo">Ótimo</p></td>
-                                </tr> 
+                                    <td>
+                                        <p class="p_status_otimo">Ótimo</p>
+                                    </td>
+                                </tr>
 
-                            </tbody>
+                            </body>
                         </table>
 
                     </main>

@@ -118,3 +118,14 @@
 .botao-sair:hover {
     background-color: #c82333; 
 }
+
+#input_ra_edicao, #input_nome_edicao, #input_email_edicao :focus {
+    /* 4. A CHAVE: Remove o outline (a borda azul/laranja/padrão do navegador) */
+    outline: none; 
+    
+    /* 5. Garante que nenhuma borda seja adicionada no clique */
+    border: none;
+    
+    /* 6. Opcional: Se você estiver usando `box-shadow` para foco, remova-o aqui */
+    box-shadow: none;
+}

@@ -238,77 +238,57 @@
             
             <form class="form_modal">
                 <div class="div_dois_inputs">
-
                     <div class="div_input_menor">
                         <label for="ra" style="height: 50%;">RA:</label>
-                        <input type="text" class="input_modal" name="ra" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
+                        <input type="text" class="input_modal" id="input_ra_edicao" name="ra" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
                     </div>
-
                 </div>
-
                 <div class="div_dois_inputs">
-
                     <div class="div_input_menor">
-
-                        <label for="ra" style="height: 50%;">Nome:</label>
-                        <input type="text" class="input_modal" name="nome" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
+                        <label for="nome" style="height: 50%;">Nome:</label>
+                        <input type="text" class="input_modal" id="input_nome_edicao" name="nome" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
                     </div>
                     <div class="div_input_maior">
-                        <label for="ra" style="height: 50%;">Email:</label>
-                        <input type="text" class="input_modal" name="email" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
-
+                        <label for="email" style="height: 50%;">Email:</label>
+                        <input type="text" class="input_modal" id="input_email_edicao" name="email" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
                     </div>
-
                 </div>
-
                 <div class="div_dois_inputs">
-
                     <div class="div_input_menor">
                         <label for="turma" style="height: 50%;">Turma:</label>
-                        <select name="turma" id="">
-                            <option value="">Selecione a Turma</option>
-                            <option value="1ADSB/CCO">1ADSB/CCO</option>
-                            <option value="2ADSB/CCO">2ADSB/CCO</option>
+                        <select name="turma" id="select_turma_edicao">
                         </select>
                     </div>
-
-
                     <div class="div_input_maior">
                         <label for="instituicao" style="height: 50%;">Instituição:</label>
-                        <input type="text" class="input_noinput" name="instituicao" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
+                        <input type="text" class="input_noinput" id="input_instituicao_edicao" name="instituicao" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
                     </div>
-
-
                 </div>
-
-
                 <div class="div_input">
-                    <label for="instituicao" style="height: 50%;">Cursos:</label>
-                    <input type="text" name="instituicao">
+                    <label for="curso_aluno" style="height: 50%;">Curso:</label>
+                    <select id="select_curso_edicao" name="curso_aluno"> 
+                    </select>
                 </div>
-
             </form>
 
             <div class="div_footer">
-
                 <div class="div_editar_usuario" id="btnEnviarDialog" onclick="fecharModal('modal_editar_aluno')">
                     <p><strong>Salvar</strong></p>
                 </div>
-
                 <p id="btnFecharDialog" onclick="fecharModal('modal_editar_aluno')"><u>cancelar</u></p>
-
             </div>
-
-        </div>
     </dialog>
 </body>
 
 </html>
 
 <script>
-    function irParaAluno(url) {
-        window.location.href = url;
-    }
+    // Função para redirecionar para a página do aluno específico
+function irParaAlunoEspecifico(raAluno) {
+    // Você pode armazenar o RA na sessionStorage para que a próxima página o utilize
+    sessionStorage.setItem("raAlunoDetalhe", raAluno);
+    window.location.href = 'alunoEspecifico.html';
+}
 
 
     function abrirModal(modalId) {

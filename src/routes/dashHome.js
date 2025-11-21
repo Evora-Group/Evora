@@ -18,8 +18,15 @@ router.get("/top5Evasao/:idInstituicao", function (req, res){
     
 });
 
+// Novas matriculas
+router.get("/novasMatriculas/:idInstituicao", function (req,res){
+    console.log("ID Instituição:", req.params.idInstituicao);
+    dashHomeController.novasMatriculas(req,res);
+    
+}); 
+
 // Taxa de aprovação média
-router.get("/taxaAprovacap/:idInstituicao", function (req,res){
+router.get("/taxaAprovacao/:idInstituicao", function (req,res){
     console.log("ID Instituição:", req.params.idInstituicao);
     dashHomeController.taxaAprovacao(req,res);
     

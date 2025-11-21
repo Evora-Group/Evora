@@ -66,7 +66,7 @@
                                 <i id="icon_indicador" class="fi fi-sr-users"></i>
                             </div>
                             <div class="div_titulo_kpi" id="div_situacao_1">
-                                <h1 id="indicativo-total">1,030</h1>
+                                <h1 id="indicativo-total"></h1>
                                 <p class="p_titulo_kpi">Total Alunos</p>
                                 <span class="indicativos-desc">
                                     <i id="seta" class="fi fi-sr-arrow-up-right"></i>
@@ -82,7 +82,7 @@
                                 <i id="icon_indicador" class="fi fi-sr-users"></i>
                             </div>
                             <div class="div_titulo_kpi" id="div_situacao_2">
-                                <h1 id="indicativo-abaixo-media">30%</h1>
+                                <h1 id="indicativo-abaixo-media"></h1>
                                 <p class="p_titulo_kpi">Alunos Abaixo da Média</p>
                                 <span class="indicativos-desc">
                                     <i id="seta-abaixo" class="fi fi-sr-arrow-down-left"></i>
@@ -98,7 +98,7 @@
                                 <i id="icon_indicador" class="fi fi-sr-arrow-down-left"></i>
                             </div>
                             <div class="div_titulo_kpi" id="div_situacao_3">
-                                <h1 id="indicativo-abandono">10%</h1>
+                                <h1 id="indicativo-abandono"></h1>
                                 <p class="p_titulo_kpi">Taxa de Abandono</p>
                                 <span class="indicativos-desc">
                                     <i id="seta-abaixo" class="fi fi-sr-arrow-down-left"></i>
@@ -114,7 +114,7 @@
                                 <i id="icon_indicador" class="fi fi-sr-plus"></i>
                             </div>
                             <div class="div_titulo_kpi" id="div_situacao_4">
-                                <h1 id="indicativo-matricula">15%</h1>
+                                <h1 id="indicativo-matricula"></h1>
                                 <p class="p_titulo_kpi">Novas Mátriculas</p>
                                 <span class="indicativos-desc">
                                     <i id="seta" class="fi fi-sr-arrow-up-right"></i>
@@ -187,3 +187,84 @@
 </body>
 
 </html>
+
+<script>
+
+    const idInstituicao = sessionStorage.ID_INSTITUICAO;
+
+    function carregarKPIs(){
+
+        // Total alunos
+        fetch(`/dash/dadosDash/${idInstituicao}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log("Dados recebidos do backend:", data);
+                document.getElementById("indicativo-total").innerHTML = data.totalAlunos;
+                document.getElementById("indicativo-abaixo-media").innerHTML = data.abaixoMedia + "%";
+                document.getElementById("indicativo-abandono").innerHTML = data.taxaAbandono + "%";
+                document.getElementById("indicativo-matricula").innerHTML = data.novasMatriculas;  
+            })
+            .catch(function (erro){
+                console.log("Erro ao carregar KPIs",erro)
+            })
+    }
+
+    function graficoTop5Evasao(){
+
+        fetch(`/dash/top5Evasao/${idInstituicao}`)
+           .then(function(res){
+            return res.json();
+           })
+
+           .then(function(data){
+            const lista = document.querySelector(".bar-chart");
+            lista.innerHTML = ""; // limpa os itens anteriores antes de adicionar os novos
+            
+            for (let i = 0; i < data.length; i++){
+                lista.innerHTML += `
+                    <li>
+                        <span class="label">${data[i].nomeCurso}</span>
+                        <div class="bar-wrapper">
+                            <div class="bar" style="width: ${data[i].percentual}%"></div>
+                        </div>
+                    </li> 
+                `;
+            }
+           })
+           .catch(function(erro){
+                console.log("Erro ao carregar gráfico de Top 5 - Evasão", erro);
+           });
+    }
+
+
+    function graficoTaxaAprovacao() {
+
+    fetch(`/dash/taxaAprovacao/${idInstituicao}`)
+        .then(function(res) {
+            return res.json(); 
+        })
+        .then(function(data) {
+            console.log("Dados da taxa de aprovação:", data);
+            
+            // Atualiza o donut chart
+            const valorAprovacao = data[0].percentualAprovacao; // pega o valor retornado do backend
+            const donut = document.querySelector(".donut-chart");
+            const texto = donut.querySelector("strong");
+
+            // Atualiza a porcentagem no centro
+            texto.innerHTML = `${valorAprovacao.toFixed(1)}%`;
+
+            // Atualiza a largura/valor do donut via CSS custom property
+            donut.style.setProperty("--value", valorAprovacao);
+        })
+        .catch(function(erro) {
+            console.log("Erro ao carregar a taxa de aprovação:", erro);
+        });
+}
+
+    carregarKPIs();
+    graficoTop5Evasao();
+    graficoTaxaAprovacao();
+    
+
+</script>

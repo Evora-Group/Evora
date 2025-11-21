@@ -10,7 +10,7 @@ function listarInstituicoes() {
 
 function buscarInstituicao(nome) {
     var instrucaoSql = `
-        SELECT idInstituicao FROM Instituicao WHERE nome = ? LIMIT 1;
+        SELECT id_instituicao FROM Instituicao WHERE nome = ? LIMIT 1;
     `;
     console.log("Executando busca de instituição:", nome);
     return database.executar(instrucaoSql, [nome]);

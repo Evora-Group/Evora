@@ -52,7 +52,7 @@ function taxaAbandono(fkInstituicao) {
     return database.executar(instrucaoSql, [fkInstituicao]);
 }
 
-
+// KPI - Novas Matriculas
 function novasMatriculas(fkInstituicao) {
     const instrucaoSql = `
         SELECT COUNT(*) AS novas_matriculas
@@ -69,11 +69,65 @@ function novasMatriculas(fkInstituicao) {
 
 
 
+// Top 5 cursos com maior risco de evasão - grafico
+// Critério cálculo: pega os alunos que possuem média abaixo de 6 e frequencia abaixo de 75 de acordo com seu curso
+function top5Evasao(fkInstituicao) {
+    const instrucaoSql = `
+        SELECT 
+            c.nome AS nomeCurso,
+            COUNT(DISTINCT CASE 
+                WHEN a.nota < 6 OR (f.total_presencas / f.total_aulas) < 0.75 
+                THEN m.id_matricula 
+            END) * 100 / COUNT(DISTINCT m.id_matricula) AS percentual
+        FROM curso c
+        JOIN turma t ON t.fkCurso = c.id_curso
+        JOIN matricula m ON m.fkTurma = t.id_turma
+        LEFT JOIN avaliacao a ON a.fkMatricula = m.id_matricula
+        LEFT JOIN (
+            SELECT fkMatricula, 
+                   SUM(presenca) AS total_presencas, 
+                   COUNT(*) AS total_aulas
+            FROM frequencia
+            GROUP BY fkMatricula
+        ) f ON f.fkMatricula = m.id_matricula
+        WHERE c.fkInstituicao = ?
+        AND (a.data_avaliacao >= DATE_SUB(NOW(), INTERVAL 30 DAY) OR a.data_avaliacao IS NULL)
+        GROUP BY c.id_curso
+        ORDER BY percentual DESC
+        LIMIT 5;
+    `;
+
+    console.log("Buscando Top 5 cursos com maior risco de evasão");
+    return database.executar(instrucaoSql, [fkInstituicao]);
+}
+
+
+// Taxa de aprovação média - grafico
+function taxaAprovacao(fkInstituicao) {
+    const instrucaoSql = `
+        SELECT 
+            (SUM(CASE WHEN a.nota >= 6 THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS percentualAprovacao
+        FROM avaliacao a
+        JOIN matricula m ON m.id_matricula = a.fkMatricula
+        JOIN turma t ON t.id_turma = m.fkTurma
+        JOIN curso c ON c.id_curso = t.fkCurso
+        WHERE c.fkInstituicao = ?
+        AND a.data_avaliacao >= DATE_SUB(NOW(), INTERVAL 30 DAY);
+    `;
+    
+    console.log("Buscando taxa de aprovação média no último mês");
+    return database.executar(instrucaoSql, [fkInstituicao]);
+}
+
+
+
 module.exports = {
     totalAlunos,
     alunosAbaixoMedia,
     taxaAbandono,
-    novasMatriculas
+    novasMatriculas,
+    top5Evasao,
+    taxaAprovacao
 }
 
 

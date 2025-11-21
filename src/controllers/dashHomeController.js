@@ -2,7 +2,7 @@
 const dashHomeModel = require("../models/dashHomeModel");
 
 
-
+// kpis
 function dadosHome(req, res) {
     
     const idInstituicao = req.params.idInstituicao;
@@ -18,6 +18,7 @@ function dadosHome(req, res) {
 
 }
 
+// grafico 1
 function top5Evasao(req, res){
 
      const idInstituicao = req.params.idInstituicao;
@@ -32,7 +33,7 @@ function top5Evasao(req, res){
      })
 }
 
-
+// grafico 2
 function taxaAprovacao(req, res) {
 
     const idInstituicao = req.params.idInstituicao;
@@ -48,10 +49,12 @@ function taxaAprovacao(req, res) {
 
 };
 
+
+
 module.exports = {
     dadosHome,
     top5Evasao,
-    taxaAprovacao
+    taxaAprovacao,
 };
 
     

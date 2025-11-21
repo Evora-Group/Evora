@@ -68,10 +68,34 @@ function listarUsuariosInstituicao(req, res) {
 
 }
 
+function listarAlunosInstituicao(req, res) {
+
+    const idInstituicao = req.params.idInstituicao;
+
+    instituicaoModel.listarAlunosInstituicao(idInstituicao)
+        .then(
+            function (resultado) {
+                
+                res.json(resultado)
+
+            }
+        ).catch(function (erro) {
+            console.log(erro);
+            console.log(
+                 "\nHouve um erro ao listar alunos da instituição para página de Alunos de Painel Professor! Erro: ",
+                    erro.sqlMessage
+            );
+            res.status(500).json(erro.sqlMessage)
+            
+        });
+
+}
+
 module.exports = {
     
     listarInstituicoes,
     buscarInstituicao,
-    listarUsuariosInstituicao
+    listarUsuariosInstituicao,
+    listarAlunosInstituicao
 
 }

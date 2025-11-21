@@ -11,8 +11,8 @@ function cadastrar(nome, email, senha, cargo, instituicao) {
     return bcrypt.hash(senha, saltRounds)
         .then((senhaHash) => {
             var instrucaoSql = `
-                INSERT INTO Usuario (nome, email, senha, cargo, fkInstituicao) 
-                VALUES (?, ?, ?, ?, ?);
+                INSERT INTO Usuario (nome, email, senha_hash, cargo, fkInstituicao, ativo) 
+                VALUES (?, ?, ?, ?, 1, 1);
             `;
             console.log("Executando cadastro para:", email);
             return database.executar(instrucaoSql, [nome, email, senhaHash, cargo, instituicao]);
@@ -23,7 +23,7 @@ function cadastrar(nome, email, senha, cargo, instituicao) {
 // Para LOGIN (comparar senhas)
 function logar(email, senha) {
     var instrucaoSql = `
-        SELECT idUsuario, nome, email, senha, cargo, fkInstituicao 
+        SELECT id_usuario, nome, email, senha_hash, cargo, fkInstituicao 
         FROM Usuario WHERE email = ?;
     `;
     
@@ -39,11 +39,11 @@ function logar(email, senha) {
             const usuario = resultados[0];
             
             // Compara senha fornecida com hash do banco
-            return bcrypt.compare(senha, usuario.senha)
+            return bcrypt.compare(senha, usuario.senha_hash)
                 .then((senhaCorreta) => {
                     if (senhaCorreta) {
                         // Remove senha do retorno (NUNCA envie hash para frontend)
-                        delete usuario.senha;
+                        delete usuario.senha_hash;
                         return usuario;
                     } else {
                         return Promise.reject("Senha incorreta");

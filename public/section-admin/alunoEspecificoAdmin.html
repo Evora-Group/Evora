@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Professor - Aluno X</title>
+    <link rel="stylesheet" href="../css/style_admin.css">
+    <link rel="stylesheet" href="../css/dashAlunos.css">
+    <link rel="stylesheet" href="../css/dahsAlunoEspecifico.css">
+    <link rel="shortcut icon" href="../assets/imgs/logoEvora.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="./js/login-cadas.js"></script>
+</head>
+
+
+<body>
+    <header class="header_info_usuario">
+        <img src="../assets/imgs/logo-nome.svg" alt="" class="img_logo">
+        <section class="section_infoUsuario">
+            <h1 class="h1_nome_usuario" id="h1_nome_professor">Nome do Professor</h1>
+            <img src="../assets/imgs/anne.png" alt="" class="img_icon_usuario" id="img_logo_professor">
+            <span><i class="fi fi-sr-caret-down"></i></span>
+        </section>
+    </header>
+    <main>
+        <aside>
+            <section class="section_aside">
+                <ul>
+                    <li><a href="./dashHomeAdmin.html" ><i class="fi fi-sr-home"></i>Dashboard</a></li>
+                    <li><a href="./dashCursoAdmin.html"><i class="fi fi-sr-users-alt"></i>Cursos</a></li>
+                    <li class="active"><a href="./dashAlunosAdmin.html"><i class="fi fi-sr-user"></i>Alunos</a></li>
+                    <li><a href="./dashAlertaAdmin.html"><i class="fi fi-sr-bell"></i>Alertas</a></li>
+                    <li><a href="./dashConfAdmin.html"><i class="fi fi-sr-settings"></i>Configurações</a></li>
+                    <li><a href="./dash_admin.html"><i class="fi fi-sr-user-add"></i>Criar Usuário</a></li>
+                    <li><a href="./dash_admin_cursos.html"><i class="fi fi-sr-books-medical"></i>Criar Curso</a></li>
+                </ul>
+
+                <a href="../index.html" class="botao-sair">
+                    <i class="fi fi-sr-exit"></i> SAIR
+                </a>
+            </section>
+        </aside>
+
+
+        <section class="section_dash" style="display: block;">
+            <div class="btn-container">
+                <div>
+                    <div class="div_btn_usuario active tab-button" id="tabDesempenho">Desempenho Individual</div>
+                </div>
+                <div>
+                    <div class="div_btn_usuario tab-button" id="tabRecomendacoes">Recomendações</div>
+                </div>
+            </div>
+            <main class="main_dash" id="contentContainer" style="height: 93%;">
+                <header class="header_kpis">
+                    
+                    <section class="kpi freq">
+
+                        <div>
+                            <div class="parteInfo">
+                                <div class="kpi_header">
+                                    <div class="div_titulo_kpi" id="div_situacao">
+                                        <p class="p_titulo_kpi freq-label">FREQUÊNCIA MÉDIA</p>
+                                        <h1 id="h1_situacao">95%</h1>
+                                    </div>
+                                </div>
+                            <div>
+                                <div class="kpi_footer">
+                                    <p class="p_titulo_kpi">100 Presenciais</p>
+                                    <p class="p_titulo_kpi">5 altas</p>
+                                </div>
+                            </div>
+
+                            </div>
+
+                            <div class="parteGraf">
+                                <div class="grafico_container">
+                                    <div class="circular-progress" id="circFreq">
+                                        <span id="freqText">Freq</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+
+                    <section class="kpi nota">
+                        <div class="kpi_header situacao" id="kpi_situacao"style="border: none;">
+                            <div class="div_titulo_kpi situacao" id="div_situacao">
+                                <p class="p_titulo_kpi">NOTA MÉDIA</p>
+                                <h1 id="h1_situacao">8.7</h1>
+                                <p class="p_titulo_kpi">5 notas registradas</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="kpi vazio">
+                        <div class="card_info_aluno">
+                    <div class="aluno_header">
+                        <img src="../assets/imgs/anne.png" alt="" class="img_icon_usuario" id="img_logo_professor">
+                        <div class="aluno_title_section">
+                            <h2 class="aluno_nome">Fulano de Escola Estran</h2>
+                            <i class="fi fi-sr-pencil edit_icon"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="aluno_details">
+                        <p><strong>RA:</strong> <span>01250000</span></p>
+                        <p><strong>E-mail:</strong> <span>fulano@escola.estranha.com</span></p>
+                        <p><strong>Turma:</strong> <span>1ADS-B</span></p>
+                        <p><strong>Curso:</strong> <span>Análise Desenvolvimento de Sistem</span></p>
+                    </div>
+                </div>
+                    </section>
+                    
+                </header>
+
+                <section class="section_main">
+                    <div></div>
+                    <div>
+                        <div class="header-desempenho-titulo">
+                            <h1>DESEMPENHO</h1>
+                            <p class="p_status_otimo">Ótimo</p>
+                        </div>
+                        <div class="header-desempenho-legenda">
+                            <p class="p_titulo_kpi">FREQUÊNCIA E NOTA MÉDIA X MENSAL</p>
+                            <div class="legenda-item"><div class="legenda-frequencia-cor"></div><p>frequência</p></div>
+                            <div class="legenda-item"><div class="legenda-nota-cor"></div><p>nota</p></div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="meuGraficoDeLinha"></canvas>
+                    </div>
+                        <a href="dashAlunosAdmin.html" class="btn_voltar_alunos">
+                            <i class="fi fi-sr-arrow-small-left"></i>
+                            Voltar p/ Todos alunos
+                        </a>
+                </section>
+            </main>
+        </section>
+    </main>
+
+    
+</body>
+
+</html>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('meuGraficoDeLinha').getContext('2d');
+
+    // Dados baseados em uma estimativa da imagem fornecida
+    const data = {
+        labels: ['Text', 'Text', 'Text', 'Text', 'Text'],
+        datasets: [
+            {
+                label: 'Frequência',
+                data: [87, 73, 58, 0, 20], // Pontos aproximados do gráfico escuro
+                borderColor: 'rgb(54, 162, 235)', // Azul escuro
+                backgroundColor: 'rgb(54, 162, 235)',
+                borderWidth: 3,
+                pointRadius: 6, // Raio dos pontos para torná-los visíveis
+                pointBackgroundColor: 'rgb(54, 162, 235)',
+                tension: 0.4, // Suaviza a linha (curvas)
+                fill: false,
+            },
+            {
+                label: 'Nota',
+                data: [67, 5, 65, 10, 67], // Pontos aproximados do gráfico claro
+                borderColor: 'rgb(173, 216, 230)', // Azul claro
+                backgroundColor: 'rgb(173, 216, 230)',
+                borderWidth: 2,
+                pointRadius: 6,
+                pointBackgroundColor: 'rgb(173, 216, 230)',
+                tension: 0.4,
+                fill: false,
+            }
+        ]
+    };
+
+    // Opções de configuração para replicar o estilo do gráfico
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, // Define como false para que o gráfico preencha o contêiner 
+            plugins: {
+                legend: {
+                    display: false // Oculta a legenda para maior fidelidade à imagem
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                }
+            },
+            scales: {
+                x: {
+                    // Remove a linha do eixo X, mas mantém os rótulos (Text)
+                    grid: {
+                        display: false,
+                        drawBorder: false,
+                    },
+                    ticks: {
+                        font: {
+                            size: 14 
+                        },
+                        color: 'rgb(100, 100, 100)'
+                    }
+                },
+                y: {
+                    // Configura o eixo Y
+                    min: 0,
+                    max: 100,
+                    // Define as marcas principais em 0, 25, 50, 75, 100
+                    ticks: {
+                        stepSize: 25, 
+                        font: {
+                            size: 14 
+                        },
+                        color: 'rgb(100, 100, 100)'
+                    },
+                    // Estilo das linhas de grade horizontais
+                    grid: {
+                        color: 'rgba(200, 200, 200, 0.5)',
+                        drawBorder: false, // Remove a linha principal do eixo
+                    }
+                }
+            },
+            elements: {
+                line: {
+                    // Opções de interpolação e estilo de linha
+                    cubicInterpolationMode: 'monotone', // Ajuda a criar curvas mais suaves
+                }
+            }
+        }
+    };
+
+    // Cria o novo gráfico
+    new Chart(ctx, config);
+});
+
+
+    
+</script>

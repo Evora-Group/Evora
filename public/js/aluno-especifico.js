@@ -1,155 +1,165 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    // 1. Recuperar dados da Sessão
     const raAluno = sessionStorage.getItem("raAlunoDetalhe");
     const fkInstituicao = sessionStorage.getItem("fkInstituicao");
     const nomeProfessor = sessionStorage.getItem("nomeUsuario");
 
-    // Validar se tem acesso
     if (!raAluno || !fkInstituicao) {
-        alert("Nenhum aluno selecionado. Voltando para a lista.");
+        alert("Nenhum aluno selecionado.");
         window.location.href = "dashAlunos.html";
         return;
     }
 
-    // Atualizar nome do professor no Header
     if (nomeProfessor) {
-        document.getElementById("h1_nome_professor").innerHTML = nomeProfessor;
+        const h1 = document.getElementById("h1_nome_professor");
+        if(h1) h1.innerHTML = nomeProfessor;
     }
 
-    // 2. FETCH PARA DADOS CADASTRAIS (Card lateral)
+    // 1. DADOS CADASTRAIS
     fetch(`/aluno/buscarPorRa/${raAluno}`)
-        .then(res => {
-            if(res.ok) return res.json();
-            throw new Error("Erro ao buscar dados do aluno");
-        })
+        .then(res => res.json())
         .then(dados => {
-            // Agora o HTML tem o ID correto "aluno_nome"
             document.getElementById("aluno_nome").innerHTML = dados.nome;
             document.getElementById("ra_aluno").innerHTML = dados.ra;
             document.getElementById("email_aluno").innerHTML = dados.email;
             document.getElementById("turma_aluno").innerHTML = dados.turma;
             document.getElementById("curso_aluno").innerHTML = dados.curso;
         })
-        .catch(err => console.error("Erro dados aluno:", err));
+        .catch(err => console.error(err));
 
+    // 2. DADOS GERAIS (Presenças, Faltas, Qtd Notas)
+    fetch(`/aluno/geral/${raAluno}`)
+        .then(res => res.json())
+        .then(dados => {
+            document.getElementById("dias_presencias").innerHTML = `${dados.total_presencas} Presenciais`;
+            document.getElementById("dias_faltas").innerHTML = `${dados.total_faltas} Faltas`;
+            document.getElementById("notas_registradas").innerHTML = `${dados.total_notas} notas registradas`;
+        })
+        .catch(err => console.error("Erro dados gerais:", err));
 
-    // 3. FETCH PARA DADOS DE DESEMPENHO (Gráfico e KPIs)
+    // 3. DESEMPENHO E GRÁFICO
     fetch(`/aluno/desempenho/${raAluno}/${fkInstituicao}`)
         .then(res => {
-            if (res.status === 204) return []; 
-            if (res.ok) return res.json();
-            throw new Error("Erro ao buscar desempenho");
+            if (res.status === 204) return [];
+            return res.json();
         })
-        .then(listaDesempenho => {
-            console.log("Dados do Gráfico:", listaDesempenho);
-            plotarGraficoEAtualizarKpis(listaDesempenho);
+        .then(lista => {
+            plotarGraficoEAtualizarKpis(lista);
         })
-        .catch(err => console.error("Erro desempenho:", err));
-
+        .catch(err => console.error(err));
 });
 
 function plotarGraficoEAtualizarKpis(dados) {
     const ctx = document.getElementById('meuGraficoDeLinha').getContext('2d');
 
-    let labelsDisciplinas = [];
-    let dadosFrequencia = [];
+    let labels = [];
+    let dadosFreq = [];
     let dadosNota = [];
-    
     let somaNota = 0;
     let somaFreq = 0;
 
-    dados.forEach(registro => {
-        labelsDisciplinas.push(registro.disciplina);
-        dadosFrequencia.push(registro.frequencia);
+    dados.forEach(reg => {
+        labels.push(reg.disciplina);
+        let nota = Number(reg.nota);
+        let freq = Number(reg.frequencia);
         
-        // Multiplicamos nota por 10 para o gráfico
-        dadosNota.push(registro.nota * 10); 
+        if(isNaN(nota)) nota = 0;
+        if(isNaN(freq)) freq = 0;
 
-        somaNota += registro.nota;
-        somaFreq += registro.frequencia;
+        dadosFreq.push(freq);
+        dadosNota.push(nota * 10);
+        somaNota += nota;
+        somaFreq += freq;
     });
 
-    // --- Atualizar KPIs (Médias) ---
+    // --- CALCULA MÉDIAS E ATUALIZA TELA ---
     if (dados.length > 0) {
         let mediaNota = somaNota / dados.length;
-        let mediaFreq = somaFreq / dados.length;
+        let mediaFreq = somaFreq / dados.length; 
 
         document.getElementById("h1_situacao_nota").innerHTML = mediaNota.toFixed(1); 
         document.getElementById("h1_situacao_frequencia").innerHTML = mediaFreq.toFixed(0) + "%";
+
+        // 1. Atualiza o círculo de %
+        atualizarCirculoFrequencia(mediaFreq);
+
+        // 2. Atualiza o texto "Ótimo/Regular/Atenção" (NOVO!)
+        atualizarStatusGeral(mediaNota, mediaFreq);
+
     } else {
         document.getElementById("h1_situacao_nota").innerHTML = "-"; 
         document.getElementById("h1_situacao_frequencia").innerHTML = "-";
+        document.getElementById("status_desempenho").innerHTML = "Sem dados";
     }
 
-    // --- Configuração do Gráfico ---
-    const dataConfig = {
-        labels: labelsDisciplinas,
-        datasets: [
-            {
-                label: 'Frequência',
-                data: dadosFrequencia,
-                borderColor: 'rgb(54, 162, 235)',
-                backgroundColor: 'rgb(54, 162, 235)',
-                borderWidth: 3,
-                pointRadius: 6,
-                pointBackgroundColor: 'rgb(54, 162, 235)',
-                tension: 0.4,
-                fill: false,
-            },
-            {
-                label: 'Nota',
-                data: dadosNota, 
-                borderColor: 'rgb(173, 216, 230)',
-                backgroundColor: 'rgb(173, 216, 230)',
-                borderWidth: 2,
-                pointRadius: 6,
-                pointBackgroundColor: 'rgb(173, 216, 230)',
-                tension: 0.4,
-                fill: false,
-            }
-        ]
-    };
-
-    const config = {
+    // Configuração do Gráfico
+    if (window.meuGrafico) window.meuGrafico.destroy();
+    window.meuGrafico = new Chart(ctx, {
         type: 'line',
-        data: dataConfig,
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Frequência',
+                    data: dadosFreq,
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgb(54, 162, 235)',
+                    borderWidth: 3,
+                    tension: 0.4
+                },
+                {
+                    label: 'Nota',
+                    data: dadosNota,
+                    borderColor: 'rgb(173, 216, 230)',
+                    backgroundColor: 'rgb(173, 216, 230)',
+                    borderWidth: 2,
+                    tension: 0.4
+                }
+            ]
+        },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    mode: 'index',
-                    intersect: false,
-                    callbacks: {
-                        label: function(context) {
-                            let label = context.dataset.label || '';
-                            if (label) { label += ': '; }
-                            if (context.dataset.label === 'Nota') {
-                                label += (context.parsed.y / 10).toFixed(1);
-                            } else {
-                                label += context.parsed.y + '%';
-                            }
-                            return label;
-                        }
-                    }
-                }
-            },
+            plugins: { legend: { display: false } },
             scales: {
-                x: {
-                    grid: { display: false, drawBorder: false },
-                    ticks: { font: { size: 14 }, color: 'rgb(100, 100, 100)' }
-                },
-                y: {
-                    min: 0,
-                    max: 100,
-                    ticks: { stepSize: 25, font: { size: 14 }, color: 'rgb(100, 100, 100)' },
-                    grid: { color: 'rgba(200, 200, 200, 0.5)', drawBorder: false }
-                }
+                x: { grid: { display: false } },
+                y: { min: 0, max: 100 }
             }
         }
-    };
+    });
+}
 
-    new Chart(ctx, config);
+// --- FUNÇÕES VISUAIS ---
+
+function atualizarCirculoFrequencia(porcentagem) {
+    const circulo = document.getElementById("circFreq");
+    const graus = porcentagem * 3.6;
+    const corPreenchida = "#4d5bf9"; 
+    const corVazia = "#eef2f5"; 
+    circulo.style.background = `conic-gradient(${corPreenchida} ${graus}deg, ${corVazia} 0deg)`;
+}
+
+// NOVA FUNÇÃO: Define se é Ótimo, Regular ou Atenção
+function atualizarStatusGeral(mediaNota, mediaFreq) {
+    const elementoStatus = document.getElementById("status_desempenho");
+    
+    // Remove as classes antigas para não acumular
+    elementoStatus.classList.remove("p_status_otimo", "p_status_regular", "p_status_atencao");
+
+    // Regra de Negócio
+    if (mediaNota >= 8 && mediaFreq >= 75) {
+        // Caso ÓTIMO
+        elementoStatus.innerHTML = "Ótimo";
+        elementoStatus.classList.add("p_status_otimo");
+    } 
+    else if (mediaNota >= 6 && mediaFreq >= 75) {
+        // Caso REGULAR (Notas medianas, mas frequente)
+        elementoStatus.innerHTML = "Regular";
+        elementoStatus.classList.add("p_status_regular");
+    } 
+    else {
+        // Caso ATENÇÃO (Nota baixa OU falta muito)
+        elementoStatus.innerHTML = "Atenção";
+        elementoStatus.classList.add("p_status_atencao");
+    }
 }

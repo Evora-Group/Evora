@@ -95,6 +95,7 @@
 .tabela tbody tr:last-child {
     border-bottom: none;
 }
+
 .botao-sair {
     position: absolute; 
     bottom: 30px;       

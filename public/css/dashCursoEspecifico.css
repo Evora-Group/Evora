@@ -59,9 +59,9 @@ body {
     font-weight: 500;
 }
 
-header {
+.header_info_usuario {
     background-color: var(--white-color);
-    padding: 15px;
+    padding: var(--padding);
     width: 100%;
     height: 8%;
     display: flex;
@@ -71,27 +71,27 @@ header {
 
 }
 
-header .img_logo {
+.header_info_usuario .img_logo {
     width: 8%;
     min-width: 100px;
 }
 
-header section {
+.header_info_usuario section {
     width: 30%;
     display: flex;
     justify-content: end;
     align-items: center;
-    gap: 5%;
+    gap: var(--gap);
 }
 
 
-header section h1 {
+.header_info_usuario section h1 {
     font-size: var(--font-title);
     font-weight: 500;
 }
 
-header i {
-    font-size: 35px;
+.header_info_usuario i {
+    font-size: calc(var(--font-title)* 1.5);
     color: var(--primary-color);
 }
 
@@ -100,6 +100,7 @@ header i {
     height: 45px;
     border-radius: 100%;
 }
+
 
 aside {
     position: relative;
@@ -180,13 +181,13 @@ aside .active {
 }
 
 .main-curso {
+    position: relative;
     display: flex;
     flex-direction: column;
 
 }
 
 main .section-curso {
-
     width: 85%;
     height: 100%;
     display: flex;
@@ -198,6 +199,7 @@ main .section-curso {
 .section-curso .main-curso {
 
     border-radius: 15px;
+    flex-direction: row;
     width: 100%;
     height: 100%;
     background-color: var(--white-color);
@@ -207,13 +209,40 @@ main .section-curso {
 
 }
 
-.botao-sair {
-    position: absolute; 
-    bottom: 30px;       
-    left: 100px;         
-    right: 100px;        
+#titulo-usuario {
+    position: absolute;
+    top: 3%;
+    left: 2%;
+    font-size: calc(var(--font-title)*1.6);
 
-    background-color: #dd1c2f; 
+}
+
+.section-curso .main-curso .header_kpis {
+
+    margin-top: 4%;
+    width: 50%;
+    /* Mantém a largura da coluna */
+    height: 85%;
+    /* AUMENTADO: Precisa ser alto para caber um embaixo do outro */
+
+    /* --- MUDANÇA PARA COLUNA --- */
+    display: flex;
+    flex-direction: column;
+    /* Empilha verticalmente */
+    gap: 20px;
+    /* Espaço vertical entre os cards */
+
+    justify-content: center;
+    align-items: center;
+}
+
+.botao-sair {
+    position: absolute;
+    bottom: 30px;
+    left: 100px;
+    right: 100px;
+
+    background-color: #dd1c2f;
     color: white;
     text-decoration: none;
     font-weight: bold;
@@ -224,550 +253,786 @@ main .section-curso {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px; /* Espaço entre o ícone e o texto */
+    gap: 8px;
+    /* Espaço entre o ícone e o texto */
 }
 
 .botao-sair:hover {
-    background-color: #c82333; 
+    background-color: #c82333;
 }
 
-.categories {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    gap: 2rem;
-    padding: 1rem;
-    cursor: pointer;
-    margin-top: 1rem;
-}
+main header .kpi {
+    box-shadow: var(--card-shadow);
+    border-radius: 20px;
+    padding: var(--padding);
 
-.categories li a {
-    text-decoration: none;
-    list-style: none;
-    padding: 12px 16px;
-    cursor: pointer;
-    position: relative;
-    transition: color 0.3s ease;
-    color: black;
-    gap: 0.8rem;
+    /* --- AJUSTE DE TAMANHO --- */
+    width: 100%;  /* Ocupa toda a largura da coluna .header_kpis */
+    flex: 1;      /* Faz os dois crescerem igualmente para ocupar a altura */
+    
+    /* Mantém o conteúdo interno organizado */
     display: flex;
-    align-items: center;
+    flex-direction: column;
+
 }
 
-.main-curso {
-    background-color: #f5f7fa;
-    height: 100vh;
+.kpi .kpi_header {
     width: 100%;
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: column;
-}
-
-.main-curso h2 {
-    padding: 2rem;
-    color: black;
-}
-
-.main-curso ul li {
-    list-style: none;
-    /* remove a bolinha da lista */
-    cursor: pointer;
-}
-
-.container_one_page {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    min-height: 100%;
-    box-sizing: border-box;
-    gap: 20px;
-}
-
-#div_parte_indicadores,
-#div_parte_graficos,
-#div_parte_alunos {
-    width: calc(100% - 0px);
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    box-sizing: border-box;
-}
-
-.div_titulos {
-    color: black;
-    flex-shrink: 0;
-}
-
-.div_titulos h2 {
-    margin: 0;
-    padding: 0;
-}
-
-.div_conteudos {
-    background-color: white;
-    border-radius: 16px;
-}
-
-#div_parte_indicadores {
-    height: 30%;
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-}
-
-#div_nomeMateria {
-    width: 100%;
-    height: 15%;
+    height: 60%;
     display: flex;
     align-items: center;
+    justify-content: start;
+    padding: calc(var(--padding)*1);
 }
 
-#div_indicadores {
-    width: 100%;
-    height: 85%;
+.kpi_header .div_titulo_kpi {
     display: flex;
-    flex-direction: row;
-    gap: 20px;
-
-}
-
-.indicador {
-    width: 40%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.067);
-}
-
-.icone {
-    width: 30%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.circuloIcone {
-    height: 80px;
-    width: 80px;
-    border-radius: 50%;
-    background-color: #FE8484;
-}
-
-.icone i {
-    color: #b43934;
-    font-size: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-
-.info {
+    flex-direction: column;
     width: 70%;
     height: 100%;
-    box-sizing: border-box;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
+    gap: calc(var(--gap)*2);
 }
 
-.indicador p {
-    font-weight: 500;
+.div_titulo_kpi h1 {
+    /* font-size: 70px; */
+    font-size: calc(var(--font-title)*2.8);
+}
+
+.p_titulo_kpi {
+    font-size: calc(var(--font-title) * 1.2);
+    font-weight: 400;
+}
+
+
+
+.kpi_header .div_comparativo {
+    width: 30%;
+    height: 100%;
+}
+
+.kpi_footer {
+    padding: var(--padding);
+}
+
+
+.div_progress_bar {
+    padding: calc(var(--padding)*0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 35%;
+}
+
+.progress_bar {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#kpi_situacao {
+    border-bottom: solid 2px rgba(128, 128, 128, 0.341);
+
+}
+
+#progress_bar {
+    /* Remove o estilo padrão para personalizarmos do zero */
+    appearance: none;
+    -webkit-appearance: none;
+    /* Para navegadores WebKit */
+
+    width: 100%;
+    height: 25px;
+    /* Recomendo usar 'px' para altura */
+    border: none;
+    border-radius: 5px;
+
+    /* Cor de fundo (trilha) para o FIREFOX */
+    background-color: #f0f0f0;
+}
+
+/* Cor de fundo (trilha) para WEBKIT (Chrome, Safari) */
+#progress_bar::-webkit-progress-bar {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+/* Cor do valor (preenchimento) para WEBKIT */
+#progress_bar::-webkit-progress-value {
+    background-color: green;
+    border-radius: 5px;
+}
+
+/* Cor do valor (preenchimento) para FIREFOX */
+#progress_bar::-moz-progress-bar {
+    background-color: var(--status-active);
+    border-radius: 5px;
+}
+
+
+.section_main {
+    margin-top: 4%;
+    box-shadow: var(--card-shadow);
+    border-radius: 20px;
+    width: 100%;
+    height: 92%;
+    padding: var(--padding);
+    gap: calc(var(--gap)*0.5);
+    display: flex;
+    flex-direction: column;
+
+}
+
+.main_usuarios {
+    background: none;
+    box-shadow: none;
+    width: 100%;
+    height: 100%;
+}
+
+.section_filter_usuarios {
+    background: none;
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+
+}
+
+.header_usuarios {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--gap) * 0.15);
+    width: 100%;
+    height: 10%;
+}
+
+.input_pesquisa {
+    width: 85%;
+    height: 100%;
+    border: none;
+    background-color: var(--bg-color);
+    padding: 0 calc(var(--padding));
+}
+
+.div_criar_usuario {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: calc(var(--padding)*0.5);
+    cursor: pointer;
+    width: 15%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.div_editar_usuario {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: calc(var(--padding)*0.5);
+    cursor: pointer;
+    width: 15%;
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Um pouco de estilo para parecer com o seu design */
+.filtro-dropdown {
+    background-color: var(--bg-color);
+    width: 10%;
+    z-index: 1;
+}
+
+summary {
+    list-style: none;
+    /* Remove a setinha/triângulo padrão */
+}
+
+/* O botão visível */
+.filtro-dropdown .titulo_sumario {
+    background-color: var(--bg-color);
+    padding: var(--padding);
+    cursor: pointer;
+    color: var(--text-dark-fade);
+    list-style: none;
+    /* Remove a setinha/triângulo padrão */
+}
+
+/* Opcional: Adiciona um ícone de "seta" que gira */
+.filtro-dropdown .titulo_sumario::before {
+    /* Você pode usar um ícone de menu hamburguer aqui como na sua foto */
+    content: '☰ ';
+    margin-right: 8px;
+}
+
+/* A lista que aparece */
+.filtro-lista {
+    background-color: var(--bg-color);
+    padding: var(--padding);
+    border-top: 1px solid #ccc;
+}
+
+.filtro-lista label {
+    display: block;
+    /* Cada item em sua própria linha */
+    padding: calc(var(--padding)*0.5);
+    cursor: pointer;
+    background-color: var(--bg-color);
+}
+
+.filtro-lista label:hover {
+    background-color: var(--bg-color);
+}
+
+/* 
+  .tipo_de_usuario{
+    background-color: black;
+  } */
+
+
+.main_usuarios {
+    width: 100%;
+    height: 75%;
+    overflow-y: auto;
+    max-height: 75%;
+}
+
+.tabela {
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.corpo_tabela {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.corpo_tabela tr {
+    width: 100%;
+    height: 15px;
+    text-align: center;
+}
+
+/* Remove a borda do thead */
+.tabela thead {
+    position: sticky;
+    top: 0;
+    /* A altura aqui é desnecessária, 
+     o padding no 'th' vai cuidar disso */
+}
+
+/* Aplica o fundo e a borda nos 'th' */
+.tabela thead th {
+    background-color: var(--white-color);
+    padding: 15px 10px;
+    /* Controla a altura */
+    border-bottom: solid 2px black;
+
+    /* Garantia extra para o sticky funcionar 
+     (alguns navegadores precisam disso) */
+    position: sticky;
+    top: 0;
+}
+
+
+.tabela td {
+    padding: 15px 10px;
+    /* 15px em cima/baixo, 10px nos lados */
+    text-align: center;
+}
+
+.p_status_liberado {
+    background-color: var(--status-active);
+    border-radius: 15px;
+    color: var(--text-dark);
+    /* Adicionei uma cor para legibilidade */
+    padding: 5px 10px;
+    margin: 0;
+    /* Remove margem padrão do <p> */
+    display: inline-block;
+    /* Faz o fundo se ajustar ao texto */
+}
+
+.p_status_bloqueado {
+    background-color: var(--status-blocked);
+    border-radius: 15px;
+    color: var(--text-light);
+    /* Adicionei uma cor para legibilidade */
+    padding: 5px 10px;
+    margin: 0;
+    /* Remove margem padrão do <p> */
+    display: inline-block;
+    /* Faz o fundo se ajustar ao texto */
+}
+
+.fi-sr-pencil {
+    color: var(--primary-color);
     font-size: var(--font-title);
 }
 
-.p_titulo {
-    text-align: left;
-    color: black;
-    font-size: 13px;
+.fi-sr-trash {
+    color: red;
+    font-size: var(--font-title);
 }
 
-.p_subtitulo {
-    text-align: left;
-    color: #b43934;
-    font-size: 15px;
-}
-
-#div_parte_graficos {
-    height: auto;
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 10px;
-    justify-content: flex-start;
-}
-
-#div_parte_graficos h3 {
-    color: black;
-    font-weight: 500;
-    padding: var(--padding);
-}
-
-#div_grafico_notas {
-    width: 60%;
-    height: 100%;
-    /* Garante que ele ocupe toda a altura da linha-pai */
-}
-
-.div_graficoTitulo {
-    /* height: 10%;
-    flex-shrink: 0; */
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    /* Garante que ocupe a largura do card */
-    padding: 10px 20px 0;
-    /* Adiciona um padding (Topo, Lados, Baixo) */
-}
-
-.div_bar {
-    width: 100%;
-    height: 100%;
-    /* flex-grow: 1; */
-    display: flex;
-    flex-direction: column;
-    /* NOVO: empilha título e canvas */
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.067);
-}
-
-#barChart {
-    width: 90% !important;
-    flex-grow: 1;
-    /* NOVO: Faz o canvas crescer */
-    height: auto !important;
-    /* Deixa o flex-grow cuidar da altura */
-    position: relative;
-    padding: 10px;
-    /* Impede o gráfico de colar nas bordas */
-}
-
-#div_grafico_frequencia {
-    height: 100%;
-    width: 60%;
-
-    align-items: center;
-    justify-content: center;
-}
-
-.div_pizza {
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    /* NOVO: empilha título e canvas */
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.067);
-}
-
-#pieChart {
-    width: 350px !important;
-    max-width: 100%;
-    /* Garante responsividade */
-    flex-grow: 1;
-    /* NOVO: Faz o canvas crescer */
-    height: auto !important;
-    /* Deixa o flex-grow cuidar da altura */
-    position: relative;
-}
-
-#div_parte_alunos {
-    height: 30%;
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-}
-
-
-#div_parte_alunos h3 {
-    color: black;
-    font-weight: 500;
-    padding: var(--padding);
-}
-
-#div_atencaoAlunos,
-#div_todosAlunos {
-    flex: 1;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-#div_alunoProblema {
-    width: 100%;
-    /* flex-grow: 1; */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.067);
-}
-
-#div_alunoAll {
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.067);
-}
-
-
-.people-card {
-    padding: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.people {
-    display: flex;
-    align-items: center;
-    gap: 28px;
-}
-
-.pill-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 999px;
-    border: 1px solid #eef2f7;
-    background: #fff;
-    box-shadow: 0 6px 16px rgba(16, 24, 40, .08);
-    display: grid;
-    place-items: center;
-    cursor: pointer;
-}
-
-.pill-btn svg {
-    width: 18px;
-    height: 18px;
-    color: #6b7280;
-}
-
-.person {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-}
-
-.photo {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid #fff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-}
-
-.photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.name {
-    font-size: 14px;
-    color: #6b7280;
-}
-
-ul.categories {
-    list-style: none;
-}
-
-ul.sub-categories {
-    list-style: none;
-    padding-left: 12px;
-    background-color: rgba(0, 0, 0, 0.077);
-    border-radius: 0 0 15px 15px;
-}
-
-/* Dropdown menu */
-.dropdown {
-    position: relative;
-}
-
-.dropdown-btn {
-    background: none;
+dialog {
     border: none;
+    max-width: 40%;
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    top: 50%;
+    bottom: 50%;
+    transform: translate(-50%, -50%);
+    background: none;
+    outline: none;
+
+}
+
+/* Este é o OVERLAY (fundo escuro) */
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.dialog_modal {
+    width: 100%;
+    height: 75%;
+}
+
+.div_main_modal {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 92%;
+    align-content: center;
+    justify-content: unset;
+    background: var(--white-color);
+    padding: var(--padding);
+    border-radius: 0 15px 15px 15px;
+    box-shadow: var(--card-shadow);
+    gap: calc(var(--gap) * 0.25);
+}
+
+.div_main_modal h3 {
+    font-size: var(--font-title);
+    font-weight: 500;
+    color: var(--text-dark);
+    height: 5%;
+
+}
+
+.circulo_status {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    background-color: var(--status-active);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-light);
+
+}
+
+.div_status {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.form_modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 70%;
+}
+
+.form_modal label {
+    font-size: calc(var(--font-title) * 0.8);
+    font-weight: 500;
+    color: var(--text-dark);
+    display: flex;
+    align-items: end;
+    height: 100%;
+    padding-bottom: calc(var(--padding)*0.5);
+}
+
+.form_modal input {
+    padding: calc(var(--padding)*0.5);
+    border: solid 1px var(--text-dark-fade);
+    border-radius: 5px;
+    height: 300px;
+    font-size: calc(var(--font-title)*0.8);
+
+}
+
+.div_footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: var(--padding);
+    height: 20%;
+    width: 100%;
+    color: var(--text-dark-fade);
+}
+
+.div_footer .div_criar_usuario {
+    width: 30%;
+    height: 55%;
+    color: var(--text-light);
+}
+
+
+.div_header_modal {
+    display: flex;
+    justify-content: start;
+    align-items: end;
+    height: 8%;
+    width: 100%;
+}
+
+.div_btn_usuario {
+    background-color: var(--primary-color-dark);
+    color: rgba(255, 255, 255, 0.652);
+    cursor: pointer;
+    width: 30%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px 15px 0 0;
+    font-size: var(--font-title);
+}
+
+.div_header_modal .active {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+#modal_editar_usuario {
+    max-width: 60%;
+}
+
+#modal_editar_usuario .div_main_modal {
+    border-radius: 15px;
+    padding: calc(var(--padding)*2);
+}
+
+#modal_editar_usuario .div_header_modal {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+}
+
+#modal_editar_usuario .div_header_modal h3 {
+
+    width: 80%;
+    height: auto;
+    text-align: start;
+
+
+
+}
+
+#modal_editar_usuario .div_header_modal .div_status {
+
+    width: 20%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    border-radius: 50px;
+
+
+}
+
+#modal_editar_usuario .form_modal {
+    height: 70%;
+    width: 100%;
+}
+
+#modal_editar_usuario .div_input_maior label,
+#modal_editar_usuario .div_input_menor label,
+#modal_editar_usuario .div_input label {
+    display: contents;
+    height: 10%;
+    width: 100%;
+}
+
+.div_dois_inputs {
+    height: 100%;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: inherit;
-    padding: 10px 12px;
-    font-size: 16px;
-    cursor: pointer;
-    text-align: left;
+    gap: calc(var(--gap)*0.2);
 }
 
-.dropdown-btn:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    border-top-right-radius: 8px;
-    border-top-right-radius: 8px;
+.div_input {
+    width: 100%;
+    height: 100%;
 }
 
-.dropdown .arrow-icon {
-    transition: transform 0.3s ease;
+.div_input_maior {
+    width: 70%;
+    height: 100%;
 }
 
-.dropdown.open .arrow-icon {
-    transform: rotate(180deg);
+.div_input_menor {
+    width: 40%;
+    height: 100%;
 }
 
-.sub-categories {
-    display: none;
-    transition: all 0.3s ease;
+.div_input_maior input,
+select {
+    width: 100%;
+    height: 50%;
+    background-color: var(--bg-color);
+    border: solid 1px var(--text-dark-fade);
+    border-radius: 5px;
+    padding: var(--padding);
+    font-size: calc(var(--font-title)*0.8);
+    color: var(--text-dark);
 }
 
-.dropdown.open .sub-categories {
+.div_input_menor input,
+select {
+    width: 100%;
+    height: 50%;
+    background-color: var(--bg-color);
+    border: solid 1px var(--text-dark-fade);
+    border-radius: 5px;
+    padding: var(--padding);
+    font-size: calc(var(--font-title)*0.8);
+    color: var(--text-dark);
+}
+
+.div_input input,
+select {
+    width: 100%;
+    height: 50%;
+    background-color: var(--bg-color);
+    border: solid 1px var(--text-dark-fade);
+    border-radius: 5px;
+    padding: var(--padding);
+    font-size: calc(var(--font-title)*0.8);
+    color: var(--text-dark);
+
+}
+
+#modal_remover_usuario {
+    max-width: 30%;
+    height: 30%;
+    box-shadow: var(--card-shadow);
+}
+
+#modal_remover_usuario .div_main_modal {
+    border-radius: 15px;
+    padding: calc(var(--padding)*2);
+    ;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap);
+}
+
+#modal_remover_usuario .div_info_excluir {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+}
+
+#modal_remover_usuario .div_info_excluir h1 {
+    height: auto;
+    font-size: calc(var(--font-title)*1.5);
+}
+
+#modal_remover_usuario .div_info_excluir p {
+    height: auto;
+    font-size: calc(var(--font-title)*1);
+    font-weight: 400;
+}
+
+#modal_remover_usuario .div_btn_remover_usuario {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: calc(var(--gap)*0.5);
+    width: 100%;
+    height: 50%;
+}
+
+#modal_remover_usuario .div_btn_remover_usuario .div_editar_usuario {
+    width: 40%;
+    height: 60%;
+    font-size: var(--font-title);
+}
+
+#modal_remover_usuario .div_btn_remover_usuario #div_excluir_usuario {
+    background-color: red;
+    width: 40%;
+    height: 60%;
+    font-size: var(--font-title);
+}
+
+
+/* GRÁFICO DE PIZZA */
+
+.chart-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    /* Ajuste o tamanho conforme necessário */
+}
+
+.chart-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.chart-and-legend {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.chart-area {
+    position: relative;
+    width: 300px;
+    /* Largura do canvas */
+    height: 300px;
+    /* Altura do canvas */
+}
+
+/* --- Estilização da Legenda Customizada --- */
+.legend-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-left: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.legend-color-box {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border-radius: 4px;
+}
+
+/* Cores Baseadas na Imagem */
+.legend-color-box.green {
+    background-color: #00FF00;
+}
+
+/* Verde-limão */
+.legend-color-box.blue {
+    background-color: #1F78B4;
+}
+
+/* Azul escuro/Ciano */
+.legend-color-box.orange {
+    background-color: #ff3300ff;
+}
+
+/* Laranja escuro */
+
+/* O Chart.js vai usar a cor amarela (Yellow) para a quarta fatia, se existir */
+
+/* --- Estilização do Texto Central --- */
+.center-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    /* Ajuste para ficar dentro do "buraco" do gráfico */
+}
+
+.center-label {
     display: block;
+    font-size: 0.8em;
+    color: #666;
 }
 
-/* Responsividade */
-
-@media (max-width: 1280px) {
-    #div_parte_graficos {
-        flex-direction: column;
-    }
-
-    #div_grafico_notas,
-    #div_grafico_frequencia {
-        width: 100%;
-        height: 50%;
-    }
-
-    #pieChart {
-        width: 100% !important;
-        height: auto !important;
-    }
-
-    #barChart {
-        width: 100% !important;
-        height: auto !important;
-    }
+.center-value {
+    display: block;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
 }
 
-@media (max-width: 1024px) {
-    .indicador {
-        width: 50%;
-    }
-
-    #div_parte_alunos {
-        flex-direction: column;
-        gap: 20px;
-        height: auto;
-    }
-
-    #div_atencaoAlunos,
-    #div_todosAlunos {
-        width: 100%;
-        height: auto;
-    }
-
-    .people {
-        flex-wrap: wrap;
-        gap: 16px;
-    }
-
-    .people-card {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .pill-btn {
-        margin-top: 10px;
-    }
+/* Container específico para o gráfico de Barra (Frequência) */
+.chart-area-bar {
+    position: relative;
+    width: 100%;
+    /* Ocupa toda a largura da div KPI */
+    height: 85%;
+    /* Ocupa a altura restante abaixo do título */
+    padding: 10px;
+    /* Um pouco de respiro interno */
 }
 
-@media (max-width: 768px) {
-    #div_indicadores {
-        flex-direction: column;
-        gap: 16px;
-    }
-
-    .indicador {
-        width: 100%;
-    }
-
-    .info {
-        padding: 6px;
-    }
-
-    .p_titulo {
-        font-size: 12px;
-    }
-
-    .p_subtitulo {
-        font-size: 14px;
-    }
-
-    .div_graficoTitulo h3 {
-        font-size: 16px;
-    }
-
-    .name {
-        font-size: 12px;
-    }
-
-    .photo {
-        width: 40px;
-        height: 40px;
-    }
-
-    .dropdown-btn {
-        display: flex;
-        gap: 0.5rem;
-    }
+.btn_voltar_alunos {
+    position: absolute;
+    top: 95%;
+    right: 90%;
+    /* Remove borda e fundo */
+    background-color: transparent;
+    border: none; 
+    text-decoration: none;
+    
+    /* Estilo do texto */
+    color: #4D4D4D;
+    font-size: 16px;
+    font-weight: 500;
+    
+    /* Posicionamento dentro da coluna de gráficos */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    
+    /* Espaçamento */
+    margin-top: auto; /* Empurra o botão para o final se houver muito espaço, ou apenas separa */
+    margin-bottom: 10px; /* Espaço da borda inferior */
+    padding-left: 10px; /* Alinha visualmente com os títulos dos gráficos */
+    cursor: pointer;
 }
 
-@media (max-width: 480px) {
-    #nav_logo h2 {
-        font-size: 16px;
-    }
+.btn_voltar_alunos:hover {
+    color: var(--primary-color);
+}
 
-    .container_one_page {
-        padding: 10px;
-    }
-
-    #div_parte_graficos {
-        gap: 10px;
-    }
-
-    .div_conteudos {
-        padding: 10px;
-    }
-
-    #barChart,
-    #pieChart {
-        width: 100% !important;
-        height: 250px !important;
-    }
-
-    .people {
-        gap: 12px;
-    }
-
-    .pill-btn {
-        width: 36px;
-        height: 36px;
-    }
-
-    .photo {
-        width: 35px;
-        height: 35px;
-    }
-
-    .name {
-        font-size: 11px;
-    }
-
-    .dropdown-btn {
-        display: flex;
-        gap: 0.5rem;
-    }
+.btn_voltar_alunos i {
+    font-size: 25px;
+    display: flex;
+    align-items: center;
 }

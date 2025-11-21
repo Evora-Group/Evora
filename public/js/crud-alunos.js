@@ -1,3 +1,20 @@
+function getClasseDesempenho(desempenho) {
+    if (!desempenho) return ""; // caso venha null
+
+    switch (desempenho.toLowerCase()) {
+        case "ótimo":
+        case "otimo":
+            return "p_status_otimo";
+        case "regular":
+            return "p_status_regular";
+        case "atenção":
+        case "atencao":
+            return "p_status_atencao";
+        default:
+            return ""; 
+    }
+}
+
 // Função para listar usuários da instituição
 function listarAlunosInstituicao() {
     const fkInstituicao = sessionStorage.getItem("fkInstituicao");
@@ -24,17 +41,26 @@ function listarAlunosInstituicao() {
                 const corpoTabela = document.getElementById("corpo_tabela_alunos");
 
                 listaAlunos.forEach(aluno => {
+
+                    
+                    const classeDesempenho = getClasseDesempenho(aluno.desempenho);
                     
                       corpoTabela.innerHTML += `
                 
-                                 <tr onclick="irParaAlunoEspecifico(${aluno.RA})">
-                                    <td>${aluno.RA}</td>
+                                 <tr onclick="irParaAlunoEspecifico(${aluno.ra})">
+                                    <td>${aluno.ra}</td>
                                     <td>${aluno.nome}</td>
                                     <td>${aluno.email}</td>
                                     <td>${aluno.turma}</td>
                                     <td>${aluno.curso}</td>
-                                    <td>${aluno.desempenho}</td>
-                                    <td onclick="editarAluno(${aluno.RA}); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
+                                    
+                                    <td>
+                                        <p class="${classeDesempenho}">
+                                            ${aluno.desempenho ?? 'N/A'}
+                                        </p>
+                                    </td>
+
+                                    <td onclick="editarAluno(${aluno.ra}); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
                                 </tr>
 
                 `;
@@ -74,11 +100,11 @@ function popularTurmasEdicao(fkInstituicao, turmaAtual) {
             turmas.forEach(turma => {
                 const option = document.createElement('option');
                 // IMPORTANTE: o value deve ser o nome da turma, pois é o que será salvo/selecionado
-                option.value = turma.nome; 
-                option.text = turma.nome;
+                option.value = turma.nome_sigla; 
+                option.text = turma.nome_sigla;
                 
                 // Seleciona a turma atual do aluno
-                if (turma.nome === turmaAtual) { 
+                if (turma.nome_sigla === turmaAtual) { 
                     option.selected = true;
                 }
                 selectTurma.appendChild(option);
@@ -95,9 +121,9 @@ function popularTurmasEdicao(fkInstituicao, turmaAtual) {
 // crud-alunos.js (Função editarAluno)
 
 function editarAluno(raAluno) {
-    console.log(`Iniciando edição do aluno com RA: ${raAluno}`);
+    console.log(`Iniciando edição do aluno com ra: ${raAluno}`);
     const fkInstituicao = sessionStorage.getItem("fkInstituicao"); // Corrigido para fkInstituicao (consistente com listarAlunos)
-    console.log(`Buscando dados do aluno com RA: ${raAluno}`);
+    console.log(`Buscando dados do aluno com ra: ${raAluno}`);
 
     // Abrir o modal ANTES ou no THEN, mas aqui já está correto.
     abrirModal('modal_editar_aluno');
@@ -110,8 +136,8 @@ function editarAluno(raAluno) {
             resposta.json().then(function (aluno) {
                 console.log("Dados do aluno para edição: ", aluno);
 
-                // 1. Campos readonly (Ajuste no uso do RA e Instituicao)
-                document.getElementById('input_ra_edicao').value = aluno.RA;
+                // 1. Campos readonly (Ajuste no uso do ra e Instituicao)
+                document.getElementById('input_ra_edicao').value = aluno.ra;
                 document.getElementById('input_nome_edicao').value = aluno.nome;
                 document.getElementById('input_email_edicao').value = aluno.email;
                 document.getElementById('input_instituicao_edicao').value = aluno.instituicaoNome; 
@@ -123,7 +149,7 @@ function editarAluno(raAluno) {
                 // 3. Preenchimento dinâmico do SELECT de Turma
                 popularTurmasEdicao(fkInstituicao, aluno.turma);
                 
-                sessionStorage.setItem("raAlunoEmEdicao", aluno.RA);
+                sessionStorage.setItem("raAlunoEmEdicao", aluno.ra);
             });
         } else {
             // ... (tratamento de erro)
@@ -158,11 +184,11 @@ function popularCursosEdicao(fkInstituicao, idCursoAtual) { // Recebe o ID do cu
             cursos.forEach(curso => {
                 const option = document.createElement('option');
                 // O value deve ser o id do curso para o UPDATE futuro
-                option.value = curso.idCurso; 
-                option.text = curso.descricao;
+                option.value = curso.id_curso; 
+                option.text = curso.nome;
                 
                 // Seleciona o curso atual do aluno, comparando IDs (mais seguro)
-                if (curso.idCurso === idCursoAtual) { // <--- CORREÇÃO AQUI!
+                if (curso.id_curso === idCursoAtual) { // <--- CORREÇÃO AQUI!
                     option.selected = true;
                 }
                 selectCurso.appendChild(option);

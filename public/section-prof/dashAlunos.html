@@ -24,7 +24,7 @@
         <img src="../assets/imgs/logo-nome.svg" alt="" class="img_logo">
 
         <section class="section_infoUsuario">
-            <h1 class="h1_nome_usuario" id="h1_nome_professor">Nome do Professor</h1>
+            <h1 class="h1_nome_usuario nome-usuario" id="nome-usuario" class="nome-usuario">Nome do Professor</h1>
             <img src="../assets/imgs/anne.png" alt="" class="img_icon_usuario" id="img_logo_professor">
             <span><i class="fi fi-sr-caret-down"></i></span>
         </section>
@@ -106,7 +106,7 @@
                 <section class="section_main">
                     <header class="header_usuarios">
 
-                        <input type="search" placeholder="Digite nome ou RA para procurar pelo aluno..."
+                        <input type="search" id="input_pesquisa" placeholder="Digite nome ou RA para procurar pelo aluno..."
                             class="input_pesquisa">
                         <div class="div_criar_usuario" id="btnAbrirDialog"
                             onclick="listarInstituicoes(), abrirModal('modal_criar_aluno')">
@@ -283,6 +283,30 @@
 </html>
 
 <script>
+
+    // === FILTRAR ALUNOS POR RA OU NOME ===
+document.addEventListener("DOMContentLoaded", () => {
+    const inputPesquisa = document.getElementById("input_pesquisa");
+    const tabela = document.getElementById("corpo_tabela_alunos");
+
+    inputPesquisa.addEventListener("keyup", () => {
+        const filtro = inputPesquisa.value.toLowerCase().trim();
+        const linhas = tabela.getElementsByTagName("tr");
+
+        for (let linha of linhas) {
+            const ra = linha.children[0].textContent.toLowerCase();
+            const nome = linha.children[1].textContent.toLowerCase();
+
+            if (ra.includes(filtro) || nome.includes(filtro)) {
+                linha.style.display = "";
+            } else {
+                linha.style.display = "none";
+            }
+        }
+    });
+});
+
+
     // Função para redirecionar para a página do aluno específico
 function irParaAlunoEspecifico(raAluno) {
     // Você pode armazenar o RA na sessionStorage para que a próxima página o utilize

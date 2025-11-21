@@ -1,24 +1,24 @@
 var database = require("../database/config");
 
 function buscarAlunoPorRa(raAluno) {
-    console.log("ACESSANDO MODEL: buscando aluno por RA", raAluno);
+    console.log("ACESSANDO MODEL: buscando aluno por ra", raAluno);
     const instrucaoSql = `
         SELECT 
-            a.RA, 
-            a.nome, 
-            a.email, 
-            m.nomeTurma as turma, 
-            c.descricao as cursoNome,
-            c.idCurso as idCurso, -- Adicionado para popularCursosEdicao
-            i.nome as instituicaoNome
-        FROM Aluno a
-        INNER JOIN Instituicao i ON a.fkInstituicao = i.idInstituicao
-        INNER JOIN Matricula m ON a.RA = m.fkRA AND a.fkInstituicao = m.Aluno_fkInstituicao
-        INNER JOIN Curso c ON m.Curso_fkCurso = c.idCurso -- <--- CORREÇÃO CHAVE AQUI!
-        WHERE a.RA = ${raAluno};
-    `;
+            a.ra,
+            a.nome,
+            a.email,
+            t.nome_sigla AS turma,
+            c.nome AS curso,
+            c.id_curso AS idCurso,
+            i.nome AS instituicaoNome
+        FROM aluno a
+        INNER JOIN matricula m ON a.ra = m.fkAluno
+        INNER JOIN turma t ON m.fkTurma = t.id_turma
+        INNER JOIN curso c ON t.fkCurso = c.id_curso
+        INNER JOIN instituicao i ON c.fkInstituicao = i.id_instituicao
+        WHERE a.ra = ${raAluno};`;
 
-    console.log("Executando busca de aluno de RA:", raAluno);
+    console.log("Executando busca de aluno de ra:", raAluno);
     return database.executar(instrucaoSql);
 }
 
@@ -26,7 +26,7 @@ function buscarAlunoPorRa(raAluno) {
 function listarCursosInstituicao(fkInstituicao) {
     console.log("ACESSANDO MODEL: listando cursos disponíveis da instituição", fkInstituicao);
     const instrucaoSql = `
-        SELECT idCurso, descricao 
+        SELECT id_curso, nome 
         FROM Curso 
         WHERE fkInstituicao = ${fkInstituicao};
     `;
@@ -41,10 +41,11 @@ function listarTurmasInstituicao(fkInstituicao) {
     console.log("ACESSANDO MODEL: listando turmas distintas da instituição", fkInstituicao);
     // Busca todas as turmas DISTINTAS cadastradas na tabela Matricula para a Instituição
     const instrucaoSql = `
-        SELECT DISTINCT nomeTurma AS nome 
-        FROM Matricula m
-        INNER JOIN Aluno a ON m.fkRA = a.RA AND m.Aluno_fkInstituicao = a.fkInstituicao
-        WHERE a.fkInstituicao = ${fkInstituicao};
+        SELECT DISTINCT nome_sigla
+        FROM turma t
+        INNER JOIN Curso c ON t.fkCurso = c.id_curso 
+        INNER JOIN Instituicao i ON c.fkInstituicao = i.id_instituicao
+        WHERE c.fkInstituicao = ${fkInstituicao};
     `;
 
     console.log("Executando lista de turmas da instituicao:", fkInstituicao);

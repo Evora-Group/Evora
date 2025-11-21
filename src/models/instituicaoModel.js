@@ -61,8 +61,28 @@ ORDER BY tipo, nome;`;
     return database.executar(instrucaoSql, [idInstituicao, idInstituicao]);
 }
 
+function listarAlunosInstituicao(idInstituicao) {
+
+    var instrucaoSql = `SELECT 
+    a.RA,
+    a.nome,
+    a.email,
+    'N/A' as turma,
+    c.descricao,
+    'N/A' as desempenho
+FROM Aluno a
+INNER JOIN Matricula m ON a.fkInstituicao = m.Aluno_fkInstituicao AND a.RA = m.fkRA
+INNER JOIN Curso c ON m.Curso_fkCurso = c.idCurso AND m.Curso_fkInstituicao = c.fkInstituicao
+WHERE a.fkInstituicao = ${idInstituicao}
+ORDER BY nome;`;
+
+    console.log("Executando listagem de alunos da instituição:", idInstituicao);
+    return database.executar(instrucaoSql, [idInstituicao, idInstituicao]);
+}
+
 module.exports = {
     listarInstituicoes,
     buscarInstituicao,
-    listarUsuariosInstituicao
+    listarUsuariosInstituicao,
+    listarAlunosInstituicao
 }

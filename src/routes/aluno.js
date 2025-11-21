@@ -21,5 +21,6 @@ router.get("/desempenho/:ra/:fkInstituicao", function (req, res) {
 router.get("/geral/:ra", function (req, res) {
     alunoController.listarDadosGerais(req, res);
 });
+router.put("/editar/:ra", alunoController.editar);
 
 module.exports = router;

@@ -32,6 +32,7 @@ function listarAlunosInstituicao() {
                                     <td>${aluno.nome}</td>
                                     <td>${aluno.email}</td>
                                     <td>${aluno.turma}</td>
+                                    <td>${aluno.curso}</td>
                                     <td>${aluno.desempenho}</td>
                                     <td onclick="editarAluno(${aluno.RA}); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
                                 </tr>

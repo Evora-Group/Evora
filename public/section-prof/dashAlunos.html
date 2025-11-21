@@ -264,7 +264,7 @@
             </form>
 
             <div class="div_footer">
-                <div class="div_editar_usuario" id="btnEnviarDialog" onclick="fecharModal('modal_editar_aluno')">
+                <div class="div_editar_usuario" id="btnSalvarEdicao" onclick="confirmarEdicao()">
                     <p><strong>Salvar</strong></p>
                 </div>
                 <p id="btnFecharDialog" onclick="fecharModal('modal_editar_aluno')"><u>cancelar</u></p>
@@ -306,6 +306,30 @@ function irParaAlunoEspecifico(raAluno) {
     window.location.href = 'alunoEspecifico.html';
 }
 
+function confirmarEdicao() {
+    const novoCurso = document.getElementById("select_curso_edicao").value;
+    const novaTurma = document.getElementById("select_turma_edicao").value;
+    const raAluno = sessionStorage.getItem("raAlunoEmEdicao");
+
+    fetch(`/aluno/editar/${raAluno}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            curso: novoCurso,
+            turma: novaTurma
+        })
+    })
+    .then(res => {
+        if (res.ok) {
+            alert("Atualizado com sucesso!");
+            location.reload();
+        } else {
+            alert("Erro ao atualizar.");
+        }
+    });
+}
 
     function abrirModal(modalId) {
         const dialog = document.getElementById(modalId);

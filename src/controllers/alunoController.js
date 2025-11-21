@@ -81,6 +81,20 @@ function listarDadosGerais(req, res) {
         }).catch(function (erro) {
             console.log(erro);
             res.status(500).json(erro.sqlMessage);
+
+        });
+}
+
+
+function editar(req, res) {
+    const ra = req.params.ra;
+    const { curso, turma } = req.body;
+
+    alunoModel.editarAluno(ra, curso, turma)
+        .then(() => res.json({ mensagem: "Aluno atualizado com sucesso!" }))
+        .catch(erro => {
+            console.error("Erro ao editar aluno:", erro);
+            res.status(500).json(erro);
         });
 }
 
@@ -89,5 +103,6 @@ module.exports = {
     listarCursos,
     listarTurmas,
     listarDesempenho,
-    listarDadosGerais
+    listarDadosGerais,
+    editar
 }

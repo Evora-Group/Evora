@@ -116,6 +116,6 @@ module.exports = {
     listarCursosInstituicao,
     listarTurmasInstituicao,
     buscarDesempenhoPorRa,
-    buscarDadosGerais ,
+    buscarDadosGerais,
     editarAluno
 }

@@ -100,10 +100,17 @@ function buscarDadosGerais(raAluno) {
 
 // Adicione no module.exports:
 function editarAluno(ra, novoCurso, novaTurma) {
+    // novoCurso => id do curso (number/string que representa number)
+    // novaTurma => nome_sigla da turma (string)
     const instrucao = `
-        UPDATE matricula 
-        SET fkCurso = ${novoCurso},
-            fkTurma = ${novaTurma}
+        UPDATE matricula
+        SET fkTurma = (
+            SELECT id_turma
+            FROM turma
+            WHERE nome_sigla = '${novaTurma}'
+              AND fkCurso = ${novoCurso}
+            LIMIT 1
+        )
         WHERE fkAluno = ${ra};
     `;
 

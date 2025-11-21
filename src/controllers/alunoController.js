@@ -50,6 +50,40 @@ function listarTurmas(req, res) {
         });
 }
 
+function listarDesempenho(req, res) {
+    var ra = req.params.ra;
+    var fkInstituicao = req.params.fkInstituicao;
+
+    alunoModel.buscarDesempenhoPorRa(ra, fkInstituicao)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.json(resultado);
+            } else {
+                res.status(204).send("Nenhum desempenho encontrado");
+            }
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function listarDadosGerais(req, res) {
+    var ra = req.params.ra;
+
+    alunoModel.buscarDadosGerais(ra)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.json(resultado[0]); // Retorna o objeto direto
+            } else {
+                res.status(204).send("Nenhum resultado encontrado!");
+            }
+        }).catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        }); 
+}
+
 function editar(req, res) {
     const ra = req.params.ra;
     const { curso, turma } = req.body;
@@ -62,9 +96,12 @@ function editar(req, res) {
         });
 }
 
+
 module.exports = {
     buscarAlunoPorRa,
     listarCursos,
     listarTurmas,
+    listarDesempenho,
+    listarDadosGerais,
     editar
 }

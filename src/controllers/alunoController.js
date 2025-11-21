@@ -85,7 +85,6 @@ function listarDadosGerais(req, res) {
         });
 }
 
-
 function editar(req, res) {
     const ra = req.params.ra;
     const { curso, turma } = req.body;
@@ -97,6 +96,7 @@ function editar(req, res) {
             res.status(500).json(erro);
         });
 }
+
 
 module.exports = {
     buscarAlunoPorRa,

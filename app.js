@@ -17,6 +17,7 @@ var app = express();
 
 var userRouter = require("./src/routes/user")
 var instituicaoRouter = require("./src/routes/instituicao")
+var dashHomeRouter = require("./src/routes/dashHome");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -26,6 +27,8 @@ app.use(cors());
 
 app.use("/user", userRouter);
 app.use("/instituicao", instituicaoRouter);
+app.use("/dash", dashHomeRouter);
+
 
 app.listen(PORTA_APP, function () {
     console.log(`

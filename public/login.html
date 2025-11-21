@@ -153,8 +153,8 @@
         sessionStorage.setItem("fkInstituicao", dados.fkInstituicao);
 
         alert(`Bem-vindo, ${dados.nome}!`);
-        window.location.href = "./section-prof/dashHome.html";
-        //window.location.href = "./section-admin/dashHomeAdmin.html";
+        //window.location.href = "./section-prof/dashHome.html";
+        window.location.href = "./section-admin/dashHomeAdmin.html";
       })
       .catch(erro => {
         console.error("Erro no fetch:", erro);

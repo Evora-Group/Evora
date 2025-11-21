@@ -99,10 +99,23 @@ function buscarDadosGerais(raAluno) {
 }
 
 // Adicione no module.exports:
+function editarAluno(ra, novoCurso, novaTurma) {
+    const instrucao = `
+        UPDATE matricula 
+        SET fkCurso = ${novoCurso},
+            fkTurma = ${novaTurma}
+        WHERE fkAluno = ${ra};
+    `;
+
+    console.log("Executando SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
 module.exports = {
     buscarAlunoPorRa,
     listarCursosInstituicao,
     listarTurmasInstituicao,
     buscarDesempenhoPorRa,
-    buscarDadosGerais 
+    buscarDadosGerais,
+    editarAluno
 }

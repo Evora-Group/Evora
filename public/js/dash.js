@@ -33,6 +33,13 @@ function listarUsuariosInstituicao() {
                 const listaAlunos = listaUsuarios.filter(usuario => usuario.tipo === "Aluno");
                 const qtdAlunos = listaAlunos.length;
 
+                const listaBloqueados = listaUsuarios.filter(usuario => usuario.situacao === "bloqueado");
+                const qtdBloqueados = listaBloqueados.length;
+                
+                const listaLiberados = listaUsuarios.filter(usuario => usuario.situacao === "liberado");
+                const qtdLiberados = listaLiberados.length;
+
+
                 console.log("Quantidade de usuários: ", qtdUsuarios);
                 console.log("Quantidade de professores: ", qtdProfessores);
                 console.log("Quantidade de alunos: ", qtdAlunos);
@@ -52,13 +59,29 @@ function listarUsuariosInstituicao() {
                     elemento.innerHTML = qtdAlunos;
                 });
 
+                const elementosQtdBloqueados = document.querySelectorAll(".qtd_bloqueados");
+                elementosQtdBloqueados.forEach(elemento => {
+                    elemento.innerHTML = qtdBloqueados;
+                });
+
+                const elementosQtdLiberados = document.querySelectorAll(".qtd_liberados");
+                elementosQtdLiberados.forEach(elemento => {
+                    elemento.innerHTML = qtdLiberados;
+                }); 
+
+                const progressBarSituacao = document.getElementById("progress_bar_situacao");
+                const porcentagemLiberados = (qtdLiberados / qtdUsuarios) * 100;
+                progressBarSituacao.innerHTML = `
+                    <progress id="progress_bar" value="${porcentagemLiberados}" max="100"> ${porcentagemLiberados}% </progress>
+                `;
+
                 const corpoTabela = document.getElementById("corpo_tabela_usuarios");
 
                 listaUsuarios.forEach(usuario => {
                     
                       corpoTabela.innerHTML += `
                 
-                                                <tr>
+                                <tr>
                                     <td>${usuario.id}</td>
                                     <td>${usuario.nome}</td>
                                     <td>${usuario.email}</td>
@@ -66,11 +89,11 @@ function listarUsuariosInstituicao() {
                                     <td>${usuario.turma}</td>
                                     <td>${usuario.instituicao}</td>
                                     <td>
-                                        <p class="p_status_bloqueado">Bloqueado</p>
+                                        <p class="p_status_${usuario.situacao}">${usuario.situacao}</p>
                                     </td>
                                     <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i>
                                     </td>
-                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+                                    <td onclick="abrirModal('modal_remover_usuario'), definirVisitante(${usuario.id},'${usuario.tipo}')"><i class="fi fi-sr-trash"></i>
                                     </td>
                                 </tr>
 
@@ -78,6 +101,8 @@ function listarUsuariosInstituicao() {
     
 
                 });
+
+
             
 
                           

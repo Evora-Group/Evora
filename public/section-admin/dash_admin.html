@@ -71,17 +71,17 @@
                         <div class="kpi_header" id="kpi_situacao">
                             <div class="div_titulo_kpi" id="div_situacao">
                                 <p class="p_titulo_kpi">SITUAÇÂO ATUAL</p>
-                                <h1 id="h1_situacao">1 BLOQUEADO</h1>
+                                <h1 id="h1_situacao"><span class="qtd_bloqueados"></span> BLOQUEADOS</h1>
                             </div>
                             <div class="div_comparativo">
 
-                                <p class="p_titulo_kpi"><strong>239 Liberados</strong></p>
-                                <p class="p_titulo_kpi"><strong>1 Bloqueado</strong></p>
+                                <p class="p_titulo_kpi"><strong><span class="qtd_liberados">239</span> Liberados</strong></p>
+                                <p class="p_titulo_kpi"><strong><span>0</span class="qtd_bloqueados"> Bloqueados</strong></p>
 
                             </div>
                         </div>
                         <div class="div_progress_bar">
-                            <div class="progress_bar">
+                            <div class="progress_bar" id="progress_bar_situacao">
                                 <progress id="progress_bar" value="32" max="100"> 32% </progress>
                             </div>
                         </div>
@@ -361,7 +361,67 @@
 
         // Lógica para enviar os dados do modal pode ser adicionada aqui
 
+        if (modalId === 'modal_remover_usuario') {
+
+            const idVisitante = sessionStorage.getItem('idVisitante');
+            const tipoVisitante = sessionStorage.getItem('tipoVisitante');
+            
+            if (tipoVisitante === 'Aluno') {
+                removerAluno(idVisitante);
+            } else if (tipoVisitante === 'Professor') {
+                removerUsuario(idVisitante);
+            }
+
+            
+        }
+
         dialog.close();
     }
+
+    function definirVisitante(id, tipo) {
+        sessionStorage.setItem('idVisitante', id);
+        sessionStorage.setItem('tipoVisitante', tipo);
+    }
+
+    function removerAluno(id) {
+        fetch(`/usuarios/removerAluno/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Aluno removido com sucesso!');
+                listarUsuariosInstituicao(); // Atualiza a lista de usuários
+            } else {
+                alert('Erro ao remover aluno.');
+                console.error('Erro ao remover aluno:', response.statusText);
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            console.error('Erro ao remover aluno:', error);
+            alert('Erro ao remover aluno.');
+        });
+    }
+
+    function removerUsuario(id) {
+        fetch(`/usuarios/removerUsuario/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Usuário removido com sucesso!');
+                listarUsuariosInstituicao(); // Atualiza a lista de usuários
+            } else {
+                alert('Erro ao remover usuário.');
+                console.error('Erro ao remover usuário:', response.statusText);
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            console.error('Erro ao remover usuário:', error);
+            alert('Erro ao remover usuário.');
+        });
+    }
+
 
 </script>

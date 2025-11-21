@@ -14,4 +14,6 @@ router.get("/listarTurmas/:fkInstituicao", function (req, res) {
     alunoController.listarTurmas(req, res);
 });
 
+router.put("/editar/:ra", alunoController.editar);
+
 module.exports = router;

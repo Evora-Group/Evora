@@ -50,8 +50,21 @@ function listarTurmas(req, res) {
         });
 }
 
+function editar(req, res) {
+    const ra = req.params.ra;
+    const { curso, turma } = req.body;
+
+    alunoModel.editarAluno(ra, curso, turma)
+        .then(() => res.json({ mensagem: "Aluno atualizado com sucesso!" }))
+        .catch(erro => {
+            console.error("Erro ao editar aluno:", erro);
+            res.status(500).json(erro);
+        });
+}
+
 module.exports = {
     buscarAlunoPorRa,
     listarCursos,
-    listarTurmas
+    listarTurmas,
+    editar
 }

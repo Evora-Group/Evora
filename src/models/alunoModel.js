@@ -52,8 +52,21 @@ function listarTurmasInstituicao(fkInstituicao) {
     return database.executar(instrucaoSql);
 }
 
+function editarAluno(ra, novoCurso, novaTurma) {
+    const instrucao = `
+        UPDATE matricula 
+        SET fkCurso = ${novoCurso},
+            fkTurma = ${novaTurma}
+        WHERE fkAluno = ${ra};
+    `;
+
+    console.log("Executando SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
 module.exports = {
     buscarAlunoPorRa,
     listarCursosInstituicao,
-    listarTurmasInstituicao
+    listarTurmasInstituicao,
+    editarAluno
 }

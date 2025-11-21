@@ -31,6 +31,7 @@ function listarUsuariosInstituicao(idInstituicao) {
     u.idUsuario as id,
     u.nome,
     u.email,
+    
     'Professor' as tipo,
     'N/A' as turma_curso,
     'N/A' as modalidade,

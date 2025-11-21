@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Alunos - Admin</title>
+    <title>Painel Professor - Alunos</title>
     <link rel="stylesheet" href="../css/style_admin.css">
     <link rel="stylesheet" href="../css/dashAlunos.css">
     <link rel="shortcut icon" href="../assets/imgs/logoEvora.svg" type="image/x-icon">
@@ -74,19 +74,32 @@
                     </section>
                     <section class="kpi">
 
-                        <div class="kpi_header">
-                            <div class="div_titulo_kpi" id="div_situacao">
-                                <p class="p_titulo_kpi">FREQUÊNCIA GERAL</p>
-                                <h1 id="h1_situacao">85%</h1>
-                            </div>
+                        <div style="width: 100%; display: flex;">
 
-                        </div>
+                            <div class="parteInfo" style="width: 65%;">
+                                <div class="kpi_header">
+                                    <div class="div_titulo_kpi" id="div_situacao">
+                                        <p class="p_titulo_kpi">FREQUÊNCIA GERAL</p>
+                                        <h1 id="h1_situacao">85%</h1>
+                                    </div>
+                                </div>
                         <div>
                             <div class="kpi_footer">
-
                                 <p class="p_titulo_kpi">2 alunos em atenção por freq.</p>
-
                             </div>
+                        </div>
+
+                        </div>
+
+                        <div class="parteGraf" style="width: 35%;">
+                            <div class="grafico_container">
+                                <div class="circular-progress" id="circFreq">
+                                    <span id="freqText">Freq</span>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+
                         </div>
                     </section>
                 </header>
@@ -168,50 +181,55 @@
                             </thead>
                             <tbody class="corpo_tabela">
 
-                                 <tr>
+                                 <tr onclick="irParaAluno('alunoEspecificoAdmin.html')">
+
                                     <td>01251089</td>
                                     <td>Anne Yamsaki</td>
                                     <td>anne.yamasaki@sptech.school</td>
                                     <td>2-B</td>
                                     <td>Análise Desenvolvimento de Sistemas</td>
                                     <td><p class="p_status_atencao">Atenção</p></td>
-                                    <td onclick="abrirModal('modal_editar_aluno')"><i class="fi fi-sr-pencil"></i></td>
+                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
                                 </tr>
-                                <tr>
+                                <tr onclick="irParaAluno('alunoEspecificoAdmin.html')">
+
                                     <td>01251089</td>
                                     <td>Anne Yamasaki</td>
                                     <td>anne.yamasaki@sptech.school</td>
                                     <td>2-B</td>
                                     <td>Análise Desenvolvimento de Sistemas</td>
                                     <td><p class="p_status_atencao">Atenção</p></td>
-                                    <td onclick="abrirModal('modal_editar_aluno')"><i class="fi fi-sr-pencil"></i></td>
+                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
                                 </tr>
-                                <tr>
+                                <tr onclick="irParaAluno('alunoEspecificoAdmin.html')">
+
                                     <td>01251089</td>
                                     <td>Anne Yamasaki</td>
                                     <td>anne.yamasaki@sptech.school</td>
                                     <td>2-B</td>
                                     <td>Análise Desenvolvimento de Sistemas</td>
                                     <td><p class="p_status_atencao">Atenção</p></td>
-                                    <td onclick="abrirModal('modal_editar_aluno')"><i class="fi fi-sr-pencil"></i></td>
+                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
                                 </tr>
-                                <tr>
+                                <tr onclick="irParaAluno('alunoEspecificoAdmin.html')">
+
                                     <td>01251089</td>
                                     <td>Anne Yamasaki</td>
                                     <td>anne.yamasaki@sptech.school</td>
                                     <td>2-B</td>
                                     <td>Análise Desenvolvimento de Sistemas</td>
                                     <td><p class="p_status_regular">Regular</p></td>
-                                    <td onclick="abrirModal('modal_editar_aluno')"><i class="fi fi-sr-pencil"></i></td>
+                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
                                 </tr>
-                                <tr>
+                                <tr onclick="irParaAluno('alunoEspecificoAdmin.html')">
+
                                     <td>01251089</td>
                                     <td>Anne Yamasaki</td>
                                     <td>anne.yamasaki@sptech.school</td>
                                     <td>2-B</td>
                                     <td>Análise Desenvolvimento de Sistemas</td>
                                     <td><p class="p_status_otimo">Ótimo</p></td>
-                                    <td onclick="abrirModal('modal_editar_aluno')"><i class="fi fi-sr-pencil"></i></td>
+                                    <td onclick="abrirModal('modal_editar_aluno'); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
                                 </tr> 
 
                             </tbody>
@@ -264,7 +282,7 @@
     </dialog>
 
 
-    <dialog id="modal_editar_aluno" class="dialog_modal" style="height: 90%;">
+    <dialog id="modal_editar_aluno" class="dialog_modal" style="height: 80%;">
 
         <div class="div_main_modal">
             <div class="div_header_modal">
@@ -274,7 +292,7 @@
                 <div class="div_dois_inputs">
 
                     <div class="div_input_menor">
-                        <label for="ra">RA:</label>
+                        <label for="ra" style="height: 60%;">RA:</label>
                         <input type="text" class="input_modal" name="ra" placeholder="01251089" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
                     </div>
 
@@ -340,6 +358,10 @@
 </html>
 
 <script>
+    function irParaAluno(url) {
+        window.location.href = url;
+    }
+
 
     function abrirModal(modalId) {
         const dialog = document.getElementById(modalId);

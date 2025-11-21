@@ -11,7 +11,7 @@ function cadastrar(nome, email, senha, cargo, instituicao) {
     return bcrypt.hash(senha, saltRounds)
         .then((senhaHash) => {
             var instrucaoSql = `
-                INSERT INTO Usuario (nome, email, senha_hash, cargo, fkInstituicao, ativo) 
+                INSERT INTO usuario (nome, email, senha_hash, cargo, fkInstituicao, ativo) 
                 VALUES (?, ?, ?, ?, 1, 1);
             `;
             console.log("Executando cadastro para:", email);
@@ -24,7 +24,7 @@ function cadastrar(nome, email, senha, cargo, instituicao) {
 function logar(email, senha) {
     var instrucaoSql = `
         SELECT id_usuario, nome, email, senha_hash, cargo, fkInstituicao 
-        FROM Usuario WHERE email = ?;
+        FROM usuario WHERE email = ?;
     `;
     
     return database.executar(instrucaoSql, [email])
@@ -54,7 +54,7 @@ function logar(email, senha) {
 
 function validarEmail(email) {
     var instrucaoSql = `
-        SELECT COUNT(*) as total FROM Usuario WHERE email = ?
+        SELECT COUNT(*) as total FROM usuario WHERE email = ?
     `;
     console.log("Executando validação de email:", email);
     return database.executar(instrucaoSql, [email]);

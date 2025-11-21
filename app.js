@@ -18,6 +18,7 @@ var app = express();
 var userRouter = require("./src/routes/user")
 var alunoRouter = require("./src/routes/aluno")
 var instituicaoRouter = require("./src/routes/instituicao")
+var usuarioRouter = require("./src/routes/usuarios")
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -28,6 +29,7 @@ app.use(cors());
 app.use("/user", userRouter);
 app.use("/aluno", alunoRouter);
 app.use("/instituicao", instituicaoRouter);
+app.use("/usuarios", usuarioRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

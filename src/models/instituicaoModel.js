@@ -2,7 +2,7 @@ var database = require("../database/config");
 
 function listarInstituicoes() {
     var instrucaoSql = `
-        SELECT nome FROM Instituicao ORDER BY nome DESC;
+        SELECT nome FROM instituicao ORDER BY nome DESC;
     `;
     console.log("Executando listagem de instituições");
     return database.executar(instrucaoSql); 
@@ -27,36 +27,63 @@ function listarUsuariosInstituicao(idInstituicao) {
 
     // var instrucaoSql = `SELECT * FROM Usuario WHERE fkInstituicao = ?;`;
 
-    var instrucaoSql = `SELECT 
-    u.idUsuario as id,
-    u.nome,
-    u.email,
-    
-    'Professor' as tipo,
-    'N/A' as turma_curso,
-    'N/A' as modalidade,
-    i.nome as instituicao
-FROM Usuario u
-INNER JOIN Instituicao i ON u.fkInstituicao = i.idInstituicao
-WHERE u.fkInstituicao = ? AND u.cargo = 'Professor'
+    var instrucaoSql = `SELECT
+    U.id_usuario AS id,
+    U.nome,
+    U.email,
+    'Professor' AS tipo,
+    -- Concatena todas as turmas que o professor está associado
+    (
+        SELECT GROUP_CONCAT(DISTINCT T.nome_sigla SEPARATOR ', ')
+        FROM usuario_turma UT
+        JOIN turma T ON UT.fkTurma = T.id_turma
+        WHERE UT.fkUsuario = U.id_usuario
+    ) AS turma,
+    -- Concatena todos os cursos associados a essas turmas
+    (
+        SELECT GROUP_CONCAT(DISTINCT C.nome SEPARATOR ', ')
+        FROM usuario_turma UT
+        JOIN turma T ON UT.fkTurma = T.id_turma
+        JOIN curso C ON T.fkCurso = C.id_curso
+        WHERE UT.fkUsuario = U.id_usuario
+    ) AS curso,
+    I.nome AS instituicao,
+    CASE
+        WHEN U.ativo = 1 THEN 'liberado'
+        ELSE 'bloqueado'
+    END AS situacao
+FROM
+    usuario U
+JOIN instituicao I ON U.fkInstituicao = I.id_instituicao
+WHERE
+    I.id_instituicao = ?
+    AND U.cargo = 'Professor' -- Filtra explicitamente por professores, se houver outros cargos em 'usuario'
 
 UNION ALL
 
-SELECT 
-    a.RA as id,
-    a.nome,
-    a.email,
-    'Aluno' as tipo,
-    CONCAT(c.descricao, ' (', c.modalidade, ')') as turma_curso,
-    c.modalidade,
-    i.nome as instituicao
-FROM Aluno a
-INNER JOIN Instituicao i ON a.fkInstituicao = i.idInstituicao
-INNER JOIN Matricula m ON a.RA = m.fkRA AND a.fkInstituicao = m.Aluno_fkInstituicao
-INNER JOIN Curso c ON m.Curso_fkCurso = c.idCurso AND m.Curso_fkInstituicao = c.fkInstituicao
-WHERE a.fkInstituicao = ?
+SELECT
+    A.ra AS id,
+    A.nome,
+    A.email,
+    'Aluno' AS tipo,
+    T.nome_sigla AS turma,
+    C.nome AS curso,
+    I.nome AS instituicao,
+    CASE
+        WHEN M.ativo = 1 THEN 'liberado'
+        ELSE 'bloqueado'
+    END AS situacao
+FROM
+    aluno A
+JOIN matricula M ON A.ra = M.fkAluno
+JOIN turma T ON M.fkTurma = T.id_turma
+JOIN curso C ON T.fkCurso = C.id_curso
+JOIN instituicao I ON C.fkInstituicao = I.id_instituicao
+WHERE
+    I.id_instituicao = ?
 
-ORDER BY tipo, nome;`;
+ORDER BY
+    nome;`;
 
     console.log("Executando listagem de usuários da instituição:", idInstituicao);
     return database.executar(instrucaoSql, [idInstituicao, idInstituicao]);

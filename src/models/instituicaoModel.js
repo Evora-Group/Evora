@@ -10,7 +10,7 @@ function listarInstituicoes() {
 
 function buscarInstituicao(nome) {
     var instrucaoSql = `
-        SELECT idInstituicao FROM Instituicao WHERE nome = ? LIMIT 1;
+        SELECT id_instituicao FROM Instituicao WHERE nome = ? LIMIT 1;
     `;
     console.log("Executando busca de instituição:", nome);
     return database.executar(instrucaoSql, [nome]);
@@ -64,17 +64,18 @@ ORDER BY tipo, nome;`;
 function listarAlunosInstituicao(idInstituicao) {
 
     var instrucaoSql = `SELECT 
-    a.RA,
-    a.nome,
-    a.email,
-    'N/A' as turma,
-    c.descricao,
-    'N/A' as desempenho
-FROM Aluno a
-INNER JOIN Matricula m ON a.fkInstituicao = m.Aluno_fkInstituicao AND a.RA = m.fkRA
-INNER JOIN Curso c ON m.Curso_fkCurso = c.idCurso AND m.Curso_fkInstituicao = c.fkInstituicao
-WHERE a.fkInstituicao = ${idInstituicao}
-ORDER BY nome;`;
+            a.ra,
+            a.nome,
+            a.email,
+            t.nome_sigla AS turma,
+            c.descricao AS curso,
+            'N/A' AS desempenho
+        FROM aluno a
+        INNER JOIN matricula m ON a.ra = m.fkAluno
+        INNER JOIN turma t ON m.fkTurma = t.id_turma
+        INNER JOIN curso c ON t.fkCurso = c.id_curso
+        WHERE c.fkInstituicao = ${idInstituicao}
+        ORDER BY a.nome;`;
 
     console.log("Executando listagem de alunos da instituição:", idInstituicao);
     return database.executar(instrucaoSql, [idInstituicao, idInstituicao]);

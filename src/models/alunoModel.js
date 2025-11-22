@@ -118,11 +118,52 @@ function editarAluno(ra, novoCurso, novaTurma) {
     return database.executar(instrucao);
 }
 
+// ...existing code...
+
+function criarAluno(ra, nome, email, telefone) {
+    const instrucao = `
+        INSERT INTO aluno (ra, nome, email, telefone)
+        VALUES ('${ra}', '${nome}', '${email}', '${telefone}');
+    `;
+
+    console.log("Executando SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
+function criarMatricula(ra, turma, fkCurso) {
+    const instrucao = `
+
+         INSERT INTO matricula (fkAluno, fkTurma, data_matricula, ativo, data_atualizacao_status)
+            VALUES (
+                '${ra}',  -- sem aspas para não perder zeros à esquerda
+                (
+                    SELECT t.id_turma
+                    FROM turma t
+                    JOIN curso c ON c.id_curso = t.fkCurso
+                    WHERE t.nome_sigla = '${turma}'
+                    AND c.id_curso = '${fkCurso}'
+                    LIMIT 1
+                ),
+                CURDATE(),
+                1,
+                NOW()
+            );
+
+    `;
+
+    console.log("Executando SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
+// ...existing code...
+
 module.exports = {
     buscarAlunoPorRa,
     listarCursosInstituicao,
     listarTurmasInstituicao,
     buscarDesempenhoPorRa,
     buscarDadosGerais,
-    editarAluno
+    editarAluno,
+    criarAluno,
+    criarMatricula
 }

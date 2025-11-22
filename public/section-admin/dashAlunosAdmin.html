@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Admin - Alunos</title>
+    <title>Painel Prof - Alunos</title>
     <link rel="stylesheet" href="../css/style_admin.css">
     <link rel="stylesheet" href="../css/dashAlunos.css">
     <link rel="shortcut icon" href="../assets/imgs/logoEvora.svg" type="image/x-icon">
@@ -14,11 +14,12 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <script src="../js/login-cadas.js"></script>
     <script src="../js/dash.js"></script>
-    <script src="../js/crud-alunos-admin.js"></script>
+    <script src="../js/mockAlunosCriacao.js"></script>
+    <script src="../js/crud-alunos.js"></script>
 </head>
 
 
-<body onload="puxarNomeUsuario(), listarAlunosInstituicao()">
+<body onload="listarAlunosInstituicao()">
     <header class="header_info_usuario">
         <img src="../assets/imgs/logo-nome.svg" alt="" class="img_logo">
     </header>
@@ -103,7 +104,7 @@
                         <input type="search" id="input_pesquisa" placeholder="Digite nome ou RA para procurar pelo aluno..."
                             class="input_pesquisa">
                         <div class="div_criar_usuario" id="btnAbrirDialog"
-                            onclick="listarInstituicoes(), abrirModal('modal_criar_aluno')">
+     onclick="listarInstituicoes(); popularTurmasCriar(sessionStorage.getItem('fkInstituicao')); popularCursosCriar(sessionStorage.getItem('fkInstituicao')); abrirModal('modal_criar_aluno')">
                             <p><strong>+ Criar Novo Aluno</strong></p>
                         </div>
 
@@ -192,29 +193,25 @@
             <form class="form_modal">
 
                 <label for="ra">RA:</label>
-                <input type="text" class="input_modal" id="ra" name="ra" placeholder="Digite o RA do aluno">
+                <input type="text" class="input_modal" id="raCriar" onblur="buscarMockPorRa()" name="ra" placeholder="Digite o RA do aluno">
 
 
                 <label for="nome_turma">Turma:</label>
-                <input list="instituicoes" type="nome_turma" id="turma" name="nome_turma"
-                    placeholder="Pesquise pela sua turma" class="input_modal">
-                <datalist id="turmas">
-                    <option value=""></option>
-                </datalist>
+                <select id="select_turma_criar">
+                    <option value="">Selecione a turma</option>
+                </select>
 
                 <label for="nome_curso">Curso:</label>
-                <input list="instituicoes" type="nome_curso" id="curso" name="nome_curso"
-                    placeholder="Pesquise pela sua curso" class="input_modal">
-                <datalist id="cursos">
-                    <option value=""></option>
-                </datalist>
+                <select id="select_curso_criar">
+                    <option value="">Selecione o curso</option>
+                </select>
 
             </form>
 
             <div class="div_footer">
 
-                <div class="div_criar_usuario" id="btnEnviarDialog" onclick="enviarModal('modal_criar_aluno')">
-                    <p><strong>Criar Novo Aluno</strong></p>
+                <div class="div_editar_usuario" onclick="criarAluno()">
+                    <p><strong>Criar</strong></p>
                 </div>
 
                 <p id="btnFecharDialog" onclick="fecharModal('modal_criar_aluno')"><u>cancelar</u></p>
@@ -333,6 +330,63 @@ function confirmarEdicao() {
     });
 }
 
+function buscarMockPorRa() {
+    const raDigitado = document.getElementById("raCriar").value.trim();
+    if (!raDigitado) return;
+
+    const mock = alunosMockParaCriacao.find(a => a.ra === raDigitado);
+
+    if (!mock) {
+        alert("RA não encontrado no mock!");
+        return null;
+    }
+
+    console.log("Mock encontrado:", mock);
+    return mock;
+}
+
+
+function criarAluno() {
+    const ra = raCriar.value.trim();
+    const turma = document.getElementById("select_turma_criar").value;
+    const fkCurso = document.getElementById("select_curso_criar").value;
+
+    if (!ra || !turma || !fkCurso) {
+        alert("Preencha RA, turma e curso.");
+        return;
+    }
+
+    const alunoMock = buscarMockPorRa();
+    if (!alunoMock) return;
+
+    fetch("/aluno/criar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            ra: alunoMock.ra,
+            nome: alunoMock.nome,
+            email: alunoMock.email,
+            telefone: alunoMock.telefone,
+            turma,
+            fkCurso
+        })
+    })
+    .then(r => {
+        if (!r.ok) throw "Erro ao criar aluno";
+        return r.json();
+    })
+    .then(() => {
+        alert("Aluno criado com sucesso!");
+        fecharModal("modal_criar_aluno");
+        location.reload();
+    })
+    .catch(e => console.error(e));
+}
+
+
+
     function abrirModal(modalId) {
         const dialog = document.getElementById(modalId);
         dialog.showModal();
@@ -340,14 +394,6 @@ function confirmarEdicao() {
 
     function fecharModal(modalId) {
         const dialog = document.getElementById(modalId);
-        dialog.close();
-    }
-
-    function enviarModal(modalId) {
-        const dialog = document.getElementById(modalId);
-
-        // Lógica para enviar os dados do modal pode ser adicionada aqui
-
         dialog.close();
     }
 

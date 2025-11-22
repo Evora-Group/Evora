@@ -198,3 +198,59 @@ function popularCursosEdicao(fkInstituicao, idCursoAtual) { // Recebe o ID do cu
             console.error("Erro na comunicação para listar cursos: ", err);
         });
 }
+
+function popularTurmasCriar(fkInstituicao) {
+    const dialog = document.getElementById('modal_criar_aluno');
+    if (!dialog) return;
+    const selectTurma = dialog.querySelector('#select_turma_criar');
+    if (!selectTurma) return;
+    selectTurma.innerHTML = '';
+
+    fetch(`/aluno/listarTurmas/${fkInstituicao}`, { method: "GET" })
+        .then(res => res.ok ? res.json() : [])
+        .then(turmas => {
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.text = 'Selecione a Turma';
+            selectTurma.appendChild(defaultOption);
+
+            turmas.forEach(t => {
+                const option = document.createElement('option');
+                option.value = t.nome_sigla;
+                option.text = t.nome_sigla;
+                selectTurma.appendChild(option);
+            });
+
+            selectTurma.value = '';
+        }).catch(err => {
+            console.error("Erro ao carregar turmas (criar):", err);
+        });
+}
+
+function popularCursosCriar(fkInstituicao) {
+    const dialog = document.getElementById('modal_criar_aluno');
+    if (!dialog) return;
+    const selectCurso = dialog.querySelector('#select_curso_criar');
+    if (!selectCurso) return;
+    selectCurso.innerHTML = '';
+
+    fetch(`/aluno/listarCursos/${fkInstituicao}`, { method: "GET" })
+        .then(res => res.ok ? res.json() : [])
+        .then(cursos => {
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.text = 'Selecione o Curso';
+            selectCurso.appendChild(defaultOption);
+
+            cursos.forEach(c => {
+                const option = document.createElement('option');
+                option.value = c.id_curso;
+                option.text = c.nome;
+                selectCurso.appendChild(option);
+            });
+
+            selectCurso.value = '';
+        }).catch(err => {
+            console.error("Erro ao carregar cursos (criar):", err);
+        });
+}

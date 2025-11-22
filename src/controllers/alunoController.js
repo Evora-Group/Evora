@@ -97,6 +97,20 @@ function editar(req, res) {
         });
 }
 
+function criar(req, res) {
+    const { ra, nome, email, telefone, turma, fkCurso } = req.body;
+
+    alunoModel.criarAluno(ra, nome, email, telefone || "")
+        .then(() => alunoModel.criarMatricula(ra, turma, fkCurso))
+        .then(() => res.status(201).json({ msg: "Aluno criado com sucesso" }))
+        .catch(err => {
+            console.error(err);
+            res.status(500).json(err);
+        });
+}
+
+
+
 
 module.exports = {
     buscarAlunoPorRa,
@@ -104,5 +118,6 @@ module.exports = {
     listarTurmas,
     listarDesempenho,
     listarDadosGerais,
-    editar
+    editar,
+    criar
 }

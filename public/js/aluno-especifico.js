@@ -1,98 +1,88 @@
-document.addEventListener('DOMContentLoaded', function() {
-    
+// js/aluno-especifico.js
+
+document.addEventListener('DOMContentLoaded', function () {
     const raAluno = sessionStorage.getItem("raAlunoDetalhe");
     const fkInstituicao = sessionStorage.getItem("fkInstituicao");
     const nomeProfessor = sessionStorage.getItem("nomeUsuario");
 
     if (!raAluno || !fkInstituicao) {
         alert("Nenhum aluno selecionado.");
-        window.location.href = "dashAlunos.html";
+        window.location.href = "dashAlunosAdmin.html"; // Ou dashAlunos.html
         return;
     }
 
     if (nomeProfessor) {
         const h1 = document.getElementById("h1_nome_professor");
-        if(h1) h1.innerHTML = nomeProfessor;
+        if (h1) h1.innerHTML = nomeProfessor;
     }
 
     // 1. DADOS CADASTRAIS
     fetch(`/aluno/buscarPorRa/${raAluno}`)
         .then(res => res.json())
         .then(dados => {
-            document.getElementById("aluno_nome").innerHTML = dados.nome;
+            if (document.getElementById("aluno_nome")) document.getElementById("aluno_nome").innerHTML = dados.nome;
             document.getElementById("ra_aluno").innerHTML = dados.ra;
             document.getElementById("email_aluno").innerHTML = dados.email;
             document.getElementById("turma_aluno").innerHTML = dados.turma;
             document.getElementById("curso_aluno").innerHTML = dados.curso;
         })
-        .catch(err => console.error(err));
+        .catch(err => console.error("Erro dados cadastrais:", err));
 
-    // 2. DADOS GERAIS (Presenças, Faltas, Qtd Notas)
+    // 2. DADOS GERAIS E MÉDIAS (Aqui está a correção!)
     fetch(`/aluno/geral/${raAluno}`)
         .then(res => res.json())
         .then(dados => {
+            // Atualiza os contadores
             document.getElementById("dias_presencias").innerHTML = `${dados.total_presencas} Presenciais`;
             document.getElementById("dias_faltas").innerHTML = `${dados.total_faltas} Faltas`;
             document.getElementById("notas_registradas").innerHTML = `${dados.total_notas} notas registradas`;
+
+            // --- CORREÇÃO: Usa a média que veio do banco (igual da lista) ---
+            let mediaNota = Number(dados.media_geral);
+            let mediaFreq = Number(dados.frequencia_geral);
+
+            // Atualiza os KPIs principais
+            document.getElementById("h1_situacao_nota").innerHTML = mediaNota.toFixed(1);
+            document.getElementById("h1_situacao_frequencia").innerHTML = mediaFreq.toFixed(0) + "%";
+
+            // Atualiza o círculo e o status ("Ótimo/Regular") com os dados corretos
+            atualizarCirculoFrequencia(mediaFreq);
+            atualizarStatusGeral(mediaNota, mediaFreq);
         })
         .catch(err => console.error("Erro dados gerais:", err));
 
-    // 3. DESEMPENHO E GRÁFICO
+    // 3. GRÁFICO (Só desenha o gráfico, não calcula mais média)
     fetch(`/aluno/desempenho/${raAluno}/${fkInstituicao}`)
         .then(res => {
             if (res.status === 204) return [];
             return res.json();
         })
         .then(lista => {
-            plotarGraficoEAtualizarKpis(lista);
+            plotarGrafico(lista);
         })
-        .catch(err => console.error(err));
+        .catch(err => console.error("Erro gráfico:", err));
 });
 
-function plotarGraficoEAtualizarKpis(dados) {
+// Função simplificada (só desenha, não calcula média)
+function plotarGrafico(dados) {
     const ctx = document.getElementById('meuGraficoDeLinha').getContext('2d');
 
     let labels = [];
     let dadosFreq = [];
     let dadosNota = [];
-    let somaNota = 0;
-    let somaFreq = 0;
 
     dados.forEach(reg => {
         labels.push(reg.disciplina);
         let nota = Number(reg.nota);
         let freq = Number(reg.frequencia);
-        
-        if(isNaN(nota)) nota = 0;
-        if(isNaN(freq)) freq = 0;
+
+        if (isNaN(nota)) nota = 0;
+        if (isNaN(freq)) freq = 0;
 
         dadosFreq.push(freq);
-        dadosNota.push(nota * 10);
-        somaNota += nota;
-        somaFreq += freq;
+        dadosNota.push(nota * 10); // Nota * 10 para escala do gráfico
     });
 
-    // --- CALCULA MÉDIAS E ATUALIZA TELA ---
-    if (dados.length > 0) {
-        let mediaNota = somaNota / dados.length;
-        let mediaFreq = somaFreq / dados.length; 
-
-        document.getElementById("h1_situacao_nota").innerHTML = mediaNota.toFixed(1); 
-        document.getElementById("h1_situacao_frequencia").innerHTML = mediaFreq.toFixed(0) + "%";
-
-        // 1. Atualiza o círculo de %
-        atualizarCirculoFrequencia(mediaFreq);
-
-        // 2. Atualiza o texto "Ótimo/Regular/Atenção" (NOVO!)
-        atualizarStatusGeral(mediaNota, mediaFreq);
-
-    } else {
-        document.getElementById("h1_situacao_nota").innerHTML = "-"; 
-        document.getElementById("h1_situacao_frequencia").innerHTML = "-";
-        document.getElementById("status_desempenho").innerHTML = "Sem dados";
-    }
-
-    // Configuração do Gráfico
     if (window.meuGrafico) window.meuGrafico.destroy();
     window.meuGrafico = new Chart(ctx, {
         type: 'line',
@@ -129,36 +119,31 @@ function plotarGraficoEAtualizarKpis(dados) {
     });
 }
 
-// --- FUNÇÕES VISUAIS ---
-
+// (Mantenha as funções atualizarCirculoFrequencia e atualizarStatusGeral iguais)
 function atualizarCirculoFrequencia(porcentagem) {
     const circulo = document.getElementById("circFreq");
+    if (!circulo) return;
     const graus = porcentagem * 3.6;
-    const corPreenchida = "#4d5bf9"; 
-    const corVazia = "#eef2f5"; 
+    const corPreenchida = "#4d5bf9";
+    const corVazia = "#eef2f5";
     circulo.style.background = `conic-gradient(${corPreenchida} ${graus}deg, ${corVazia} 0deg)`;
 }
 
-// NOVA FUNÇÃO: Define se é Ótimo, Regular ou Atenção
 function atualizarStatusGeral(mediaNota, mediaFreq) {
     const elementoStatus = document.getElementById("status_desempenho");
-    
-    // Remove as classes antigas para não acumular
+    if (!elementoStatus) return;
+
     elementoStatus.classList.remove("p_status_otimo", "p_status_regular", "p_status_atencao");
 
-    // Regra de Negócio
     if (mediaNota >= 8 && mediaFreq >= 75) {
-        // Caso ÓTIMO
         elementoStatus.innerHTML = "Ótimo";
         elementoStatus.classList.add("p_status_otimo");
-    } 
+    }
     else if (mediaNota >= 6 && mediaFreq >= 75) {
-        // Caso REGULAR (Notas medianas, mas frequente)
         elementoStatus.innerHTML = "Regular";
         elementoStatus.classList.add("p_status_regular");
-    } 
+    }
     else {
-        // Caso ATENÇÃO (Nota baixa OU falta muito)
         elementoStatus.innerHTML = "Atenção";
         elementoStatus.classList.add("p_status_atencao");
     }

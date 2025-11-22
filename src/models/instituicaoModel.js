@@ -5,7 +5,7 @@ function listarInstituicoes() {
         SELECT nome FROM instituicao ORDER BY nome DESC;
     `;
     console.log("Executando listagem de instituições");
-    return database.executar(instrucaoSql); 
+    return database.executar(instrucaoSql);
 }
 
 function buscarInstituicao(nome) {
@@ -17,13 +17,13 @@ function buscarInstituicao(nome) {
 }
 
 function listarUsuariosInstituicao(idInstituicao) {
-//     var instrucaoSql = `SELECT 
-//     U.*, 
-//     I.nome AS nome_instituicao 
-// FROM Usuario U
-// INNER JOIN Instituicao I ON U.fkInstituicao = I.idInstituicao
-// WHERE U.fkInstituicao = ?;
-//     `;
+    //     var instrucaoSql = `SELECT 
+    //     U.*, 
+    //     I.nome AS nome_instituicao 
+    // FROM Usuario U
+    // INNER JOIN Instituicao I ON U.fkInstituicao = I.idInstituicao
+    // WHERE U.fkInstituicao = ?;
+    //     `;
 
     // var instrucaoSql = `SELECT * FROM Usuario WHERE fkInstituicao = ?;`;
 
@@ -90,77 +90,51 @@ ORDER BY
 }
 
 function listarAlunosInstituicao(idInstituicao) {
+    console.log("ACESSANDO MODEL INSTITUIÇÃO: Listando alunos com status calculado...");
 
-    var instrucaoSql = `
+    const instrucaoSql = `
         SELECT 
-            a.ra,
-            a.nome,
-            a.email,
-            t.nome_sigla AS turma,
-            c.nome AS curso,
-
-            -- Média das notas
-            (
-                SELECT AVG(av.nota)
-                FROM avaliacao av
-                WHERE av.fkMatricula = m.id_matricula
-            ) AS mediaNotas,
-
-            -- Frequência em %
-            (
-                SELECT 
-                    (SUM(CASE WHEN fr.presente = 1 THEN 1 ELSE 0 END) * 100.0) 
-                    / COUNT(*)
-                FROM frequencia fr
-                WHERE fr.fkMatricula = m.id_matricula
-            ) AS frequencia,
-
-            -- Regra de desempenho (Ótimo / Regular / Atenção)
-            CASE
-                WHEN 
-                    -- ÓTIMO
-                    (SELECT AVG(av.nota)
-                    FROM avaliacao av
-                    WHERE av.fkMatricula = m.id_matricula) >= 7.5
-                AND
-                    (SELECT 
-                        (SUM(CASE WHEN fr.presente = 1 THEN 1 ELSE 0 END) * 100.0)
-                        / COUNT(*)
-                    FROM frequencia fr 
-                    WHERE fr.fkMatricula = m.id_matricula
-                    ) >= 85
-                THEN 'Ótimo'
-
-                WHEN 
-                    -- ATENÇÃO
-                    (SELECT AVG(av.nota)
-                    FROM avaliacao av
-                    WHERE av.fkMatricula = m.id_matricula) < 6
-                OR
-                    (SELECT 
-                        (SUM(CASE WHEN fr.presente = 1 THEN 1 ELSE 0 END) * 100.0)
-                        / COUNT(*)
-                    FROM frequencia fr 
-                    WHERE fr.fkMatricula = m.id_matricula
-                    ) < 75
-                THEN 'Atenção'
-
-                ELSE 
-                    -- REGULAR
-                    'Regular'
+            base.ra,
+            base.nome,
+            base.email,
+            base.turma,
+            base.curso,
+            base.media_nota,
+            base.frequencia,
+            CASE 
+                WHEN media_nota >= 8 AND frequencia >= 75 THEN 'Ótimo'
+                WHEN media_nota >= 6 AND frequencia >= 75 THEN 'Regular'
+                ELSE 'Atenção'
             END AS desempenho
+        FROM (
+            SELECT 
+                a.ra,
+                a.nome,
+                a.email,
+                t.nome_sigla AS turma,
+                c.nome AS curso,
+                
+                -- Cálculo da Média de Notas (Se não tiver nota, assume 0)
+                (SELECT IFNULL(AVG(av.nota), 0) 
+                 FROM avaliacao av 
+                 JOIN matricula m2 ON av.fkMatricula = m2.id_matricula 
+                 WHERE m2.fkAluno = a.ra) AS media_nota,
+                 
+                -- Cálculo da Frequência % (Se não tiver aula, assume 0)
+                (SELECT IFNULL((SUM(f.presente) / COUNT(f.id_frequencia)) * 100, 0) 
+                 FROM frequencia f 
+                 JOIN matricula m3 ON f.fkMatricula = m3.id_matricula 
+                 WHERE m3.fkAluno = a.ra) AS frequencia
+                 
+            FROM aluno a
+            JOIN matricula m ON a.ra = m.fkAluno
+            JOIN turma t ON m.fkTurma = t.id_turma
+            JOIN curso c ON t.fkCurso = c.id_curso
+            WHERE c.fkInstituicao = ${idInstituicao}
+        ) AS base;
+    `;
 
-        FROM aluno a
-        INNER JOIN matricula m ON a.ra = m.fkAluno
-        INNER JOIN turma t ON m.fkTurma = t.id_turma
-        INNER JOIN curso c ON t.fkCurso = c.id_curso
-
-        WHERE c.fkInstituicao = ${idInstituicao}
-        ORDER BY a.nome;
-        `;
-
-    console.log("Executando listagem de alunos da instituição:", idInstituicao);
-    return database.executar(instrucaoSql, [idInstituicao, idInstituicao]);
+    return database.executar(instrucaoSql);
 }
 
 module.exports = {

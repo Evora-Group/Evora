@@ -1,78 +1,120 @@
 function getClasseDesempenho(desempenho) {
-    if (!desempenho) return ""; // caso venha null
-
+    if (!desempenho) return "";
     switch (desempenho.toLowerCase()) {
-        case "ótimo":
-        case "otimo":
-            return "p_status_otimo";
-        case "regular":
-            return "p_status_regular";
-        case "atenção":
-        case "atencao":
-            return "p_status_atencao";
-        default:
-            return ""; 
+        case "ótimo": return "p_status_otimo";
+        case "regular": return "p_status_regular";
+        case "atenção": return "p_status_atencao";
+        default: return ""; 
     }
 }
 
-// Função para listar usuários da instituição
 function listarAlunosInstituicao() {
     const fkInstituicao = sessionStorage.getItem("fkInstituicao");
-    fetch(`/instituicao/listarAlunosInstituicao/${fkInstituicao}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }).then(function (resposta) {
-        if (resposta.ok) {
-            resposta.json().then(function (resposta) {
-                console.log("Dados recebidos: ", JSON.stringify(resposta));
-                
-                const listaAlunos = resposta;
-                const qtdAlunos = listaAlunos.length;
+    if (!fkInstituicao) return console.error("Instituição não definida");
 
-                console.log("Quantidade de alunos: ", qtdAlunos);
-                
-                const elementosQtdAlunos = document.querySelectorAll(".qtd_alunos");
-                elementosQtdAlunos.forEach(elemento => {
-                    elemento.innerHTML = qtdAlunos;
-                });
+    fetch(`/instituicao/listarAlunosInstituicao/${fkInstituicao}`)
+    .then(res => res.json())
+    .then(listaAlunos => {
+        console.log("Admin - Alunos carregados:", listaAlunos.length);
+        
+        const corpoTabela = document.getElementById("corpo_tabela_alunos");
+        corpoTabela.innerHTML = "";
 
-                const corpoTabela = document.getElementById("corpo_tabela_alunos");
+        // Preenche Tabela
+        listaAlunos.forEach(aluno => {
+            const classe = getClasseDesempenho(aluno.desempenho);
+            corpoTabela.innerHTML += `
+                <tr onclick="irParaAlunoEspecifico(${aluno.ra})" style="cursor: pointer;">
+                    <td>${aluno.ra}</td>
+                    <td>${aluno.nome}</td>
+                    <td>${aluno.email}</td>
+                    <td>${aluno.turma}</td>
+                    <td>${aluno.curso}</td>
+                    <td><p class="${classe}">${aluno.desempenho}</p></td>
+                    <td onclick="event.stopPropagation(); editarAluno(${aluno.ra})">
+                        <i class="fi fi-sr-pencil"></i>
+                    </td>
+                </tr>
+            `;
+        });
 
-                listaAlunos.forEach(aluno => {
+        // Atualiza os Cards do Topo (KPIs)
+        atualizarKpisAdmin(listaAlunos);
+    })
+    .catch(err => console.error(err));
+}
 
-                    
-                    const classeDesempenho = getClasseDesempenho(aluno.desempenho);
-                    
-                      corpoTabela.innerHTML += `
-                
-                                 <tr onclick="irParaAlunoEspecifico(${aluno.ra})">
-                                    <td>${aluno.ra}</td>
-                                    <td>${aluno.nome}</td>
-                                    <td>${aluno.email}</td>
-                                    <td>${aluno.turma}</td>
-                                    <td>${aluno.curso}</td>
-                                    
-                                    <td>
-                                        <p class="${classeDesempenho}">
-                                            ${aluno.desempenho ?? 'N/A'}
-                                        </p>
-                                    </td>
+function atualizarKpisAdmin(lista) {
+    let qtdOtimo = 0;
+    let qtdRegular = 0;
+    let qtdAtencao = 0;
+    let somaFreq = 0;
+    let alunosBaixaFreq = 0;
 
-                                    <td onclick="editarAluno(${aluno.ra}); event.stopPropagation();"><i class="fi fi-sr-pencil"></i></td>
-                                </tr>
+    lista.forEach(aluno => {
+        // Contagem de Status
+        const status = aluno.desempenho.toLowerCase();
+        if(status === 'ótimo' || status === 'otimo') qtdOtimo++;
+        else if(status === 'regular') qtdRegular++;
+        else qtdAtencao++;
 
-                `;
-                });       
-            });
-        } else {
-            console.error("Erro ao listar alunos: ", resposta.status);
-        }
-    }).catch(function (erro) {
-        console.error("Erro na requisição: ", erro);
+        // Soma Frequência
+        let freq = Number(aluno.frequencia || 0);
+        somaFreq += freq;
+        if(freq < 75) alunosBaixaFreq++;
     });
-}   
+
+    // 1. Atualiza Contadores Pequenos
+    document.getElementById("count_otimo").innerHTML = `${qtdOtimo} ótimo`;
+    document.getElementById("count_regular").innerHTML = `${qtdRegular} regular`;
+    document.getElementById("count_atencao").innerHTML = `${qtdAtencao} atenção`;
+
+    // 2. Define o Status Dominante
+    let maiorQtd = Math.max(qtdOtimo, qtdRegular, qtdAtencao);
+    let statusGeral = "REGULAR";
+    let classeCorBarra = "p_status_regular"; // Cor padrão (Amarelo)
+
+    if (maiorQtd === qtdOtimo) {
+        statusGeral = "ÓTIMO";
+        classeCorBarra = "p_status_otimo"; // Verde
+    } 
+    else if (maiorQtd === qtdAtencao) {
+        statusGeral = "ATENÇÃO";
+        classeCorBarra = "p_status_atencao"; // Vermelho
+    }
+
+    document.getElementById("kpi_texto_desempenho").innerHTML = `${maiorQtd} ${statusGeral}`;
+
+    // 3. Atualiza a Barra de Progresso (Valor e Cor)
+    const total = lista.length;
+    // Calcula a % que o grupo dominante representa do total
+    const porcentagemDominante = total > 0 ? (maiorQtd / total) * 100 : 0;
+    
+    const containerBarra = document.getElementById("barra_progresso_container");
+    if(containerBarra) {
+        // Recria a barra com o valor correto
+        containerBarra.innerHTML = `
+            <progress id="progress_bar" value="${porcentagemDominante}" max="100" class="${classeCorBarra}"> 
+                ${porcentagemDominante.toFixed(0)}% 
+            </progress>
+        `;
+        
+        // Adiciona um texto auxiliar se quiser mostrar a % numérica
+        // containerBarra.innerHTML += `<span style="font-size:12px">${porcentagemDominante.toFixed(0)}% da sala</span>`;
+    }
+
+    // 4. Atualiza Frequência Geral
+    const mediaFreqGeral = total > 0 ? (somaFreq / total).toFixed(0) : 0;
+    document.getElementById("kpi_texto_frequencia").innerHTML = `${mediaFreqGeral}%`;
+    document.getElementById("texto_alunos_atencao_freq").innerHTML = `${alunosBaixaFreq} alunos com baixa freq.`;
+
+    // Pinta o círculo
+    const circulo = document.getElementById("circFreqGeral");
+    if(circulo) {
+        const graus = mediaFreqGeral * 3.6;
+        circulo.style.background = `conic-gradient(#4d5bf9 ${graus}deg, #eef2f5 0deg)`;
+    }
+}
 
 function popularTurmasEdicao(fkInstituicao, turmaAtual) {
     console.log("Populando turmas para edição, turma atual: ", turmaAtual);
@@ -159,7 +201,6 @@ function editarAluno(raAluno) {
     });
 }
 
-// crud-alunos.js (Função popularCursosEdicao - Corrigir o critério de seleção)
 
 function popularCursosEdicao(fkInstituicao, idCursoAtual) { // Recebe o ID do curso atual
     console.log("Populando cursos para edição, ID do curso atual: ", idCursoAtual);

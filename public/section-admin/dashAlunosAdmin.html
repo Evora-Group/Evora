@@ -28,7 +28,7 @@
                 <ul>
                     <li><a href="./dashHomeAdmin.html"><i class="fi fi-sr-home"></i>Dashboard</a></li>
                     <li><a href="./dashCursoAdmin.html"><i class="fi fi-sr-users-alt"></i>Cursos</a></li>
-                    <li><a href="./dashAlunosAdmin.html"  class="active"><i class="fi fi-sr-user"></i>Alunos</a></li>
+                    <li><a href="./dashAlunosAdmin.html" class="active"><i class="fi fi-sr-user"></i>Alunos</a></li>
                     <li><a href="./dashAlertaAdmin.html"><i class="fi fi-sr-bell"></i>Alertas</a></li>
                     <li><a href="./dashConfAdmin.html"><i class="fi fi-sr-settings"></i>Configurações</a></li>
                     <li><a href="./dash_admin.html"><i class="fi fi-sr-user-add"></i>Criar Usuário</a></li>
@@ -49,13 +49,13 @@
                         <div class="kpi_header" id="kpi_situacao">
                             <div class="div_titulo_kpi" id="div_situacao">
                                 <p class="p_titulo_kpi">DESEMPENHO GERAL</p>
-                                <h1 id="h1_situacao">3 ATENÇÃO</h1>
+                                <h1 id="kpi_texto_desempenho">3 ATENÇÃO</h1>
                             </div>
                             <div class="div_comparativo">
 
-                                <p class="p_titulo_kpi">3 atenção</p>
-                                <p class="p_titulo_kpi">1 regular</p>
-                                <p class="p_titulo_kpi">1 ótimo</p>
+                                <p class="p_titulo_kpi" id="count_atencao">3 atenção</p>
+                                <p class="p_titulo_kpi" id="count_regular">1 regular</p>
+                                <p class="p_titulo_kpi" id="count_otimo">1 ótimo</p>
 
                             </div>
                         </div>
@@ -76,21 +76,21 @@
                                         <h1 id="h1_situacao">85%</h1>
                                     </div>
                                 </div>
-                        <div>
-                            <div class="kpi_footer">
-                                <p class="p_titulo_kpi">2 alunos em atenção por freq.</p>
+                                <div>
+                                    <div class="kpi_footer">
+                                        <p class="p_titulo_kpi">2 alunos em atenção por freq.</p>
+                                    </div>
+                                </div>
+
                             </div>
-                        </div>
 
-                        </div>
-
-                        <div class="parteGraf" style="width: 35%;">
-                            <div class="grafico_container">
-                                <div class="circular-progress" id="circFreq">
-                                    <span id="freqText">Freq</span>
+                            <div class="parteGraf" style="width: 35%;">
+                                <div class="grafico_container">
+                                    <div class="circular-progress" id="circFreq">
+                                        <span id="freqText">Freq</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         </div>
 
                         </div>
@@ -100,8 +100,8 @@
                 <section class="section_main">
                     <header class="header_usuarios">
 
-                        <input type="search" id="input_pesquisa" placeholder="Digite nome ou RA para procurar pelo aluno..."
-                            class="input_pesquisa">
+                        <input type="search" id="input_pesquisa"
+                            placeholder="Digite nome ou RA para procurar pelo aluno..." class="input_pesquisa">
                         <div class="div_criar_usuario" id="btnAbrirDialog"
                             onclick="listarInstituicoes(), abrirModal('modal_criar_aluno')">
                             <p><strong>+ Criar Novo Aluno</strong></p>
@@ -227,24 +227,27 @@
 
     <dialog id="modal_editar_aluno" class="dialog_modal">
         <div class="div_header_modal"> </div>
-            <div class="div_main_modal" style="height: 100%; padding: 5% 5% 0% 5%;">
-                <h3>Edite as informações do Aluno:</h3>
-            
+        <div class="div_main_modal" style="height: 100%; padding: 5% 5% 0% 5%;">
+            <h3>Edite as informações do Aluno:</h3>
+
             <form class="form_modal">
                 <div class="div_dois_inputs">
                     <div class="div_input_menor">
                         <label for="ra" style="height: 50%;">RA:</label>
-                        <input type="text" class="input_modal" id="input_ra_edicao" name="ra" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
+                        <input type="text" class="input_modal" id="input_ra_edicao" name="ra" readonly
+                            style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
                     </div>
                 </div>
                 <div class="div_dois_inputs">
                     <div class="div_input_menor">
                         <label for="nome" style="height: 50%;">Nome:</label>
-                        <input type="text" class="input_modal" id="input_nome_edicao" name="nome" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
+                        <input type="text" class="input_modal" id="input_nome_edicao" name="nome" readonly
+                            style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
                     </div>
                     <div class="div_input_maior">
                         <label for="email" style="height: 50%;">Email:</label>
-                        <input type="text" class="input_modal" id="input_email_edicao" name="email" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
+                        <input type="text" class="input_modal" id="input_email_edicao" name="email" readonly
+                            style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
                     </div>
                 </div>
                 <div class="div_dois_inputs">
@@ -255,12 +258,13 @@
                     </div>
                     <div class="div_input_maior">
                         <label for="instituicao" style="height: 50%;">Instituição:</label>
-                        <input type="text" class="input_noinput" id="input_instituicao_edicao" name="instituicao" readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
+                        <input type="text" class="input_noinput" id="input_instituicao_edicao" name="instituicao"
+                            readonly style="background-color: rgb(236, 236, 236); border: none; cursor: not-allowed;">
                     </div>
                 </div>
                 <div class="div_input">
                     <label for="curso_aluno" style="height: 50%;">Curso:</label>
-                    <select id="select_curso_edicao" name="curso_aluno"> 
+                    <select id="select_curso_edicao" name="curso_aluno">
                     </select>
                 </div>
             </form>
@@ -279,59 +283,59 @@
 <script>
 
     // === FILTRAR ALUNOS POR RA OU NOME ===
-document.addEventListener("DOMContentLoaded", () => {
-    const inputPesquisa = document.getElementById("input_pesquisa");
-    const tabela = document.getElementById("corpo_tabela_alunos");
+    document.addEventListener("DOMContentLoaded", () => {
+        const inputPesquisa = document.getElementById("input_pesquisa");
+        const tabela = document.getElementById("corpo_tabela_alunos");
 
-    inputPesquisa.addEventListener("keyup", () => {
-        const filtro = inputPesquisa.value.toLowerCase().trim();
-        const linhas = tabela.getElementsByTagName("tr");
+        inputPesquisa.addEventListener("keyup", () => {
+            const filtro = inputPesquisa.value.toLowerCase().trim();
+            const linhas = tabela.getElementsByTagName("tr");
 
-        for (let linha of linhas) {
-            const ra = linha.children[0].textContent.toLowerCase();
-            const nome = linha.children[1].textContent.toLowerCase();
+            for (let linha of linhas) {
+                const ra = linha.children[0].textContent.toLowerCase();
+                const nome = linha.children[1].textContent.toLowerCase();
 
-            if (ra.includes(filtro) || nome.includes(filtro)) {
-                linha.style.display = "";
-            } else {
-                linha.style.display = "none";
+                if (ra.includes(filtro) || nome.includes(filtro)) {
+                    linha.style.display = "";
+                } else {
+                    linha.style.display = "none";
+                }
             }
-        }
+        });
     });
-});
 
 
     // Função para redirecionar para a página do aluno específico
-function irParaAlunoEspecifico(raAluno) {
-    // Você pode armazenar o RA na sessionStorage para que a próxima página o utilize
-    sessionStorage.setItem("raAlunoDetalhe", raAluno);
-    window.location.href = 'alunoEspecifico.html';
-}
+    function irParaAlunoEspecifico(raAluno) {
+        // Você pode armazenar o RA na sessionStorage para que a próxima página o utilize
+        sessionStorage.setItem("raAlunoDetalhe", raAluno);
+        window.location.href = 'alunoEspecificoAdmin.html';
+    }
 
-function confirmarEdicao() {
-    const novoCurso = document.getElementById("select_curso_edicao").value;
-    const novaTurma = document.getElementById("select_turma_edicao").value;
-    const raAluno = sessionStorage.getItem("raAlunoEmEdicao");
+    function confirmarEdicao() {
+        const novoCurso = document.getElementById("select_curso_edicao").value;
+        const novaTurma = document.getElementById("select_turma_edicao").value;
+        const raAluno = sessionStorage.getItem("raAlunoEmEdicao");
 
-    fetch(`/aluno/editar/${raAluno}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            curso: novoCurso,
-            turma: novaTurma
+        fetch(`/aluno/editar/${raAluno}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                curso: novoCurso,
+                turma: novaTurma
+            })
         })
-    })
-    .then(res => {
-        if (res.ok) {
-            alert("Atualizado com sucesso!");
-            location.reload();
-        } else {
-            alert("Erro ao atualizar.");
-        }
-    });
-}
+            .then(res => {
+                if (res.ok) {
+                    alert("Atualizado com sucesso!");
+                    location.reload();
+                } else {
+                    alert("Erro ao atualizar.");
+                }
+            });
+    }
 
     function abrirModal(modalId) {
         const dialog = document.getElementById(modalId);

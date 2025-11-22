@@ -80,9 +80,11 @@ function buscarDesempenhoPorRa(raAluno, fkInstituicao) {
 
 
 function buscarDadosGerais(raAluno) {
-    console.log("ACESSANDO MODEL: Buscando KPIs gerais (Faltas, Presenças, Notas)");
+    console.log("ACESSANDO MODEL: Buscando KPIs gerais (Faltas, Presenças, Notas, Médias)");
+    
     const instrucaoSql = `
         SELECT 
+            -- Contagens (já existiam)
             (SELECT COUNT(*) FROM frequencia f 
              JOIN matricula m ON f.fkMatricula = m.id_matricula 
              WHERE m.fkAluno = ${raAluno} AND f.presente = 1) AS total_presencas,
@@ -93,7 +95,18 @@ function buscarDadosGerais(raAluno) {
              
             (SELECT COUNT(*) FROM avaliacao a 
              JOIN matricula m ON a.fkMatricula = m.id_matricula 
-             WHERE m.fkAluno = ${raAluno}) AS total_notas;
+             WHERE m.fkAluno = ${raAluno}) AS total_notas,
+
+            -- Média Geral (Igual da Lista de Admin)
+            (SELECT IFNULL(AVG(nota), 0) FROM avaliacao a 
+             JOIN matricula m ON a.fkMatricula = m.id_matricula 
+             WHERE m.fkAluno = ${raAluno}) AS media_geral,
+
+            -- Frequência Geral % (Igual da Lista de Admin)
+            (SELECT IFNULL((SUM(presente) / COUNT(id_frequencia)) * 100, 0) 
+             FROM frequencia f 
+             JOIN matricula m ON f.fkMatricula = m.id_matricula 
+             WHERE m.fkAluno = ${raAluno}) AS frequencia_geral;
     `;
     return database.executar(instrucaoSql);
 }

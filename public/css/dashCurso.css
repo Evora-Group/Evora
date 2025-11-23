@@ -273,23 +273,23 @@ main .section-curso {
     cursor: pointer;
 }
 
+
 .cabecalho{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 2rem;
+    /* usar grid para garantir que colunas do cabeçalho e das linhas se alinhem perfeitamente */
+    display: grid;
+    grid-template-columns: 40% 15% 30% 15%;
+    gap: 1rem;
+    margin: 2rem auto;
     background-color: #fff;
-    width: 90%;
-    height: 100%;
+    width: calc(100% - 4rem);
     border-radius: 20px;
-    padding: 2rem;
+    padding: 1.25rem 1.5rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.067);
-    flex-wrap: wrap;
-    row-gap: 1rem; /* ✅ controla o espaço vertical entre as linhas */
+    align-items: center;
 }
 
 .cabecalho p{
-    font-weight: bold;
+    font-weight: 700;
     color: black;
 }
 
@@ -297,11 +297,9 @@ main .section-curso {
     margin-left: 8rem;
 }
 
+
 .dados_linha {
-    width: 100%; /* ✅ força quebra de linha */
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    width: 100%;
 }
 
 .coluna_cursos,
@@ -309,9 +307,7 @@ main .section-curso {
 .coluna_descricao,
 .coluna_modalidade {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding-left: 2rem;
+    align-items: center;
 }
 
 .coluna_cursos p,
@@ -320,27 +316,12 @@ main .section-curso {
 .coluna_modalidade p {
     color: black;
     font-weight: 400;
+    margin: 0;
 }
 
 .coluna_cursos p {
-    max-width: 250px;
+    max-width: 100%;
     word-wrap: break-word;
-}
-
-.coluna_quantidade{
-    display: flex;
-    margin-right: 15rem;
-
-}
-
-.coluna_descricao{
-    display: flex;
-    margin-right: 10rem;
-}
-
-.coluna_modalidade{
-    display: flex;
-    margin-right: 2rem;
 }
 
 .container-course {
@@ -372,4 +353,79 @@ main .section-curso {
 .link a {
     text-decoration: none; /* remove o sublinhado */
     color: inherit;        /* mantém a cor do texto original */
+}
+
+/* ===== Estilo por linha (cada curso) - ajuda a alinhar valores sob o cabeçalho ===== */
+.curso_row {
+    /* usar grid idêntico ao cabeçalho para garantir alinhamento perfeito */
+    display: grid;
+    grid-template-columns: 40% 15% 30% 15%;
+    gap: 1rem;
+    width: calc(100% - 4rem);
+    margin: 0.5rem auto;
+    padding: 0.75rem 1rem;
+    background-color: #fff;
+    border-radius: 10px;
+    align-items: center;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+}
+
+.curso_row p {
+    margin: 0;
+    color: #222;
+}
+
+/* responsividade: empilha colunas em telas pequenas */
+@media (max-width: 800px) {
+    .cabecalho, .curso_row {
+        grid-template-columns: 1fr;
+        text-align: left;
+    }
+    .cabecalho p { padding-bottom: 0.5rem; }
+}
+
+/* ===== Paginação (UI mais alinhada ao tema azul) ===== */
+#pagination_controls {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0 0 0;
+}
+
+#pagination_controls .page-btn {
+    background: var(--primary-color);
+    color: var(--white-color);
+    border: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(68,135,222,0.18);
+    transition: background 0.12s ease, transform 0.06s ease;
+}
+
+#pagination_controls .page-btn:hover {
+    background: var(--primary-color-dark);
+    transform: translateY(-1px);
+}
+
+#pagination_controls .page-btn[disabled],
+#pagination_controls .page-btn.current {
+    background: #cfe6fb; /* tom claro */
+    color: var(--primary-color-dark);
+    cursor: default;
+    transform: none;
+    box-shadow: none;
+}
+
+#pagination_controls .page-ellipsis {
+    display: inline-block;
+    padding: 0.5rem 0.6rem;
+    color: rgba(0,0,0,0.6);
+}
+
+/* torna os botões maiores em telas pequenas para tocabilidade */
+@media (max-width: 480px) {
+    #pagination_controls .page-btn { padding: 0.6rem 0.9rem; }
 }

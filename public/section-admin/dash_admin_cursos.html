@@ -139,34 +139,35 @@
 
                     </header>
                     <section class="section_filter_usuarios">
-
-
-                        <details class="filtro-dropdown">
-
-                            <summary class="titulo_sumario">
-                                filtrar por
-                            </summary>
-
-                            <div class="filtro-lista">
-                               
-                                <label>
-                                    <input type="checkbox"> Nome
-                                </label>
-                                <label>
-                                    <input type="checkbox"> Situação
-                                </label>
-                                <label>
-                                    <input type="checkbox"> Instituição
-                                </label>
-                                <label>
-                                    <input type="checkbox"> Professor
-                                </label>
-                                <label>
-                                    <input type="checkbox"> Limpar
-                                </label>
+                        <!-- Removed visible 'filtrar por' summary: keep controls hidden so the JS popover can move/use them -->
+                        <div class="filtro-lista" style="display:none;">
+                            <label>
+                                <input type="checkbox" id="filter_nome"> Nome
+                            </label>
+                            <label>
+                                <input type="checkbox" id="filter_situacao"> Situação
+                            </label>
+                            <div id="filter_situacao_controls" style="display:none; padding-left:12px;">
+                                <select id="filter_situacao_select" class="input_modal">
+                                    <option value="">--</option>
+                                    <option value="liberado">Liberado</option>
+                                    <option value="bloqueado">Bloqueado</option>
+                                </select>
                             </div>
-
-                        </details>
+                            <label>
+                                <input type="checkbox" id="filter_instituicao"> Instituição
+                            </label>
+                            <label>
+                                <input type="checkbox" id="filter_professor"> Professor
+                            </label>
+                            <div id="filter_professor_controls" style="display:none; padding-left:12px;">
+                                <input type="text" id="filter_professor_text" placeholder="Nome do professor" class="input_modal">
+                            </div>
+                            <div style="margin-top:8px; display:flex; gap:8px;">
+                                <button id="btn_apply_filters" class="div_criar_usuario" type="button">Aplicar</button>
+                                <button id="btn_clear_filters" class="div_editar_usuario" type="button">Limpar</button>
+                            </div>
+                        </div>
                     </section>
                     <main class="main_usuarios">
                         <!-- Tabela de usuários será inserida aqui -->

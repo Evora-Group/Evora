@@ -330,6 +330,42 @@ main .section-alertas {
     border-bottom: 3px solid rgb(64, 64, 238);
 }
 
+/* Icons for alert tabs */
+.cabecalho_one .icon {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+.icon-red { background: #d9534f; }
+.icon-yellow { background: #f0ad4e; }
+
+.cabecalho_one li button {
+    background: none;
+    border: none;
+    font-weight: 600;
+    color: #111827;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+}
+
+.cabecalho_one li.active-tab button {
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--primary-color);
+}
+
+/* aumentar um pouco as fontes para melhor leitura */
+.cabecalho_one li button {
+    font-size: 16px;
+}
+
+/* Aumenta fonte das linhas da tabela de alertas */
+.tabela-alertas .dados_linha p {
+    font-size: 15px;
+}
+
 /* ===================== */
 /* TABELA ALERTAS */
 /* ===================== */

@@ -310,6 +310,44 @@ main header .kpi_maior{
   height: 50px;
 }
 
+/* Filter icon and popover */
+.filter-icon{
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--primary-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 8px;
+}
+
+.filter-icon:focus{ outline: 2px solid rgba(68,135,222,0.25); border-radius:6px; }
+
+.filter-popover{
+    position: absolute;
+    z-index: 1200;
+    background: var(--white-color);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    padding: 12px;
+    min-width: 260px;
+}
+
+.filter-popover .input_modal{ width: 100%; margin-bottom: 8px; }
+.filter-popover label{ display:block; font-size:14px; margin-bottom:6px; color:var(--text-dark-fade); }
+.filter-popover .input_modal{ height:38px; padding:8px; border-radius:6px; }
+.filter-popover .filter-actions{ display:flex; gap:8px; justify-content:flex-end; margin-top:6px; }
+.filter-popover .btn-primary{ background:var(--primary-color); color:white; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; }
+.filter-popover .btn-secondary{ background:#f1f1f1; color:var(--text-dark); border:none; padding:8px 12px; border-radius:8px; cursor:pointer; }
+.filter-popover .btn-primary:hover{ filter:brightness(0.95); }
+.filter-popover .btn-secondary:hover{ filter:brightness(0.98); }
+
+/* small badge when filters active */
+.filter-icon .filter-badge{ position: absolute; top: -3px; right: -3px; width:10px; height:10px; background:#ff4d4f; border-radius:50%; display:none; }
+.filter-icon.active .filter-badge{ display:block; }
+
 .div_cursos_progress_bar {
   width: 100%;
   display: flex;
@@ -421,7 +459,6 @@ main header .kpi_maior{
     color: var(--white-color);
     padding: calc(var(--padding)*0.5);
     cursor: pointer;
-    width: 15%;
     height: 100%;
     display: flex;
     align-items: center;
@@ -506,15 +543,13 @@ main header .kpi_maior{
 
   .corpo_tabela{
     width: 100%;
-    height: 100%;
     overflow-y: scroll;
   }
 
-  .corpo_tabela tr{
-    width: 100%;
-    height: 15px;
-    text-align: center;
-  }
+    .corpo_tabela tr{
+        width: 100%;
+        text-align: center;
+    }
 
 /* Remove a borda do thead */
 .tabela thead {
@@ -538,8 +573,8 @@ main header .kpi_maior{
 
 
 .tabela td {
-  padding: 15px 10px; /* 15px em cima/baixo, 10px nos lados */
-  text-align: center;
+    padding: 8px 10px; /* reduzido: menos espaço vertical entre linhas */
+    text-align: center;
 }
 
 .p_status_liberado {

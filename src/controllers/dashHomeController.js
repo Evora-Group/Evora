@@ -1,60 +1,95 @@
+const dashModel = require("../models/dashHomeModel");
 
-const dashHomeModel = require("../models/dashHomeModel");
-
-
-// kpis
-function dadosHome(req, res) {
-    
-    const idInstituicao = req.params.idInstituicao;
-
-    dashHomeModel.dadosHome(idInstituicao)
-        .then(function (resultado){
-            res.json(resultado);
-        })
-        .catch(function (erro){
-            console.log("\nHouve um erro ao buscar KPIs da home! Erro:", erro.sqlMessage);
-            res.status(500).json(erro.sqlMessage)
-        })
-
+function totalAlunos(req, res) {
+    const id = req.params.idInstituicao;
+    dashModel.totalAlunos(id)
+        .then(resultado => res.json(resultado[0]))
+        .catch(erro => res.status(500).json(erro));
 }
 
-// grafico 1
-function top5Evasao(req, res){
-
-     const idInstituicao = req.params.idInstituicao;
-
-     dashHomeModel.top5Evasao(idInstituicao)
-     .then(function (resultado){
-        res.json(resultado);
-     })
-     .catch(function (erro){
-        console.log("\nHouve um erro ao buscar Top 5 cursos com evasão! Erro:", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-     })
+function alunosAbaixoMedia(req, res) {
+    const id = req.params.idInstituicao;
+    dashModel.alunosAbaixoMedia(id)
+        .then(resultado => res.json(resultado[0]))
+        .catch(erro => res.status(500).json(erro));
 }
 
-// grafico 2
+function taxaAbandono(req, res) {
+    const id = req.params.idInstituicao;
+    dashModel.taxaAbandono(id)
+        .then(resultado => res.json(resultado[0]))
+        .catch(erro => res.status(500).json(erro));
+}
+
+function novasMatriculas(req, res) {
+    const id = req.params.idInstituicao;
+    dashModel.novasMatriculas(id)
+        .then(resultado => res.json(resultado[0]))
+        .catch(erro => res.status(500).json(erro));
+}
+
+//=============================================//
+//==========Gráficos==========================//
+
+function top5Evasao(req, res) {
+    const id = req.params.idInstituicao;
+    dashModel.top5Evasao(id)
+        .then(resultado => res.json(resultado))
+        .catch(erro => res.status(500).json(erro));
+}
+
 function taxaAprovacao(req, res) {
+    const id = req.params.idInstituicao;
+    dashModel.taxaAprovacao(id)
+        .then(resultado => res.json(resultado[0]))
+        .catch(erro => res.status(500).json(erro));
+}
 
-    const idInstituicao = req.params.idInstituicao;
 
-    dashHomeModel.taxaAprovacao(idInstituicao)
-        .then(function (resultado) {
-            res.json(resultado);
+// Comparativo do total de alunos (para a setinha)
+function comparativoTotalAlunos(req, res) {
+    const id = req.params.idInstituicao;
+
+    dashModel.comparativoTotalAlunos(id)
+        .then(resultado => {
+            const atual    = resultado[0].alunos_mes_atual || 0;
+            const anterior = resultado[0].alunos_mes_anterior || 0;
+
+            let variacao = 0;
+            let direcao  = "equal";
+
+            // Só calcula se tinha alunos no mês anterior
+            if (anterior > 0) {
+                variacao = ((atual - anterior) / anterior) * 100;
+                
+                if (variacao > 0) {
+                    direcao = "up";     // cresceu
+                } else if (variacao < 0) {
+                    direcao = "down";   // diminuiu
+                } else {
+                    direcao = "equal";  // ficou igual
+                }
+            }
+            // Se anterior == 0 → não calcula nada → fica 0% (melhor opção)
+
+            res.json({
+                totalAtual: atual,
+                variacao:   Number(variacao.toFixed(2)),  // ex: 8.45 ou -3.20
+                direcao:    direcao                       // "up", "down" ou "equal"
+            });
         })
-        .catch(function (erro) {
-            console.log("\nHouve um erro ao buscar taxa de aprovação! Erro:", erro.sqlMessage);
-            res.status(500).json(erro.sqlMessage);
+        .catch(erro => {
+            console.error("Erro no comparativo total alunos:", erro);
+            res.status(500).json({ erro: "Erro ao calcular variação" });
         });
-
-};
-
-
+}
 
 module.exports = {
-    dadosHome,
+    totalAlunos,
+    alunosAbaixoMedia,
+    taxaAbandono,
+    novasMatriculas,
     top5Evasao,
     taxaAprovacao,
+    comparativoTotalAlunos
 };
-
-    

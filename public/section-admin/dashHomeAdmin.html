@@ -73,7 +73,7 @@
                                 <p class="p_titulo_kpi">Total Alunos</p>
                                 <span class="indicativos-desc">
                                     <i id="seta" class="fi fi-sr-arrow-up-right"></i>
-                                    <p id="indicativo-total-semana">+0,49% <span>Esta Semana</span></p>
+                                    <p id="indicativo-total-semana">+0,49% <span>Esse mês</span></p>
                                 </span>
                             </div>
                         </div>
@@ -134,31 +134,31 @@
 
                         <ul class="bar-chart">
                             <li>
-                                <span class="label">Pedagogia</span>
+                                <span class="label"></span>
                                 <div class="bar-wrapper">
                                     <div class="bar" style="width: 90%;"></div>
                                 </div>
                             </li>
                             <li>
-                                <span class="label">Biologia</span>
+                                <span class="label"></span>
                                 <div class="bar-wrapper">
                                     <div class="bar" style="width: 70%;"></div>
                                 </div>
                             </li>
                             <li>
-                                <span class="label">Química</span>
+                                <span class="label"></span>
                                 <div class="bar-wrapper">
                                     <div class="bar" style="width: 55%;"></div>
                                 </div>
                             </li>
                             <li>
-                                <span class="label">Direito</span>
+                                <span class="label"></span>
                                 <div class="bar-wrapper">
                                     <div class="bar" style="width: 25%;"></div>
                                 </div>
                             </li>
                             <li>
-                                <span class="label">T.I</span>
+                                <span class="label"></span>
                                 <div class="bar-wrapper">
                                     <div class="bar" style="width: 15%;"></div>
                                 </div>
@@ -190,3 +190,134 @@
 </body>
 
 </html>
+<script>
+
+    const idInstituicao = sessionStorage.getItem("fkInstituicao");
+    const nomeUsuario   = sessionStorage.getItem("nomeUsuario")
+
+    if (!idInstituicao) {
+        alert("Erro: Instituição não encontrada. Faça login novamente.");
+        window.location.href = "../login.html";
+    }
+
+    document.getElementById("nome-usuario").innerText = nomeUsuario;
+
+    // === KPIs ===
+    function totalAlunos() {
+        fetch(`/dash/totalAlunos/${idInstituicao}`)
+            .then(res => res.json())
+            .then(data => {
+                // Agora data já é o objeto direto (resultado[0])
+                document.getElementById("indicativo-total").innerHTML = data.TotalAlunos || 0;
+            })
+            .catch(err => {
+                console.error("Erro total alunos:", err);
+                document.getElementById("indicativo-total").innerHTML = "Erro";
+            });
+    }
+
+    function abaixoMedia() {
+        fetch(`/dash/alunosAbaixoMedia/${idInstituicao}`)
+            .then(res => res.json())
+            .then(data => {
+                const valor = Number(data.percentual_media_baixa).toFixed(1);
+                document.getElementById("indicativo-abaixo-media").innerHTML = valor + "%";
+            })
+            .catch(err => {
+                console.error("Erro abaixo da média:", err);
+                document.getElementById("indicativo-abaixo-media").innerHTML = "Erro";
+            });
+    }
+
+    function taxaAbandono() {
+        fetch(`/dash/taxaAbandono/${idInstituicao}`)
+            .then(res => res.json())
+            .then(data => {
+                const valor = Number(data.percentual_taxa_abandono).toFixed(1);
+                document.getElementById("indicativo-abandono").innerHTML = valor + "%";
+            })
+            .catch(err => {
+                console.error("Erro taxa abandono:", err);
+                document.getElementById("indicativo-abandono").innerHTML = "Erro";
+            });
+    }
+
+    function novasMatriculas() {
+        fetch(`/dash/novasMatriculas/${idInstituicao}`)
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("indicativo-matricula").innerHTML = data.novas_matriculas || 0;
+            })
+            .catch(err => {
+                console.error("Erro novas matrículas:", err);
+                document.getElementById("indicativo-matricula").innerHTML = "Erro";
+            });
+    }
+
+    // === Gráfico Top 5 Evasão ===
+    function graficoTop5Evasao() {
+        const lista = document.querySelector(".bar-chart");
+
+        fetch(`/dash/top5Evasao/${idInstituicao}`)
+            .then(res => {
+                if (!res.ok) throw new Error("Erro HTTP " + res.status);
+                return res.json();
+            })
+            .then(data => {
+                lista.innerHTML = ""; // limpa o conteúdo estático
+
+                if (!data || data.length === 0) {
+                    lista.innerHTML = '<li><span>Nenhum dado disponível</span></li>';
+                    return;
+                }
+
+                data.forEach(item => {
+                    const percentual = Number(item.percentual).toFixed(1);
+                    const nome = item.nomeCurso || "Sem nome";
+
+                    lista.innerHTML += `
+                        <li>
+                            <span class="label">${nome}</span>
+                            <div class="bar-wrapper">
+                                <div class="bar" style="width: ${percentual}%;"></div>
+                                <span class="bar-value">${percentual}%</span>
+                            </div>
+                        </li>
+                    `;
+                });
+            })
+            .catch(err => {
+                console.error("Erro no Top 5 Evasão:", err);
+                lista.innerHTML = '<li><span>Erro ao carregar</span></li>';
+            });
+    }
+
+    // === Gráfico Donut - Taxa de Aprovação ===
+    function graficoTaxaAprovacao() {
+        fetch(`/dash/taxaAprovacao/${idInstituicao}`)
+            .then(res => res.json())
+            .then(data => {
+                const valor = Number(data.percentualAprovacao).toFixed(1);
+                
+                const donut = document.querySelector(".donut-chart");
+                const texto = donut.querySelector(".donut-center-text strong");
+
+                texto.innerHTML = `${valor}%`;
+                donut.style.setProperty("--value", valor);
+            })
+            .catch(err => {
+                console.error("Erro taxa aprovação:", err);
+                document.querySelector(".donut-center-text strong").innerHTML = "Erro";
+            });
+    }
+
+    // === Executa tudo ao carregar a página ===
+    window.onload = function () {
+        graficoTop5Evasao();
+        graficoTaxaAprovacao();
+        totalAlunos();
+        abaixoMedia();
+        taxaAbandono();
+        novasMatriculas();
+    };
+</script>

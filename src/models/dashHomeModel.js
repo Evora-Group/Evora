@@ -85,7 +85,7 @@ function top5Evasao(fkInstituicao) {
         LEFT JOIN avaliacao a ON a.fkMatricula = m.id_matricula
         LEFT JOIN (
             SELECT fkMatricula, 
-                   SUM(presenca) AS total_presencas, 
+                   SUM(presente) AS total_presencas, 
                    COUNT(*) AS total_aulas
             FROM frequencia
             GROUP BY fkMatricula
@@ -120,6 +120,27 @@ function taxaAprovacao(fkInstituicao) {
 }
 
 
+function comparativoTotalAlunos(fkInstituicao) {
+    const sql = `
+        SELECT 
+            -- Hoje: todos com ativo = 1
+            (SELECT COUNT(*) FROM matricula m 
+             JOIN turma t ON m.fkTurma = t.id_turma 
+             JOIN curso c ON t.fkCurso = c.id_curso 
+             WHERE c.fkInstituicao = ? AND m.ativo = 1) AS alunos_mes_atual,
+
+            --,  -- Mês passado: todos que estavam ativos ANTES do dia 1 deste mês
+            (SELECT COUNT(*) FROM matricula m 
+             JOIN turma t ON m.fkTurma = t.id_turma 
+             JOIN curso c ON t.fkCurso = c.id_curso 
+             WHERE c.fkInstituicao = ? 
+               AND m.ativo = 1
+               AND (m.data_atualizacao_status < DATE_FORMAT(CURDATE(), '%Y-%m-01') 
+                 OR m.data_atualizacao_status IS NULL)) AS alunos_mes_anterior;
+    `;
+    return database.executar(sql, [fkInstituicao, fkInstituicao]);
+}
+
 
 module.exports = {
     totalAlunos,
@@ -127,7 +148,9 @@ module.exports = {
     taxaAbandono,
     novasMatriculas,
     top5Evasao,
-    taxaAprovacao
+    taxaAprovacao,
+    comparativoTotalAlunos
+    
 }
 
 

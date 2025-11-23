@@ -23,8 +23,17 @@ function cadastrar(nome, email, senha, cargo, instituicao) {
 // Para LOGIN (comparar senhas)
 function logar(email, senha) {
     var instrucaoSql = `
-        SELECT id_usuario, nome, email, senha_hash, cargo, fkInstituicao 
-        FROM Usuario WHERE email = ?;
+       SELECT 
+        u.id_usuario,
+        u.nome,
+        u.email,
+        u.senha_hash,
+        u.cargo,
+        u.fkInstituicao,
+        i.nome AS nomeInstituicao
+    FROM Usuario u
+    JOIN Instituicao i ON i.id_instituicao = u.fkInstituicao
+    WHERE u.email = ?;
     `;
     
     return database.executar(instrucaoSql, [email])

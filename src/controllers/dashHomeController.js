@@ -46,43 +46,121 @@ function taxaAprovacao(req, res) {
 }
 
 
-// Comparativo do total de alunos (para a setinha)
 function comparativoTotalAlunos(req, res) {
     const id = req.params.idInstituicao;
 
     dashModel.comparativoTotalAlunos(id)
         .then(resultado => {
-            const atual    = resultado[0].alunos_mes_atual || 0;
-            const anterior = resultado[0].alunos_mes_anterior || 0;
+            const atualNum = parseFloat(resultado[0].atual || 0);
+            const anteriorNum = parseFloat(resultado[0].anterior || 0);
 
             let variacao = 0;
-            let direcao  = "equal";
+            let direcao = "equal";
 
-            // Só calcula se tinha alunos no mês anterior
-            if (anterior > 0) {
-                variacao = ((atual - anterior) / anterior) * 100;
-                
-                if (variacao > 0) {
-                    direcao = "up";     // cresceu
-                } else if (variacao < 0) {
-                    direcao = "down";   // diminuiu
-                } else {
-                    direcao = "equal";  // ficou igual
-                }
+            if (anteriorNum > 0) {
+                variacao = ((atualNum - anteriorNum) / anteriorNum) * 100;
+                direcao = variacao > 0 ? "up" : variacao < 0 ? "down" : "equal";
             }
-            // Se anterior == 0 → não calcula nada → fica 0% (melhor opção)
 
             res.json({
-                totalAtual: atual,
-                variacao:   Number(variacao.toFixed(2)),  // ex: 8.45 ou -3.20
-                direcao:    direcao                       // "up", "down" ou "equal"
+                atual: atualNum,
+                variacao: Number(variacao.toFixed(1)),
+                direcao: direcao
             });
         })
         .catch(erro => {
-            console.error("Erro no comparativo total alunos:", erro);
-            res.status(500).json({ erro: "Erro ao calcular variação" });
+            console.error("Erro comparativo total alunos:", erro);
+            res.status(500).json({ erro: "Erro ao calcular comparativo" });
         });
 }
+
+
+function comparativoAbaixoMedia(req, res) {
+    const id = req.params.idInstituicao;
+
+    dashModel.comparativoAbaixoMedia(id)
+        .then(resultado => {
+            const atualNum = parseFloat(resultado[0].atual || 0);
+            const anteriorNum = parseFloat(resultado[0].anterior || 0);
+
+            let variacao = 0;
+            let direcao = "equal";
+
+            if (anteriorNum > 0) {
+                variacao = ((atualNum - anteriorNum) / anteriorNum) * 100;
+                direcao = variacao > 0 ? "up" : variacao < 0 ? "down" : "equal";
+            }
+
+            res.json({
+                atual: Number(atualNum.toFixed(1)),
+                variacao: Number(variacao.toFixed(1)),
+                direcao: direcao
+            });
+        })
+        .catch(erro => {
+            console.error("Erro comparativo alunos abaixo da média:", erro);
+            res.status(500).json({ erro: "Erro ao calcular comparativo" });
+        });
+}
+
+
+function comparativoAbandono(req, res) {
+    const id = req.params.idInstituicao;
+
+    dashModel.comparativoTaxaAbandono(id)
+        .then(resultado => {
+            const atualNum = parseFloat(resultado[0].atual || 0);
+            const anteriorNum = parseFloat(resultado[0].anterior || 0);
+
+            let variacao = 0;
+            let direcao = "equal";
+
+            if (anteriorNum > 0) {
+                variacao = ((atualNum - anteriorNum) / anteriorNum) * 100;
+                direcao = variacao > 0 ? "up" : variacao < 0 ? "down" : "equal";
+            }
+
+            res.json({
+                atual: Number(atualNum.toFixed(1)),
+                variacao: Number(variacao.toFixed(1)),
+                direcao: direcao
+            });
+        })
+        .catch(erro => {
+            console.error("Erro comparativo taxa de abandono:", erro);
+            res.status(500).json({ erro: "Erro ao calcular comparativo" });
+        });
+}
+
+
+function comparativoNovasMatriculas(req, res) {
+    const id = req.params.idInstituicao;
+
+    dashModel.comparativoNovasMatriculas(id)
+        .then(resultado => {
+            const atualNum = parseFloat(resultado[0].atual || 0);
+            const anteriorNum = parseFloat(resultado[0].anterior || 0);
+
+            let variacao = 0;
+            let direcao = "equal";
+
+            if (anteriorNum > 0) {
+                variacao = ((atualNum - anteriorNum) / anteriorNum) * 100;
+                direcao = variacao > 0 ? "up" : variacao < 0 ? "down" : "equal";
+            }
+
+            res.json({
+                atual: atualNum,
+                variacao: Number(variacao.toFixed(1)),
+                direcao: direcao
+            });
+        })
+        .catch(erro => {
+            console.error("Erro comparativo novas matrículas:", erro);
+            res.status(500).json({ erro: "Erro ao calcular comparativo" });
+        });
+}
+
 
 module.exports = {
     totalAlunos,
@@ -91,5 +169,8 @@ module.exports = {
     novasMatriculas,
     top5Evasao,
     taxaAprovacao,
-    comparativoTotalAlunos
+    comparativoTotalAlunos,
+    comparativoAbaixoMedia,
+    comparativoAbandono,
+    comparativoNovasMatriculas
 };

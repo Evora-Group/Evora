@@ -39,11 +39,32 @@ router.get("/taxaAprovacao/:idInstituicao", function (req, res) {
     dashHomeController.taxaAprovacao(req, res);
 });
 
-// Comparativo do total de alunos (setinha verde/vermelha)
-router.get("/comparativoTotalAlunos/:idInstituicao", function (req, res) {
+// // Comparativo do total de alunos (setinha verde/vermelha)
+// router.get("/comparativoTotalAlunos/:idInstituicao", function (req, res) {
+//     console.log("ID Instituição (comparativo):", req.params.idInstituicao);
+//     dashHomeController.comparativoTotalAlunos(req, res);
+// });
+
+
+router.get("/comparativoAbaixoMedia/:idInstituicao", function (req, res) {
     console.log("ID Instituição (comparativo):", req.params.idInstituicao);
-    dashHomeController.comparativoTotalAlunos(req, res);
+    dashHomeController.comparativoAbaixoMedia(req, res);
 });
 
+router.get("/comparativoAbandono/:idInstituicao", function (req, res) {
+    console.log("ID Instituição (comparativo):", req.params.idInstituicao);
+    dashHomeController.comparativoAbandono(req, res);
+});
+
+// Comparativo novas matrículas
+router.get("/comparativoNovasMatriculas/:idInstituicao", function (req, res) {
+    console.log("ID Instituição (comparativo novas matrículas):", req.params.idInstituicao);
+    dashHomeController.comparativoNovasMatriculas(req, res);
+});
+
+router.get("/comparativoTotalAlunos/:idInstituicao", function (req, res) {
+    console.log("ID Instituição (comparativo total alunos):", req.params.idInstituicao);
+    dashHomeController.comparativoTotalAlunos(req, res);
+});
 
 module.exports = router;

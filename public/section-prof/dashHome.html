@@ -60,7 +60,7 @@
                                 <h1 id="indicativo-total"></h1>
                                 <p class="p_titulo_kpi">Total Alunos</p>
                                 <span class="indicativos-desc">
-                                    <i id="seta" class="fi fi-sr-arrow-up-right"></i>
+                                    <i id="seta" class="fi fi-sr-minus"></i>
                                     <p id="indicativo-total-semana">+0,49% <span>Esse mês</span></p>
                                 </span>
                             </div>
@@ -74,10 +74,10 @@
                             </div>
                             <div class="div_titulo_kpi" id="div_situacao_2">
                                 <h1 id="indicativo-abaixo-media"></h1>
-                                <p class="p_titulo_kpi">Alunos Abaixo da Média</p>
+                                <p class="p_titulo_kpi">Alunos Abaixo da Média no Semestre</p>
                                 <span class="indicativos-desc">
-                                    <i id="seta-abaixo" class="fi fi-sr-arrow-down-left"></i>
-                                    <p id="indicativo-abaixo-semana"> +0,49% <span>Esta Semana</span></p>
+                                    <i id="seta-abaixo" class="fi fi-sr-minus"></i>
+                                    <p id="indicativo-abaixo-semana"> +0,49% <span>Este semestre</span></p>
                                 </span>
                             </div>
                         </div>
@@ -90,10 +90,10 @@
                             </div>
                             <div class="div_titulo_kpi" id="div_situacao_3">
                                 <h1 id="indicativo-abandono"></h1>
-                                <p class="p_titulo_kpi">Taxa de Abandono</p>
+                                <p class="p_titulo_kpi">Taxa de Abandono no Semestre</p>
                                 <span class="indicativos-desc">
-                                    <i id="seta-abaixo" class="fi fi-sr-arrow-down-left"></i>
-                                    <p id="indicativo-abandono-semana">+0,91% <span>Esta Semana</span></p>
+                                    <i id="seta-abandono" class="fi fi-sr-minus"></i>
+                                    <p id="indicativo-abandono-semana">+0,91% <span>Este semestre</span></p>
                                 </span>
                             </div>
                         </div>
@@ -106,10 +106,10 @@
                             </div>
                             <div class="div_titulo_kpi" id="div_situacao_4">
                                 <h1 id="indicativo-matricula"></h1>
-                                <p class="p_titulo_kpi">Novas Mátriculas</p>
+                                <p class="p_titulo_kpi">Novas Mátriculas no Semestre</p>
                                 <span class="indicativos-desc">
-                                    <i id="seta" class="fi fi-sr-arrow-up-right"></i>
-                                    <p id="indicativo-matricula-semana">+1,51% <span>Esta Semana</span></p>
+                                    <i id="seta-matriculas" class="fi fi-sr-minus"></i>
+                                    <p id="indicativo-matricula-semana">+1,51% <span>Este semestre</span></p>
                                 </span>
                             </div>
                         </div>
@@ -301,42 +301,142 @@
     }
 
 
-    //  setinha com variação mês a mês
     function atualizarVariacaoTotalAlunos() {
-        fetch(`/dash/comparativoTotalAlunos/${idInstituicao}`)
-            .then(res => res.json())
-            .then(data => {
-                const texto = document.getElementById("indicativo-total-semana");
-                const seta  = document.getElementById("seta");
+    fetch(`/dash/comparativoTotalAlunos/${idInstituicao}`)
+        .then(res => res.json())
+        .then(data => {
+            const texto = document.getElementById("indicativo-total-semana");
+            const seta  = document.getElementById("seta");
 
-                const variacao = data.variacao;
+            const atual = data.atual || 0;
 
-                if (data.direcao === "up") {
-                    seta.className = "fi fi-sr-arrow-up-right";
-                    seta.style.color = "#10b981";
-                    texto.style.color = "#10b981";
-                    texto.innerHTML = `+${variacao.toFixed(1)}% <span>Esse mês</span>`;
-                }
-                else if (data.direcao === "down") {
-                    seta.className = "fi fi-sr-arrow-down-left";
-                    seta.style.color = "#ef4444";
-                    texto.style.color = "#ef4444";
-                    texto.innerHTML = `${variacao.toFixed(1)}% <span>Esse mês</span>`;
-                }
-                else {
-                    seta.className = "fi fi-sr-minus";
-                    seta.style.color = "#888";
-                    texto.style.color = "#888";
-                    texto.innerHTML = `0% <span>Esse mês</span>`;
-                }
-            })
-            .catch(err => {
-                console.error("Erro na variação:", err);
-                document.getElementById("indicativo-total-semana").innerHTML = "Erro";
-            });
-    }
+            // Atualiza o valor principal do KPI
+            document.getElementById("indicativo-total").innerText = atual;
 
-    // Executa ao carregar a página
+            if (data.direcao === "up") {
+                seta.className = "fi fi-sr-arrow-up-right";
+                seta.style.color = "#10b981"; // verde
+                texto.style.color = "#10b981";
+                texto.innerHTML = `+${data.variacao}% <span>Este mês</span>`;
+            } else if (data.direcao === "down") {
+                seta.className = "fi fi-sr-arrow-down-left";
+                seta.style.color = "#ef4444"; // vermelho
+                texto.style.color = "#ef4444";
+                texto.innerHTML = `${data.variacao}% <span>Este mês</span>`;
+            } else {
+                seta.className = "fi fi-sr-minus";
+                seta.style.color = "#888";
+                texto.style.color = "#888";
+                texto.innerHTML = `0% <span>Este mês</span>`;
+            }
+        })
+        .catch(err => {
+            console.error("Erro comparativo total alunos:", err);
+            document.getElementById("indicativo-total-semana").innerHTML = "Erro";
+        });
+}
+
+
+    function atualizarVariacaoAbaixoMedia() {
+    fetch(`/dash/comparativoAbaixoMedia/${idInstituicao}`)
+        .then(res => res.json())
+        .then(data => {
+            const texto = document.getElementById("indicativo-abaixo-semana");
+            const seta  = document.getElementById("seta-abaixo");
+
+            if (data.direcao === "up") {
+                seta.className = "fi fi-sr-arrow-up-right";
+                seta.style.color = "#ef4444"; // vermelho = aumento de alunos abaixo da média
+                texto.style.color = "#ef4444";
+                texto.innerHTML = `+${data.variacao}% <span>Este semestre</span>`;
+            } 
+            else if (data.direcao === "down") {
+                seta.className = "fi fi-sr-arrow-down-left";
+                seta.style.color = "#10b981"; // verde = diminuiu
+                texto.style.color = "#10b981";
+                texto.innerHTML = `${data.variacao}% <span>Este semestre</span>`;
+            } 
+            else {
+                seta.className = "fi fi-sr-minus";
+                seta.style.color = "#888";
+                texto.style.color = "#888";
+                texto.innerHTML = `0% <span>Este semestre</span>`;
+            }
+        })
+        .catch(err => {
+            console.error("Erro comparativo abaixo da média:", err);
+            document.getElementById("indicativo-abaixo-semana").innerHTML = "Erro";
+        });
+}
+
+function atualizarVariacaoAbandono() {
+    fetch(`/dash/comparativoAbandono/${idInstituicao}`)
+        .then(res => res.json())
+        .then(data => {
+            const texto = document.getElementById("indicativo-abandono-semana");
+            const seta  = document.getElementById("seta-abandono");
+            const valorAtual = document.getElementById("indicativo-abandono");
+
+            // Atualiza o valor principal (sem apagar nada)
+            valorAtual.textContent = `${data.atual}%`;
+
+            if (data.direcao === "up") {
+                seta.className = "fi fi-sr-arrow-up-right";
+                seta.style.color = "#ef4444";
+                texto.style.color = "#ef4444";
+                texto.innerHTML = `+${data.variacao}% <span>Este semestre</span>`;
+            } else if (data.direcao === "down") {
+                seta.className = "fi fi-sr-arrow-down-left";
+                seta.style.color = "#10b981";
+                texto.style.color = "#10b981";
+                texto.innerHTML = `${data.variacao}% <span>Este semestre</span>`;
+            } else {
+                seta.className = "fi fi-sr-minus";
+                seta.style.color = "#888";
+                texto.style.color = "#888";
+                texto.innerHTML = `0% <span>Este semestre</span>`;
+            }
+        })
+        .catch(err => {
+            console.error("Erro comparativo taxa de abandono:", err);
+        });
+}
+
+
+function atualizarVariacaoNovasMatriculas() {
+    fetch(`/dash/comparativoNovasMatriculas/${idInstituicao}`)
+        .then(res => res.json())
+        .then(data => {
+            const texto = document.getElementById("indicativo-matricula-semana");
+            const seta  = document.getElementById("seta-matriculas");
+            const valorAtual = document.getElementById("indicativo-matricula");
+
+            valorAtual.textContent = data.atual;
+
+            if (data.direcao === "up") {
+                seta.className = "fi fi-sr-arrow-up-right";
+                seta.style.color = "#10b981";
+                texto.style.color = "#10b981";
+                texto.innerHTML = `+${data.variacao}% <span>Este semestre</span>`;
+            } else if (data.direcao === "down") {
+                seta.className = "fi fi-sr-arrow-down-left";
+                seta.style.color = "#ef4444";
+                texto.style.color = "#ef4444";
+                texto.innerHTML = `${data.variacao}% <span>Este semestre</span>`;
+            } else {
+                seta.className = "fi fi-sr-minus";
+                seta.style.color = "#888";
+                texto.style.color = "#888";
+                texto.innerHTML = `0% <span>Este semestre</span>`;
+            }
+        })
+        .catch(err => {
+            console.error("Erro comparativo novas matrículas:", err);
+            document.getElementById("indicativo-matricula-semana").innerHTML = "Erro";
+        });
+}
+
+  
     window.onload = function () {
         graficoTop5Evasao();
         graficoTaxaAprovacao();
@@ -345,5 +445,8 @@
         taxaAbandono();
         novasMatriculas();
         atualizarVariacaoTotalAlunos();
+        atualizarVariacaoAbaixoMedia();
+        atualizarVariacaoAbandono();
+        atualizarVariacaoNovasMatriculas();
     };
 </script>

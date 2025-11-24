@@ -91,6 +91,7 @@ function listarAlunosInstituicao(req, res) {
 
 }
 
+
 function listarCursosInstituicao(req, res) {
 
     const idInstituicao = req.params.idInstituicao;

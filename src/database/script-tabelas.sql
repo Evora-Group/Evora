@@ -1,5 +1,3 @@
--- 1. Criação do Banco de Dados
-DROP DATABASE evora;
 CREATE DATABASE evora;
 USE evora;
 
@@ -108,18 +106,17 @@ CREATE TABLE matricula (
         REFERENCES turma(id_turma)
 );
 
--- 11. Tabela Frequência
-CREATE TABLE frequencia (
-    id_frequencia INT AUTO_INCREMENT PRIMARY KEY,
-    fkMatricula INT NOT NULL,
-    fkDisciplina INT NOT NULL,
-    data_aula DATE NOT NULL,
-    presente TINYINT,
-    justificativa VARCHAR(255),
-    CONSTRAINT fk_frequencia_matricula FOREIGN KEY (fkMatricula) 
-        REFERENCES matricula(id_matricula),
-    CONSTRAINT fk_frequencia_disciplina FOREIGN KEY (fkDisciplina) 
-        REFERENCES disciplina(id_disciplina)
+CREATE TABLE Matricula (
+    idMatricula INT NOT NULL,
+    fkRA INT NOT NULL,
+    Aluno_fkInstituicao INT NOT NULL,
+    Curso_fkCurso INT NOT NULL,
+    Curso_fkInstituicao INT NOT NULL,
+    PRIMARY KEY (idMatricula, fkRA, Aluno_fkInstituicao, Curso_fkCurso, Curso_fkInstituicao),
+    FOREIGN KEY (fkRA, Aluno_fkInstituicao)
+        REFERENCES Aluno (RA, fkInstituicao),
+    FOREIGN KEY (Curso_fkCurso, Curso_fkInstituicao)
+        REFERENCES Curso (idCurso, fkInstituicao)
 );
 
 -- 12. Tabela Avaliação

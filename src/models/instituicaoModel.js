@@ -147,6 +147,7 @@ function listarCursosInstituicao(idInstituicao) {
     return database.executar(instrucaoSql, [idInstituicao]);
 }
 
+
 function listarTurmasInstituicao(idInstituicao) {
     console.log("ACESSANDO MODEL INSTITUIÇÃO: Listando turmas da instituição...");
 

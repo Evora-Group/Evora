@@ -147,10 +147,12 @@
         console.log("Usuário autenticado:", dados);
 
         sessionStorage.setItem("usuario", JSON.stringify(dados));
-        sessionStorage.setItem("idUsuario", dados.idUsuario);
+        sessionStorage.setItem("idUsuario",  dados.id_usuario);
         sessionStorage.setItem("nomeUsuario", dados.nome);
         sessionStorage.setItem("cargoUsuario", dados.cargo);
         sessionStorage.setItem("fkInstituicao", dados.fkInstituicao);
+        sessionStorage.setItem("emailUsuario", dados.email);
+        sessionStorage.setItem("nomeInstituicao", dados.nomeInstituicao);
 
         alert(`Bem-vindo, ${dados.nome}!`);
         //window.location.href = "./section-prof/dashHome.html";

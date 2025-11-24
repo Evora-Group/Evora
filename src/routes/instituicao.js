@@ -19,4 +19,16 @@ router.get("/listarAlunosInstituicao/:idInstituicao", function (req, res) {
     instituicaoController.listarAlunosInstituicao(req, res)
 })
 
+router.get("/listarCursosInstituicao/:idInstituicao", function (req, res) {
+    instituicaoController.listarCursosInstituicao(req, res)
+})
+
+router.get("/listarTurmasInstituicao/:idInstituicao", function (req, res) {
+    instituicaoController.listarTurmasInstituicao(req, res)
+})
+
+router.get("/listarDisciplinas/:idInstituicao", function (req, res) {
+    instituicaoController.listarDisciplinas(req, res);
+});
+
 module.exports = router;

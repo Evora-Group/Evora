@@ -19,6 +19,9 @@ var userRouter = require("./src/routes/user")
 var alunoRouter = require("./src/routes/aluno")
 var instituicaoRouter = require("./src/routes/instituicao")
 var dashHomeRouter = require("./src/routes/dashHome");
+var dashConfigUserRouter = require("./src/routes/dashConfig");
+var usuarioRouter = require("./src/routes/usuarios")
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -30,6 +33,8 @@ app.use("/user", userRouter);
 app.use("/aluno", alunoRouter);
 app.use("/instituicao", instituicaoRouter);
 app.use("/dash", dashHomeRouter);
+app.use("/dashConfigUser", dashConfigUserRouter);
+app.use("/usuarios", usuarioRouter);
 
 
 app.listen(PORTA_APP, function () {

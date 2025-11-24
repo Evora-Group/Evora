@@ -2,10 +2,10 @@ var database = require("../database/config");
 
 function listarInstituicoes() {
     var instrucaoSql = `
-        SELECT nome FROM Instituicao ORDER BY nome DESC;
+        SELECT nome FROM instituicao ORDER BY nome DESC;
     `;
     console.log("Executando listagem de instituições");
-    return database.executar(instrucaoSql); 
+    return database.executar(instrucaoSql);
 }
 
 function buscarInstituicao(nome) {
@@ -17,127 +17,178 @@ function buscarInstituicao(nome) {
 }
 
 function listarUsuariosInstituicao(idInstituicao) {
-//     var instrucaoSql = `SELECT 
-//     U.*, 
-//     I.nome AS nome_instituicao 
-// FROM Usuario U
-// INNER JOIN Instituicao I ON U.fkInstituicao = I.idInstituicao
-// WHERE U.fkInstituicao = ?;
-//     `;
-
-    // var instrucaoSql = `SELECT * FROM Usuario WHERE fkInstituicao = ?;`;
-
-    var instrucaoSql = `SELECT 
-    u.idUsuario as id,
-    u.nome,
-    u.email,
-    'Professor' as tipo,
-    'N/A' as turma_curso,
-    'N/A' as modalidade,
-    i.nome as instituicao
-FROM Usuario u
-INNER JOIN Instituicao i ON u.fkInstituicao = i.idInstituicao
-WHERE u.fkInstituicao = ? AND u.cargo = 'Professor'
+    var instrucaoSql = `SELECT
+    U.id_usuario AS id,
+    U.nome,
+    U.email,
+    'Professor' AS tipo,
+    -- Concatena todas as turmas que o professor está associado
+    (
+        SELECT GROUP_CONCAT(DISTINCT T.nome_sigla SEPARATOR ', ')
+        FROM usuario_turma UT
+        JOIN turma T ON UT.fkTurma = T.id_turma
+        WHERE UT.fkUsuario = U.id_usuario
+    ) AS turma,
+    -- Concatena todos os cursos associados a essas turmas
+    (
+        SELECT GROUP_CONCAT(DISTINCT C.nome SEPARATOR ', ')
+        FROM usuario_turma UT
+        JOIN turma T ON UT.fkTurma = T.id_turma
+        JOIN curso C ON T.fkCurso = C.id_curso
+        WHERE UT.fkUsuario = U.id_usuario
+    ) AS curso,
+    I.nome AS instituicao,
+    CASE
+        WHEN U.ativo = 1 THEN 'liberado'
+        ELSE 'bloqueado'
+    END AS situacao
+FROM
+    usuario U
+JOIN instituicao I ON U.fkInstituicao = I.id_instituicao
+WHERE
+    I.id_instituicao = ?
+    AND U.cargo = 'Professor' 
 
 UNION ALL
 
-SELECT 
-    a.RA as id,
-    a.nome,
-    a.email,
-    'Aluno' as tipo,
-    CONCAT(c.descricao, ' (', c.modalidade, ')') as turma_curso,
-    c.modalidade,
-    i.nome as instituicao
-FROM Aluno a
-INNER JOIN Instituicao i ON a.fkInstituicao = i.idInstituicao
-INNER JOIN Matricula m ON a.RA = m.fkRA AND a.fkInstituicao = m.Aluno_fkInstituicao
-INNER JOIN Curso c ON m.Curso_fkCurso = c.idCurso AND m.Curso_fkInstituicao = c.fkInstituicao
-WHERE a.fkInstituicao = ?
+SELECT
+    A.ra AS id,
+    A.nome,
+    A.email,
+    'Aluno' AS tipo,
+    T.nome_sigla AS turma,
+    C.nome AS curso,
+    I.nome AS instituicao,
+    CASE
+        WHEN M.ativo = 1 THEN 'liberado'
+        ELSE 'bloqueado'
+    END AS situacao
+FROM
+    aluno A
+JOIN matricula M ON A.ra = M.fkAluno
+JOIN turma T ON M.fkTurma = T.id_turma
+JOIN curso C ON T.fkCurso = C.id_curso
+JOIN instituicao I ON C.fkInstituicao = I.id_instituicao
+WHERE
+    I.id_instituicao = ?
 
-ORDER BY tipo, nome;`;
+ORDER BY
+    tipo DESC,  -- Ordena primeiro pelo tipo (Aluno vem antes de Professor)
+    nome ASC;  -- Depois ordena alfabeticamente pelo nome dentro de cada grupo
+    `;
 
-    console.log("Executando listagem de usuários da instituição:", idInstituicao);
+    console.log("Executando listagem de usuários da instituição (Alunos depois Professores):", idInstituicao);
     return database.executar(instrucaoSql, [idInstituicao, idInstituicao]);
 }
 
 function listarAlunosInstituicao(idInstituicao) {
+    console.log("ACESSANDO MODEL INSTITUIÇÃO: Listando alunos com status calculado...");
+
+    const instrucaoSql = `
+        SELECT 
+            base.ra,
+            base.nome,
+            base.email,
+            base.turma,
+            base.curso,
+            base.media_nota,
+            base.frequencia,
+            CASE 
+                WHEN media_nota >= 8 AND frequencia >= 75 THEN 'Ótimo'
+                WHEN media_nota >= 6 AND frequencia >= 75 THEN 'Regular'
+                ELSE 'Atenção'
+            END AS desempenho
+        FROM (
+            SELECT 
+                a.ra,
+                a.nome,
+                a.email,
+                t.nome_sigla AS turma,
+                c.nome AS curso,
+                
+                -- Cálculo da Média de Notas (Se não tiver nota, assume 0)
+                (SELECT IFNULL(AVG(av.nota), 0) 
+                 FROM avaliacao av 
+                 JOIN matricula m2 ON av.fkMatricula = m2.id_matricula 
+                 WHERE m2.fkAluno = a.ra) AS media_nota,
+                 
+                -- Cálculo da Frequência % (Se não tiver aula, assume 0)
+                (SELECT IFNULL((SUM(f.presente) / COUNT(f.id_frequencia)) * 100, 0) 
+                 FROM frequencia f 
+                 JOIN matricula m3 ON f.fkMatricula = m3.id_matricula 
+                 WHERE m3.fkAluno = a.ra) AS frequencia
+                 
+            FROM aluno a
+            JOIN matricula m ON a.ra = m.fkAluno
+            JOIN turma t ON m.fkTurma = t.id_turma
+            JOIN curso c ON t.fkCurso = c.id_curso
+            WHERE c.fkInstituicao = ${idInstituicao}
+        ) AS base;
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
+function listarCursosInstituicao(idInstituicao) {
+    console.log("ACESSANDO MODEL INSTITUIÇÃO: Listando cursos da instituição...");
 
     var instrucaoSql = `
         SELECT 
-            a.ra,
-            a.nome,
-            a.email,
-            t.nome_sigla AS turma,
-            c.nome AS curso,
+            id_curso,
+            nome,
+            descricao,
+            modalidade,
+            duracao_semestres
+        FROM curso
+        WHERE fkInstituicao = ?
+        ORDER BY nome;
+    `;
 
-            -- Média das notas
-            (
-                SELECT AVG(av.nota)
-                FROM avaliacao av
-                WHERE av.fkMatricula = m.id_matricula
-            ) AS mediaNotas,
-
-            -- Frequência em %
-            (
-                SELECT 
-                    (SUM(CASE WHEN fr.presente = 1 THEN 1 ELSE 0 END) * 100.0) 
-                    / COUNT(*)
-                FROM frequencia fr
-                WHERE fr.fkMatricula = m.id_matricula
-            ) AS frequencia,
-
-            -- Regra de desempenho (Ótimo / Regular / Atenção)
-            CASE
-                WHEN 
-                    -- ÓTIMO
-                    (SELECT AVG(av.nota)
-                    FROM avaliacao av
-                    WHERE av.fkMatricula = m.id_matricula) >= 7.5
-                AND
-                    (SELECT 
-                        (SUM(CASE WHEN fr.presente = 1 THEN 1 ELSE 0 END) * 100.0)
-                        / COUNT(*)
-                    FROM frequencia fr 
-                    WHERE fr.fkMatricula = m.id_matricula
-                    ) >= 85
-                THEN 'Ótimo'
-
-                WHEN 
-                    -- ATENÇÃO
-                    (SELECT AVG(av.nota)
-                    FROM avaliacao av
-                    WHERE av.fkMatricula = m.id_matricula) < 6
-                OR
-                    (SELECT 
-                        (SUM(CASE WHEN fr.presente = 1 THEN 1 ELSE 0 END) * 100.0)
-                        / COUNT(*)
-                    FROM frequencia fr 
-                    WHERE fr.fkMatricula = m.id_matricula
-                    ) < 75
-                THEN 'Atenção'
-
-                ELSE 
-                    -- REGULAR
-                    'Regular'
-            END AS desempenho
-
-        FROM aluno a
-        INNER JOIN matricula m ON a.ra = m.fkAluno
-        INNER JOIN turma t ON m.fkTurma = t.id_turma
-        INNER JOIN curso c ON t.fkCurso = c.id_curso
-
-        WHERE c.fkInstituicao = ${idInstituicao}
-        ORDER BY a.nome;
-        `;
-
-    console.log("Executando listagem de alunos da instituição:", idInstituicao);
-    return database.executar(instrucaoSql, [idInstituicao, idInstituicao]);
+    return database.executar(instrucaoSql, [idInstituicao]);
 }
+
+
+function listarTurmasInstituicao(idInstituicao) {
+    console.log("ACESSANDO MODEL INSTITUIÇÃO: Listando turmas da instituição...");
+
+    var instrucaoSql = `
+
+    SELECT 
+    t.id_turma,
+    t.nome_sigla,
+    t.ano,
+    t.semestre,
+    t.periodo,
+    c.nome AS nome_curso
+FROM turma t
+JOIN curso c ON t.fkCurso = c.id_curso
+WHERE c.fkInstituicao = ?
+ORDER BY t.ano DESC, t.semestre DESC, t.nome_sigla;
+
+
+    `;
+
+    return database.executar(instrucaoSql, [idInstituicao]);
+}   
+
+
+function listarDisciplinasPorInstituicao(idInstituicao) {
+    var instrucaoSql = `
+        SELECT nome 
+        FROM disciplina 
+        WHERE fkInstituicao = ? 
+        ORDER BY nome ASC;
+    `;
+    return database.executar(instrucaoSql, [idInstituicao]);
+}
+
 
 module.exports = {
     listarInstituicoes,
     buscarInstituicao,
     listarUsuariosInstituicao,
-    listarAlunosInstituicao
+    listarAlunosInstituicao,
+    listarCursosInstituicao,
+    listarTurmasInstituicao,
+    listarDisciplinasPorInstituicao
 }

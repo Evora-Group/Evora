@@ -109,6 +109,58 @@ function criar(req, res) {
         });
 }
 
+async function kpiFrequencia(req, res) {
+    const idUsuario = req.params.idUsuario;
+
+    try {
+        const resultado = await alunoModel.buscarFrequenciaGeral(idUsuario);
+
+        if (!resultado || resultado.length === 0) {
+            return res.status(200).json({
+                frequenciaGeral: 0,
+                emAtencao: 0
+            });
+        }
+
+        let soma = 0;
+        let emAtencao = 0;
+
+        resultado.forEach(row => {
+            const freq = Number(row.frequencia) || 0;
+            soma += freq;
+            if (freq < 75) emAtencao++;
+        });
+
+        const media = Number((soma / resultado.length).toFixed(2));
+
+        return res.status(200).json({
+            frequenciaGeral: media,
+            emAtencao
+        });
+
+    } catch (erro) {
+        console.error("Erro ao calcular KPI:", erro);
+        res.status(500).json(erro);
+    }
+}
+
+function kpiFreqInstituicao(req, res) {
+    const idInstituicao = req.params.idInstituicao;
+
+    alunoModel.kpiFreqInstituicao(idInstituicao)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado[0]);
+            } else {
+                res.status(204).send("Nenhum resultado encontrado!");
+            }
+        })
+        .catch(function (erro) {
+            console.log("Erro na KPI de frequência:", erro);
+            res.status(500).json(erro);
+        });
+}
+
 
 
 
@@ -118,6 +170,8 @@ module.exports = {
     listarTurmas,
     listarDesempenho,
     listarDadosGerais,
+    kpiFrequencia,
+    kpiFreqInstituicao,
     editar,
     criar
 }

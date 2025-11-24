@@ -1,5 +1,57 @@
+/* Estilo para o webkit (Chrome, Safari, Edge) */
+#progress_bar {
+    width: 100%;
+    height: 20px;
+    appearance: none; /* Remove estilos padrão */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Webkit (Chrome, Safari, Edge) */
+#progress_bar::-webkit-progress-bar {
+    background-color: #e0e0e0;
+    border-radius: 10px;
+}
+
 #progress_bar::-webkit-progress-value {
-    background-color: rgb(255, 197, 143);
+    background-color: #e74c3c ;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+
+/* Firefox */
+#progress_bar::-moz-progress-bar {
+    background-color: #e74c3c;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+
+/* Classes de cor para o progress bar */
+#progress_bar.progress-atencao::-webkit-progress-value {
+    background-color: #e74c3c !important;
+}
+
+#progress_bar.progress-atencao::-moz-progress-bar {
+    background-color: #e74c3c !important;
+}
+
+#progress_bar.progress-regular::-webkit-progress-value {
+    background-color: #f1c40f  !important;
+}
+
+#progress_bar.progress-regular::-moz-progress-bar {
+    background-color: #f1c40f !important;
+}
+
+#progress_bar.progress-otimo::-webkit-progress-value {
+    background-color: #2ecc71  !important;
+}
+
+#progress_bar.progress-otimo::-moz-progress-bar {
+    background-color: #2ecc71  !important;
 }
 
 .p_status_atencao {
@@ -38,14 +90,11 @@
 }
 
 .circular-progress {
-    --porcento: 85; /* valor padrão */
+    /* variáveis controladas por JS */
+    --porcento: 85; /* valor padrão (0-100) */
     width: 170px;
     height: 170px;
     border-radius: 50%;
-    background: conic-gradient(
-        #94d879 calc(var(--porcento) * 1%), 
-        #e0e0e0 0
-    );
     display: flex;
     justify-content: center;
     align-items: center;
@@ -64,7 +113,7 @@
 .circular-progress span {
     position: absolute;
     font-size: 30px;
-    font-weight: semi-bold;
+    font-weight: 600;
     color: #333;
 }
 

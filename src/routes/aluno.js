@@ -14,4 +14,22 @@ router.get("/listarTurmas/:fkInstituicao", function (req, res) {
     alunoController.listarTurmas(req, res);
 });
 
+router.get("/desempenho/:ra/:fkInstituicao", function (req, res) {
+    alunoController.listarDesempenho(req, res);
+});
+
+router.get("/geral/:ra", function (req, res) {
+    alunoController.listarDadosGerais(req, res);
+});
+
+router.get("/kpiFreqInstituicao/:idInstituicao", function (req, res) {
+    alunoController.kpiFreqInstituicao(req, res);
+});
+
+
+router.put("/editar/:ra", alunoController.editar);
+
+// NOVO ENDPOINT: criar aluno
+router.post("/criar", alunoController.criar);
+
 module.exports = router;

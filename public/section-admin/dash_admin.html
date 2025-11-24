@@ -17,15 +17,7 @@
 
 <body onload="puxarNomeUsuario(), listarUsuariosInstituicao()">
     <header class="header_info_usuario">
-
         <img src="../assets/imgs/logo-nome.svg" alt="" class="img_logo">
-
-        <section class="section_infoUsuario">
-            <h1 class="h1_nome_usuario nome-usuario" id="h1_nome_usuario">Nome do Usuario</h1>
-            <img src="../assets/imgs/anne.png" alt="" class="img_icon_usuario" id="img_logo_usuario">
-            <span><i class="fi fi-sr-caret-down"></i></span>
-        </section>
-
     </header>
     <main>
         <aside>
@@ -50,7 +42,7 @@
         <section class="section_dash">
             <main class="main_dash">
                 <header class="header_kpis">
-                  
+
                     <section class="kpi">
 
                         <div class="kpi_header">
@@ -64,8 +56,10 @@
 
                             <div class="kpi_footer">
 
-                                <p class="p_titulo_kpi"><span class="qtd_professores">34</span> com tipo de<strong> Professor</strong></p>
-                                <p class="p_titulo_kpi"><span class="qtd_alunos">200</span> com tipo de <strong> Aluno</strong></p>
+                                <p class="p_titulo_kpi"><span class="qtd_professores">34</span> com tipo de<strong>
+                                        Professor</strong></p>
+                                <p class="p_titulo_kpi"><span class="qtd_alunos">200</span> com tipo de <strong>
+                                        Aluno</strong></p>
 
                             </div>
 
@@ -75,21 +69,23 @@
 
                     </section>
 
-                      <section class="kpi">
+                    <section class="kpi">
                         <div class="kpi_header" id="kpi_situacao">
                             <div class="div_titulo_kpi" id="div_situacao">
                                 <p class="p_titulo_kpi">SITUAÇÂO ATUAL</p>
-                                <h1 id="h1_situacao">1 BLOQUEADO</h1>
+                                <h1 id="h1_situacao"><span class="qtd_bloqueados"></span> BLOQUEADOS</h1>
                             </div>
                             <div class="div_comparativo">
 
-                                <p class="p_titulo_kpi"><strong>239 Liberados</strong></p>
-                                <p class="p_titulo_kpi"><strong>1 Bloqueado</strong></p>
+                                <p class="p_titulo_kpi"><strong><span class="qtd_liberados">239</span>
+                                        Liberados</strong></p>
+                                <p class="p_titulo_kpi"><strong><span>0</span class="qtd_bloqueados">
+                                        Bloqueados</strong></p>
 
                             </div>
                         </div>
                         <div class="div_progress_bar">
-                            <div class="progress_bar">
+                            <div class="progress_bar" id="progress_bar_situacao">
                                 <progress id="progress_bar" value="32" max="100"> 32% </progress>
                             </div>
                         </div>
@@ -171,7 +167,7 @@
                             <tbody class="corpo_tabela" id="corpo_tabela_usuarios">
 
                                 <!-- Adicione mais linhas conforme necessário -->
-                         
+
                             </tbody>
                         </table>
 
@@ -183,49 +179,40 @@
 
     <dialog id="modal_criar_usuario" class="dialog_modal">
         <div class="div_header_modal">
-            <div class="div_btn_usuario active">Novo Aluno</div>
-            <div class="div_btn_usuario">Novo Professor</div>
+            <div class="div_btn_usuario active" onclick="criarAluno('formulario_criar_usuario')" id="btn_criar_aluno">
+                Novo Aluno</div>
+            <div class="div_btn_usuario" onclick="criarProfessor('formulario_criar_usuario')" id="btn_criar_professor">
+                Novo Professor</div>
         </div>
-        <div class="div_main_modal">
+        <div class="div_main_modal" id="formulario_criar_usuario">
             <h3>Complete as informações do Novo Aluno:</h3>
-            <form class="form_modal">
+        <form class="form_modal">
+        
+            <label for="nome_instituicao">Instituição:</label>
+            <input list="instituicoes" type="text" id="instituicao" class="input_modal" placeholder="Pesquise pela sua instituicao">
+            <datalist id="instituicoes"></datalist>
 
-                <label for="nome_instituicao">Instituição:</label>
-                <input list="instituicoes" type="nome_instituicao" id="instituicao" name="nome_instituicao"
-                    placeholder="Pesquise pela sua instituicao" class="input_modal">
-                <datalist id="instituicoes">
-                    <option value=""></option>
-                </datalist>
+            <label>RA:</label>
+            <input type="text" class="input_modal" id="input_ra_aluno" placeholder="Digite o RA do aluno">
 
-                <label for="ra">RA:</label>
-                <input type="text" class="input_modal" id="ra" name="ra" placeholder="Digite o RA do aluno">
+            <label>Nome:</label>
+            <input type="text" class="input_modal" id="input_nome_aluno" placeholder="Digite o nome do aluno">
 
+            <label>Email:</label>
+            <input type="text" class="input_modal" id="input_email_aluno" placeholder="Digite o email do aluno">
 
-                <label for="nome_turma">Turma:</label>
-                <input list="instituicoes" type="nome_turma" id="turma" name="nome_turma"
-                    placeholder="Pesquise pela sua turma" class="input_modal">
-                <datalist id="turmas">
-                    <option value=""></option>
-                </datalist>
+            <label>Turma:</label>
+            <input list="lista_turmas_criar" type="text" id="input_turma_aluno" class="input_modal" placeholder="Pesquise pela sua turma">
+            <datalist id="lista_turmas_criar" class="turmas_datalist"></datalist>
 
-                <label for="nome_curso">Curso:</label>
-                <input list="instituicoes" type="nome_curso" id="curso" name="nome_curso"
-                    placeholder="Pesquise pela sua curso" class="input_modal">
-                <datalist id="cursos">
-                    <option value=""></option>
-                </datalist>
+        </form>
 
-            </form>
-
-            <div class="div_footer">
-
-                <div class="div_criar_usuario" id="btnEnviarDialog" onclick="enviarModal('modal_criar_usuario')">
-                    <p><strong>Criar Novo Usuário</strong></p>
-                </div>
-
-                <p id="btnFecharDialog" onclick="fecharModal('modal_criar_usuario')"><u>cancelar</u></p>
-
+        <div class="div_footer">
+            <div class="div_criar_usuario" onclick="enviarModal('modal_criar_usuario')">
+                <p><strong>Criar Novo Usuário</strong></p>
             </div>
+            <p onclick="fecharModal('modal_criar_usuario')"><u>cancelar</u></p>
+        </div>
 
         </div>
     </dialog>
@@ -237,27 +224,26 @@
             <div class="div_header_modal">
                 <h3>Edite as informações do Usuário:</h3>
                 <div class="div_status">
-                    <div class="circulo_status">
+                    <div class="circulo_status_liberado">
                         <p>L</p>
                     </div>
                 </div>
             </div>
             <form class="form_modal">
 
-
                 <div class="div_dois_inputs">
 
                     <div class="div_input_menor">
-                        <label for="ra">RA:</label>
-                        <input type="text" class="input_modal" name="ra" placeholder="Digite o RA do aluno">
+                        <label for="ra" id="label_id_usuario">RA:</label>
+                        <input type="text" class="input_modal, input_modal_ra" name="ra"
+                            placeholder="Digite o RA do aluno">
                     </div>
 
                     <div class="div_input_maior">
                         <label for="tipo_de_usuario">Tipo:</label>
-                        <select class="select_tipo_de_usuario" name="tipo_de_usuario" id="">
-                            <option value=""></option>
-                            <option value="estudante"></option>
-                            <option value="professor"></option>
+                        <select class="select_tipo_de_usuario" id="tipo_de_usuario" name="tipo_de_usuario">
+                            <option value="Aluno">Aluno</option>
+                            <option value="Professor">Professor</option>
                         </select>
                     </div>
 
@@ -281,18 +267,22 @@
                 <div class="div_dois_inputs">
 
                     <div class="div_input_menor">
-                        <label for="turma">Turma:</label>
-                        <select name="turma" id="">
-                            <option value="">Selecione a Turma</option>
-                            <option value="1ADSB/CCO">1ADSB/CCO</option>
-                            <option value="2ADSB/CCO">2ADSB/CCO</option>
-                        </select>
+                        <label for="nome_turma">Turma:</label>
+                        <input list="turma_editar_usuario" type="nome_turma" id="turma_editar" name="nome_turma"
+                            placeholder="Pesquise pela sua turma" class="input_modal">
+                        <datalist id="turma_editar_usuario" class="turmas_datalist">
+                            <option value=""></option>
+                        </datalist>
                     </div>
 
 
                     <div class="div_input_maior">
-                        <label for="instituicao">Instituição:</label>
-                        <input type="text" name="instituicao">
+                        <label for="nome_instituicao">Instituição:</label>
+                        <input list="instituicoes" type="nome_instituicao" id="instituicao" name="nome_instituicao"
+                            placeholder="Pesquise pela sua instituicao" class="input_modal">
+                        <datalist id="instituicoes">
+                            <option value=""></option>
+                        </datalist>
                     </div>
 
 
@@ -300,15 +290,19 @@
 
 
                 <div class="div_input">
-                    <label for="instituicao">Cursos:</label>
-                    <input type="text" name="instituicao">
+                    <label for="nome_curso">Curso:</label>
+                    <input list="cursos" type="nome_curso" id="curso" name="nome_curso"
+                        placeholder="Pesquise pela sua curso" class="input_modal">
+                    <datalist id="cursos">
+                        <option value=""></option>
+                    </datalist>
                 </div>
 
             </form>
 
             <div class="div_footer">
 
-                <div class="div_editar_usuario" id="btnEnviarDialog" onclick="fecharModal('modal_editar_usuario')">
+                <div class="div_editar_usuario" id="btnEnviarDialog" onclick="enviarModal('modal_editar_usuario')">
                     <p><strong>Salvar</strong></p>
                 </div>
 
@@ -321,18 +315,14 @@
 
     <dialog id="modal_remover_usuario" class="dialog_modal">
 
+        <div class="div_main_modal">
 
+            <div class="div_info_excluir">
+                <h1>Excluir cadastro</h1>
+                <p>Tem certeza que deseja deletar esse cadastro? <br>Não é possível desfazer essa ação</p>
+            </div>
 
-
-
-            <div class="div_main_modal">
-
-                <div class="div_info_excluir">
-                    <h1>Excluir cadastro</h1>
-                    <p>Tem certeza que deseja deletar esse cadastro? <br>Não é possível desfazer essa ação</p>
-                </div>
-
-                <div class="div_btn_remover_usuario">
+            <div class="div_btn_remover_usuario" id="div_btn_remover_usuario">
 
                 <div class="div_editar_usuario" onclick="fecharModal('modal_remover_usuario')">
                     <p><strong>Cancelar</strong></p>
@@ -341,9 +331,9 @@
                 <div class="div_editar_usuario" id="div_excluir_usuario" onclick="enviarModal('modal_remover_usuario')">
                     <p><strong>Excluir</strong></p>
                 </div>
-                </div>
-
             </div>
+
+        </div>
 
 
         </div>
@@ -356,11 +346,111 @@
 
     function abrirModal(modalId) {
         const dialog = document.getElementById(modalId);
+
+        if (modalId === 'modal_remover_usuario') {
+
+            const idVisitante = sessionStorage.getItem('idVisitante');
+            const tipoVisitante = sessionStorage.getItem('tipoVisitante');
+
+            console.log(idVisitante, tipoVisitante)
+
+
+        } else if (modalId === 'modal_editar_usuario') {
+
+            listarCursos();
+            listarTurmas();
+            listarInstituicoes();
+
+            const nome = sessionStorage.getItem('nomeVisitante');
+            const email = sessionStorage.getItem('emailVisitante');
+            const tipo = sessionStorage.getItem('tipoVisitante');
+            const turma = sessionStorage.getItem('turmaVisitante');
+            const curso = sessionStorage.getItem('cursoVisitante');
+            const instituicao = sessionStorage.getItem('instituicaoVisitante');
+            const ra = sessionStorage.getItem('idVisitante');
+
+
+            if (tipo === 'Professor') {
+
+                label_id_usuario.innerHTML = 'RE:'
+
+            } else {
+
+                label_id_usuario.innerHTML = 'RA:'
+
+
+            }
+
+
+            if (dialog.querySelector('.div_status')) {
+                dialog.querySelector('.div_status').innerHTML = '';
+                if (sessionStorage.getItem('situacaoVisitante') === 'liberado') {
+                    dialog.querySelector('.div_status').innerHTML = `
+                    <div class="circulo_status_liberado" onclick="">
+                        <p>L</p>
+                    </div>
+                `;
+                } else {
+                    dialog.querySelector('.div_status').innerHTML = `
+                    <div class="circulo_status_bloqueado" onclick="">
+                        <p>B</p>
+                    </div>
+                `;
+                }
+            }
+
+
+            // Preenche os inputs usando os IDs definidos no HTML
+
+            // Nome
+            if (dialog.querySelector('input[name="nome"]'))
+                dialog.querySelector('input[name="nome"]').value = nome;
+
+            // Email
+            if (dialog.querySelector('input[name="email"]'))
+                dialog.querySelector('input[name="email"]').value = email;
+
+            // Tipo
+            if (dialog.querySelector('select[name="tipo_de_usuario"]'))
+                dialog.querySelector('select[name="tipo_de_usuario"]').value = tipo;
+
+            if (dialog.querySelector('input[name="ra"]'))
+                dialog.querySelector('input[name="ra"]').value = ra;
+
+            const inputTurma = dialog.querySelector('#turma');
+            if (inputTurma) inputTurma.value = turma;
+
+
+            const inputCurso = dialog.querySelector('#curso');
+            if (inputCurso) inputCurso.value = curso;
+
+            const inputInst = dialog.querySelectorAll('input[name="instituicao"]')[0] || dialog.querySelector('#instituicao');
+            if (inputInst) inputInst.value = instituicao;
+        } else if (modalId === 'modal_criar_usuario') {
+
+            listarCursos();
+            listarTurmas();
+            listarInstituicoes();
+
+            listarDisciplinas()
+
+        }
+
         dialog.showModal();
     }
 
     function fecharModal(modalId) {
         const dialog = document.getElementById(modalId);
+
+        sessionStorage.removeItem('nomeVisitante');
+        sessionStorage.removeItem('emailVisitante');
+        sessionStorage.removeItem('tipoVisitante');
+        sessionStorage.removeItem('turmaVisitante');
+        sessionStorage.removeItem('cursoVisitante');
+        sessionStorage.removeItem('instituicaoVisitante');
+        sessionStorage.removeItem('situacaoVisitante');
+        sessionStorage.removeItem('idVisitante');
+
         dialog.close();
     }
 
@@ -369,7 +459,344 @@
 
         // Lógica para enviar os dados do modal pode ser adicionada aqui
 
-        dialog.close();
+        if (modalId === 'modal_criar_usuario') {
+
+            const tipoAtual = sessionStorage.getItem('tipoVisitante');
+
+            if (tipoAtual === 'Professor') {
+                realizarCadastroProfessor();
+            } else {
+
+                realizarCadastroAluno();
+            }
+
+        } else if (modalId === 'modal_remover_usuario') {
+
+            const idVisitante = sessionStorage.getItem('idVisitante');
+            const tipoVisitante = sessionStorage.getItem('tipoVisitante');
+
+            if (tipoVisitante === 'Aluno') {
+                removerAluno(idVisitante);
+            } else if (tipoVisitante === 'Professor') {
+                removerUsuario(idVisitante);
+            }
+
+            sessionStorage.removeItem('nomeVisitante');
+            sessionStorage.removeItem('emailVisitante');
+            sessionStorage.removeItem('tipoVisitante');
+            sessionStorage.removeItem('turmaVisitante');
+            sessionStorage.removeItem('instituicaoVisitante');
+            sessionStorage.removeItem('situacaoVisitante');
+            sessionStorage.removeItem('idVisitante');
+
+            fecharModal('modal_remover_usuario');
+
+        } else if (modalId === 'modal_editar_usuario') {
+
+            salvarEdicao(); 
+
+        }
+
+
+
+
     }
+
+    function realizarCadastroProfessor() {
+        const modal = document.getElementById('modal_criar_usuario');
+
+        // Captura os inputs pelos IDs definidos na função criarProfessor
+        const nome = document.getElementById('nome_prof').value;
+        const email = document.getElementById('email_prof').value;
+        const senha = document.getElementById('senha_prof').value;
+        const turma = document.getElementById('input_turma_prof').value;
+        const disciplina = document.getElementById('input_disciplina_prof').value;
+
+        // Pega o ID da instituição da sessão do usuário logado
+        const idInstituicao = sessionStorage.getItem('fkInstituicao');
+
+        // Validação
+        if (!nome || !email || !senha || !turma || !disciplina) {
+            alert("Preencha todos os campos para cadastrar o professor!");
+            return;
+        }
+
+        fetch("/usuarios/cadastrarProfessor", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nome: nome,
+                email: email,
+                senha: senha,
+                turma: turma,
+                disciplina: disciplina,
+                idInstituicao: idInstituicao
+            })
+        }).then(function (resposta) {
+            if (resposta.ok) {
+                alert("Professor cadastrado com sucesso!");
+                listarUsuariosInstituicao(); // Atualiza a tabela
+                fecharModal('modal_criar_usuario');
+            } else {
+                resposta.text().then(texto => {
+                    alert("Erro ao cadastrar: " + texto);
+                });
+            }
+        }).catch(function (erro) {
+            console.error("Erro no fetch:", erro);
+        });
+    }
+
+function realizarCadastroAluno() {
+    // Busca os elementos pelos IDs definidos na função criarAluno
+    const inputRa = document.getElementById('input_ra_aluno');
+    const inputNome = document.getElementById('input_nome_aluno');
+    const inputEmail = document.getElementById('input_email_aluno');
+    const inputTurma = document.getElementById('input_turma_aluno');
+
+    // Se qualquer um for null, avisa no console e para (evita o erro que travava a tela)
+    if (!inputRa || !inputNome || !inputEmail || !inputTurma) {
+        console.error("Erro CRÍTICO: IDs do HTML não conferem com o Script. Verifique a função criarAluno.");
+        alert("Erro interno: Campos não encontrados.");
+        return;
+    }
+
+    const ra = inputRa.value;
+    const nome = inputNome.value;
+    const email = inputEmail.value;
+    const turma = inputTurma.value;
+
+    if (!ra || !nome || !turma || !email) {
+        alert("Preencha todos os campos obrigatórios!");
+        return;
+    }
+
+    fetch("/usuarios/cadastrarAluno", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ra, nome, email, turma })
+    }).then(resposta => {
+        if (resposta.ok) {
+            alert("Aluno cadastrado com sucesso!");
+            listarUsuariosInstituicao();
+            fecharModal('modal_criar_usuario');
+        } else {
+            resposta.text().then(texto => alert("Erro ao cadastrar: " + texto));
+        }
+    }).catch(erro => console.error("Erro:", erro));
+}
+
+    function salvarEdicao() {
+        const id = sessionStorage.getItem('idVisitante');
+        const tipo = sessionStorage.getItem('tipoVisitante');
+        const modal = document.getElementById('modal_editar_usuario');
+
+        // Captura os valores
+        const nome = modal.querySelector('input[name="nome"]').value;
+        const email = modal.querySelector('input[name="email"]').value;
+
+        // Captura o valor do input de turma (que é um texto, ex: "ADS2024")
+        // Usei o ID 'turma' pois definimos isso no HTML anterior
+        const nomeTurma = modal.querySelector('#turma_editar_usuario').value;
+
+        const corpo = {
+            nome: nome,
+            email: email,
+            turma: nomeTurma // <--- Enviando o nome da turma
+        };
+
+        let url;
+        if (tipo === 'Aluno') {
+            url = `/usuarios/editarAluno/${id}`;
+        } else {
+            url = `/usuarios/editarUsuario/${id}`;
+        }
+
+        fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(corpo)
+        }).then(function (resposta) {
+            if (resposta.ok) {
+                alert("Editado com sucesso!");
+                listarUsuariosInstituicao();
+                fecharModal('modal_editar_usuario');
+            } else {
+                resposta.text().then(texto => {
+                    alert("Erro ao editar: " + texto);
+                });
+            }
+        }).catch(function (erro) {
+            console.error("Erro no fetch:", erro);
+        });
+    }
+
+
+    function definirVisitante(id, nome, email, tipo, turma, curso, instituicao, situacao) {
+        sessionStorage.setItem('idVisitante', id);
+        sessionStorage.setItem('tipoVisitante', tipo);
+        sessionStorage.setItem('nomeVisitante', nome);
+        sessionStorage.setItem('emailVisitante', email);
+        sessionStorage.setItem('turmaVisitante', turma);
+        sessionStorage.setItem('cursoVisitante', curso);
+        sessionStorage.setItem('instituicaoVisitante', instituicao);
+        sessionStorage.setItem('situacaoVisitante', situacao);
+    }
+
+    function removerAluno(id) {
+        fetch(`/usuarios/removerAluno/${id}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.ok) {
+                    listarUsuariosInstituicao();
+                    fecharModal('modal_remover_usuario')
+                    // Atualiza a lista de usuários
+                } else {
+                    alert('Erro ao remover aluno.');
+                    console.error('Erro ao remover aluno:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                console.error('Erro ao remover aluno:', error);
+                alert('Erro ao remover aluno.');
+            });
+    }
+
+
+    function removerUsuario(id) {
+        fetch(`/usuarios/removerUsuario/${id}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.ok) {
+                    listarUsuariosInstituicao();
+                    fecharModal('modal_remover_usuario')
+                    // Atualiza a lista de usuários
+                } else {
+                    alert('Erro ao remover usuário.');
+                    console.error('Erro ao remover usuário:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                console.error('Erro ao remover usuário:', error);
+                alert('Erro ao remover usuário.');
+            });
+    }
+
+    function criarAluno(idForm) {
+    sessionStorage.setItem('tipoVisitante', 'Aluno');
+
+    const btn_criar_aluno = document.getElementById('btn_criar_aluno');
+    const btn_criar_professor = document.getElementById('btn_criar_professor');
+
+    // Visual dos botões
+    if(btn_criar_aluno) btn_criar_aluno.classList.add('active');
+    if(btn_criar_professor) btn_criar_professor.classList.remove('active');
+
+    const form = document.getElementById(idForm);
+
+    // AQUI ESTÃO OS IDS CORRETOS:
+    form.innerHTML = `
+        <h3>Complete as informações do Novo Aluno:</h3>
+        <form class="form_modal">
+        
+            <label for="nome_instituicao">Instituição:</label>
+            <input list="instituicoes" type="text" id="instituicao" class="input_modal" placeholder="Pesquise pela sua instituicao">
+            <datalist id="instituicoes"></datalist>
+
+            <label>RA:</label>
+            <input type="text" class="input_modal" id="input_ra_aluno" placeholder="Digite o RA do aluno">
+
+            <label>Nome:</label>
+            <input type="text" class="input_modal" id="input_nome_aluno" placeholder="Digite o nome do aluno">
+
+            <label>Email:</label>
+            <input type="text" class="input_modal" id="input_email_aluno" placeholder="Digite o email do aluno">
+
+            <label>Turma:</label>
+            <input list="lista_turmas_criar" type="text" id="input_turma_aluno" class="input_modal" placeholder="Pesquise pela sua turma">
+            <datalist id="lista_turmas_criar" class="turmas_datalist"></datalist>
+
+        </form>
+
+        <div class="div_footer">
+            <div class="div_criar_usuario" onclick="enviarModal('modal_criar_usuario')">
+                <p><strong>Criar Novo Usuário</strong></p>
+            </div>
+            <p onclick="fecharModal('modal_criar_usuario')"><u>cancelar</u></p>
+        </div>
+    `;
+
+    // Carrega as listas necessárias
+    listarInstituicoes();
+    listarTurmas();
+}
+
+    function criarProfessor(idForm) {
+
+        sessionStorage.setItem('tipoVisitante', 'Professor');
+
+        const btn_criar_aluno = document.getElementById('btn_criar_aluno')
+
+        const btn_criar_professor = document.getElementById('btn_criar_professor')
+
+        btn_criar_aluno.classList.toggle('active')
+
+        btn_criar_professor.classList.toggle('active')
+
+        form = document.getElementById(idForm)
+
+        form.innerHTML = `
+
+        <h3>Complete as informações do Novo Professor:</h3>
+            <form class="form_modal" id="form_criar_usuario">
+        
+        <label for="nome">Nome:</label>
+    <input type="text" class="input_modal" id="nome_prof" name="nome" placeholder="Nome do Professor">
+
+    <label for="email">Email:</label>
+    <input type="email" class="input_modal" id="email_prof" name="email" placeholder="Email do Professor">
+
+    <label for="senha">Senha:</label>
+    <input type="password" class="input_modal" id="senha_prof" name="senha" placeholder="******">
+
+    <label for="nome_turma">Turma:</label>
+    <input list="lista_turmas_prof" type="text" id="input_turma_prof" name="nome_turma" 
+           placeholder="Para qual turma ele dará aula?">
+    <datalist id="lista_turmas_prof" class="turmas_datalist">
+        </datalist>
+
+    <label for="nome_disciplina">Disciplina:</label>
+    <input list="lista_disciplinas" type="text" id="input_disciplina_prof" name="nome_disciplina" 
+           placeholder="Qual matéria? (Ex: Banco de Dados)">
+    <datalist id="lista_disciplinas">
+        </datalist>
+
+        </form>
+
+        <div class="div_footer">
+
+                <div class="div_criar_usuario" id="btnEnviarDialog" onclick="enviarModal('modal_criar_usuario')">
+                    <p><strong>Criar Novo Usuário</strong></p>
+                </div>
+
+                <p id="btnFecharDialog" onclick="fecharModal('modal_criar_usuario')"><u>cancelar</u></p>
+
+            </div>
+        `
+
+        listarInstituicoes()
+        listarTurmas()
+        listarDisciplinas()
+
+    }
+
 
 </script>

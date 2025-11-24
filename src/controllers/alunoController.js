@@ -50,8 +50,128 @@ function listarTurmas(req, res) {
         });
 }
 
+function listarDesempenho(req, res) {
+    var ra = req.params.ra;
+    var fkInstituicao = req.params.fkInstituicao;
+
+    alunoModel.buscarDesempenhoPorRa(ra, fkInstituicao)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.json(resultado);
+            } else {
+                res.status(204).send("Nenhum desempenho encontrado");
+            }
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function listarDadosGerais(req, res) {
+    var ra = req.params.ra;
+
+    alunoModel.buscarDadosGerais(ra)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.json(resultado[0]); // Retorna o objeto direto
+            } else {
+                res.status(204).send("Nenhum resultado encontrado!");
+            }
+        }).catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+
+        });
+}
+
+function editar(req, res) {
+    const ra = req.params.ra;
+    const { curso, turma } = req.body;
+
+    alunoModel.editarAluno(ra, curso, turma)
+        .then(() => res.json({ mensagem: "Aluno atualizado com sucesso!" }))
+        .catch(erro => {
+            console.error("Erro ao editar aluno:", erro);
+            res.status(500).json(erro);
+        });
+}
+
+function criar(req, res) {
+    const { ra, nome, email, telefone, turma, fkCurso } = req.body;
+
+    alunoModel.criarAluno(ra, nome, email, telefone || "")
+        .then(() => alunoModel.criarMatricula(ra, turma, fkCurso))
+        .then(() => res.status(201).json({ msg: "Aluno criado com sucesso" }))
+        .catch(err => {
+            console.error(err);
+            res.status(500).json(err);
+        });
+}
+
+async function kpiFrequencia(req, res) {
+    const idUsuario = req.params.idUsuario;
+
+    try {
+        const resultado = await alunoModel.buscarFrequenciaGeral(idUsuario);
+
+        if (!resultado || resultado.length === 0) {
+            return res.status(200).json({
+                frequenciaGeral: 0,
+                emAtencao: 0
+            });
+        }
+
+        let soma = 0;
+        let emAtencao = 0;
+
+        resultado.forEach(row => {
+            const freq = Number(row.frequencia) || 0;
+            soma += freq;
+            if (freq < 75) emAtencao++;
+        });
+
+        const media = Number((soma / resultado.length).toFixed(2));
+
+        return res.status(200).json({
+            frequenciaGeral: media,
+            emAtencao
+        });
+
+    } catch (erro) {
+        console.error("Erro ao calcular KPI:", erro);
+        res.status(500).json(erro);
+    }
+}
+
+function kpiFreqInstituicao(req, res) {
+    const idInstituicao = req.params.idInstituicao;
+
+    alunoModel.kpiFreqInstituicao(idInstituicao)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado[0]);
+            } else {
+                res.status(204).send("Nenhum resultado encontrado!");
+            }
+        })
+        .catch(function (erro) {
+            console.log("Erro na KPI de frequência:", erro);
+            res.status(500).json(erro);
+        });
+}
+
+
+
+
 module.exports = {
     buscarAlunoPorRa,
     listarCursos,
-    listarTurmas
+    listarTurmas,
+    listarDesempenho,
+    listarDadosGerais,
+    kpiFrequencia,
+    kpiFreqInstituicao,
+    editar,
+    criar
 }

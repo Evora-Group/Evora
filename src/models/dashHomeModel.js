@@ -27,7 +27,10 @@ function alunosAbaixoMedia(fkInstituicao) {
         JOIN turma t ON t.id_turma = m.fkTurma
         JOIN curso c ON c.id_curso = t.fkCurso
         WHERE c.fkInstituicao = ?
-        AND a.data_avaliacao >= DATE_SUB(NOW(), INTERVAL 30 DAY);
+        AND a.data_avaliacao >= CASE 
+            WHEN MONTH(NOW()) BETWEEN 1 AND 6 THEN DATE_FORMAT(NOW(), '%Y-01-01')
+            ELSE DATE_FORMAT(NOW(), '%Y-07-01')
+        END;
     `;
     
     console.log("Buscando % de alunos abaixo da média no último mês");
@@ -45,9 +48,11 @@ function taxaAbandono(fkInstituicao) {
         JOIN turma t ON t.id_turma = m.fkTurma
         JOIN curso c ON c.id_curso = t.fkCurso
         WHERE c.fkInstituicao = ?
-        AND m.data_atualizacao_status >= DATE_SUB(NOW(), INTERVAL 30 DAY);
+        AND m.data_atualizacao_status >= CASE 
+            WHEN MONTH(NOW()) BETWEEN 1 AND 6 THEN DATE_FORMAT(NOW(), '%Y-01-01')
+            ELSE DATE_FORMAT(NOW(), '%Y-07-01')
+        END;
     `;
-    
     console.log("Buscando taxa de abandono no último mês");
     return database.executar(instrucaoSql, [fkInstituicao]);
 }
@@ -60,7 +65,10 @@ function novasMatriculas(fkInstituicao) {
         JOIN turma t ON t.id_turma = m.fkTurma
         JOIN curso c ON c.id_curso = t.fkCurso
         WHERE c.fkInstituicao = ?
-        AND m.data_matricula >= DATE_SUB(NOW(), INTERVAL 30 DAY);
+        AND m.data_matricula >= CASE 
+            WHEN MONTH(NOW()) BETWEEN 1 AND 6 THEN DATE_FORMAT(NOW(), '%Y-01-01')
+            ELSE DATE_FORMAT(NOW(), '%Y-07-01')
+        END;
     `;
     
     console.log("Buscando novas matrículas no último mês");
@@ -121,25 +129,157 @@ function taxaAprovacao(fkInstituicao) {
 
 
 function comparativoTotalAlunos(fkInstituicao) {
-    const sql = `
-        SELECT 
-            -- Hoje: todos com ativo = 1
-            (SELECT COUNT(*) FROM matricula m 
-             JOIN turma t ON m.fkTurma = t.id_turma 
-             JOIN curso c ON t.fkCurso = c.id_curso 
-             WHERE c.fkInstituicao = ? AND m.ativo = 1) AS alunos_mes_atual,
+    const instrucaoSql = `
+        SELECT
+            -- Mês atual
+            (SELECT COUNT(*) 
+             FROM matricula m
+             JOIN turma t ON t.id_turma = m.fkTurma
+             JOIN curso c ON t.fkCurso = c.id_curso
+             WHERE c.fkInstituicao = ?
+               AND MONTH(m.data_matricula) = MONTH(NOW())
+               AND YEAR(m.data_matricula) = YEAR(NOW())
+            ) AS atual,
 
-            --,  -- Mês passado: todos que estavam ativos ANTES do dia 1 deste mês
-            (SELECT COUNT(*) FROM matricula m 
-             JOIN turma t ON m.fkTurma = t.id_turma 
-             JOIN curso c ON t.fkCurso = c.id_curso 
-             WHERE c.fkInstituicao = ? 
-               AND m.ativo = 1
-               AND (m.data_atualizacao_status < DATE_FORMAT(CURDATE(), '%Y-%m-01') 
-                 OR m.data_atualizacao_status IS NULL)) AS alunos_mes_anterior;
+            -- Mês anterior
+            (SELECT COUNT(*) 
+             FROM matricula m
+             JOIN turma t ON t.id_turma = m.fkTurma
+             JOIN curso c ON t.fkCurso = c.id_curso
+             WHERE c.fkInstituicao = ?
+               AND MONTH(m.data_matricula) = MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH))
+               AND YEAR(m.data_matricula) = YEAR(DATE_SUB(NOW(), INTERVAL 1 MONTH))
+            ) AS anterior;
     `;
-    return database.executar(sql, [fkInstituicao, fkInstituicao]);
+
+    return database.executar(instrucaoSql, [fkInstituicao, fkInstituicao]);
 }
+
+function comparativoAbaixoMedia(fkInstituicao) {
+    const instrucaoSql = `
+        SELECT
+            -- Semestre atual
+            (SELECT 
+                (SUM(CASE WHEN a.nota < 6 THEN 1 ELSE 0 END) / COUNT(*)) * 100
+             FROM avaliacao a
+             JOIN matricula m ON m.id_matricula = a.fkMatricula
+             JOIN turma t ON t.id_turma = m.fkTurma
+             JOIN curso c ON t.fkCurso = c.id_curso
+             WHERE c.fkInstituicao = ?
+               AND a.data_avaliacao >= CASE 
+                   WHEN MONTH(NOW()) BETWEEN 1 AND 6 THEN DATE_FORMAT(NOW(), '%Y-01-01')
+                   ELSE DATE_FORMAT(NOW(), '%Y-07-01')
+               END
+            ) AS atual,
+
+            -- Semestre anterior
+            (SELECT 
+                (SUM(CASE WHEN a.nota < 6 THEN 1 ELSE 0 END) / COUNT(*)) * 100
+             FROM avaliacao a
+             JOIN matricula m ON m.id_matricula = a.fkMatricula
+             JOIN turma t ON t.id_turma = m.fkTurma
+             JOIN curso c ON t.fkCurso = c.id_curso
+             WHERE c.fkInstituicao = ?
+               AND a.data_avaliacao >= CASE 
+                   WHEN MONTH(NOW()) BETWEEN 1 AND 6 THEN DATE_FORMAT(NOW(), '%Y-07-01')
+                   ELSE DATE_FORMAT(NOW(), '%Y-01-01')
+               END
+               AND a.data_avaliacao < CASE 
+                   WHEN MONTH(NOW()) BETWEEN 1 AND 6 THEN DATE_FORMAT(NOW(), '%Y-01-01')
+                   ELSE DATE_FORMAT(NOW(), '%Y-07-01')
+               END
+            ) AS anterior
+    `;
+    
+    return database.executar(instrucaoSql, [fkInstituicao, fkInstituicao]);
+}
+
+
+function comparativoTaxaAbandono(fkInstituicao) {
+    const instrucaoSql = `
+        SELECT 
+            ROUND(COALESCE(abandono_atual, 0) * 100.0 / NULLIF(total_atual, 0), 2) AS atual,
+            ROUND(COALESCE(abandono_anterior, 0) * 100.0 / NULLIF(total_anterior, 0), 2) AS anterior
+        FROM (
+            SELECT
+                -- Alunos que entraram no semestre atual e hoje estão inativos
+                (SELECT COUNT(*) 
+                 FROM matricula m
+                 JOIN turma t ON m.fkTurma = t.id_turma
+                 JOIN curso c ON t.fkCurso = c.id_curso
+                 WHERE c.fkInstituicao = ?
+                   AND m.data_matricula >= '2025-07-01'
+                   AND m.ativo = 0) AS abandono_atual,
+
+                -- Total de alunos que entraram no semestre atual
+                (SELECT COUNT(*) 
+                 FROM matricula m
+                 JOIN turma t ON m.fkTurma = t.id_turma
+                 JOIN curso c ON t.fkCurso = c.id_curso
+                 WHERE c.fkInstituicao = ?
+                   AND m.data_matricula >= '2025-07-01') AS total_atual,
+
+                -- Alunos que entraram no semestre anterior e hoje estão inativos
+                (SELECT COUNT(*) 
+                 FROM matricula m
+                 JOIN turma t ON m.fkTurma = t.id_turma
+                 JOIN curso c ON t.fkCurso = c.id_curso
+                 WHERE c.fkInstituicao = ?
+                   AND m.data_matricula >= '2025-01-01'
+                   AND m.data_matricula < '2025-07-01'
+                   AND m.ativo = 0) AS abandono_anterior,
+
+                -- Total de alunos do semestre anterior
+                (SELECT COUNT(*) 
+                 FROM matricula m
+                 JOIN turma t ON m.fkTurma = t.id_turma
+                 JOIN curso c ON t.fkCurso = c.id_curso
+                 WHERE c.fkInstituicao = ?
+                   AND m.data_matricula >= '2025-01-01'
+                   AND m.data_matricula < '2025-07-01') AS total_anterior
+        ) AS sub;
+    `;
+
+    return database.executar(instrucaoSql, [fkInstituicao, fkInstituicao, fkInstituicao, fkInstituicao]);
+}
+
+
+// Comparativo de novas matrículas
+function comparativoNovasMatriculas(fkInstituicao) {
+    const instrucaoSql = `
+        SELECT
+            -- Semestre atual
+            (SELECT COUNT(*) 
+             FROM matricula m
+             JOIN turma t ON m.fkTurma = t.id_turma
+             JOIN curso c ON t.fkCurso = c.id_curso
+             WHERE c.fkInstituicao = ?
+               AND m.data_matricula >= CASE 
+                   WHEN MONTH(NOW()) BETWEEN 1 AND 6 THEN DATE_FORMAT(NOW(), '%Y-01-01')
+                   ELSE DATE_FORMAT(NOW(), '%Y-07-01')
+               END
+            ) AS atual,
+
+            -- Semestre anterior
+            (SELECT COUNT(*) 
+             FROM matricula m
+             JOIN turma t ON m.fkTurma = t.id_turma
+             JOIN curso c ON t.fkCurso = c.id_curso
+             WHERE c.fkInstituicao = ?
+               AND m.data_matricula >= CASE 
+                   WHEN MONTH(NOW()) BETWEEN 1 AND 6 THEN DATE_FORMAT(NOW(), '%Y-07-01')
+                   ELSE DATE_FORMAT(NOW(), '%Y-01-01')
+               END
+               AND m.data_matricula < CASE 
+                   WHEN MONTH(NOW()) BETWEEN 1 AND 6 THEN DATE_FORMAT(NOW(), '%Y-01-01')
+                   ELSE DATE_FORMAT(NOW(), '%Y-07-01')
+               END
+            ) AS anterior
+    `;
+
+    return database.executar(instrucaoSql, [fkInstituicao, fkInstituicao]);
+}
+
 
 
 module.exports = {
@@ -149,7 +289,10 @@ module.exports = {
     novasMatriculas,
     top5Evasao,
     taxaAprovacao,
-    comparativoTotalAlunos
+    comparativoTotalAlunos,
+    comparativoAbaixoMedia,
+    comparativoTaxaAbandono,
+    comparativoNovasMatriculas
     
 }
 

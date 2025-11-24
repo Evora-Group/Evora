@@ -91,9 +91,8 @@ function listarUsuariosInstituicao() {
                                     <td>
                                         <p class="p_status_${usuario.situacao}">${usuario.situacao}</p>
                                     </td>
-                                    <td onclick="abrirModal('modal_editar_usuario')"><i class="fi fi-sr-pencil"></i>
-                                    </td>
-                                    <td onclick="abrirModal('modal_remover_usuario'), definirVisitante(${usuario.id},'${usuario.tipo}')"><i class="fi fi-sr-trash"></i>
+                                    <td onclick="definirVisitante(${usuario.id}, '${usuario.nome}', '${usuario.email}', '${usuario.tipo}', '${usuario.turma}', '${usuario.curso}', '${usuario.instituicao}', '${usuario.situacao}'); abrirModal('modal_editar_usuario'); listarInstituicoes()"><i class="fi fi-sr-pencil"></i></td>
+                                    <td onclick="definirVisitante(${usuario.id}, '${usuario.nome}', '${usuario.email}', '${usuario.tipo}', '${usuario.turma}', '${usuario.curso}', '${usuario.instituicao}', '${usuario.situacao}'), abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
                                     </td>
                                 </tr>
 
@@ -101,9 +100,6 @@ function listarUsuariosInstituicao() {
     
 
                 });
-
-
-            
 
                           
             });
@@ -114,3 +110,127 @@ function listarUsuariosInstituicao() {
         console.error("Erro na requisição: ", erro);
     });
 }   
+
+function listarCursos() {
+
+    const fkInstituicao = sessionStorage.getItem("fkInstituicao");
+
+    console.log("ID da Instituição para listar cursos: ", fkInstituicao);
+
+    fetch(`/instituicao/listarCursosInstituicao/${fkInstituicao}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+        if (resposta.ok) {
+            resposta.json().then(function (resposta) {
+                console.log("Dados recebidos: ", JSON.stringify(resposta));
+                
+                const listaCursos = resposta;
+
+                const datalist = document.getElementById("cursos");
+                datalist.innerHTML = "";
+
+                listaCursos.forEach(curso => {
+                    datalist.innerHTML += `
+                        <option value="${curso.nome}">${curso.nome}</option>
+                    `;
+                }); 
+
+            });
+        } else {
+            console.error("Erro ao listar cursos: ", resposta.status);
+        }
+    }).catch(function (erro) {
+        console.error("Erro na requisição: ", erro);
+    });
+
+};
+
+function listarTurmas() {
+
+    const fkInstituicao = sessionStorage.getItem("fkInstituicao");
+
+    console.log("ID da Instituição para listar turmas: ", fkInstituicao);
+
+    fetch(`/instituicao/listarTurmasInstituicao/${fkInstituicao}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+        if (resposta.ok) {
+            resposta.json().then(function (resposta) {
+                console.log("Dados recebidos: ", JSON.stringify(resposta));
+                
+                const listaTurmas = resposta;
+
+                const datalists = document.querySelectorAll(".turmas_datalist");
+                
+                datalists.forEach(datalist => {
+                    
+                datalist.innerHTML = "";
+
+                listaTurmas.forEach(turma => {
+                    datalist.innerHTML += `
+                        <option value="${turma.nome_sigla}">${turma.nome_sigla}</option>
+                    `;
+                }); 
+
+                });
+
+
+
+            });
+        } else {
+            console.error("Erro ao listar turmas: ", resposta.status);
+        }
+    }).catch(function (erro) {
+        console.error("Erro na requisição: ", erro);
+    });
+}
+
+    function listarDisciplinas() {
+    // 1. Pega o ID da instituição salvo na sessão (Login)
+    const fkInstituicao = sessionStorage.getItem("fkInstituicao");
+
+    if (!fkInstituicao) {
+        console.error("ID da instituição não encontrado na sessão!");
+        return;
+    }
+
+    // 2. Faz a requisição para a rota que criamos
+    // Ajuste a URL '/instituicao/listarDisciplinas' conforme seu arquivo de rotas
+    fetch(`/instituicao/listarDisciplinas/${fkInstituicao}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(function (resposta) {
+        if (resposta.ok) {
+            resposta.json().then(function (listaDisciplinas) {
+                console.log("Disciplinas recebidas: ", listaDisciplinas);
+
+                // 3. Pega o elemento datalist pelo ID
+                const datalist = document.getElementById("lista_disciplinas");
+                
+                // Limpa a lista atual para não duplicar
+                datalist.innerHTML = "";
+
+                // 4. Cria uma <option> para cada disciplina retornada do banco
+                listaDisciplinas.forEach(disciplina => {
+                    datalist.innerHTML += `
+                        <option value="${disciplina.nome}">${disciplina.nome}</option>
+                    `;
+                });
+            });
+        } else {
+            console.error("Nenhuma disciplina encontrada ou erro na API.");
+        }
+    })
+    .catch(function (erro) {
+        console.error("Erro na requisição: ", erro);
+    });
+}

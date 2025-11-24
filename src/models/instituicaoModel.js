@@ -17,16 +17,6 @@ function buscarInstituicao(nome) {
 }
 
 function listarUsuariosInstituicao(idInstituicao) {
-    //     var instrucaoSql = `SELECT 
-    //     U.*, 
-    //     I.nome AS nome_instituicao 
-    // FROM Usuario U
-    // INNER JOIN Instituicao I ON U.fkInstituicao = I.idInstituicao
-    // WHERE U.fkInstituicao = ?;
-    //     `;
-
-    // var instrucaoSql = `SELECT * FROM Usuario WHERE fkInstituicao = ?;`;
-
     var instrucaoSql = `SELECT
     U.id_usuario AS id,
     U.nome,
@@ -57,7 +47,7 @@ FROM
 JOIN instituicao I ON U.fkInstituicao = I.id_instituicao
 WHERE
     I.id_instituicao = ?
-    AND U.cargo = 'Professor' -- Filtra explicitamente por professores, se houver outros cargos em 'usuario'
+    AND U.cargo = 'Professor' 
 
 UNION ALL
 
@@ -83,9 +73,11 @@ WHERE
     I.id_instituicao = ?
 
 ORDER BY
-    nome;`;
+    tipo DESC,  -- Ordena primeiro pelo tipo (Aluno vem antes de Professor)
+    nome ASC;  -- Depois ordena alfabeticamente pelo nome dentro de cada grupo
+    `;
 
-    console.log("Executando listagem de usuários da instituição:", idInstituicao);
+    console.log("Executando listagem de usuários da instituição (Alunos depois Professores):", idInstituicao);
     return database.executar(instrucaoSql, [idInstituicao, idInstituicao]);
 }
 
@@ -137,9 +129,65 @@ function listarAlunosInstituicao(idInstituicao) {
     return database.executar(instrucaoSql);
 }
 
+function listarCursosInstituicao(idInstituicao) {
+    console.log("ACESSANDO MODEL INSTITUIÇÃO: Listando cursos da instituição...");
+
+    var instrucaoSql = `
+        SELECT 
+            id_curso,
+            nome,
+            descricao,
+            modalidade,
+            duracao_semestres
+        FROM curso
+        WHERE fkInstituicao = ?
+        ORDER BY nome;
+    `;
+
+    return database.executar(instrucaoSql, [idInstituicao]);
+}
+
+function listarTurmasInstituicao(idInstituicao) {
+    console.log("ACESSANDO MODEL INSTITUIÇÃO: Listando turmas da instituição...");
+
+    var instrucaoSql = `
+
+    SELECT 
+    t.id_turma,
+    t.nome_sigla,
+    t.ano,
+    t.semestre,
+    t.periodo,
+    c.nome AS nome_curso
+FROM turma t
+JOIN curso c ON t.fkCurso = c.id_curso
+WHERE c.fkInstituicao = ?
+ORDER BY t.ano DESC, t.semestre DESC, t.nome_sigla;
+
+
+    `;
+
+    return database.executar(instrucaoSql, [idInstituicao]);
+}   
+
+
+function listarDisciplinasPorInstituicao(idInstituicao) {
+    var instrucaoSql = `
+        SELECT nome 
+        FROM disciplina 
+        WHERE fkInstituicao = ? 
+        ORDER BY nome ASC;
+    `;
+    return database.executar(instrucaoSql, [idInstituicao]);
+}
+
+
 module.exports = {
     listarInstituicoes,
     buscarInstituicao,
     listarUsuariosInstituicao,
-    listarAlunosInstituicao
+    listarAlunosInstituicao,
+    listarCursosInstituicao,
+    listarTurmasInstituicao,
+    listarDisciplinasPorInstituicao
 }

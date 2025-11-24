@@ -22,11 +22,6 @@ router.get("/geral/:ra", function (req, res) {
     alunoController.listarDadosGerais(req, res);
 });
 
-router.get("/kpiFreqInstituicao/:idInstituicao", function (req, res) {
-    alunoController.kpiFreqInstituicao(req, res);
-});
-
-
 router.put("/editar/:ra", alunoController.editar);
 
 // NOVO ENDPOINT: criar aluno

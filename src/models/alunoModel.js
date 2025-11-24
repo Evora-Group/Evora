@@ -22,34 +22,6 @@ function buscarAlunoPorRa(raAluno) {
     return database.executar(instrucaoSql);
 }
 
-function buscarFrequenciaGeral(idUsuario) {
-    const sql = `
-        SELECT 
-            a.ra,
-            a.nome AS nomeAluno,
-            COUNT(f.id_frequencia) AS totalAulas,
-            SUM(f.presente) AS presencas,
-            (SUM(f.presente) / COUNT(f.id_frequencia)) * 100 AS frequencia
-        FROM usuario u
-        JOIN instituicao i 
-            ON i.id_instituicao = u.fkInstituicao
-        JOIN curso c 
-            ON c.fkInstituicao = i.id_instituicao
-        JOIN turma t 
-            ON t.fkCurso = c.id_curso
-        JOIN matricula m 
-            ON m.fkTurma = t.id_turma
-        JOIN aluno a 
-            ON a.ra = m.fkAluno
-        LEFT JOIN frequencia f 
-            ON f.fkMatricula = m.id_matricula
-        WHERE u.id_usuario = ${idUsuario}
-        GROUP BY a.ra, a.nome;
-    `;
-    return database.executar(sql);
-}
-
-
 // função para o select de cursos
 function listarCursosInstituicao(fkInstituicao) {
     console.log("ACESSANDO MODEL: listando cursos disponíveis da instituição", fkInstituicao);
@@ -159,6 +131,8 @@ function editarAluno(ra, novoCurso, novaTurma) {
     return database.executar(instrucao);
 }
 
+// ...existing code...
+
 function criarAluno(ra, nome, email, telefone) {
     const instrucao = `
         INSERT INTO aluno (ra, nome, email, telefone)
@@ -194,40 +168,15 @@ function criarMatricula(ra, turma, fkCurso) {
     return database.executar(instrucao);
 }
 
-function kpiFreqInstituicao(idInstituicao) {
-    const instrucaoSql = `
-        SELECT 
-    ROUND(AVG(freqAluno.freq_percentual), 0) AS frequenciaGeral,
-    SUM(CASE WHEN freqAluno.freq_percentual < 75 THEN 1 ELSE 0 END) AS emAtencao
-FROM (
-    SELECT
-        a.ra,
-        (SUM(f.presente) / COUNT(f.id_frequencia)) * 100 AS freq_percentual
-    FROM aluno a
-        JOIN matricula m ON m.fkAluno = a.ra
-        JOIN turma t ON t.id_turma = m.fkTurma
-        JOIN curso c ON c.id_curso = t.fkCurso
-        JOIN frequencia f ON f.fkMatricula = m.id_matricula
-    WHERE c.fkInstituicao = ${idInstituicao}
-    GROUP BY a.ra
-) AS freqAluno;
-
-    `;
-
-    return database.executar(instrucaoSql);
-}
-
-
+// ...existing code...
 
 module.exports = {
     buscarAlunoPorRa,
-    buscarFrequenciaGeral,
     listarCursosInstituicao,
     listarTurmasInstituicao,
     buscarDesempenhoPorRa,
     buscarDadosGerais,
     editarAluno,
     criarAluno,
-    criarMatricula,
-    kpiFreqInstituicao
+    criarMatricula
 }

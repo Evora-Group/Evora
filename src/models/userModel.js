@@ -31,8 +31,8 @@ function logar(email, senha) {
         u.cargo,
         u.fkInstituicao,
         i.nome AS nomeInstituicao
-    FROM Usuario u
-    JOIN Instituicao i ON i.id_instituicao = u.fkInstituicao
+    FROM usuario u
+    JOIN instituicao i ON i.id_instituicao = u.fkInstituicao
     WHERE u.email = ?;`
     
     return database.executar(instrucaoSql, [email])

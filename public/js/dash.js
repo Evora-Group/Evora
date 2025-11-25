@@ -11,9 +11,11 @@ function puxarNomeUsuario() {
 };
 
 
-// Função para listar usuários da instituição
+let listaUsuariosGlobal = [];
+
 function listarUsuariosInstituicao() {
     const fkInstituicao = sessionStorage.getItem("fkInstituicao");
+    
     fetch(`/instituicao/listarUsuariosInstituicao/${fkInstituicao}`, {
         method: "GET",
         headers: {
@@ -24,83 +26,15 @@ function listarUsuariosInstituicao() {
             resposta.json().then(function (resposta) {
                 console.log("Dados recebidos: ", JSON.stringify(resposta));
                 
-                const listaUsuarios = resposta;
-                const qtdUsuarios = listaUsuarios.length;
-                
-                const listaProfessores = listaUsuarios.filter(usuario => usuario.tipo === "Professor");
-                const qtdProfessores = listaProfessores.length;
+                // 2. Salva os dados na variável global
+                listaUsuariosGlobal = resposta;
 
-                const listaAlunos = listaUsuarios.filter(usuario => usuario.tipo === "Aluno");
-                const qtdAlunos = listaAlunos.length;
+                // --- Lógica dos KPIs (Total, Professores, Alunos, etc) ---
+                // Mantemos isso aqui para calcular com base no TOTAL, não no filtro
+                atualizarKPIs(listaUsuariosGlobal);
 
-                const listaBloqueados = listaUsuarios.filter(usuario => usuario.situacao === "bloqueado");
-                const qtdBloqueados = listaBloqueados.length;
-                
-                const listaLiberados = listaUsuarios.filter(usuario => usuario.situacao === "liberado");
-                const qtdLiberados = listaLiberados.length;
-
-
-                console.log("Quantidade de usuários: ", qtdUsuarios);
-                console.log("Quantidade de professores: ", qtdProfessores);
-                console.log("Quantidade de alunos: ", qtdAlunos);
-                
-                const elementosQtdUsuarios = document.querySelectorAll(".qtd_usuarios");
-                elementosQtdUsuarios.forEach(elemento => {
-                    elemento.innerHTML = qtdUsuarios;
-                });
-                
-                const elementosQtdProfessores = document.querySelectorAll(".qtd_professores");
-                elementosQtdProfessores.forEach(elemento => {
-                    elemento.innerHTML = qtdProfessores;
-                });
-                
-                const elementosQtdAlunos = document.querySelectorAll(".qtd_alunos");
-                elementosQtdAlunos.forEach(elemento => {
-                    elemento.innerHTML = qtdAlunos;
-                });
-
-                const elementosQtdBloqueados = document.querySelectorAll(".qtd_bloqueados");
-                elementosQtdBloqueados.forEach(elemento => {
-                    elemento.innerHTML = qtdBloqueados;
-                });
-
-                const elementosQtdLiberados = document.querySelectorAll(".qtd_liberados");
-                elementosQtdLiberados.forEach(elemento => {
-                    elemento.innerHTML = qtdLiberados;
-                }); 
-
-                const progressBarSituacao = document.getElementById("progress_bar_situacao");
-                const porcentagemLiberados = (qtdLiberados / qtdUsuarios) * 100;
-                progressBarSituacao.innerHTML = `
-                    <progress id="progress_bar" value="${porcentagemLiberados}" max="100"> ${porcentagemLiberados}% </progress>
-                `;
-
-                const corpoTabela = document.getElementById("corpo_tabela_usuarios");
-
-                listaUsuarios.forEach(usuario => {
-                    
-                      corpoTabela.innerHTML += `
-                
-                                <tr>
-                                    <td>${usuario.id}</td>
-                                    <td>${usuario.nome}</td>
-                                    <td>${usuario.email}</td>
-                                    <td>${usuario.tipo}</td>
-                                    <td>${usuario.turma}</td>
-                                    <td>${usuario.instituicao}</td>
-                                    <td>
-                                        <p class="p_status_${usuario.situacao}">${usuario.situacao}</p>
-                                    </td>
-                                    <td onclick="definirVisitante(${usuario.id}, '${usuario.nome}', '${usuario.email}', '${usuario.tipo}', '${usuario.turma}', '${usuario.curso}', '${usuario.instituicao}', '${usuario.situacao}'); abrirModal('modal_editar_usuario'); listarInstituicoes()"><i class="fi fi-sr-pencil"></i></td>
-                                    <td onclick="definirVisitante(${usuario.id}, '${usuario.nome}', '${usuario.email}', '${usuario.tipo}', '${usuario.turma}', '${usuario.curso}', '${usuario.instituicao}', '${usuario.situacao}'), abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
-                                    </td>
-                                </tr>
-
-                `; // Limpa o conteúdo existente na tabela
-    
-
-                });
-
+                // 3. Chama a função que desenha a tabela passando a lista completa
+                renderizarTabela(listaUsuariosGlobal);
                           
             });
         } else {
@@ -110,6 +44,88 @@ function listarUsuariosInstituicao() {
         console.error("Erro na requisição: ", erro);
     });
 }   
+
+// Nova função apenas para desenhar a tabela (reutilizável)
+function renderizarTabela(lista) {
+    const corpoTabela = document.getElementById("corpo_tabela_usuarios");
+    corpoTabela.innerHTML = ""; // Limpa a tabela antes de preencher
+
+    lista.forEach(usuario => {
+
+        if (usuario.tipo === 'Professor'){ 
+            tdStatus = `<td>
+                    <p class="p_status_${usuario.situacao}">${usuario.situacao}</p>
+                </td>`
+        }else{
+            tdStatus = `<td>
+                    <p></p>
+            </td>`
+        }
+
+
+        corpoTabela.innerHTML += `
+            <tr>
+                <td>${usuario.id}</td>
+                <td>${usuario.nome}</td>
+                <td>${usuario.email}</td>
+                <td>${usuario.tipo}</td>
+                <td>${usuario.turma}</td>
+                <td>${usuario.curso}</td>
+                ${tdStatus}
+                <td onclick="definirVisitante(${usuario.id}, '${usuario.nome}', '${usuario.email}', '${usuario.tipo}', '${usuario.turma}', '${usuario.curso}', '${usuario.instituicao}', '${usuario.situacao}'); abrirModal('modal_editar_usuario'); listarInstituicoes()"><i class="fi fi-sr-pencil"></i></td>
+                <td onclick="definirVisitante(${usuario.id}, '${usuario.nome}', '${usuario.email}', '${usuario.tipo}', '${usuario.turma}', '${usuario.curso}', '${usuario.instituicao}', '${usuario.situacao}'), abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+// Nova função de Pesquisa
+function filtrarUsuarios() {
+    // Pega o valor digitado e transforma em minúsculo
+    const termo = document.getElementById('barra_pesquisa').value.toLowerCase();
+
+    // Filtra a lista global
+    const listaFiltrada = listaUsuariosGlobal.filter(usuario => {
+        // Verifica se o termo está no ID ou no NOME
+        // Converte ID para string para poder usar .includes()
+        return usuario.id.toString().includes(termo) || 
+               usuario.nome.toLowerCase().includes(termo);
+    });
+
+    // Redesenha a tabela apenas com os filtrados
+    renderizarTabela(listaFiltrada);
+}
+
+// Função auxiliar para organizar os KPIs (retirei da listarUsuariosInstituicao para ficar limpo)
+function atualizarKPIs(listaUsuarios) {
+    const qtdUsuarios = listaUsuarios.length;
+    
+    const listaProfessores = listaUsuarios.filter(usuario => usuario.tipo === "Professor");
+    const qtdProfessores = listaProfessores.length;
+
+    const listaAlunos = listaUsuarios.filter(usuario => usuario.tipo === "Aluno");
+    const qtdAlunos = listaAlunos.length;
+
+    const listaBloqueados = listaUsuarios.filter(usuario => usuario.situacao === "bloqueado" && usuario.tipo === "Professor");
+    const qtdBloqueados = listaBloqueados.length;
+    
+    const listaLiberados = listaUsuarios.filter(usuario => usuario.situacao === "liberado" && usuario.tipo === "Professor");
+    const qtdLiberados = listaLiberados.length;
+
+    // Atualiza o HTML dos KPIs
+    document.querySelectorAll(".qtd_usuarios").forEach(el => el.innerHTML = qtdUsuarios);
+    document.querySelectorAll(".qtd_professores").forEach(el => el.innerHTML = qtdProfessores);
+    document.querySelectorAll(".qtd_alunos").forEach(el => el.innerHTML = qtdAlunos);
+    document.querySelectorAll(".qtd_bloqueados").forEach(el => el.innerHTML = qtdBloqueados);
+    document.querySelectorAll(".qtd_liberados").forEach(el => el.innerHTML = qtdLiberados); 
+
+    const progressBarSituacao = document.getElementById("progress_bar_situacao");
+
+    progressBarSituacao.innerHTML = `
+        <progress id="progress_bar" value="${qtdLiberados}" max="${qtdBloqueados + qtdLiberados}"></progress>
+    `;
+}
 
 function listarCursos() {
 

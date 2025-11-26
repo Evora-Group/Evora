@@ -58,7 +58,7 @@ function renderizarTabela(lista) {
                 </td>`
         }else{
             tdStatus = `<td>
-                    <p></p>
+                    <p>N/A</p>
             </td>`
         }
 

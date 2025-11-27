@@ -17,16 +17,6 @@ function buscarInstituicao(nome) {
 }
 
 function listarUsuariosInstituicao(idInstituicao) {
-    //     var instrucaoSql = `SELECT 
-    //     U.*, 
-    //     I.nome AS nome_instituicao 
-    // FROM Usuario U
-    // INNER JOIN Instituicao I ON U.fkInstituicao = I.idInstituicao
-    // WHERE U.fkInstituicao = ?;
-    //     `;
-
-    // var instrucaoSql = `SELECT * FROM Usuario WHERE fkInstituicao = ?;`;
-
     var instrucaoSql = `SELECT
     U.id_usuario AS id,
     U.nome,
@@ -57,7 +47,7 @@ FROM
 JOIN instituicao I ON U.fkInstituicao = I.id_instituicao
 WHERE
     I.id_instituicao = ?
-    AND U.cargo = 'Professor' -- Filtra explicitamente por professores, se houver outros cargos em 'usuario'
+    AND U.cargo = 'Professor' 
 
 UNION ALL
 
@@ -83,9 +73,11 @@ WHERE
     I.id_instituicao = ?
 
 ORDER BY
-    nome;`;
+    tipo DESC,  -- Ordena primeiro pelo tipo (Aluno vem antes de Professor)
+    nome ASC;  -- Depois ordena alfabeticamente pelo nome dentro de cada grupo
+    `;
 
-    console.log("Executando listagem de usuários da instituição:", idInstituicao);
+    console.log("Executando listagem de usuários da instituição (Alunos depois Professores):", idInstituicao);
     return database.executar(instrucaoSql, [idInstituicao, idInstituicao]);
 }
 
@@ -137,7 +129,12 @@ function listarAlunosInstituicao(idInstituicao) {
     return database.executar(instrucaoSql);
 }
 
+// Versão paginada com filtros (mantida da branch de alertas)
 function listarCursosInstituicao(idInstituicao, limit, offset, q, professor, situacao) {
+    // Valores padrão para paginação
+    limit = limit !== undefined && limit !== null ? parseInt(limit) : 15;
+    offset = offset !== undefined && offset !== null ? parseInt(offset) : 0;
+    
     console.log("Executando listagem de cursos da instituição:", idInstituicao, "limit:", limit, "offset:", offset, "q:", q, "professor:", professor, "situacao:", situacao);
 
     // construir filtros SQL a partir de q (nome/id), professor (nome) e situacao (liberado/bloqueado)
@@ -180,15 +177,24 @@ function listarCursosInstituicao(idInstituicao, limit, offset, q, professor, sit
     var selectSql = `
         SELECT
             C.id_curso AS id,
+            C.id_curso,
             C.nome,
             IFNULL(C.descricao, '-') AS descricao,
             IFNULL(C.modalidade, '-') AS modalidade,
+            C.duracao_semestres,
             (
                 SELECT IFNULL(COUNT(DISTINCT M.fkAluno), 0)
                 FROM turma T
                 JOIN matricula M ON T.id_turma = M.fkTurma
                 WHERE T.fkCurso = C.id_curso
-            ) AS quantidade_alunos
+            ) AS quantidade_alunos,
+            (
+                SELECT IFNULL(COUNT(DISTINCT UT.fkUsuario), 0)
+                FROM turma T2
+                JOIN usuario_turma UT ON T2.id_turma = UT.fkTurma
+                JOIN usuario U ON UT.fkUsuario = U.id_usuario
+                WHERE T2.fkCurso = C.id_curso AND U.cargo = 'Professor'
+            ) AS num_professores
         FROM curso C
         WHERE C.fkInstituicao = ?
         ${whereExtra}
@@ -211,6 +217,44 @@ function listarCursosInstituicao(idInstituicao, limit, offset, q, professor, sit
         });
 }
 
+// Versão simples (origin/main) agora redireciona para paginada sem filtros
+function listarCursosInstituicaoSimples(idInstituicao) {
+    return listarCursosInstituicao(idInstituicao, 100, 0, '', '', '');
+}
+
+function listarTurmasInstituicao(idInstituicao) {
+    console.log("ACESSANDO MODEL INSTITUIÇÃO: Listando turmas da instituição...");
+
+    var instrucaoSql = `
+
+    SELECT 
+    t.id_turma,
+    t.nome_sigla,
+    t.ano,
+    t.semestre,
+    t.periodo,
+    c.nome AS nome_curso
+FROM turma t
+JOIN curso c ON t.fkCurso = c.id_curso
+WHERE c.fkInstituicao = ?
+ORDER BY t.ano DESC, t.semestre DESC, t.nome_sigla;
+
+
+    `;
+
+    return database.executar(instrucaoSql, [idInstituicao]);
+}   
+
+
+function listarDisciplinasPorInstituicao(idInstituicao) {
+    var instrucaoSql = `
+        SELECT nome 
+        FROM disciplina 
+        WHERE fkInstituicao = ? 
+        ORDER BY nome ASC;
+    `;
+    return database.executar(instrucaoSql, [idInstituicao]);
+}
 module.exports = {
     listarInstituicoes,
     buscarInstituicao,
@@ -221,7 +265,10 @@ module.exports = {
     criarCurso,
     editarCurso,
     deletarCurso,
-    obterCursoPorId
+    obterCursoPorId,
+    listarTurmasInstituicao,
+    listarDisciplinasPorInstituicao,
+    listarCursosInstituicaoSimples
 }
 
 function listarAlunosAlerta(idInstituicao, tipo, limit, offset) {

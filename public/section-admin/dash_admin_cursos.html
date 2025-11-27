@@ -15,7 +15,7 @@
 </head>
 
 
-<body onload="puxarNomeUsuario()">
+<body onload="puxarNomeUsuario(); if(typeof listarCursosAdmin === 'function') { listarCursosAdmin(1, 15); if(typeof atualizarKPIsAdmin === 'function') atualizarKPIsAdmin(); }">
     <header class="header_info_usuario">
         <img src="../assets/imgs/logo-nome.svg" alt="" class="img_logo">
     </header>
@@ -80,42 +80,11 @@
                         <input type="search" placeholder="Digite nome ou ID para procurar pelo curso..."
                             class="input_pesquisa">
                         <div class="div_criar_usuario" id="btnAbrirDialog"
-                            onclick="listarInstituicoes(), abrirModal('modal_criar_curso')">
+                            onclick="abrirModal('modal_criar_curso')">
                             <p><strong>+ Criar Novo Curso</strong></p>
                         </div>
 
                     </header>
-                    <section class="section_filter_usuarios">
-                        <!-- Removed visible 'filtrar por' summary: keep controls hidden so the JS popover can move/use them -->
-                        <div class="filtro-lista" style="display:none;">
-                            <label>
-                                <input type="checkbox" id="filter_nome"> Nome
-                            </label>
-                            <label>
-                                <input type="checkbox" id="filter_situacao"> Situação
-                            </label>
-                            <div id="filter_situacao_controls" style="display:none; padding-left:12px;">
-                                <select id="filter_situacao_select" class="input_modal">
-                                    <option value="">--</option>
-                                    <option value="liberado">Liberado</option>
-                                    <option value="bloqueado">Bloqueado</option>
-                                </select>
-                            </div>
-                            <label>
-                                <input type="checkbox" id="filter_instituicao"> Instituição
-                            </label>
-                            <label>
-                                <input type="checkbox" id="filter_professor"> Professor
-                            </label>
-                            <div id="filter_professor_controls" style="display:none; padding-left:12px;">
-                                <input type="text" id="filter_professor_text" placeholder="Nome do professor" class="input_modal">
-                            </div>
-                            <div style="margin-top:8px; display:flex; gap:8px;">
-                                <button id="btn_apply_filters" class="div_criar_usuario" type="button">Aplicar</button>
-                                <button id="btn_clear_filters" class="div_editar_usuario" type="button">Limpar</button>
-                            </div>
-                        </div>
-                    </section>
                     <main class="main_usuarios">
                         <!-- Tabela de usuários será inserida aqui -->
                         <table class="tabela">
@@ -125,7 +94,6 @@
                                     <th>Curso</th>
                                     <th>Instituição</th>
                                     <th>Professores Alocados</th>
-                                    <th>Situação</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -134,8 +102,10 @@
                                 <!-- Adicione mais linhas conforme necessário -->
                             </tbody>
                         </table>
-
                     </main>
+                    
+                    <!-- Container de paginação fora do main_usuarios -->
+                    <div id="pagination_controls"></div>
                 </section>
             </main>
         </section>
@@ -148,33 +118,32 @@
             <form class="form_modal">
 
                 <label for="nome_curso">Nome:</label>
-                <input type="nome_curso" id="instituicao" name="nome_curso"
+                <input type="text" name="nome_curso"
                     placeholder="Digite o nome do Curso" class="input_modal">
 
+                <label for="descricao">Descrição:</label>
+                <textarea name="descricao" placeholder="Descrição do curso" class="input_modal" rows="3"></textarea>
 
-                <label for="nome_instituicao">Instituição:</label>
-                <input list="instituicoes" type="nome_instituicao" id="instituicao" name="nome_instituicao"
-                    placeholder="Pesquise pela sua instituicao" class="input_modal">
-                <datalist id="instituicoes">
-                    <option value=""></option>
-                </datalist>
+                <label for="modalidade">Modalidade:</label>
+                <select name="modalidade" class="input_modal">
+                    <option value="">Selecione...</option>
+                    <option value="Presencial">Presencial</option>
+                    <option value="EAD">EAD</option>
+                    <option value="Híbrido">Híbrido</option>
+                </select>
 
-                <label for="nome_professor">Professores Alocados:</label>
-                <input list="professores" type="nome_professor" id="instituicao" name="nome_professor"
-                    placeholder="Pesquise por professor" class="input_modal">
-                <datalist id="professores">
-                    <option value=""></option>
-                </datalist>
+                <label for="duracao_semestres">Duração (semestres):</label>
+                <input type="number" name="duracao_semestres" placeholder="Ex: 8" class="input_modal" min="1">
 
             </form>
 
             <div class="div_footer">
 
-                <div class="div_criar_usuario" id="btnEnviarDialog" onclick="enviarModal('modal_criar_curso')">
-                    <p><strong>Criar Novo Usuário</strong></p>
+                <div class="div_criar_usuario" id="btnEnviarDialog">
+                    <p><strong>Criar Curso</strong></p>
                 </div>
 
-                <p id="btnFecharDialog" onclick="fecharModal('modal_criar_curso')"><u>cancelar</u></p>
+                <p onclick="fecharModal('modal_criar_curso')"><u>cancelar</u></p>
 
             </div>
 
@@ -197,37 +166,38 @@
 
                 <div class="div_input">
                     <label for="nome">Nome:</label>
-                    <input type="text" name="nome">
+                    <input type="text" name="nome" class="input_modal">
                 </div>
 
                 <div class="div_input">
- <label for="nome_instituicao">Instituição:</label>
-                <input list="instituicoes" type="nome_instituicao" id="instituicao" name="nome_instituicao"
-                    placeholder="Pesquise pela sua instituicao" class="input_modal">
-                <datalist id="instituicoes">
-                    <option value=""></option>
-                </datalist>
+                    <label for="descricao">Descrição:</label>
+                    <textarea name="descricao" class="input_modal" rows="3"></textarea>
                 </div>
 
                 <div class="div_input">
+                    <label for="modalidade">Modalidade:</label>
+                    <select name="modalidade" class="input_modal">
+                        <option value="">Selecione...</option>
+                        <option value="Presencial">Presencial</option>
+                        <option value="EAD">EAD</option>
+                        <option value="Híbrido">Híbrido</option>
+                    </select>
+                </div>
 
-                <label for="professores">Professores Alocados:</label>
-                <input list="instituicoes" type="professores" id="curso" name="professores"
-                    placeholder="Pesquise pelos professores" class="input_modal">
-                <datalist id="professores">
-                    <option value=""></option>
-                </datalist>
+                <div class="div_input">
+                    <label for="duracao_semestres">Duração (semestres):</label>
+                    <input type="number" name="duracao_semestres" class="input_modal" min="1">
                 </div>
 
             </form>
 
             <div class="div_footer">
 
-                <div class="div_editar_usuario" id="btnEnviarDialog" onclick="fecharModal('modal_editar_curso')">
+                <div class="div_editar_usuario" id="btnEnviarDialog">
                     <p><strong>Salvar</strong></p>
                 </div>
 
-                <p id="btnFecharDialog" onclick="fecharModal('modal_editar_curso')"><u>cancelar</u></p>
+                <p onclick="fecharModal('modal_editar_curso')"><u>cancelar</u></p>
 
             </div>
 
@@ -271,20 +241,12 @@
 
     function abrirModal(modalId) {
         const dialog = document.getElementById(modalId);
-        dialog.showModal();
+        if (dialog) dialog.showModal();
     }
 
     function fecharModal(modalId) {
         const dialog = document.getElementById(modalId);
-        dialog.close();
-    }
-
-    function enviarModal(modalId) {
-        const dialog = document.getElementById(modalId);
-
-        // Lógica para enviar os dados do modal pode ser adicionada aqui
-
-        dialog.close();
+        if (dialog) dialog.close();
     }
 
 </script>

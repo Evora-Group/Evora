@@ -57,11 +57,11 @@
                                 <i id="icon_indicador" class="fi fi-sr-users"></i>
                             </div>
                             <div class="div_titulo_kpi" id="div_situacao_1">
-                                <h1 id="indicativo-total">1,030</h1>
+                                <h1 id="indicativo-total"></h1>
                                 <p class="p_titulo_kpi">Total Alunos</p>
                                 <span class="indicativos-desc">
-                                    <i id="seta" class="fi fi-sr-arrow-up-right"></i>
-                                    <p id="indicativo-total-semana">+0,49% <span>Esta Semana</span></p>
+                                    <i id="seta" class="fi fi-sr-minus"></i>
+                                    <p id="indicativo-total-semana">+0,49% <span>Esse mês</span></p>
                                 </span>
                             </div>
                         </div>
@@ -73,11 +73,11 @@
                                 <i id="icon_indicador" class="fi fi-sr-users"></i>
                             </div>
                             <div class="div_titulo_kpi" id="div_situacao_2">
-                                <h1 id="indicativo-abaixo-media">30%</h1>
-                                <p class="p_titulo_kpi">Alunos Abaixo da Média</p>
+                                <h1 id="indicativo-abaixo-media"></h1>
+                                <p class="p_titulo_kpi">Alunos Abaixo da Média no Semestre</p>
                                 <span class="indicativos-desc">
-                                    <i id="seta-abaixo" class="fi fi-sr-arrow-down-left"></i>
-                                    <p id="indicativo-abaixo-semana"> +0,49% <span>Esta Semana</span></p>
+                                    <i id="seta-abaixo" class="fi fi-sr-minus"></i>
+                                    <p id="indicativo-abaixo-semana"> +0,49% <span>Este semestre</span></p>
                                 </span>
                             </div>
                         </div>
@@ -89,11 +89,11 @@
                                 <i id="icon_indicador" class="fi fi-sr-arrow-down-left"></i>
                             </div>
                             <div class="div_titulo_kpi" id="div_situacao_3">
-                                <h1 id="indicativo-abandono">10%</h1>
-                                <p class="p_titulo_kpi">Taxa de Abandono</p>
+                                <h1 id="indicativo-abandono"></h1>
+                                <p class="p_titulo_kpi">Taxa de Abandono no Semestre</p>
                                 <span class="indicativos-desc">
-                                    <i id="seta-abaixo" class="fi fi-sr-arrow-down-left"></i>
-                                    <p id="indicativo-abandono-semana">+0,91% <span>Esta Semana</span></p>
+                                    <i id="seta-abandono" class="fi fi-sr-minus"></i>
+                                    <p id="indicativo-abandono-semana">+0,91% <span>Este semestre</span></p>
                                 </span>
                             </div>
                         </div>
@@ -105,11 +105,11 @@
                                 <i id="icon_indicador" class="fi fi-sr-plus"></i>
                             </div>
                             <div class="div_titulo_kpi" id="div_situacao_4">
-                                <h1 id="indicativo-matricula">15%</h1>
-                                <p class="p_titulo_kpi">Novas Mátriculas</p>
+                                <h1 id="indicativo-matricula"></h1>
+                                <p class="p_titulo_kpi">Novas Mátriculas no Semestre</p>
                                 <span class="indicativos-desc">
-                                    <i id="seta" class="fi fi-sr-arrow-up-right"></i>
-                                    <p id="indicativo-matricula-semana">+1,51% <span>Esta Semana</span></p>
+                                    <i id="seta-matriculas" class="fi fi-sr-minus"></i>
+                                    <p id="indicativo-matricula-semana">+1,51% <span>Este semestre</span></p>
                                 </span>
                             </div>
                         </div>
@@ -178,3 +178,275 @@
 </body>
 
 </html>
+
+
+<script>
+    const idInstituicao = sessionStorage.getItem("fkInstituicao");
+    const nomeUsuario   = sessionStorage.getItem("nomeUsuario")
+
+    if (!idInstituicao) {
+        alert("Erro: Instituição não encontrada. Faça login novamente.");
+        window.location.href = "../login.html";
+    }
+
+    document.getElementById("nome-usuario").innerText = nomeUsuario;
+
+    // === KPIs ===
+    function totalAlunos() {
+        fetch(`/dash/totalAlunos/${idInstituicao}`)
+            .then(res => res.json())
+            .then(data => {
+                // Agora data já é o objeto direto (resultado[0])
+                document.getElementById("indicativo-total").innerHTML = data.TotalAlunos || 0;
+            })
+            .catch(err => {
+                console.error("Erro total alunos:", err);
+                document.getElementById("indicativo-total").innerHTML = "Erro";
+            });
+    }
+
+    function abaixoMedia() {
+        fetch(`/dash/alunosAbaixoMedia/${idInstituicao}`)
+            .then(res => res.json())
+            .then(data => {
+                const valor = Number(data.percentual_media_baixa).toFixed(1);
+                document.getElementById("indicativo-abaixo-media").innerHTML = valor + "%";
+            })
+            .catch(err => {
+                console.error("Erro abaixo da média:", err);
+                document.getElementById("indicativo-abaixo-media").innerHTML = "Erro";
+            });
+    }
+
+    function taxaAbandono() {
+        fetch(`/dash/taxaAbandono/${idInstituicao}`)
+            .then(res => res.json())
+            .then(data => {
+                const valor = Number(data.percentual_taxa_abandono).toFixed(1);
+                document.getElementById("indicativo-abandono").innerHTML = valor + "%";
+            })
+            .catch(err => {
+                console.error("Erro taxa abandono:", err);
+                document.getElementById("indicativo-abandono").innerHTML = "Erro";
+            });
+    }
+
+    function novasMatriculas() {
+        fetch(`/dash/novasMatriculas/${idInstituicao}`)
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("indicativo-matricula").innerHTML = data.novas_matriculas || 0;
+            })
+            .catch(err => {
+                console.error("Erro novas matrículas:", err);
+                document.getElementById("indicativo-matricula").innerHTML = "Erro";
+            });
+    }
+
+    // === Gráfico Top 5 Evasão ===
+    function graficoTop5Evasao() {
+        const lista = document.querySelector(".bar-chart");
+
+        fetch(`/dash/top5Evasao/${idInstituicao}`)
+            .then(res => {
+                if (!res.ok) throw new Error("Erro HTTP " + res.status);
+                return res.json();
+            })
+            .then(data => {
+                lista.innerHTML = ""; // limpa o conteúdo estático
+
+                if (!data || data.length === 0) {
+                    lista.innerHTML = '<li><span>Nenhum dado disponível</span></li>';
+                    return;
+                }
+
+                data.forEach(item => {
+                    const percentual = Number(item.percentual).toFixed(1);
+                    const nome = item.nomeCurso || "Sem nome";
+
+                    lista.innerHTML += `
+                        <li>
+                            <span class="label">${nome}</span>
+                            <div class="bar-wrapper">
+                                <div class="bar" style="width: ${percentual}%;"></div>
+                                <span class="bar-value">${percentual}%</span>
+                            </div>
+                        </li>
+                    `;
+                });
+            })
+            .catch(err => {
+                console.error("Erro no Top 5 Evasão:", err);
+                lista.innerHTML = '<li><span>Erro ao carregar</span></li>';
+            });
+    }
+
+    // === Gráfico Donut - Taxa de Aprovação ===
+    function graficoTaxaAprovacao() {
+        fetch(`/dash/taxaAprovacao/${idInstituicao}`)
+            .then(res => res.json())
+            .then(data => {
+                const valor = Number(data.percentualAprovacao).toFixed(1);
+                
+                const donut = document.querySelector(".donut-chart");
+                const texto = donut.querySelector(".donut-center-text strong");
+
+                texto.innerHTML = `${valor}%`;
+                donut.style.setProperty("--value", valor);
+            })
+            .catch(err => {
+                console.error("Erro taxa aprovação:", err);
+                document.querySelector(".donut-center-text strong").innerHTML = "Erro";
+            });
+    }
+
+
+    function atualizarVariacaoTotalAlunos() {
+    fetch(`/dash/comparativoTotalAlunos/${idInstituicao}`)
+        .then(res => res.json())
+        .then(data => {
+            const texto = document.getElementById("indicativo-total-semana");
+            const seta  = document.getElementById("seta");
+
+            const atual = data.atual || 0;
+
+            // Atualiza o valor principal do KPI
+            document.getElementById("indicativo-total").innerText = atual;
+
+            if (data.direcao === "up") {
+                seta.className = "fi fi-sr-arrow-up-right";
+                seta.style.color = "#10b981"; // verde
+                texto.style.color = "#10b981";
+                texto.innerHTML = `+${data.variacao}% <span>Este mês</span>`;
+            } else if (data.direcao === "down") {
+                seta.className = "fi fi-sr-arrow-down-left";
+                seta.style.color = "#ef4444"; // vermelho
+                texto.style.color = "#ef4444";
+                texto.innerHTML = `${data.variacao}% <span>Este mês</span>`;
+            } else {
+                seta.className = "fi fi-sr-minus";
+                seta.style.color = "#888";
+                texto.style.color = "#888";
+                texto.innerHTML = `0% <span>Este mês</span>`;
+            }
+        })
+        .catch(err => {
+            console.error("Erro comparativo total alunos:", err);
+            document.getElementById("indicativo-total-semana").innerHTML = "Erro";
+        });
+}
+
+
+    function atualizarVariacaoAbaixoMedia() {
+    fetch(`/dash/comparativoAbaixoMedia/${idInstituicao}`)
+        .then(res => res.json())
+        .then(data => {
+            const texto = document.getElementById("indicativo-abaixo-semana");
+            const seta  = document.getElementById("seta-abaixo");
+
+            if (data.direcao === "up") {
+                seta.className = "fi fi-sr-arrow-up-right";
+                seta.style.color = "#ef4444"; // vermelho = aumento de alunos abaixo da média
+                texto.style.color = "#ef4444";
+                texto.innerHTML = `+${data.variacao}% <span>Este semestre</span>`;
+            } 
+            else if (data.direcao === "down") {
+                seta.className = "fi fi-sr-arrow-down-left";
+                seta.style.color = "#10b981"; // verde = diminuiu
+                texto.style.color = "#10b981";
+                texto.innerHTML = `${data.variacao}% <span>Este semestre</span>`;
+            } 
+            else {
+                seta.className = "fi fi-sr-minus";
+                seta.style.color = "#888";
+                texto.style.color = "#888";
+                texto.innerHTML = `0% <span>Este semestre</span>`;
+            }
+        })
+        .catch(err => {
+            console.error("Erro comparativo abaixo da média:", err);
+            document.getElementById("indicativo-abaixo-semana").innerHTML = "Erro";
+        });
+}
+
+function atualizarVariacaoAbandono() {
+    fetch(`/dash/comparativoAbandono/${idInstituicao}`)
+        .then(res => res.json())
+        .then(data => {
+            const texto = document.getElementById("indicativo-abandono-semana");
+            const seta  = document.getElementById("seta-abandono");
+            const valorAtual = document.getElementById("indicativo-abandono");
+
+            // Atualiza o valor principal (sem apagar nada)
+            valorAtual.textContent = `${data.atual}%`;
+
+            if (data.direcao === "up") {
+                seta.className = "fi fi-sr-arrow-up-right";
+                seta.style.color = "#ef4444";
+                texto.style.color = "#ef4444";
+                texto.innerHTML = `+${data.variacao}% <span>Este semestre</span>`;
+            } else if (data.direcao === "down") {
+                seta.className = "fi fi-sr-arrow-down-left";
+                seta.style.color = "#10b981";
+                texto.style.color = "#10b981";
+                texto.innerHTML = `${data.variacao}% <span>Este semestre</span>`;
+            } else {
+                seta.className = "fi fi-sr-minus";
+                seta.style.color = "#888";
+                texto.style.color = "#888";
+                texto.innerHTML = `0% <span>Este semestre</span>`;
+            }
+        })
+        .catch(err => {
+            console.error("Erro comparativo taxa de abandono:", err);
+        });
+}
+
+
+function atualizarVariacaoNovasMatriculas() {
+    fetch(`/dash/comparativoNovasMatriculas/${idInstituicao}`)
+        .then(res => res.json())
+        .then(data => {
+            const texto = document.getElementById("indicativo-matricula-semana");
+            const seta  = document.getElementById("seta-matriculas");
+            const valorAtual = document.getElementById("indicativo-matricula");
+
+            valorAtual.textContent = data.atual;
+
+            if (data.direcao === "up") {
+                seta.className = "fi fi-sr-arrow-up-right";
+                seta.style.color = "#10b981";
+                texto.style.color = "#10b981";
+                texto.innerHTML = `+${data.variacao}% <span>Este semestre</span>`;
+            } else if (data.direcao === "down") {
+                seta.className = "fi fi-sr-arrow-down-left";
+                seta.style.color = "#ef4444";
+                texto.style.color = "#ef4444";
+                texto.innerHTML = `${data.variacao}% <span>Este semestre</span>`;
+            } else {
+                seta.className = "fi fi-sr-minus";
+                seta.style.color = "#888";
+                texto.style.color = "#888";
+                texto.innerHTML = `0% <span>Este semestre</span>`;
+            }
+        })
+        .catch(err => {
+            console.error("Erro comparativo novas matrículas:", err);
+            document.getElementById("indicativo-matricula-semana").innerHTML = "Erro";
+        });
+}
+
+  
+    window.onload = function () {
+        graficoTop5Evasao();
+        graficoTaxaAprovacao();
+        totalAlunos();
+        abaixoMedia();
+        taxaAbandono();
+        novasMatriculas();
+        atualizarVariacaoTotalAlunos();
+        atualizarVariacaoAbaixoMedia();
+        atualizarVariacaoAbandono();
+        atualizarVariacaoNovasMatriculas();
+    };
+</script>

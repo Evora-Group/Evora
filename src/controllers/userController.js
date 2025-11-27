@@ -8,6 +8,12 @@ function cadastrar(req, res){
     var cargo = req.body.cargoServer
     var instituicao = req.body.instituicaoServer
 
+    console.log("=== CADASTRO DEBUG ===");
+    console.log("Body recebido:", req.body);
+    console.log("instituicaoServer:", instituicao);
+    console.log("Tipo:", typeof instituicao);
+    console.log("=====================");
+
     userModel
         .cadastrar(nome, email, senha, cargo, instituicao)
         .then(function(resultado) {

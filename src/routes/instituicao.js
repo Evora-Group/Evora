@@ -42,6 +42,14 @@ router.delete('/deletarCurso/:idCurso', function (req, res) {
 
 router.get('/obterCurso/:idCurso', function (req, res) {
     instituicaoController.obterCurso(req, res);
+})
+
+router.get("/listarTurmasInstituicao/:idInstituicao", function (req, res) {
+    instituicaoController.listarTurmasInstituicao(req, res)
+})
+
+router.get("/listarDisciplinas/:idInstituicao", function (req, res) {
+    instituicaoController.listarDisciplinas(req, res);
 });
 
 module.exports = router;

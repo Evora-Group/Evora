@@ -12,9 +12,9 @@ function cadastrar(nome, email, senha, cargo, instituicao) {
         .then((senhaHash) => {
             var instrucaoSql = `
                 INSERT INTO usuario (nome, email, senha_hash, cargo, fkInstituicao, ativo) 
-                VALUES (?, ?, ?, ?, 1, 1);
+                VALUES (?, ?, ?, ?, ?, 1);
             `;
-            console.log("Executando cadastro para:", email);
+            console.log("Executando cadastro para:", email, "fkInstituicao:", instituicao);
             return database.executar(instrucaoSql, [nome, email, senhaHash, cargo, instituicao]);
         });
 }
@@ -23,9 +23,17 @@ function cadastrar(nome, email, senha, cargo, instituicao) {
 // Para LOGIN (comparar senhas)
 function logar(email, senha) {
     var instrucaoSql = `
-        SELECT id_usuario, nome, email, senha_hash, cargo, fkInstituicao 
-        FROM usuario WHERE email = ?;
-    `;
+       SELECT 
+        u.id_usuario,
+        u.nome,
+        u.email,
+        u.senha_hash,
+        u.cargo,
+        u.fkInstituicao,
+        i.nome AS nomeInstituicao
+    FROM usuario u
+    JOIN instituicao i ON i.id_instituicao = u.fkInstituicao
+    WHERE u.email = ?;`
     
     return database.executar(instrucaoSql, [email])
         .then((resultados) => {

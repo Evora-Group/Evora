@@ -639,16 +639,34 @@ main .section_dash {
 
     /* 3. KPIs */
     .section_dash .main_dash .header_kpis {
-        flex-direction: column;
+        /* flex-direction: column; */
         /* Empilha os KPIs */
-        gap: 20px;
+        /* gap: 20px; */
         padding: 20px 10px;
+        justify-content: initial;
+        width: auto;
+        overflow-x: auto;
     }
 
     .header_kpis .kpi {
-        width: 100%;
+        width: 500px;
         /* Cada KPI ocupa 100% */
     }
+
+    .header_kpis .kpi .kpi_header{
+        width: 80vw;
+    }
+    
+
+    .bar-chart .label {
+        font-size: calc(var(--font-title)*0.55);
+        font-weight: 500;
+    }
+
+    .bar-value{
+        font-size: calc(var(--font-family)*0.6);
+    }
+    
 
     .kpi::before {
         display: none;
@@ -665,8 +683,11 @@ main .section_dash {
 
     .bar-chart {
         padding: 10px;
-        /* Menos preenchimento no gráfico de barras */
+        height: 20vh;
+        overflow: auto;
     }
+
+    
 
     /* 5. Fontes */
     .div_titulo_kpi h1 {

@@ -10,9 +10,10 @@
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="../js/dash.js"></script>
 </head>
 
-<body>
+<body onload="puxarNomeUsuario(); listarCursosInstituicao();">
     <header>
         <img src="../assets/imgs/logo-nome.svg" alt="" class="img_logo">
     </header>
@@ -40,8 +41,8 @@
                     <h2>Cursos</h2>
                 </div>
 
-                <ul class="container-course">
-                    <li>Lista de Cursos</li>
+                <ul class="container-course" id="container_course">
+                    <li id="lista_cursos_title">Lista de Cursos</li>
                 </ul>
 
                 <section class="cursos">
@@ -50,41 +51,18 @@
                         <p>Quantidade Aluno</p>
                         <p>Descrição</p>
                         <p>Modalidade</p>
-
-
-                        <div class="dados_linha">
-                            <div class="link">
-                                <li><a href="dashCursoEspecifico.html">
-                                        <p>Tecnologia da Informação</p>
-                                </li></a>
-                                <li><a href="dashCursoEspecifico.html">
-                                        <p>Biomedicina</p>
-                                </li></a>
-                                <li><a href="dashCursoEspecifico.html">
-                                        <p>Química</p>
-                                </li></a>
-                            </div>
-
-
-                            <div class="coluna_quantidade">
-                                <p>450</p>
-                                <p>320</p>
-                                <p>280</p>
-                            </div>
-
-                            <div class="coluna_descricao">
-                                <p>-</p>
-                                <p>-</p>
-                                <p>-</p>
-                            </div>
-
-                            <div class="coluna_modalidade">
-                                <p>EAD</p>
-                                <p>EAD</p>
-                                <p>EAD</p>
-                            </div>
-                        </div>
                     </div>
+
+                    <div id="cursos_lista" class="dados_linha">
+                        <!-- Cursos serão inseridos aqui dinamicamente -->
+                    </div>
+
+                    <div id="pagination_controls" style="display:flex; justify-content:center; margin-top:1rem;"></div>
+
+                    <p id="sem_cursos_msg" style="display:none; padding: 16px; text-align:center;">não há cursos na sua instituição</p>
+
+                </section>
+
             </main>
         </section>
     </main>

@@ -549,14 +549,29 @@ function confirmarRemocaoCurso() {
 function criarNovoCurso() {
     const modal = document.getElementById('modal_criar_curso');
     if (!modal) return;
-    const form = modal.querySelector('form');
+    
     const fkInstituicao = sessionStorage.getItem("fkInstituicao");
+    
+    // Pegando os valores pelos IDs específicos
+    const nome = document.getElementById('nome_curso').value.trim();
+    const descricao = document.getElementById('descricao_curso').value.trim();
+    const modalidade = document.getElementById('modalidade_curso').value;
+    const duracao = document.getElementById('duracao_curso').value;
+    
+    // Validação básica
+    if (!nome) {
+        alert('Por favor, digite o nome do curso.');
+        return;
+    }
+    
     const dados = {
-        nome: form.querySelector('[name="nome_curso"]').value,
-        descricao: form.querySelector('[name="descricao"]').value,
-        modalidade: form.querySelector('[name="modalidade"]').value,
-        duracao_semestres: form.querySelector('[name="duracao_semestres"]').value
+        nome: nome,
+        descricao: descricao || null,
+        modalidade: modalidade || null,
+        duracao_semestres: duracao ? parseInt(duracao) : null
     };
+    
+    console.log('Criando curso com dados:', dados);
 
     fetch(`/instituicao/criarCurso/${fkInstituicao}`, {
         method: 'POST',
@@ -564,10 +579,22 @@ function criarNovoCurso() {
         body: JSON.stringify(dados)
     }).then(r => {
         if (r.ok) {
+            alert('Curso criado com sucesso!');
             modal.close();
-            form.reset();
+            // Limpar formulário
+            document.getElementById('nome_curso').value = '';
+            document.getElementById('descricao_curso').value = '';
+            document.getElementById('modalidade_curso').value = '';
+            document.getElementById('duracao_curso').value = '';
             listarCursosAdmin(1, 15);
             atualizarKPIsAdmin();
+        } else {
+            r.json().then(err => {
+                alert('Erro ao criar curso: ' + (err.message || err));
+            });
         }
-    }).catch(e => console.error('Erro ao criar curso', e));
+    }).catch(e => {
+        console.error('Erro ao criar curso', e);
+        alert('Erro ao criar curso. Verifique o console.');
+    });
 }

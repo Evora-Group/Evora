@@ -208,6 +208,10 @@ main .section_dash {
 
 }
 
+.botao-sair-mobile {
+    display: none;
+}
+
 .botao-sair {
     position: absolute; 
     bottom: 30px;       

@@ -424,6 +424,10 @@ main .section-curso {
     color: rgba(0,0,0,0.6);
 }
 
+.botao-sair-mobile{
+    display: none;
+}
+
 /* ============================
    RESPONSIVE DESIGN
    ============================ */

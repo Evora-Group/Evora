@@ -211,8 +211,8 @@ main .section-conf {
 .botao-sair {
     position: absolute; 
     bottom: 30px;       
-    left: 100px;         
-    right: 100px;        
+    left: 80px;         
+    right: 80px;        
 
     background-color: #dd1c2f; 
     color: white;
@@ -411,113 +411,196 @@ main .section-conf {
     background-color: rgb(8, 8, 224);
 }
 
-/* RESPONSIVIDADE */
+    .botao-sair-mobile {
+        display: none;
+    }
 
-/* Para telas menores que 1024px */
-@media (max-width: 1024px) {
+
+
+/* =========================================
+   MEDIA QUERIES - RESPONSIVIDADE (PADRÃO NAV BAR)
+   ========================================= */
+
+@media (max-width: 1600px) {
+
+    /* 1. Reduz o tamanho da fonte dos links */
+    aside section ul li a {
+        font-size: 16px; 
+        padding: 14%;   /* Reduz drasticamente o padding lateral (era 14%) */
+        gap: 10px;       /* Aproxima o ícone do texto (era 20px) */
+    }
+
+    /* 2. Reduz o tamanho dos ícones */
+    aside section ul li a i {
+        font-size: 20px; /* De 30px para 20px */
+    }
+
+    /* 3. Ajuste opcional na altura do item da lista */
+    aside section ul li {
+        height: 70px; /* De 90px para 70px para ficar mais compacto verticalmente */
+    }
+
+    /* 4. Ajuste do botão SAIR lá embaixo */
+    .botao-sair {
+        font-size: 14px;
+        padding: 10px;
+        left: 20%;  /* Margens menores para o botão não vazar */
+        right: 20%;
+    }
+    
+    /* 5. Prevenção de quebra de linha */
+    /* Isso garante que, se o texto for muito longo, ele diminua em vez de quebrar */
+    aside section ul li a {
+        white-space: nowrap; /* Não deixa o texto ir para a linha de baixo */
+        overflow: hidden;    /* Esconde se passar do limite */
+        text-overflow: ellipsis; /* Coloca "..." se cortar */
+    }
+}
+
+@media (max-width: 1000px) {
+    
+    /* 1. Ajuste Geral do Layout */
     body {
+        height: auto;
         overflow-x: hidden;
+        /* Espaço para o menu inferior não cobrir conteúdo */
+        padding-bottom: 90px; 
     }
 
     main {
-        flex-direction: column;
+        flex-direction: column; 
         height: auto;
     }
 
-    .menu {
+    /* 2. Header Mobile */
+    header {
+        padding: 10px 15px;
+    }
+    
+    header .img_logo {
+        width: 120px; /* Tamanho fixo para logo não sumir */
+    }
+
+    /* Botão Sair aparece no topo */
+    .botao-sair-mobile {
+        display: flex !important;
+    }
+
+    /* 3. Transformação do Menu Lateral em Inferior (App) */
+    aside {
+        position: fixed;
+        bottom: 0;
+        left: 0;
         width: 100%;
         height: auto;
-        flex-direction: row;
-        overflow-x: auto;
-    }
-
-    .categories {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 1rem;
-        margin-top: 0.5rem;
-        padding: 0.5rem;
-    }
-
-    .categories li {
-        white-space: nowrap;
-    }
-
-     .categories li.active::before {
-        margin: 0;
         padding: 0;
-        width: 0;
+        z-index: 1000;
+        background-color: var(--primary-color);
+        box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.15);
     }
 
-    .container {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-        padding-top: 1rem;
-        margin-top: 0;
+    aside section { 
+        width: 100%; 
+        display: block; 
+        height: auto; 
+    }
+
+    aside section ul {
+        display: flex;
+        flex-direction: row;      /* Ícones lado a lado */
+        justify-content: flex-start; 
+        overflow-x: auto;         /* Scroll lateral */
+        width: 100%;
+        margin: 0;
+        padding: 5px 0;
+    }
+
+    aside section ul li {
+        width: auto;
+        min-width: 20%; 
+        height: 60px;
+        margin: 0;
+    }
+
+    aside section ul li a {
+        flex-direction: column; /* Ícone em cima, texto embaixo */
+        justify-content: center;
+        padding: 5px;
+        font-size: 10px;
+        gap: 2px;
+        height: 100%;
+        text-align: center;
+    }
+
+    aside section ul li a i {
+        font-size: 22px;
+        margin: 0;
+    }
+
+    /* Esconde botão sair grande */
+    .botao-sair { display: none !important; }
+
+    /* 4. Ajuste da Área de Conteúdo */
+    main .section-conf {
+        width: 100%;
+        padding: 10px;
         height: auto;
+        display: block;
     }
 
+    .section-conf .main-conf {
+        height: auto;
+        padding: 15px;
+        background: none; /* Remove fundo branco do container maior para limpar visual */
+        box-shadow: none;
+    }
+
+    /* 5. Ajuste do Card de Configurações */
     .settings-card {
-        padding: 1rem;
-        width: 80%;
+        margin-top: 0;
+        width: 100%;
+        border: none; /* Remove borda para parecer nativo mobile */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
+    /* Formulário em Coluna */
     .settings-form {
-        flex-direction: column;
+        flex-direction: column; /* Foto em cima, campos embaixo */
         gap: 1.5rem;
-        padding: 1rem;
+        padding: 1.5rem;
+        align-items: center; /* Centraliza a foto */
+    }
+
+    .profile-picture-section {
+        margin-bottom: 10px;
     }
 
     .profile-picture-container {
-        width: 80px;
-        height: 80px;
+        width: 120px;
+        height: 120px;
     }
 
+    .form-fields-section {
+        width: 100%;
+    }
+
+    /* Grid vira coluna única */
     .form-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; 
         gap: 1rem;
         max-width: 100%;
     }
 
-    .tabs {
-        padding: 1rem 1rem 0 1rem;
-    }
-}
-
-/* Para telas menores que 640px (celulares) */
-@media (max-width: 640px) {
-    #nav_logo h2 {
-        font-size: 1rem;
-    }
-
-    .edit-icon-button {
-        width: 24px;
-        height: 24px;
-    }
-
-    .edit-icon-button i {
-        font-size: 0.7rem;
+    .form-actions {
+        margin-top: 1.5rem;
     }
 
     .save-button {
-        width: 100%;
-        padding: 0.7rem 0;
-        font-size: 0.9rem;
+        width: 100%; /* Botão ocupa largura total para facilitar toque */
+        padding: 1rem;
     }
-
-    .categories li a span {
-        display: none; /* economiza espaço em telas pequenas */
+    
+    .tabs {
+        justify-content: center; /* Abas centralizadas */
     }
-
-    .categories li a i {
-        font-size: 1.2rem;
-    }
-}
-
-/* Ajuste geral para imagens responsivas */
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
 }

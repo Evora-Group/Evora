@@ -22,6 +22,10 @@
 <body onload="listarAlunosInstituicao()">
     <header class="header_info_usuario">
         <img src="../assets/imgs/logo-nome.svg" alt="" class="img_logo">
+
+        <a href="../index.html" class="botao-sair-mobile">
+            <i class="fi fi-sr-exit"></i>
+        </a>
     </header>
     <main>
         <aside>
@@ -30,7 +34,6 @@
                     <li><a href="./dashHome.html"><i class="fi fi-sr-home"></i>Dashboard</a></li>
                     <li><a href="./dashCurso.html"><i class="fi fi-sr-users-alt"></i>Cursos</a></li>
                     <li><a href="./dashAlunos.html"  class="active"><i class="fi fi-sr-user"></i>Alunos</a></li>
-                    <li><a href="./dashAlerta.html"><i class="fi fi-sr-bell"></i>Alertas</a></li>
                     <li><a href="./dashConf.html"><i class="fi fi-sr-settings"></i>Configurações</a></li>
                 </ul>
 
@@ -64,7 +67,7 @@
                             </div>
                         </div>
                     </section>
-                    <section class="kpi">
+                    <section class="kpi" id="kpi_donutchart">
 
                         <div style="width: 100%; display: flex;">
 
@@ -107,56 +110,6 @@
                         </div>
 
                     </header>
-                    <section class="section_filter_usuarios">
-
-
-                        <details class="filtro-dropdown">
-
-                            <summary class="titulo_sumario">
-                                filtrar por
-                            </summary>
-
-                            <div class="filtro-lista">
-
-                                <label>
-                                    <details>
-                                        <summary><input type="checkbox"> Curso</summary>
-                                        <label><input type="checkbox"> ADS</label>
-                                        <label><input type="checkbox"> CCO</label>
-                                        <label><input type="checkbox"> SIS</label>
-                                    </details>
-                                </label>
-
-                                <label>
-                                    <details>
-                                        <summary><input type="checkbox"> Turma</summary>
-                                        <label><input type="checkbox"> 1-A</label>
-                                        <label><input type="checkbox"> 1-B</label>
-                                        <label><input type="checkbox"> 2-A</label>
-                                        <label><input type="checkbox"> 2-B</label>
-                                        <label><input type="checkbox"> 3-A</label>
-                                        <label><input type="checkbox"> 3-B</label>
-                                        <label><input type="checkbox"> 4-A</label>
-                                        <label><input type="checkbox"> 4-B</label>
-                                    </details>
-                                </label>
-
-                                <label>
-                                    <details>
-                                        <summary><input type="checkbox"> Situação</summary>
-                                        <label><input type="checkbox"> atenção</label>
-                                        <label><input type="checkbox"> regular</label>
-                                        <label><input type="checkbox"> ótimo</label>
-                                    </details>
-                                </label>
-
-                                <label>
-                                    <input type="checkbox"> Limpar
-                                </label>
-                            </div>
-
-                        </details>
-                    </section>
                     <main class="main_usuarios">
                         <!-- Tabela de usuários será inserida aqui -->
                         <table class="tabela">

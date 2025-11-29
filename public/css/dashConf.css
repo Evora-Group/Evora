@@ -91,8 +91,8 @@ header section h1 {
 }
 
 header i {
-    font-size: 35px;
-    color: var(--primary-color);
+    font-size: calc(var(--font-title) * 1.5);
+    color: #9ca2a9cf;
 }
 
 .img_icon_usuario {
@@ -211,8 +211,8 @@ main .section-conf {
 .botao-sair {
     position: absolute; 
     bottom: 30px;       
-    left: 100px;         
-    right: 100px;        
+    left: 80px;         
+    right: 80px;        
 
     background-color: #dd1c2f; 
     color: white;
@@ -411,113 +411,210 @@ main .section-conf {
     background-color: rgb(8, 8, 224);
 }
 
-/* RESPONSIVIDADE */
+    .botao-sair-mobile {
+        display: none;
+    }
 
-/* Para telas menores que 1024px */
-@media (max-width: 1024px) {
+
+
+/* =========================================
+   MEDIA QUERIES - RESPONSIVIDADE (PADRÃO NAV BAR)
+   ========================================= */
+
+@media (max-width: 1600px) {
+
+    aside section ul li a {
+        font-size: 16px; 
+        padding: 14%;   
+        gap: 10px;      
+    }
+
+    aside section ul li a i {
+        font-size: 20px;
+    }
+
+    aside section ul li {
+        height: 70px; 
+    }
+
+    .botao-sair {
+        font-size: 14px;
+        padding: 10px;
+        left: 20%;  
+        right: 20%;
+    }
+    
+   
+    aside section ul li a {
+        white-space: nowrap; 
+        overflow: hidden;    
+        text-overflow: ellipsis; 
+    }
+}
+
+@media (max-width: 1000px) {
+
+    /* 1. Seleciona especificamente o link de Configurações */
+    /* O seletor [href*="dashConf"] pega qualquer link que tenha "dashConf" no endereço */
+    aside section ul li a[href*="dashConf"] {
+        font-size: 0 !important; /* Esconde a palavra "Configurações" */
+    }
+
+    /* 2. Restaura o tamanho do ícone (que sumiria junto com a fonte 0) */
+    aside section ul li a[href*="dashConf"] i {
+        font-size: 22px !important; 
+        margin-bottom: 2px;         
+    }
+
+    /* 3. Insere o novo texto "Conf." */
+    aside section ul li a[href*="dashConf"]::after {
+        content: "Conf.";           
+        font-size: 10px !important; 
+        display: block;             /* Garante que fique em baixo do ícone */
+    }
+    
     body {
+        height: auto;
         overflow-x: hidden;
+        padding-bottom: 90px; 
     }
 
     main {
-        flex-direction: column;
+        flex-direction: column; 
         height: auto;
     }
 
-    .menu {
+    /* 2. Header Mobile */
+    header {
+        padding: 10px 15px;
+    }
+    
+    header .img_logo {
+        width: 120px; /* Tamanho fixo para logo não sumir */
+    }
+
+    /* Botão Sair aparece no topo */
+    .botao-sair-mobile {
+        display: flex !important;
+    }
+
+    /* 3. Transformação do Menu Lateral em Inferior (App) */
+    aside {
+        position: fixed;
+        bottom: 0;
+        left: 0;
         width: 100%;
         height: auto;
-        flex-direction: row;
-        overflow-x: auto;
-    }
-
-    .categories {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 1rem;
-        margin-top: 0.5rem;
-        padding: 0.5rem;
-    }
-
-    .categories li {
-        white-space: nowrap;
-    }
-
-     .categories li.active::before {
-        margin: 0;
         padding: 0;
-        width: 0;
+        z-index: 1000;
+        background-color: var(--primary-color);
+        box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.15);
     }
 
-    .container {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-        padding-top: 1rem;
-        margin-top: 0;
+    aside section { 
+        width: 100%; 
+        display: block; 
+        height: auto; 
+    }
+
+    aside section ul {
+        display: flex;
+        flex-direction: row;      /* Ícones lado a lado */
+        justify-content: space-between; 
+        overflow-x: auto;         /* Scroll lateral */
+        width: 100%;
+        margin: 0;
+        padding: 5px 0;
+    }
+
+    aside section ul li {
+       width: auto;
+        
+        /* O ERRO ESTAVA AQUI (min-width: 20%) */
+        /* Mude para flex: 1 para dividir o espaço igualmente entre os 6 */
+        flex: 1; 
+        
+        /* Garante que o item possa encolher se necessário */
+        min-width: 0; 
+        
+        height: 60px;
+        margin: 0;
+    }
+
+    aside section ul li a {
+        flex-direction: column; /* Ícone em cima, texto embaixo */
+        justify-content: center;
+        padding: 5px;
+        font-size: 10px;
+        gap: 2px;
+        height: 100%;
+        text-align: center;
+    }
+
+    aside section ul li a i {
+        font-size: 22px;
+        margin: 0;
+    }
+
+    .botao-sair { display: none !important; }
+
+    main .section-conf {
+        width: 100%;
+        padding: 10px;
         height: auto;
+        display: block;
+    }
+
+    .section-conf .main-conf {
+        height: auto;
+        padding: 15px;
+        background: none; /* Remove fundo branco do container maior para limpar visual */
+        box-shadow: none;
     }
 
     .settings-card {
-        padding: 1rem;
-        width: 80%;
+        margin-top: 0;
+        width: 100%;
+        border: none; /* Remove borda para parecer nativo mobile */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     .settings-form {
-        flex-direction: column;
+        flex-direction: column; /* Foto em cima, campos embaixo */
         gap: 1.5rem;
-        padding: 1rem;
+        padding: 1.5rem;
+        align-items: center; /* Centraliza a foto */
+    }
+
+    .profile-picture-section {
+        margin-bottom: 10px;
     }
 
     .profile-picture-container {
-        width: 80px;
-        height: 80px;
+        width: 120px;
+        height: 120px;
+    }
+
+    .form-fields-section {
+        width: 100%;
     }
 
     .form-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; 
         gap: 1rem;
         max-width: 100%;
     }
 
-    .tabs {
-        padding: 1rem 1rem 0 1rem;
-    }
-}
-
-/* Para telas menores que 640px (celulares) */
-@media (max-width: 640px) {
-    #nav_logo h2 {
-        font-size: 1rem;
-    }
-
-    .edit-icon-button {
-        width: 24px;
-        height: 24px;
-    }
-
-    .edit-icon-button i {
-        font-size: 0.7rem;
+    .form-actions {
+        margin-top: 1.5rem;
     }
 
     .save-button {
-        width: 100%;
-        padding: 0.7rem 0;
-        font-size: 0.9rem;
+        width: 100%; 
+        padding: 1rem;
     }
-
-    .categories li a span {
-        display: none; /* economiza espaço em telas pequenas */
+    
+    .tabs {
+        justify-content: center; /* Abas centralizadas */
     }
-
-    .categories li a i {
-        font-size: 1.2rem;
-    }
-}
-
-/* Ajuste geral para imagens responsivas */
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
 }

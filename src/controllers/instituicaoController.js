@@ -2,117 +2,160 @@
 var instituicaoModel = require("../models/instituicaoModel");
 
 function listarInstituicoes(req, res) {
-
     instituicaoModel.listarInstituicoes()
-        .then(
-            function (resultado) {
-
-                res.json(resultado)
-
-            }
-        ).catch(function (erro) {
+        .then(function (resultado) {
+            res.json(resultado);
+        }).catch(function (erro) {
             console.log(erro);
-            console.log(
-                "\nHouve um erro ao listar instituições! Erro: ",
-                erro.sqlMessage
-            );
-            res.status(500).json(erro.sqlMessage)
-
+            console.log("\nHouve um erro ao listar instituições! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
         });
-
-};
+}
 
 function buscarInstituicao(req, res) {
-
-    const nome = req.query.nome
-
+    const nome = req.query.nome;
     instituicaoModel.buscarInstituicao(nome)
-        .then(
-            function (resultado) {
-
-                res.json(resultado)
-
-            }
-        ).catch(function (erro) {
+        .then(function (resultado) {
+            res.json(resultado);
+        }).catch(function (erro) {
             console.log(erro);
-            console.log(
-                "\nHouve um erro ao buscar Instituição! Erro: ",
-                erro.sqlMessage
-            );
-            res.status(500).json(erro.sqlMessage)
-
+            console.log("\nHouve um erro ao buscar Instituição! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
         });
-
-};
+}
 
 function listarUsuariosInstituicao(req, res) {
-
     const idInstituicao = req.params.idInstituicao;
 
     instituicaoModel.listarUsuariosInstituicao(idInstituicao)
-        .then(
-            function (resultado) {
-
-                res.json(resultado)
-
-            }
-        ).catch(function (erro) {
+        .then(function (resultado) {
+            res.json(resultado);
+        }).catch(function (erro) {
             console.log(erro);
-            console.log(
-                "\nHouve um erro ao listar usuários da instituição! Erro: ",
-                erro.sqlMessage
-            );
-            res.status(500).json(erro.sqlMessage)
-
+            console.log("\nHouve um erro ao listar usuários da instituição! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
         });
-
 }
 
 function listarAlunosInstituicao(req, res) {
-
     const idInstituicao = req.params.idInstituicao;
 
     instituicaoModel.listarAlunosInstituicao(idInstituicao)
-        .then(
-            function (resultado) {
-
-                res.json(resultado)
-
-            }
-        ).catch(function (erro) {
+        .then(function (resultado) {
+            res.json(resultado);
+        }).catch(function (erro) {
             console.log(erro);
-            console.log(
-                "\nHouve um erro ao listar alunos da instituição para página de Alunos de Painel Professor! Erro: ",
-                erro.sqlMessage
-            );
-            res.status(500).json(erro.sqlMessage)
-
+            console.log("\nHouve um erro ao listar alunos da instituição para página de Alunos de Painel Professor! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
         });
-
 }
-
 
 function listarCursosInstituicao(req, res) {
-
     const idInstituicao = req.params.idInstituicao;
 
-    instituicaoModel.listarCursosInstituicao(idInstituicao)
-        .then(
-            function (resultado) {
+    // paginação via query params: ?page=1&limit=15
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 15;
+    const offset = (page - 1) * limit;
+    const q = req.query.q || '';
+    const professor = req.query.professor || '';
+    const situacao = req.query.situacao || '';
 
-                res.json(resultado)
-
-            }
-        ).catch(function (erro) {
+    instituicaoModel.listarCursosInstituicao(idInstituicao, limit, offset, q, professor, situacao)
+        .then(function (resultado) {
+            // resultado: { total, cursos }
+            res.json({
+                cursos: resultado.cursos,
+                total: resultado.total,
+                page: page,
+                limit: limit
+            });
+        }).catch(function (erro) {
             console.log(erro);
-            console.log(
-                "\nHouve um erro ao listar cursos da instituição! Erro: ",
-                erro.sqlMessage
-            );
-            res.status(500).json(erro.sqlMessage)
-
+            console.log("\nHouve um erro ao listar cursos da instituição! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
         });
 }
+
+function listarAlunosAlerta(req, res) {
+    const idInstituicao = req.params.idInstituicao;
+    const tipo = req.query.tipo || 'preocupante';
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 15;
+    const offset = (page - 1) * limit;
+
+    instituicaoModel.listarAlunosAlerta(idInstituicao, tipo, limit, offset)
+        .then(function (resultado) {
+            res.json({
+                alunos: resultado.alunos,
+                total: resultado.total,
+                page: page,
+                limit: limit,
+                tipo: tipo
+            });
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log("\nHouve um erro ao listar alertas de alunos! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function criarCurso(req, res) {
+    const idInstituicao = req.params.idInstituicao;
+    const curso = req.body;
+
+    instituicaoModel.criarCurso(idInstituicao, curso)
+        .then(function (resultado) {
+            res.status(201).json({ message: 'Curso criado', insertId: resultado.insertId });
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log("\nHouve um erro ao criar curso! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function editarCurso(req, res) {
+    const idCurso = req.params.idCurso;
+    const curso = req.body;
+
+    instituicaoModel.editarCurso(idCurso, curso)
+        .then(function (resultado) {
+            res.json({ message: 'Curso atualizado' });
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log("\nHouve um erro ao editar curso! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function deletarCurso(req, res) {
+    const idCurso = req.params.idCurso;
+    instituicaoModel.deletarCurso(idCurso)
+        .then(function (resultado) {
+            res.json({ message: 'Curso deletado' });
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log("\nHouve um erro ao deletar curso! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function obterCurso(req, res) {
+    const idCurso = req.params.idCurso;
+    instituicaoModel.obterCursoPorId(idCurso)
+        .then(function (resultado) {
+            if (Array.isArray(resultado) && resultado.length > 0) {
+                res.json(resultado[0]);
+            } else {
+                res.status(404).json({ message: 'Curso não encontrado' });
+            }
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log("\nHouve um erro ao obter curso! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
 
 function listarTurmasInstituicao(req, res) {
 
@@ -154,13 +197,16 @@ function listarTurmasInstituicao(req, res) {
 }
 
 module.exports = {
-
     listarInstituicoes,
     buscarInstituicao,
     listarUsuariosInstituicao,
     listarAlunosInstituicao,
-    listarCursosInstituicao,
+    listarCursosInstituicao, // versão paginada
+    listarAlunosAlerta,
+    criarCurso,
+    editarCurso,
+    deletarCurso,
+    obterCurso,
     listarTurmasInstituicao,
     listarDisciplinas
-
-}
+};

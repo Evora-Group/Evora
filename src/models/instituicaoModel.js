@@ -350,10 +350,47 @@ function editarCurso(idCurso, curso) {
     return database.executar(instrucaoSql, [curso.nome, curso.descricao || null, curso.modalidade || null, curso.duracao_semestres || null, idCurso]);
 }
 
-function deletarCurso(idCurso) {
+async function deletarCurso(idCurso) {
     console.log('Model: deletando curso', idCurso);
-    var instrucaoSql = `DELETE FROM curso WHERE id_curso = ?;`;
-    return database.executar(instrucaoSql, [idCurso]);
+    
+    // 1. Deletar avaliações das matrículas das turmas deste curso
+    await database.executar(`
+        DELETE av FROM avaliacao av
+        INNER JOIN matricula m ON av.fkMatricula = m.id_matricula
+        INNER JOIN turma t ON m.fkTurma = t.id_turma
+        WHERE t.fkCurso = ?;
+    `, [idCurso]);
+    
+    // 2. Deletar frequências das matrículas das turmas deste curso
+    await database.executar(`
+        DELETE f FROM frequencia f
+        INNER JOIN matricula m ON f.fkMatricula = m.id_matricula
+        INNER JOIN turma t ON m.fkTurma = t.id_turma
+        WHERE t.fkCurso = ?;
+    `, [idCurso]);
+    
+    // 3. Deletar matrículas das turmas deste curso
+    await database.executar(`
+        DELETE m FROM matricula m
+        INNER JOIN turma t ON m.fkTurma = t.id_turma
+        WHERE t.fkCurso = ?;
+    `, [idCurso]);
+    
+    // 4. Deletar usuario_turma das turmas deste curso
+    await database.executar(`
+        DELETE ut FROM usuario_turma ut
+        INNER JOIN turma t ON ut.fkTurma = t.id_turma
+        WHERE t.fkCurso = ?;
+    `, [idCurso]);
+    
+    // 5. Deletar turmas deste curso
+    await database.executar(`DELETE FROM turma WHERE fkCurso = ?;`, [idCurso]);
+    
+    // 6. Deletar grade_curricular deste curso
+    await database.executar(`DELETE FROM grade_curricular WHERE fkCurso = ?;`, [idCurso]);
+    
+    // 7. Finalmente deletar o curso
+    return database.executar(`DELETE FROM curso WHERE id_curso = ?;`, [idCurso]);
 }
 
 function obterCursoPorId(idCurso) {

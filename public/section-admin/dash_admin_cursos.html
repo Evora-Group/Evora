@@ -115,31 +115,31 @@
     
         <div class="div_main_modal">
             <h3>Complete as informações do Curso:</h3>
-            <form class="form_modal">
+            <form class="form_modal" id="form_criar_curso">
 
                 <label for="nome_curso">Nome:</label>
-                <input type="text" name="nome_curso"
+                <input type="text" id="nome_curso" name="nome_curso"
                     placeholder="Digite o nome do Curso" class="input_modal">
 
-                <label for="descricao">Descrição:</label>
-                <textarea name="descricao" placeholder="Descrição do curso" class="input_modal" rows="3"></textarea>
+                <label for="descricao_curso">Descrição:</label>
+                <textarea id="descricao_curso" name="descricao" placeholder="Descrição do curso" class="input_modal" rows="5" style="min-height: 120px;"></textarea>
 
-                <label for="modalidade">Modalidade:</label>
-                <select name="modalidade" class="input_modal">
+                <label for="modalidade_curso">Modalidade:</label>
+                <select id="modalidade_curso" name="modalidade" class="input_modal">
                     <option value="">Selecione...</option>
                     <option value="Presencial">Presencial</option>
                     <option value="EAD">EAD</option>
                     <option value="Híbrido">Híbrido</option>
                 </select>
 
-                <label for="duracao_semestres">Duração (semestres):</label>
-                <input type="number" name="duracao_semestres" placeholder="Ex: 8" class="input_modal" min="1">
+                <label for="duracao_curso">Duração (semestres):</label>
+                <input type="number" id="duracao_curso" name="duracao_semestres" placeholder="Ex: 8" class="input_modal" min="1">
 
             </form>
 
             <div class="div_footer">
 
-                <div class="div_criar_usuario" id="btnEnviarDialog">
+                <div class="div_criar_usuario" id="btnEnviarDialog" onclick="criarNovoCurso()">
                     <p><strong>Criar Curso</strong></p>
                 </div>
 
@@ -156,11 +156,6 @@
         <div class="div_main_modal">
             <div class="div_header_modal">
                 <h3>Edite as informações do Curso:</h3>
-                <div class="div_status">
-                    <div class="circulo_status">
-                        <p>L</p>
-                    </div>
-                </div>
             </div>
             <form class="form_modal">
 
@@ -193,7 +188,7 @@
 
             <div class="div_footer">
 
-                <div class="div_editar_usuario" id="btnEnviarDialog">
+                <div class="div_editar_usuario" id="btnEnviarDialog" onclick="salvarEdicaoCurso()">
                     <p><strong>Salvar</strong></p>
                 </div>
 
@@ -223,7 +218,7 @@
                     <p><strong>Cancelar</strong></p>
                 </div>
 
-                <div class="div_editar_usuario" id="div_excluir_usuario" onclick="enviarModal('modal_remover_usuario')">
+                <div class="div_editar_usuario" id="div_excluir_usuario" onclick="confirmarRemocaoCurso()">
                     <p><strong>Excluir</strong></p>
                 </div>
             </div>

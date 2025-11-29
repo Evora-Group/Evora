@@ -649,7 +649,7 @@
     aside section ul {
         display: flex;
         flex-direction: row;
-        justify-content: flex-start;
+        justify-content: space-between;
         overflow-x: auto;
         width: 100%;
         margin: 0;

@@ -179,3 +179,201 @@
     /* 6. Opcional: Se você estiver usando `box-shadow` para foco, remova-o aqui */
     box-shadow: none;
 }
+
+.parteInfo { width: 65%; }
+.parteGraf { width: 35%; }
+
+.botao-sair-mobile {
+    display: none; /* No Desktop, ele não existe */
+}
+
+/* =========================================
+   MEDIA QUERIES - RESPONSIVIDADE
+   ========================================= */
+
+@media (max-width: 900px) {
+    
+    /* 1. Ajuste Geral do Layout */
+    body {
+        height: auto; /* Remove altura fixa da tela */
+        overflow-x: hidden;
+    }
+
+    main {
+        flex-direction: column; /* Coloca o menu em cima e o conteúdo embaixo */
+        height: auto;
+    }
+
+    /* 2. Menu Lateral (Aside) vira menu horizontal */
+    aside {
+        width: 100%;
+        height: auto;
+        padding: 10px 0;
+        position: relative; /* Remove posições fixas se houver */
+    }
+
+    aside section ul {
+        flex-direction: row; /* Itens lado a lado */
+        overflow-x: auto; /* Permite rolar para o lado se não couber */
+        justify-content: flex-start;
+        padding-bottom: 10px;
+    }
+
+    aside section ul li {
+        width: auto;
+        min-width: 100px; /* Tamanho mínimo para cada botão */
+        height: auto;
+    }
+
+    aside section ul li a {
+        flex-direction: column; /* Ícone em cima, texto embaixo */
+        padding: 10px;
+        font-size: 12px;
+        gap: 5px;
+        text-align: center;
+    }
+
+    aside section ul li a i {
+        font-size: 24px; /* Ícone um pouco menor */
+    }
+
+    /* Faz o botão aparecer */
+    .botao-sair-mobile {
+        display: flex; /* Exibe o elemento */
+        align-items: center;
+        justify-content: center;
+        
+        /* Estilização visual */
+        font-size: 20px;      /* Tamanho do ícone */
+        color: #dd1c2f;       /* Cor Vermelha */
+        text-decoration: none; 
+        cursor: pointer;
+        padding: 10px;        /* Área de toque maior para o dedo */
+    }
+
+    /* Garante que o header alinhe: Logo na Esquerda <-> Botão na Direita */
+    .header_info_usuario {
+        display: flex;
+        justify-content: space-between; /* Separa os itens nas pontas */
+        align-items: center;
+    }
+
+    /* Esconde o botão "SAIR" gigante da barra lateral para não ficar duplicado */
+    .botao-sair {
+        display: none !important;
+    }
+
+    /* 3. Área Principal (Dashboard) */
+    main .section_dash {
+        justify-content: center;
+    }
+
+    .section_dash .main_dash {
+        height: auto;
+        padding: 15px;
+    }
+
+    /* 4. KPIs (Cards de cima) */
+    .section_dash .main_dash .header_kpis {
+        flex-direction: column; /* Um embaixo do outro */
+        height: auto;
+        gap: 20px;
+    }
+
+    main header .kpi {
+        height: auto;
+        min-height: 250px;
+    }
+
+    /* Ajuste forçado para os estilos inline (65% e 35%) */
+    /* O !important é necessário porque você usou style="" no HTML */
+    .parteInfo {
+        width: 100% !important;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .parteGraf {
+        width: 100% !important;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .div_titulo_kpi h1 {
+        font-size: 40px; /* Reduz tamanho da fonte */
+    }
+
+    /* 5. Área de Pesquisa e Botão Criar */
+    .section_main {
+        height: auto;
+    }
+
+    .header_usuarios {
+        flex-direction: column; /* Input em cima, botão embaixo */
+        height: auto;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .input_pesquisa {
+        width: 100%;
+        height: 45px;
+    }
+
+    .div_criar_usuario {
+        width: 100%;
+        height: 45px;
+    }
+
+    /* 6. Tabela com Scroll Horizontal */
+    .main_usuarios {
+        overflow-x: auto; /* Cria barra de rolagem apenas na tabela */
+    }
+
+    .tabela {
+        min-width: 700px; /* Força a tabela a ter um tamanho mínimo */
+    }
+
+    /* 7. Modais (Pop-ups) */
+    dialog {
+        max-width: 95%;
+        width: 95%;
+        height: auto;
+        max-height: 90vh; /* Máximo 90% da altura da tela */
+        overflow-y: auto; /* Barra de rolagem interna se for muito alto */
+    }
+    
+    .form_modal {
+        height: auto;
+    }
+
+    .div_dois_inputs {
+        flex-direction: column; /* Inputs um embaixo do outro no modal */
+        gap: 15px;
+    }
+    
+    .div_input_menor, .div_input_maior {
+        width: 100%;
+    }
+    
+    /* Aumenta a altura dos inputs para facilitar o toque */
+    .form_modal input, select {
+        height: 45px;
+    }
+    
+    /* Ajuste do botão do modal */
+    .div_footer .div_criar_usuario, 
+    .div_footer .div_editar_usuario {
+        width: 100%; /* Botão ocupa toda largura */
+    }
+
+    .kpi_header{
+        flex-wrap: wrap;
+        height: auto; /* IMPORTANTE: Deixa crescer conforme o conteúdo */
+        flex-direction: column; /* Força um item embaixo do outro */
+    }
+
+    .div_comparativo{
+        display: none;
+    }
+}

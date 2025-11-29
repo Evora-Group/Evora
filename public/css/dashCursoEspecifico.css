@@ -239,8 +239,8 @@ main .section-curso {
 .botao-sair {
     position: absolute;
     bottom: 30px;
-    left: 100px;
-    right: 100px;
+    left: 80px;
+    right: 80px;
 
     background-color: #dd1c2f;
     color: white;

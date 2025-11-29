@@ -188,192 +188,480 @@
 }
 
 /* =========================================
-   MEDIA QUERIES - RESPONSIVIDADE
+   MEDIA QUERIES - RESPONSIVIDADE COMPLETA
    ========================================= */
 
-@media (max-width: 900px) {
-    
-    /* 1. Ajuste Geral do Layout */
+@media (max-width: 1500px) {
+
+    /* --- 1. AJUSTE DO CORPO (BODY) --- */
     body {
-        height: auto; /* Remove altura fixa da tela */
+        height: auto;
         overflow-x: hidden;
+        /* IMPORTANTE: Dá espaço para o menu fixo lá embaixo não cobrir o conteúdo */
+        padding-bottom: 90px; 
     }
 
     main {
-        flex-direction: column; /* Coloca o menu em cima e o conteúdo embaixo */
+        flex-direction: column; 
         height: auto;
     }
 
-    /* 2. Menu Lateral (Aside) vira menu horizontal */
-    aside {
+    /* --- 2. HEADER E BOTÃO DE SAIR --- */
+    
+    /* Garante que o header espalhe: Logo na Esquerda <-> Botão na Direita */
+    .header_info_usuario {
+        display: flex;
+        justify-content: space-between !important;
+        align-items: center;
         width: 100%;
+        padding: 15px;
+    }
+
+    /* Faz o botão sair aparecer no mobile */
+    .botao-sair-mobile {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;  /* Tamanho visível e clicável */
+        color: #dd1c2f;   /* Vermelho */
+        text-decoration: none; 
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    /* Esconde a section antiga (nome do usuário) se quiser economizar espaço, 
+       ou mantenha se preferir */
+    /* .header_info_usuario section { display: none; } */
+
+    /* --- 3. MENU INFERIOR (ASIDE) --- */
+    aside {
+        position: fixed;   /* Fixa na tela */
+        bottom: 0;         /* Cola no fundo */
+        left: 0;
+        width: 100%;       /* Largura total */
         height: auto;
-        padding: 10px 0;
-        position: relative; /* Remove posições fixas se houver */
+        padding: 0;
+        z-index: 1000;     /* Fica por cima de tudo */
+        background-color: var(--primary-color);
+        box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.15); /* Sombra para separar */
+    }
+
+    /* Removemos a section para ela não atrapalhar o layout */
+    aside section {
+        width: 100%;
+        display: block;
+        height: auto;
     }
 
     aside section ul {
-        flex-direction: row; /* Itens lado a lado */
-        overflow-x: auto; /* Permite rolar para o lado se não couber */
-        justify-content: flex-start;
-        padding-bottom: 10px;
+        display: flex;
+        flex-direction: row;      /* Um ao lado do outro */
+        justify-content: flex-start; 
+        overflow-x: auto;         /* Rolagem lateral */
+        width: 100%;
+        margin: 0;
+        padding: 5px 0;
     }
 
+    /* Itens do Menu */
     aside section ul li {
         width: auto;
-        min-width: 100px; /* Tamanho mínimo para cada botão */
-        height: auto;
+        min-width: 20%;  /* Tamanho aproximado de cada botão */
+        height: 60px;
+        margin: 0;
     }
 
     aside section ul li a {
         flex-direction: column; /* Ícone em cima, texto embaixo */
-        padding: 10px;
-        font-size: 12px;
-        gap: 5px;
+        justify-content: center;
+        padding: 5px;
+        font-size: 10px;
+        gap: 2px;
+        height: 100%;
         text-align: center;
     }
 
     aside section ul li a i {
-        font-size: 24px; /* Ícone um pouco menor */
+        font-size: 22px;
+        margin: 0;
     }
 
-    /* Faz o botão aparecer */
-    .botao-sair-mobile {
-        display: flex; /* Exibe o elemento */
-        align-items: center;
-        justify-content: center;
-        
-        /* Estilização visual */
-        font-size: 20px;      /* Tamanho do ícone */
-        color: #dd1c2f;       /* Cor Vermelha */
-        text-decoration: none; 
-        cursor: pointer;
-        padding: 10px;        /* Área de toque maior para o dedo */
-    }
-
-    /* Garante que o header alinhe: Logo na Esquerda <-> Botão na Direita */
-    .header_info_usuario {
-        display: flex;
-        justify-content: space-between; /* Separa os itens nas pontas */
-        align-items: center;
-    }
-
-    /* Esconde o botão "SAIR" gigante da barra lateral para não ficar duplicado */
+    /* Esconde o botão "SAIR" antigo da barra lateral */
     .botao-sair {
         display: none !important;
     }
 
-    /* 3. Área Principal (Dashboard) */
+
+    /* --- 4. ÁREA PRINCIPAL (DASHBOARD) --- */
     main .section_dash {
-        justify-content: center;
+        width: 100%;
+        padding: 10px;
+        height: auto;
+        display: block; /* Remove centralização forçada que quebra altura */
     }
 
     .section_dash .main_dash {
         height: auto;
         padding: 15px;
-    }
-
-    /* 4. KPIs (Cards de cima) */
-    .section_dash .main_dash .header_kpis {
-        flex-direction: column; /* Um embaixo do outro */
-        height: auto;
+        display: flex;
+        flex-direction: column;
         gap: 20px;
     }
 
-    main header .kpi {
-        height: auto;
-        min-height: 250px;
+    /* --- 5. KPIs E GRÁFICOS --- */
+    
+    .header_kpis {
+        display: flex;
+        flex-direction: row !important; /* Garante que fiquem lado a lado */
+        gap: 20px;                      /* Espaço entre eles */
+        width: 100%;
     }
 
-    /* Ajuste forçado para os estilos inline (65% e 35%) */
-    /* O !important é necessário porque você usou style="" no HTML */
-    .parteInfo {
-        width: 100% !important;
-        margin-bottom: 20px;
+   main header .kpi {
+        display: flex;          /* Essencial */
+        flex-direction: column; /* Essencial: organiza um embaixo do outro */
+        
+        /* O resto você já tinha, mantenha: */
+        flex: 1 1 0;
+        width: 0;
+        min-width: 0;
+        min-height: 350px; /* Precisa de uma altura mínima para sobrar espaço */
+        padding: 20px;
+    }
+
+    /* Títulos dos KPIs */
+    .div_titulo_kpi h1 {
+        font-size: 40px; 
+    }
+    
+    .kpi_header .div_titulo_kpi {
+        align-items: center; 
         text-align: center;
+        width: 100%;
     }
 
-    .parteGraf {
+    #kpi_situacao{
+        border-bottom: none;
+    }
+    /* === AJUSTE ESPECÍFICO DO DONUT CHART === */
+    
+    /* Pega a div filha direta do ID kpi_donutchart */
+    #kpi_donutchart > div {
+        flex-direction: column !important; /* Texto em cima, Gráfico embaixo */
+        align-items: center !important;
+        gap: 20px;
+    }
+
+    /* Força as metades (Texto e Gráfico) a ocuparem 100% da largura */
+    .parteInfo, .parteGraf {
         width: 100% !important;
         display: flex;
         justify-content: center;
-    }
-    
-    .div_titulo_kpi h1 {
-        font-size: 40px; /* Reduz tamanho da fonte */
+        text-align: center;
     }
 
-    /* 5. Área de Pesquisa e Botão Criar */
+    /* Container do desenho do gráfico */
+    .grafico_container {
+        width: 100%;
+        height: auto !important; 
+        min-height: 180px; 
+        padding: 10px 0;
+        margin: 0;
+    }
+
+    /* Reduz o círculo do gráfico */
+    .circular-progress {
+        transform: scale(0.85); 
+        margin: auto;
+    }
+
+    /* Esconde rodapés vazios se necessário */
+    .kpi_footer {
+        display: none;
+    }
+    
+    .div_comparativo {
+        display: none; /* Opcional: esconde detalhes no mobile se quiser limpar a tela */
+    }
+
+
+    /* --- 6. FILTROS E PESQUISA --- */
     .section_main {
         height: auto;
     }
 
     .header_usuarios {
-        flex-direction: column; /* Input em cima, botão embaixo */
+        flex-direction: column;
         height: auto;
         gap: 15px;
         margin-bottom: 20px;
     }
 
-    .input_pesquisa {
+    .input_pesquisa, .div_criar_usuario {
         width: 100%;
-        height: 45px;
+        height: 50px; /* Altura boa para toque */
     }
 
-    .div_criar_usuario {
-        width: 100%;
-        height: 45px;
-    }
 
-    /* 6. Tabela com Scroll Horizontal */
+    /* --- 7. TABELA --- */
     .main_usuarios {
-        overflow-x: auto; /* Cria barra de rolagem apenas na tabela */
+        overflow-x: auto; /* Barra de rolagem horizontal */
+        width: 100%;
     }
 
     .tabela {
-        min-width: 700px; /* Força a tabela a ter um tamanho mínimo */
+        min-width: 700px; /* Força largura mínima */
     }
 
-    /* 7. Modais (Pop-ups) */
+
+    /* --- 8. MODAIS (POP-UPS) --- */
     dialog {
         max-width: 95%;
         width: 95%;
         height: auto;
-        max-height: 90vh; /* Máximo 90% da altura da tela */
-        overflow-y: auto; /* Barra de rolagem interna se for muito alto */
+        max-height: 85vh;
+        overflow-y: auto;
+        top: 50%; /* Garante centralização */
     }
-    
+
     .form_modal {
         height: auto;
+        gap: 15px;
     }
 
     .div_dois_inputs {
-        flex-direction: column; /* Inputs um embaixo do outro no modal */
+        flex-direction: column;
         gap: 15px;
     }
     
     .div_input_menor, .div_input_maior {
         width: 100%;
     }
-    
-    /* Aumenta a altura dos inputs para facilitar o toque */
+
     .form_modal input, select {
-        height: 45px;
+        height: 50px; /* Inputs mais altos para facilitar toque */
     }
-    
-    /* Ajuste do botão do modal */
+
     .div_footer .div_criar_usuario, 
     .div_footer .div_editar_usuario {
-        width: 100%; /* Botão ocupa toda largura */
+        width: 100%;
     }
 
-    .kpi_header{
-        flex-wrap: wrap;
-        height: auto; /* IMPORTANTE: Deixa crescer conforme o conteúdo */
-        flex-direction: column; /* Força um item embaixo do outro */
+    .div_progress_bar {
+        border-top: solid 2px rgba(128, 128, 128, 0.341);
+        padding-top: 30px;
+        margin-top: auto; 
+        /* Isso diz: "Empurre tudo o que estiver acima de mim para longe" */
+    }
+}
+
+
+@media (max-width: 750px) {
+
+    /* --- 1. BODY E GERAL --- */
+    body {
+        height: auto;
+        overflow-x: hidden;
+        padding-bottom: 90px; 
     }
 
-    .div_comparativo{
-        display: none;
+    main {
+        flex-direction: column; 
+        height: auto;
     }
+
+    .section_main {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        
+        /* O PULO DO GATO: */
+        /* Definimos uma altura fixa calculada: 
+           100vh (altura da tela) 
+           - 80px (Menu de baixo) 
+           - 350px (Espaço dos KPIs e Header lá em cima) */
+        height: calc(100vh - 430px); 
+        min-height: 300px; /* Garante que não fique minúsculo */
+        
+        padding: 10px;
+        gap: 10px;
+        
+        /* Garante que o card não estoure a tela */
+        overflow: hidden; 
+    }
+
+    /* 2. O CONTAINER DA TABELA (Onde o scroll deve acontecer) */
+    /* 1. Garante que o cabeçalho, a linha e as células sejam normais */
+    .tabela thead,
+    .tabela thead tr,
+    .tabela thead th {
+        position: static !important;  /* O segredo: "static" é o comportamento padrão (rola junto) */
+        transform: none !important;   /* Remove transformações que criam novas camadas */
+        z-index: auto !important;     /* Reseta a ordem de empilhamento */
+        box-shadow: none !important;  /* Remove sombras */
+        border-bottom: solid 1px #000; /* Garante uma borda simples */
+        background-color: transparent !important; /* Remove fundos que possam estar tapando coisas */
+    }
+
+    /* 2. Se as linhas estiverem passando "por trás", damos um fundo branco para a tabela inteira */
+    .tabela {
+        background-color: var(--white-color);
+        position: static !important;
+    }
+    
+    /* 3. Garante que o container permita o scroll */
+    .main_usuarios {
+        overflow-y: auto !important;
+        display: block; /* Garante bloco simples */
+    }
+
+    
+    /* --- 2. FORÇAR OS KPIS UM EMBAIXO DO OUTRO --- */
+    /* AQUI ESTÁ A CORREÇÃO: Adicionamos !important para ganhar do 1400px */
+    .header_kpis {
+        display: flex;
+        flex-direction: column !important; /* Ganha do 'row' do 1400px */
+        height: auto;
+        gap: 30px !important;
+        flex-wrap: nowrap;
+        width: 100%;
+    }
+
+    /* Reseta o tamanho dos cards para ocuparem 100% da largura no celular */
+    main header .kpi {
+        width: 100% !important; /* Ocupa a tela toda */
+        height: auto;
+        padding: 20px;
+    }
+
+    /* --- 3. DEMAIS AJUSTES (Mantidos do seu código) --- */
+    
+    .header_info_usuario {
+        display: flex;
+        justify-content: space-between !important;
+        align-items: center;
+        width: 100%;
+        padding: 15px;
+    }
+
+    .botao-sair-mobile {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        color: #dd1c2f;
+        text-decoration: none; 
+        padding: 10px;
+    }
+
+    aside {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+        padding: 0;
+        z-index: 1000;
+        background-color: var(--primary-color);
+        box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    aside section { width: 100%; display: block; height: auto; }
+
+    aside section ul {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start; 
+        overflow-x: auto;
+        width: 100%;
+        margin: 0;
+        padding: 5px 0;
+    }
+
+    aside section ul li { width: auto; min-width: 20%; height: 60px; margin: 0; }
+
+    aside section ul li a {
+        flex-direction: column;
+        justify-content: center;
+        padding: 5px;
+        font-size: 10px;
+        gap: 2px;
+        height: 100%;
+        text-align: center;
+    }
+
+    aside section ul li a i { font-size: 22px; margin: 0; }
+
+    .botao-sair { display: none !important; }
+
+    main .section_dash {
+        width: 100%;
+        padding: 10px;
+        height: auto;
+        display: block;
+    }
+
+    .section_dash .main_dash {
+        height: auto;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .div_titulo_kpi h1 { font-size: 40px; }
+    
+    .kpi_header .div_titulo_kpi {
+        align-items: center; 
+        text-align: center;
+        width: 100%;
+    }
+
+    /* Ajuste Donut Chart */
+    #kpi_donutchart > div {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 20px;
+    }
+
+    .parteInfo, .parteGraf {
+        width: 100% !important;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .grafico_container {
+        width: 100%;
+        height: auto !important; 
+        min-height: 180px; 
+        padding: 10px 0;
+        margin: 0;
+    }
+
+    .circular-progress { transform: scale(0.85); margin: auto; }
+
+    .kpi_footer, .div_comparativo { display: none; }
+
+    .header_usuarios {
+        flex-direction: column;
+        height: auto;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .input_pesquisa, .div_criar_usuario { width: 100%; height: 50px; }
+
+    .main_usuarios { overflow-x: auto; width: 100%; }
+    .tabela { min-width: 700px; }
+
+    dialog {
+        max-width: 95%; width: 95%; height: auto; max-height: 85vh; overflow-y: auto; top: 50%;
+    }
+
+    .form_modal { height: auto; gap: 15px; }
+    .div_dois_inputs { flex-direction: column; gap: 15px; }
+    .div_input_menor, .div_input_maior { width: 100%; }
+    .form_modal input, select { height: 50px; }
+    .div_footer .div_criar_usuario, .div_footer .div_editar_usuario { width: 100%; }
 }

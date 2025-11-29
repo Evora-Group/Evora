@@ -213,6 +213,10 @@ main .section_dash{
     gap: calc(var(--gap)*0.3);
 }
 
+.botao-sair-mobile{
+    display: none;
+}
+
 .botao-sair {
     position: absolute; 
     bottom: 30px;       

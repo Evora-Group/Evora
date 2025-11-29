@@ -15,6 +15,10 @@
 <body>
     <header>
         <img src="../assets/imgs/logo-nome.svg" alt="" class="img_logo">
+
+        <a href="../index.html" class="botao-sair-mobile">
+            <i class="fi fi-sr-exit"></i>
+        </a>
     </header>
     <main>
         <aside>
@@ -33,149 +37,150 @@
         </aside>
 
         <section class="section-conf">
-           <main class="main-conf">
+            <main class="main-conf">
                 <div class="settings-card">
 
-                <nav class="tabs">
-                    <a href="#" class="tab active">Editar Conta</a>
-                    <!-- <a href="#" class="tab">Preferências</a> -->
-                </nav>
+                    <nav class="tabs">
+                        <a href="#" class="tab active">Editar Conta</a>
+                        <!-- <a href="#" class="tab">Preferências</a> -->
+                    </nav>
 
-                <form class="settings-form" id="formConfig">
-                    <div class="profile-picture-section">
-                        <div class="profile-picture-container">
-                            <img src="https://img.freepik.com/free-photo/portrait-beautiful-young-woman-standing-grey-wall_231208-10760.jpg"
-                                alt="Foto de perfil">
-                            <button type="button" class="edit-icon-button">
-                                <i class="fi fi-rr-pencil"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="form-fields-section">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="nome">Seu nome</label>
-                                <input type="text" id="nome" value="Charlene Reed">
-                            </div>
-                            <div class="form-group">
-                                <label for="instituicao">Instituição</label>
-                                <input type="text" id="instituicao" value="Estácio Brasil">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" value="charlenereed@gmail.com">
-                            </div>
-                            <div class="form-group">
-                                <label for="senha">Senha</label>
-                                <input type="password" id="senha" value="************">
-                            </div>
-
-                            <div class="form-group form-group-full">
-                                <label for="cargo">Cargo</label>
-                                <select id="cargo">
-                                    <option selected>Professor(a)</option>
-                                    <option>Admin</option>
-                                </select>
+                    <form class="settings-form" id="formConfig">
+                        <div class="profile-picture-section">
+                            <div class="profile-picture-container">
+                                <img src="https://img.freepik.com/free-photo/portrait-beautiful-young-woman-standing-grey-wall_231208-10760.jpg"
+                                    alt="Foto de perfil">
+                                <button type="button" class="edit-icon-button">
+                                    <i class="fi fi-rr-pencil"></i>
+                                </button>
                             </div>
                         </div>
 
-                        <div class="form-actions">
-                            <button type="submit" class="save-button">Salvar</button>
-                        </div>
-                    </div>
-                </form>
+                        <div class="form-fields-section">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="nome">Seu nome</label>
+                                    <input type="text" id="nome" value="Charlene Reed">
+                                </div>
+                                <div class="form-group">
+                                    <label for="instituicao">Instituição</label>
+                                    <input type="text" id="instituicao" value="Estácio Brasil">
+                                </div>
 
-            </div>
-           </main>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" value="charlenereed@gmail.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="senha">Senha</label>
+                                    <input type="password" id="senha" value="************">
+                                </div>
+
+                                <div class="form-group form-group-full">
+                                    <label for="cargo">Cargo</label>
+                                    <select id="cargo">
+                                        <option selected>Professor(a)</option>
+                                        <option>Admin</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="save-button">Salvar</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </main>
         </section>
     </main>
 </body>
+
 </html>
 
 <script>
 
-console.log("idUsuario do sessionStorage:", sessionStorage.getItem("idUsuario"));
-console.log("nomeUsuario:", sessionStorage.getItem("nomeUsuario"));
+    console.log("idUsuario do sessionStorage:", sessionStorage.getItem("idUsuario"));
+    console.log("nomeUsuario:", sessionStorage.getItem("nomeUsuario"));
 
-const idUsuario     = sessionStorage.getItem("idUsuario");
-const nomeUsuario   = sessionStorage.getItem("nomeUsuario");
-const emailUsuario  = sessionStorage.getItem("emailUsuario");
-const cargoUsuario  = sessionStorage.getItem("cargoUsuario");
-const nomeInstituicao = sessionStorage.getItem("nomeInstituicao");
-
-
-if (!idUsuario) {
-    alert("Erro: usuário não encontrado");
-    window.location.href = "../login.html";
-}
+    const idUsuario = sessionStorage.getItem("idUsuario");
+    const nomeUsuario = sessionStorage.getItem("nomeUsuario");
+    const emailUsuario = sessionStorage.getItem("emailUsuario");
+    const cargoUsuario = sessionStorage.getItem("cargoUsuario");
+    const nomeInstituicao = sessionStorage.getItem("nomeInstituicao");
 
 
-// Preencher os campos ao carregar 
-function preencherFormulario() {
-    document.getElementById("nome").value        = nomeUsuario || "";
-    document.getElementById("email").value       = emailUsuario || "";
-    document.getElementById("instituicao").value = nomeInstituicao || "";
-    document.getElementById("cargo").value       = cargoUsuario ;
-}
+    if (!idUsuario) {
+        alert("Erro: usuário não encontrado");
+        window.location.href = "../login.html";
+    }
+
+
+    // Preencher os campos ao carregar 
+    function preencherFormulario() {
+        document.getElementById("nome").value = nomeUsuario || "";
+        document.getElementById("email").value = emailUsuario || "";
+        document.getElementById("instituicao").value = nomeInstituicao || "";
+        document.getElementById("cargo").value = cargoUsuario;
+    }
 
 
 
-// Enviar atualização 
-function atualizarUsuario(event) {
-    event.preventDefault();
+    // Enviar atualização 
+    function atualizarUsuario(event) {
+        event.preventDefault();
 
-    
-    const nome        = document.getElementById("nome").value;
-    const email       = document.getElementById("email").value;
-    const fkInstituicao = document.getElementById("instituicao").value;
-    const cargo       = document.getElementById("cargo").value;
-    const senha_hash      = document.getElementById("senha").value || null;
-    
 
-    fetch(`/dashConfigUser/atualizarUsuario/${idUsuario}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            nome,
-            email,  
-            fkInstituicao,
-            cargo,
-            senha_hash
+        const nome = document.getElementById("nome").value;
+        const email = document.getElementById("email").value;
+        const fkInstituicao = document.getElementById("instituicao").value;
+        const cargo = document.getElementById("cargo").value;
+        const senha_hash = document.getElementById("senha").value || null;
+
+
+        fetch(`/dashConfigUser/atualizarUsuario/${idUsuario}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nome,
+                email,
+                fkInstituicao,
+                cargo,
+                senha_hash
+            })
         })
-    })
-    .then(res => {
-        if (!res.ok) throw new Error("Erro ao atualizar");
-        return res.json();
-    })
-    .then(data => {
-        alert("Dados atualizados com sucesso!");
+            .then(res => {
+                if (!res.ok) throw new Error("Erro ao atualizar");
+                return res.json();
+            })
+            .then(data => {
+                alert("Dados atualizados com sucesso!");
 
-        // Atualiza sessão
-        sessionStorage.setItem("nomeUsuario", nome);
-        sessionStorage.setItem("emailUsuario", email);
-        sessionStorage.setItem("cargoUsuario", cargo);
+                // Atualiza sessão
+                sessionStorage.setItem("nomeUsuario", nome);
+                sessionStorage.setItem("emailUsuario", email);
+                sessionStorage.setItem("cargoUsuario", cargo);
 
-        // Atualiza UI imediatamente
-        document.getElementById("h1_nome_usuario").innerText = nome;
-    })
-    .catch(err => {
-        console.error("Erro na atualização:", err);
-        alert("Erro ao salvar alterações.");
-    });
-}
+                // Atualiza UI imediatamente
+                document.getElementById("h1_nome_usuario").innerText = nome;
+            })
+            .catch(err => {
+                console.error("Erro na atualização:", err);
+                alert("Erro ao salvar alterações.");
+            });
+    }
 
 
-window.onload = function () {
-    preencherFormulario();
+    window.onload = function () {
+        preencherFormulario();
 
-    document
-        .querySelector(".settings-form")
-        .addEventListener("submit", atualizarUsuario);
-};
+        document
+            .querySelector(".settings-form")
+            .addEventListener("submit", atualizarUsuario);
+    };
 
 
 </script>

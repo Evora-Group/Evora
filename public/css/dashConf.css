@@ -91,8 +91,8 @@ header section h1 {
 }
 
 header i {
-    font-size: 35px;
-    color: var(--primary-color);
+    font-size: calc(var(--font-title) * 1.5);
+    color: #9ca2a9cf;
 }
 
 .img_icon_usuario {
@@ -423,47 +423,59 @@ main .section-conf {
 
 @media (max-width: 1600px) {
 
-    /* 1. Reduz o tamanho da fonte dos links */
     aside section ul li a {
         font-size: 16px; 
-        padding: 14%;   /* Reduz drasticamente o padding lateral (era 14%) */
-        gap: 10px;       /* Aproxima o ícone do texto (era 20px) */
+        padding: 14%;   
+        gap: 10px;      
     }
 
-    /* 2. Reduz o tamanho dos ícones */
     aside section ul li a i {
-        font-size: 20px; /* De 30px para 20px */
+        font-size: 20px;
     }
 
-    /* 3. Ajuste opcional na altura do item da lista */
     aside section ul li {
-        height: 70px; /* De 90px para 70px para ficar mais compacto verticalmente */
+        height: 70px; 
     }
 
-    /* 4. Ajuste do botão SAIR lá embaixo */
     .botao-sair {
         font-size: 14px;
         padding: 10px;
-        left: 20%;  /* Margens menores para o botão não vazar */
+        left: 20%;  
         right: 20%;
     }
     
-    /* 5. Prevenção de quebra de linha */
-    /* Isso garante que, se o texto for muito longo, ele diminua em vez de quebrar */
+   
     aside section ul li a {
-        white-space: nowrap; /* Não deixa o texto ir para a linha de baixo */
-        overflow: hidden;    /* Esconde se passar do limite */
-        text-overflow: ellipsis; /* Coloca "..." se cortar */
+        white-space: nowrap; 
+        overflow: hidden;    
+        text-overflow: ellipsis; 
     }
 }
 
 @media (max-width: 1000px) {
+
+    /* 1. Seleciona especificamente o link de Configurações */
+    /* O seletor [href*="dashConf"] pega qualquer link que tenha "dashConf" no endereço */
+    aside section ul li a[href*="dashConf"] {
+        font-size: 0 !important; /* Esconde a palavra "Configurações" */
+    }
+
+    /* 2. Restaura o tamanho do ícone (que sumiria junto com a fonte 0) */
+    aside section ul li a[href*="dashConf"] i {
+        font-size: 22px !important; 
+        margin-bottom: 2px;         
+    }
+
+    /* 3. Insere o novo texto "Conf." */
+    aside section ul li a[href*="dashConf"]::after {
+        content: "Conf.";           
+        font-size: 10px !important; 
+        display: block;             /* Garante que fique em baixo do ícone */
+    }
     
-    /* 1. Ajuste Geral do Layout */
     body {
         height: auto;
         overflow-x: hidden;
-        /* Espaço para o menu inferior não cobrir conteúdo */
         padding-bottom: 90px; 
     }
 
@@ -508,7 +520,7 @@ main .section-conf {
     aside section ul {
         display: flex;
         flex-direction: row;      /* Ícones lado a lado */
-        justify-content: flex-start; 
+        justify-content: space-between; 
         overflow-x: auto;         /* Scroll lateral */
         width: 100%;
         margin: 0;
@@ -516,8 +528,15 @@ main .section-conf {
     }
 
     aside section ul li {
-        width: auto;
-        min-width: 20%; 
+       width: auto;
+        
+        /* O ERRO ESTAVA AQUI (min-width: 20%) */
+        /* Mude para flex: 1 para dividir o espaço igualmente entre os 6 */
+        flex: 1; 
+        
+        /* Garante que o item possa encolher se necessário */
+        min-width: 0; 
+        
         height: 60px;
         margin: 0;
     }
@@ -537,10 +556,8 @@ main .section-conf {
         margin: 0;
     }
 
-    /* Esconde botão sair grande */
     .botao-sair { display: none !important; }
 
-    /* 4. Ajuste da Área de Conteúdo */
     main .section-conf {
         width: 100%;
         padding: 10px;
@@ -555,7 +572,6 @@ main .section-conf {
         box-shadow: none;
     }
 
-    /* 5. Ajuste do Card de Configurações */
     .settings-card {
         margin-top: 0;
         width: 100%;
@@ -563,7 +579,6 @@ main .section-conf {
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
-    /* Formulário em Coluna */
     .settings-form {
         flex-direction: column; /* Foto em cima, campos embaixo */
         gap: 1.5rem;
@@ -584,7 +599,6 @@ main .section-conf {
         width: 100%;
     }
 
-    /* Grid vira coluna única */
     .form-grid {
         grid-template-columns: 1fr; 
         gap: 1rem;
@@ -596,7 +610,7 @@ main .section-conf {
     }
 
     .save-button {
-        width: 100%; /* Botão ocupa largura total para facilitar toque */
+        width: 100%; 
         padding: 1rem;
     }
     

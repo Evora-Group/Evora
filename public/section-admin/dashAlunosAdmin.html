@@ -22,7 +22,13 @@
 <body onload="listarAlunosInstituicao()">
     <header class="header_info_usuario">
         <img src="../assets/imgs/logo-nome.svg" alt="" class="img_logo">
+
+        <a href="../index.html" class="botao-sair-mobile">
+            <i class="fi fi-sr-exit"></i>
+        </a>
     </header>
+
+
     <main>
         <aside>
             <section class="section_aside">
@@ -70,7 +76,7 @@
 
                         <div style="width: 100%; display: flex;">
 
-                            <div class="parteInfo" style="width: 65%;">
+                            <div class="parteInfo">
                                 <div class="kpi_header">
                                     <div class="div_titulo_kpi" id="div_situacao">
                                         <p class="p_titulo_kpi">FREQUÊNCIA GERAL</p>
@@ -85,7 +91,7 @@
 
                             </div>
 
-                            <div class="parteGraf" style="width: 35%;">
+                            <div class="parteGraf">
                                 <div class="grafico_container">
                                     <div class="circular-progress" id="circFreq">
                                         <span id="freqText">Freq</span>

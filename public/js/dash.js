@@ -250,3 +250,324 @@ function listarTurmas() {
         console.error("Erro na requisição: ", erro);
     });
 }
+
+// =====================================================
+// FUNÇÕES PARA dashCursoAdmin.html (Listagem de Cursos)
+// =====================================================
+
+function listarCursosInstituicao(page = 1, limit = 15, q = '', professor = '', situacao = '') {
+    const fkInstituicao = sessionStorage.getItem("fkInstituicao");
+    if (!fkInstituicao) return;
+    const qParam = q ? `&q=${encodeURIComponent(q)}` : '';
+    const profParam = professor ? `&professor=${encodeURIComponent(professor)}` : '';
+    const sitParam = situacao ? `&situacao=${encodeURIComponent(situacao)}` : '';
+    fetch(`/instituicao/listarCursosInstituicao/${fkInstituicao}?page=${page}&limit=${limit}${qParam}${profParam}${sitParam}`)
+        .then(r => r.json())
+        .then(data => {
+            const cursos = data.cursos || [];
+            const total = data.total || 0;
+            const currentPage = data.page || page;
+            const perPage = data.limit || limit;
+            const container = document.getElementById('cursos_lista');
+            const semMsg = document.getElementById('sem_cursos_msg');
+            const cabecalho = document.querySelector('.cabecalho');
+            const tituloLista = document.getElementById('container_course');
+            const pagination = document.getElementById('pagination_controls');
+            if (container) container.innerHTML = '';
+            if (!cursos.length) {
+                if (semMsg) { semMsg.style.display = 'block'; semMsg.innerText = 'não há cursos na sua instituição'; }
+                if (cabecalho) cabecalho.style.display = 'none';
+                if (tituloLista) tituloLista.style.display = 'none';
+                if (pagination) pagination.innerHTML = '';
+                return;
+            }
+            if (semMsg) semMsg.style.display = 'none';
+            if (cabecalho) cabecalho.style.display = '';
+            if (tituloLista) tituloLista.style.display = '';
+            cursos.forEach(c => {
+                if (!container) return;
+                container.innerHTML += `
+                <div class="curso_row">
+                    <div class="coluna_cursos"><a class="link" href="dashCursoEspecificoAdmin.html?cursoId=${c.id}"><p>${c.nome}</p></a></div>
+                    <div class="coluna_quantidade"><p>${c.quantidade_alunos}</p></div>
+                    <div class="coluna_descricao"><p>${c.descricao}</p></div>
+                    <div class="coluna_modalidade"><p>${c.modalidade}</p></div>
+                </div>`;
+            });
+            if (pagination) renderPaginationWithHandler(pagination, total, perPage, currentPage, (p) => listarCursosInstituicao(p, perPage, q, professor, situacao));
+        }).catch(e => console.error('Erro ao listar cursos paginados', e));
+}
+
+function renderPaginationWithHandler(container, totalItems, perPage, currentPage, onPage) {
+    const totalPages = Math.ceil(totalItems / perPage) || 1;
+    container.innerHTML = '';
+
+    const makeBtn = (txt, disabled, onClick, current = false) => {
+        const b = document.createElement('button');
+        b.innerText = txt;
+        b.disabled = disabled;
+        if (onClick && !disabled) b.onclick = onClick;
+        if (current) b.classList.add('current');
+        return b;
+    };
+
+    container.appendChild(makeBtn('Prev', currentPage <= 1, () => onPage(currentPage - 1)));
+
+    const maxButtons = 5;
+    let start = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+    let end = Math.min(totalPages, start + maxButtons - 1);
+
+    if (end - start < maxButtons - 1) {
+        start = Math.max(1, end - maxButtons + 1);
+    }
+
+    if (start > 1) {
+        container.appendChild(makeBtn('1', false, () => onPage(1)));
+        if (start > 2) {
+            const ellipsis = document.createElement('span');
+            ellipsis.textContent = '...';
+            ellipsis.style.padding = '0 8px';
+            container.appendChild(ellipsis);
+        }
+    }
+
+    for (let p = start; p <= end; p++) {
+        container.appendChild(makeBtn(String(p), false, () => onPage(p), p === currentPage));
+    }
+
+    if (end < totalPages) {
+        if (end < totalPages - 1) {
+            const ellipsis = document.createElement('span');
+            ellipsis.textContent = '...';
+            ellipsis.style.padding = '0 8px';
+            container.appendChild(ellipsis);
+        }
+        container.appendChild(makeBtn(String(totalPages), false, () => onPage(totalPages)));
+    }
+
+    container.appendChild(makeBtn('Next', currentPage >= totalPages, () => onPage(currentPage + 1)));
+}
+
+// =====================================================
+// FUNÇÕES PARA dashAlertaAdmin.html (Alertas)
+// =====================================================
+
+function switchAlerta(tipo) {
+    const tabPreocupante = document.getElementById('tab_preocupante');
+    const tabAtencao = document.getElementById('tab_atencao');
+    
+    if (tabPreocupante && tabAtencao) {
+        if (tipo === 'preocupante') {
+            tabPreocupante.classList.add('active-tab');
+            tabAtencao.classList.remove('active-tab');
+        } else {
+            tabAtencao.classList.add('active-tab');
+            tabPreocupante.classList.remove('active-tab');
+        }
+    }
+    listarAlunosAlerta(tipo, 1, 15);
+}
+
+function listarAlunosAlerta(tipo = 'preocupante', page = 1, limit = 15) {
+    const fkInstituicao = sessionStorage.getItem("fkInstituicao");
+    if (!fkInstituicao) return;
+
+    fetch(`/instituicao/listarAlunosAlerta/${fkInstituicao}?tipo=${tipo}&page=${page}&limit=${limit}`)
+        .then(r => r.json())
+        .then(data => {
+            const alunos = data.alunos || [];
+            const total = data.total || 0;
+            const currentPage = data.page || page;
+            const perPage = data.limit || limit;
+            const container = document.getElementById('alertas_lista');
+            const semMsg = document.getElementById('sem_alertas_msg');
+            const pagination = document.getElementById('pagination_controls_alertas');
+
+            if (container) container.innerHTML = '';
+            if (!alunos.length) {
+                if (semMsg) { semMsg.style.display = 'block'; semMsg.innerText = 'não há alunos em alerta na sua instituição'; }
+                if (pagination) pagination.innerHTML = '';
+                return;
+            }
+            if (semMsg) semMsg.style.display = 'none';
+
+            alunos.forEach(a => {
+                if (!container) return;
+                container.innerHTML += `
+                <div class="dados_linha">
+                    <div class="coluna_aluno"><p>${a.nome}</p></div>
+                    <div class="coluna_turma"><p>${a.turma || '-'}</p></div>
+                    <div class="coluna_descricao"><p>${a.descricao || '-'}</p></div>
+                    <div class="coluna_nota"><p>${parseFloat(a.media_nota).toFixed(1)}</p></div>
+                    <div class="coluna_presenca"><p>${parseFloat(a.frequencia).toFixed(1)}%</p></div>
+                </div>`;
+            });
+
+            if (pagination) renderPaginationWithHandler(pagination, total, perPage, currentPage, (p) => listarAlunosAlerta(tipo, p, perPage));
+        }).catch(e => console.error('Erro ao listar alertas', e));
+}
+
+// =====================================================
+// FUNÇÕES PARA dash_admin_cursos.html (CRUD de Cursos)
+// =====================================================
+
+function listarCursosAdmin(page = 1, limit = 15) {
+    const fkInstituicao = sessionStorage.getItem("fkInstituicao");
+    if (!fkInstituicao) return;
+
+    fetch(`/instituicao/listarCursosInstituicao/${fkInstituicao}?page=${page}&limit=${limit}`)
+        .then(r => r.json())
+        .then(data => {
+            const cursos = data.cursos || [];
+            const total = data.total || 0;
+            const currentPage = data.page || page;
+            const perPage = data.limit || limit;
+            const corpoTabela = document.querySelector('.corpo_tabela');
+            const pagination = document.getElementById('pagination_controls');
+
+            if (corpoTabela) corpoTabela.innerHTML = '';
+
+            cursos.forEach(c => {
+                if (!corpoTabela) return;
+                const nomeInstituicao = sessionStorage.getItem("nomeInstituicao") || '-';
+                const profAlocados = c.num_professores > 0 ? `${c.num_professores} professor(es)` : 'Nenhum';
+                corpoTabela.innerHTML += `
+                <tr>
+                    <td>${c.id_curso}</td>
+                    <td>${c.nome}</td>
+                    <td>${nomeInstituicao}</td>
+                    <td>${profAlocados}</td>
+                    <td onclick="abrirModalEditar(${c.id_curso})"><i class="fi fi-sr-pencil"></i></td>
+                    <td onclick="abrirModalRemover(${c.id_curso})"><i class="fi fi-sr-trash"></i></td>
+                </tr>`;
+            });
+
+            if (pagination) renderPaginationWithHandler(pagination, total, perPage, currentPage, (p) => listarCursosAdmin(p, perPage));
+        }).catch(e => console.error('Erro ao listar cursos admin', e));
+}
+
+function atualizarKPIsAdmin() {
+    const fkInstituicao = sessionStorage.getItem("fkInstituicao");
+    if (!fkInstituicao) return;
+
+    fetch(`/instituicao/listarCursosInstituicao/${fkInstituicao}?page=1&limit=1000`)
+        .then(r => r.json())
+        .then(data => {
+            const cursos = data.cursos || [];
+            const total = cursos.length;
+            const h1Situacao = document.getElementById('h1_situacao');
+            if (h1Situacao) h1Situacao.innerText = total;
+
+            // Preencher progress bars
+            const divProgressBars = document.querySelector('.div_progress_bars');
+            if (divProgressBars) {
+                divProgressBars.innerHTML = '';
+                cursos.slice(0, 4).forEach(c => {
+                    divProgressBars.innerHTML += `
+                    <div class="div_progress_bar">
+                        <div class="div_cursos_progress_bar">
+                            <div class="progress_bar">
+                                <div class="indicadores">
+                                    <p>${c.quantidade_alunos} Alunos</p>
+                                    <p>${c.num_professores} Professores</p>
+                                </div>
+                                <progress class="progress_instituicao" value="${c.quantidade_alunos}" max="100">${c.quantidade_alunos}%</progress>
+                            </div>
+                            <p>${c.id_curso} - ${c.nome}</p>
+                        </div>
+                    </div>`;
+                });
+            }
+        }).catch(e => console.error('Erro ao atualizar KPIs admin', e));
+}
+
+function abrirModalEditar(idCurso) {
+    fetch(`/instituicao/obterCurso/${idCurso}`)
+        .then(r => r.json())
+        .then(curso => {
+            const modal = document.getElementById('modal_editar_curso');
+            if (!modal) return;
+            const form = modal.querySelector('form');
+            if (form) {
+                form.querySelector('[name="nome"]').value = curso.nome || '';
+                form.querySelector('[name="descricao"]').value = curso.descricao || '';
+                form.querySelector('[name="modalidade"]').value = curso.modalidade || '';
+                form.querySelector('[name="duracao_semestres"]').value = curso.duracao_semestres || '';
+            }
+            modal.dataset.cursoId = idCurso;
+            modal.showModal();
+        }).catch(e => console.error('Erro ao obter curso', e));
+}
+
+function salvarEdicaoCurso() {
+    const modal = document.getElementById('modal_editar_curso');
+    if (!modal) return;
+    const idCurso = modal.dataset.cursoId;
+    const form = modal.querySelector('form');
+    const dados = {
+        nome: form.querySelector('[name="nome"]').value,
+        descricao: form.querySelector('[name="descricao"]').value,
+        modalidade: form.querySelector('[name="modalidade"]').value,
+        duracao_semestres: form.querySelector('[name="duracao_semestres"]').value
+    };
+
+    fetch(`/instituicao/editarCurso/${idCurso}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+    }).then(r => {
+        if (r.ok) {
+            modal.close();
+            listarCursosAdmin(1, 15);
+            atualizarKPIsAdmin();
+        }
+    }).catch(e => console.error('Erro ao editar curso', e));
+}
+
+function abrirModalRemover(idCurso) {
+    const modal = document.getElementById('modal_remover_usuario');
+    if (!modal) return;
+    modal.dataset.cursoId = idCurso;
+    modal.showModal();
+}
+
+function confirmarRemocaoCurso() {
+    const modal = document.getElementById('modal_remover_usuario');
+    if (!modal) return;
+    const idCurso = modal.dataset.cursoId;
+
+    fetch(`/instituicao/deletarCurso/${idCurso}`, { method: 'DELETE' })
+        .then(r => {
+            if (r.ok) {
+                modal.close();
+                listarCursosAdmin(1, 15);
+                atualizarKPIsAdmin();
+            }
+        }).catch(e => console.error('Erro ao deletar curso', e));
+}
+
+function criarNovoCurso() {
+    const modal = document.getElementById('modal_criar_curso');
+    if (!modal) return;
+    const form = modal.querySelector('form');
+    const fkInstituicao = sessionStorage.getItem("fkInstituicao");
+    const dados = {
+        nome: form.querySelector('[name="nome_curso"]').value,
+        descricao: form.querySelector('[name="descricao"]').value,
+        modalidade: form.querySelector('[name="modalidade"]').value,
+        duracao_semestres: form.querySelector('[name="duracao_semestres"]').value
+    };
+
+    fetch(`/instituicao/criarCurso/${fkInstituicao}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+    }).then(r => {
+        if (r.ok) {
+            modal.close();
+            form.reset();
+            listarCursosAdmin(1, 15);
+            atualizarKPIsAdmin();
+        }
+    }).catch(e => console.error('Erro ao criar curso', e));
+}

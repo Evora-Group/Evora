@@ -15,7 +15,7 @@
 </head>
 
 
-<body onload="puxarNomeUsuario()">
+<body onload="puxarNomeUsuario(); if(typeof listarCursosAdmin === 'function') { listarCursosAdmin(1, 15); if(typeof atualizarKPIsAdmin === 'function') atualizarKPIsAdmin(); }">
     <header class="header_info_usuario">
         <img src="../assets/imgs/logo-nome.svg" alt="" class="img_logo">
     </header>
@@ -48,25 +48,20 @@
                         <div class="kpi_header">
                             <div class="div_titulo_kpi" id="div_situacao">
                                 <p class="p_titulo_kpi">TOTAL DE CURSOS CRIADOS</p>
-                                <h1 id="h1_situacao">4</h1>
+                                <h1 id="h1_situacao"></h1>
                             </div>
 
                         </div>
                         <div>
-
                             <div class="kpi_footer">
-
-                                <p class="p_titulo_kpi"><strong>3 Liberado</strong></p>
-                                <p class="p_titulo_kpi"> <strong>1 Bloqueado</strong></p>
-
+                                <p class="p_titulo_kpi"><strong></strong></p>
+                                <p class="p_titulo_kpi"> <strong></strong></p>
                             </div>
-
                         </div>
 
 
 
                     </section>
-
                     <section class="kpi kpi_maior">
                         <div class="kpi_header" id="kpi_situacao">
                             <div class="div_titulo_kpi" id="div_situacao">
@@ -75,54 +70,6 @@
                         </div>
 
                         <div class="div_progress_bars">
-                        <div class="div_progress_bar">
-                            <div class="div_cursos_progress_bar">
-                            <div class="progress_bar">
-                                <div class="indicadores">
-                                    <p>95 Alunos</p>
-                                    <p>5 Professores</p>
-                                </div>
-                                <progress class="progress_instituicao" value="95" max="100"> 95% </progress>
-                            </div>
-                            <p>000001 - Analise e Desenvolvimento de Sistemas</p>
-                            </div>
-                        </div>
-                        <div class="div_progress_bar">
-                            <div class="div_cursos_progress_bar">
-                            <div class="progress_bar">
-                                <div class="indicadores">
-                                    <p>95 Alunos</p>
-                                    <p>5 Professores</p>
-                                </div>
-                                <progress class="progress_instituicao" value="95" max="100"> 95% </progress>
-                            </div>
-                            <p>000001 - Analise e Desenvolvimento de Sistemas</p>
-                            </div>
-                        </div>
-                        <div class="div_progress_bar">
-                            <div class="div_cursos_progress_bar">
-                            <div class="progress_bar">
-                                <div class="indicadores">
-                                    <p>95 Alunos</p>
-                                    <p>5 Professores</p>
-                                </div>
-                                <progress class="progress_instituicao" value="95" max="100"> 95% </progress>
-                            </div>
-                            <p>000001 - Analise e Desenvolvimento de Sistemas</p>
-                            </div>
-                        </div>
-                        <div class="div_progress_bar">
-                            <div class="div_cursos_progress_bar">
-                            <div class="progress_bar">
-                                <div class="indicadores">
-                                    <p>95 Alunos</p>
-                                    <p>5 Professores</p>
-                                </div>
-                                <progress class="progress_instituicao" value="95" max="100"> 95% </progress>
-                            </div>
-                            <p>000001 - Analise e Desenvolvimento de Sistemas</p>
-                            </div>
-                        </div>
                         </div>
                     </section>
                 </header>
@@ -133,41 +80,11 @@
                         <input type="search" placeholder="Digite nome ou ID para procurar pelo curso..."
                             class="input_pesquisa">
                         <div class="div_criar_usuario" id="btnAbrirDialog"
-                            onclick="listarInstituicoes(), abrirModal('modal_criar_curso')">
+                            onclick="abrirModal('modal_criar_curso')">
                             <p><strong>+ Criar Novo Curso</strong></p>
                         </div>
 
                     </header>
-                    <section class="section_filter_usuarios">
-
-
-                        <details class="filtro-dropdown">
-
-                            <summary class="titulo_sumario">
-                                filtrar por
-                            </summary>
-
-                            <div class="filtro-lista">
-                               
-                                <label>
-                                    <input type="checkbox"> Nome
-                                </label>
-                                <label>
-                                    <input type="checkbox"> Situação
-                                </label>
-                                <label>
-                                    <input type="checkbox"> Instituição
-                                </label>
-                                <label>
-                                    <input type="checkbox"> Professor
-                                </label>
-                                <label>
-                                    <input type="checkbox"> Limpar
-                                </label>
-                            </div>
-
-                        </details>
-                    </section>
                     <main class="main_usuarios">
                         <!-- Tabela de usuários será inserida aqui -->
                         <table class="tabela">
@@ -177,132 +94,18 @@
                                     <th>Curso</th>
                                     <th>Instituição</th>
                                     <th>Professores Alocados</th>
-                                    <th>Situação</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody class="corpo_tabela">
-
-                                <tr>
-                                    <td>1111111111</td>
-                                    <td>Analise e Desenvolvimento de Sitemas</td>
-                                    <td>SPTECH SCHOOL</td>
-                               
-                                    <td>João, Thauan</td>
-                                    <td>
-                                        <p class="p_status_bloqueado">Bloqueado</p>
-                                    </td>
-                                    <td onclick="abrirModal('modal_editar_curso')"><i class="fi fi-sr-pencil"></i>
-                                    </td>
-                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1111111111</td>
-                                    <td>Analise e Desenvolvimento de Sitemas</td>
-                                    <td>SPTECH SCHOOL</td>
-                               
-                                    <td>João, Thauan</td>
-                                    <td>
-                                        <p class="p_status_liberado">Liberado</p>
-                                    </td>
-                                    <td onclick="abrirModal('modal_editar_curso')"><i class="fi fi-sr-pencil"></i>
-                                    </td>
-                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1111111111</td>
-                                    <td>Analise e Desenvolvimento de Sitemas</td>
-                                    <td>SPTECH SCHOOL</td>
-
-                                    <td>João, Thauan</td>
-                                    <td>
-                                        <p class="p_status_liberado">Liberado</p>
-                                    </td>
-                                    <td onclick="abrirModal('modal_editar_curso')"><i class="fi fi-sr-pencil"></i>
-                                    </td>
-                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1111111111</td>
-                                    <td>Analise e Desenvolvimento de Sitemas</td>
-                                    <td>SPTECH SCHOOL</td>
-                               
-                                    <td>João, Thauan</td>
-                                    <td>
-                                        <p class="p_status_liberado">Liberado</p>
-                                    </td>
-                                    <td onclick="abrirModal('modal_editar_curso')"><i class="fi fi-sr-pencil"></i>
-                                    </td>
-                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1111111111</td>
-                                    <td>Analise e Desenvolvimento de Sitemas</td>
-                                    <td>SPTECH SCHOOL</td>
-                               
-                                    <td>João, Thauan</td>
-                                    <td>
-                                        <p class="p_status_liberado">Liberado</p>
-                                    </td>
-                                    <td onclick="abrirModal('modal_editar_curso')"><i class="fi fi-sr-pencil"></i>
-                                    </td>
-                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1111111111</td>
-                                    <td>Analise e Desenvolvimento de Sitemas</td>
-                                    <td>SPTECH SCHOOL</td>
-                               
-                                    <td>João, Thauan</td>
-                                    <td>
-                                        <p class="p_status_liberado">Liberado</p>
-                                    </td>
-                                    <td onclick="abrirModal('modal_editar_curso')"><i class="fi fi-sr-pencil"></i>
-                                    </td>
-                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1111111111</td>
-                                    <td>Analise e Desenvolvimento de Sitemas</td>
-                                    <td>SPTECH SCHOOL</td>
-                               
-                                    <td>João, Thauan</td>
-                                    <td>
-                                        <p class="p_status_liberado">Liberado</p>
-                                    </td>
-                                    <td onclick="abrirModal('modal_editar_curso')"><i class="fi fi-sr-pencil"></i>
-                                    </td>
-                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1111111111</td>
-                                    <td>Analise e Desenvolvimento de Sitemas</td>
-                                    <td>SPTECH SCHOOL</td>
-                               
-                                    <td>João, Thauan</td>
-                                    <td>
-                                        <p class="p_status_liberado">Liberado</p>
-                                    </td>
-                                    <td onclick="abrirModal('modal_editar_curso')"><i class="fi fi-sr-pencil"></i>
-                                    </td>
-                                    <td onclick="abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
-                                    </td>
-                                </tr>
-
-
                                 <!-- Adicione mais linhas conforme necessário -->
                             </tbody>
                         </table>
-
                     </main>
+                    
+                    <!-- Container de paginação fora do main_usuarios -->
+                    <div id="pagination_controls"></div>
                 </section>
             </main>
         </section>
@@ -315,33 +118,32 @@
             <form class="form_modal">
 
                 <label for="nome_curso">Nome:</label>
-                <input type="nome_curso" id="instituicao" name="nome_curso"
+                <input type="text" name="nome_curso"
                     placeholder="Digite o nome do Curso" class="input_modal">
 
+                <label for="descricao">Descrição:</label>
+                <textarea name="descricao" placeholder="Descrição do curso" class="input_modal" rows="3"></textarea>
 
-                <label for="nome_instituicao">Instituição:</label>
-                <input list="instituicoes" type="nome_instituicao" id="instituicao" name="nome_instituicao"
-                    placeholder="Pesquise pela sua instituicao" class="input_modal">
-                <datalist id="instituicoes">
-                    <option value=""></option>
-                </datalist>
+                <label for="modalidade">Modalidade:</label>
+                <select name="modalidade" class="input_modal">
+                    <option value="">Selecione...</option>
+                    <option value="Presencial">Presencial</option>
+                    <option value="EAD">EAD</option>
+                    <option value="Híbrido">Híbrido</option>
+                </select>
 
-                <label for="nome_professor">Professores Alocados:</label>
-                <input list="professores" type="nome_professor" id="instituicao" name="nome_professor"
-                    placeholder="Pesquise por professor" class="input_modal">
-                <datalist id="professores">
-                    <option value=""></option>
-                </datalist>
+                <label for="duracao_semestres">Duração (semestres):</label>
+                <input type="number" name="duracao_semestres" placeholder="Ex: 8" class="input_modal" min="1">
 
             </form>
 
             <div class="div_footer">
 
-                <div class="div_criar_usuario" id="btnEnviarDialog" onclick="enviarModal('modal_criar_curso')">
-                    <p><strong>Criar Novo Usuário</strong></p>
+                <div class="div_criar_usuario" id="btnEnviarDialog">
+                    <p><strong>Criar Curso</strong></p>
                 </div>
 
-                <p id="btnFecharDialog" onclick="fecharModal('modal_criar_curso')"><u>cancelar</u></p>
+                <p onclick="fecharModal('modal_criar_curso')"><u>cancelar</u></p>
 
             </div>
 
@@ -364,37 +166,38 @@
 
                 <div class="div_input">
                     <label for="nome">Nome:</label>
-                    <input type="text" name="nome">
+                    <input type="text" name="nome" class="input_modal">
                 </div>
 
                 <div class="div_input">
- <label for="nome_instituicao">Instituição:</label>
-                <input list="instituicoes" type="nome_instituicao" id="instituicao" name="nome_instituicao"
-                    placeholder="Pesquise pela sua instituicao" class="input_modal">
-                <datalist id="instituicoes">
-                    <option value=""></option>
-                </datalist>
+                    <label for="descricao">Descrição:</label>
+                    <textarea name="descricao" class="input_modal" rows="3"></textarea>
                 </div>
 
                 <div class="div_input">
+                    <label for="modalidade">Modalidade:</label>
+                    <select name="modalidade" class="input_modal">
+                        <option value="">Selecione...</option>
+                        <option value="Presencial">Presencial</option>
+                        <option value="EAD">EAD</option>
+                        <option value="Híbrido">Híbrido</option>
+                    </select>
+                </div>
 
-                <label for="professores">Professores Alocados:</label>
-                <input list="instituicoes" type="professores" id="curso" name="professores"
-                    placeholder="Pesquise pelos professores" class="input_modal">
-                <datalist id="professores">
-                    <option value=""></option>
-                </datalist>
+                <div class="div_input">
+                    <label for="duracao_semestres">Duração (semestres):</label>
+                    <input type="number" name="duracao_semestres" class="input_modal" min="1">
                 </div>
 
             </form>
 
             <div class="div_footer">
 
-                <div class="div_editar_usuario" id="btnEnviarDialog" onclick="fecharModal('modal_editar_curso')">
+                <div class="div_editar_usuario" id="btnEnviarDialog">
                     <p><strong>Salvar</strong></p>
                 </div>
 
-                <p id="btnFecharDialog" onclick="fecharModal('modal_editar_curso')"><u>cancelar</u></p>
+                <p onclick="fecharModal('modal_editar_curso')"><u>cancelar</u></p>
 
             </div>
 
@@ -438,20 +241,12 @@
 
     function abrirModal(modalId) {
         const dialog = document.getElementById(modalId);
-        dialog.showModal();
+        if (dialog) dialog.showModal();
     }
 
     function fecharModal(modalId) {
         const dialog = document.getElementById(modalId);
-        dialog.close();
-    }
-
-    function enviarModal(modalId) {
-        const dialog = document.getElementById(modalId);
-
-        // Lógica para enviar os dados do modal pode ser adicionada aqui
-
-        dialog.close();
+        if (dialog) dialog.close();
     }
 
 </script>

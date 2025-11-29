@@ -273,23 +273,23 @@ main .section-curso {
     cursor: pointer;
 }
 
+
 .cabecalho{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 2rem;
+    /* usar grid para garantir que colunas do cabeçalho e das linhas se alinhem perfeitamente */
+    display: grid;
+    grid-template-columns: 40% 15% 30% 15%;
+    gap: 1rem;
+    margin: 2rem auto;
     background-color: #fff;
-    width: 90%;
-    height: 100%;
+    width: calc(100% - 4rem);
     border-radius: 20px;
-    padding: 2rem;
+    padding: 1.25rem 1.5rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.067);
-    flex-wrap: wrap;
-    row-gap: 1rem; /* ✅ controla o espaço vertical entre as linhas */
+    align-items: center;
 }
 
 .cabecalho p{
-    font-weight: bold;
+    font-weight: 700;
     color: black;
 }
 
@@ -297,11 +297,9 @@ main .section-curso {
     margin-left: 8rem;
 }
 
+
 .dados_linha {
-    width: 100%; /* ✅ força quebra de linha */
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    width: 100%;
 }
 
 .coluna_cursos,
@@ -309,9 +307,7 @@ main .section-curso {
 .coluna_descricao,
 .coluna_modalidade {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding-left: 2rem;
+    align-items: center;
 }
 
 .coluna_cursos p,
@@ -320,27 +316,12 @@ main .section-curso {
 .coluna_modalidade p {
     color: black;
     font-weight: 400;
+    margin: 0;
 }
 
 .coluna_cursos p {
-    max-width: 250px;
+    max-width: 100%;
     word-wrap: break-word;
-}
-
-.coluna_quantidade{
-    display: flex;
-    margin-right: 15rem;
-
-}
-
-.coluna_descricao{
-    display: flex;
-    margin-right: 10rem;
-}
-
-.coluna_modalidade{
-    display: flex;
-    margin-right: 2rem;
 }
 
 .container-course {
@@ -372,4 +353,245 @@ main .section-curso {
 .link a {
     text-decoration: none; /* remove o sublinhado */
     color: inherit;        /* mantém a cor do texto original */
+}
+
+/* ===== Estilo por linha (cada curso) - ajuda a alinhar valores sob o cabeçalho ===== */
+.curso_row {
+    /* usar grid idêntico ao cabeçalho para garantir alinhamento perfeito */
+    display: grid;
+    grid-template-columns: 40% 15% 30% 15%;
+    gap: 1rem;
+    width: calc(100% - 4rem);
+    margin: 0.5rem auto;
+    padding: 0.75rem 1rem;
+    background-color: #fff;
+    border-radius: 10px;
+    align-items: center;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+}
+
+.curso_row p {
+    margin: 0;
+    color: #222;
+}
+
+/* ===== Paginação (UI mais alinhada ao tema azul) ===== */
+#pagination_controls {
+    position: fixed;
+    bottom: 0;
+    left: 15%;
+    right: 0;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 10px;
+    background: #fff;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    z-index: 100;
+}
+
+#pagination_controls button {
+    padding: 8px 12px;
+    border: none;
+    background: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(68,135,222,0.18);
+    transition: background 0.12s ease, transform 0.06s ease;
+}
+
+#pagination_controls button:hover:not(:disabled) {
+    background: var(--primary-color-dark);
+    transform: translateY(-1px);
+}
+
+#pagination_controls button.current,
+#pagination_controls button:disabled {
+    background: #cfe6fb;
+    color: var(--primary-color-dark);
+    cursor: default;
+    transform: none;
+    box-shadow: none;
+}
+
+#pagination_controls span {
+    display: inline-block;
+    padding: 0.5rem 0.6rem;
+    color: rgba(0,0,0,0.6);
+}
+
+/* ============================
+   RESPONSIVE DESIGN
+   ============================ */
+
+/* Tablets (1024px and below) */
+@media (max-width: 1024px) {
+    
+    .section-curso {
+        padding: 1rem;
+    }
+
+    .main-curso {
+        padding: 1.5rem;
+    }
+
+    .main-curso h2 {
+        padding: 1.5rem;
+        font-size: 1.75rem;
+    }
+
+    .cabecalho,
+    .curso_row {
+        width: calc(100% - 2rem);
+        padding: 1rem 1.25rem;
+        font-size: 0.95rem;
+    }
+
+    aside section ul li {
+        height: 80px;
+    }
+
+    aside section ul li a {
+        font-size: 1.1rem;
+        gap: 15px;
+    }
+}
+
+/* Mobile devices (768px and below) */
+@media (max-width: 768px) {
+    
+    /* 1. Layout Principal */
+    main {
+        flex-direction: column;
+        height: auto;
+    }
+
+    aside {
+        display: none; /* ESCONDE O MENU LATERAL */
+    }
+
+    main .section-curso {
+        width: 100%;
+        height: auto;
+        padding: 10px;
+    }
+
+    .section-curso .main-curso {
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    /* 2. Header */
+    header section {
+        width: 40%;
+    }
+
+    /* 3. Título e Container */
+    .main-curso h2 {
+        padding: 1rem;
+        font-size: 1.5rem;
+    }
+
+    .container-course {
+        margin: 0 1rem;
+    }
+
+    .container-course li {
+        width: 100%;
+        text-align: left;
+        padding: 0.75rem;
+    }
+
+    /* 4. Tabela - Empilha colunas */
+    .cabecalho,
+    .curso_row {
+        grid-template-columns: 1fr;
+        width: calc(100% - 1rem);
+        padding: 1rem;
+        gap: 0.5rem;
+        text-align: left;
+    }
+
+    .cabecalho p {
+        padding-bottom: 0.3rem;
+        font-size: 0.9rem;
+    }
+
+    .curso_row p {
+        font-size: 0.85rem;
+    }
+
+    /* 5. Paginação */
+    #pagination_controls {
+        left: 0;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    #pagination_controls button {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Small mobile devices (480px and below) */
+@media (max-width: 480px) {
+    
+    .section-curso {
+        padding: 0.5rem;
+    }
+
+    .main-curso {
+        padding: 0.75rem;
+        border-radius: 8px;
+    }
+
+    .main-curso h2 {
+        padding: 0.75rem;
+        font-size: 1.25rem;
+    }
+
+    header .img_logo {
+        width: 80px;
+        min-width: 80px;
+    }
+
+    .container-course {
+        margin: 0 0.5rem;
+    }
+
+    .container-course li {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+        width: 100%;
+    }
+
+    .cabecalho,
+    .curso_row {
+        width: calc(100% - 0.5rem);
+        padding: 0.75rem;
+        gap: 0.4rem;
+    }
+
+    .cabecalho p {
+        font-size: 0.85rem;
+    }
+
+    .curso_row p {
+        font-size: 0.8rem;
+    }
+
+    #pagination_controls button {
+        padding: 0.6rem 0.9rem;
+        font-size: 0.85rem;
+    }
+
+    #sem_cursos_msg {
+        font-size: 0.9rem;
+        padding: 12px;
+    }
 }

@@ -13,7 +13,7 @@
     <script src="../js/dash.js"></script>
 </head>
 
-<body onload="puxarNomeUsuario()">
+<body onload="puxarNomeUsuario(); switchAlerta('preocupante');">
     <header>
         <img src="../assets/imgs/logo-nome.svg" alt="" class="img_logo">
     </header>
@@ -43,8 +43,8 @@
             </div>
 
             <ul class="cabecalho_one">
-                <li id="ativo"><a href="dashAlertaAdmin.html">Preocupante</a></li>
-                <li><a href="dashAtencaoAdmin.html"> Atenção</a></li>
+                <li id="tab_preocupante" class="active-tab"><button type="button" onclick="switchAlerta('preocupante')"><span class="icon icon-red"></span> Preocupante</button></li>
+                <li id="tab_atencao"><button type="button" onclick="switchAlerta('atencao')"><span class="icon icon-yellow"></span> Atenção</button></li>
             </ul>
 
             <div class="tabela-alertas">
@@ -52,25 +52,17 @@
                     <p>Aluno</p>
                     <p>Turma</p>
                     <p>Descrição</p>
-                    <p>Acesso</p>
+                    <p>Nota Média</p>
                     <p>Presença Geral</p>
                 </div>
 
-                <div class="dados_linha">
-                    <div data-label="Aluno">João Silva</div>
-                    <div data-label="Turma">2D</div>
-                    <div data-label="Descrição">Faltou na aula de hoje</div>
-                    <div data-label="Frequência">66%</div>
-                    <div data-label="Presença">72%</div>
+                <div id="alertas_lista">
+                    <!-- linhas de alerta serão inseridas aqui -->
                 </div>
 
-                <div class="dados_linha">
-                    <div data-label="Aluno">Enzo Zoe</div>
-                    <div data-label="Turma">1A</div>
-                    <div data-label="Descrição">Faltou na aula de hoje</div>
-                    <div data-label="Frequência">45%</div>
-                    <div data-label="Presença">53%</div>
-                </div>
+                <div id="pagination_controls_alertas" style="display:flex; justify-content:center; margin-top:1rem;"></div>
+
+                <p id="sem_alertas_msg" style="display:none; padding: 16px; text-align:center;">não há alunos em alerta na sua instituição</p>
             </div>
            </main>
         </section>

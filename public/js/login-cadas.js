@@ -5,17 +5,23 @@
     fetch(`/instituicao/listarInstituicoes`)
         .then((resposta) => resposta.json())
         .then((instituicoes) => {
+
+            // ADICIONE ESTA LINHA AQUI:
+            console.log("O que veio do banco:", instituicoes);
             
-            // Limpa a lista antes de encher para não duplicar
-            datalist.innerHTML = ""; 
+            datalist.innerHTML = ""; // Limpa a lista
 
             instituicoes.forEach(instituicao => {
-                // AQUI ESTÁ A MUDANÇA: Adicionamos o data-id com o ID real do banco
-                // Verifique se no seu banco vem como 'idInstituicao' ou 'id_instituicao'
-                // Baseado no seu código anterior, parece ser idInstituicao
-                datalist.innerHTML += `
-                    <option value="${instituicao.nome}" data-id="${instituicao.id_instituicao}"></option>
-                `;
+                // Tenta pegar o ID de todas as formas possíveis (snake_case ou camelCase)
+                let idReal = instituicao.id_instituicao || instituicao.idInstituicao || instituicao.ID_INSTITUICAO;
+
+                if (idReal) {
+                    datalist.innerHTML += `
+                        <option value="${instituicao.nome}" data-id="${idReal}"></option>
+                    `;
+                } else {
+                    console.error("ID não encontrado para a escola: ", instituicao.nome);
+                }
             });
         })
         .catch((erro) => {

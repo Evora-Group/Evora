@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Curso</title>
+    <title>Painel Curso - Professor</title>
     <link rel="stylesheet" href="../css/dashCursoEspecifico.css">
     <link rel="stylesheet" href="../css/dashAlunos.css">
     <link rel="shortcut icon" href="../assets/imgs/logoEvora.svg" type="image/x-icon">
@@ -16,6 +16,10 @@
 <body>
     <header class="header_info_usuario">
         <img src="../assets/imgs/logo-nome.svg" alt="" class="img_logo">
+
+         <a href="../index.html" class="botao-sair-mobile">
+            <i class="fi fi-sr-exit"></i>
+        </a>
     </header>
     <main>
         <aside>
@@ -25,6 +29,7 @@
                     <li><a href="./dashCurso.html" class="active"><i class="fi fi-sr-users-alt"></i>Cursos</a></li>
                     <li><a href="./dashAlunos.html"><i class="fi fi-sr-user"></i>Alunos</a></li>
                     <li><a href="./dashConf.html"><i class="fi fi-sr-settings"></i>Configurações</a></li>
+                </ul>
 
                 <a href="../index.html" class="botao-sair">
                     <i class="fi fi-sr-exit"></i> SAIR
@@ -35,8 +40,7 @@
         <section class="section-curso">
             <main class="main-curso">
                 <div id="titulo-usuario">
-                    <span id="numeracao-curso">1°</span>
-                    <span>ANÁLISE E DESENVOLVIMENTO DE SISTEMAS</span>
+                    <span id="nome_cursoEspecifico">ANÁLISE E DESENVOLVIMENTO DE SISTEMAS</span>
                 </div>
 
                 <header class="header_kpis">
@@ -49,7 +53,7 @@
                                 <canvas id="notasChart"></canvas>
                                 <div class="center-text">
                                     <span class="center-label">Total Alunos</span>
-                                    <span class="center-value">1,500</span>
+                                    <span id="totalAlunos" class="center-value">1,500</span>
                                 </div>
                             </div>
 
@@ -78,7 +82,7 @@
                             <canvas id="frequenciaChart"></canvas>
                         </div>
                     </section>
-                    <a href="dashCurso.html" class="btn_voltar_alunos">
+                    <a href="dashCursoAdmin.html" class="btn_voltar_alunos">
                         <i class="fi fi-sr-arrow-small-left"></i>
                         Voltar p/ Cursos
                     </a>
@@ -101,59 +105,13 @@
                             </thead>
                             <tbody class="corpo_tabela">
 
-                                <tr>
-                                    <td>01251089</td>
-                                    <td>Anne Yamsaki</td>
-                                    <td>anne.yamasaki@sptech.school</td>
-                                    <td>2-B</td>
-                                    <td>
-                                        <p class="p_status_atencao">Atenção</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>01251089</td>
-                                    <td>Anne Yamasaki</td>
-                                    <td>anne.yamasaki@sptech.school</td>
-                                    <td>2-B</td>
-                                    <td>
-                                        <p class="p_status_atencao">Atenção</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>01251089</td>
-                                    <td>Anne Yamasaki</td>
-                                    <td>anne.yamasaki@sptech.school</td>
-                                    <td>2-B</td>
-                                    <td>
-                                        <p class="p_status_atencao">Atenção</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>01251089</td>
-                                    <td>Anne Yamasaki</td>
-                                    <td>anne.yamasaki@sptech.school</td>
-                                    <td>2-B</td>
-                                    <td>
-                                        <p class="p_status_regular">Regular</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>01251089</td>
-                                    <td>Anne Yamasaki</td>
-                                    <td>anne.yamasaki@sptech.school</td>
-                                    <td>2-B</td>
-                                    <td>
-                                        <p class="p_status_otimo">Ótimo</p>
-                                    </td>
-                                </tr>
-
                             </body>
                         </table>
 
                     </main>
                 </section>
             </main>
-            <script src="../js/curso-materia.js"></script>
+            <script src="../js/curso-materiaProf.js"></script>
         </section>
     </main>
 </body>

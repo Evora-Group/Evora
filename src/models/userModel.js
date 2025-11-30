@@ -12,7 +12,7 @@ function cadastrar(nome, email, senha, cargo, instituicao) {
         .then((senhaHash) => {
             var instrucaoSql = `
                 INSERT INTO usuario (nome, email, senha_hash, cargo, fkInstituicao, ativo) 
-                VALUES (?, ?, ?, ?, 1, 1);
+                VALUES (?, ?, ?, ?, ?, 1);
             `;
             console.log("Executando cadastro para:", email);
             return database.executar(instrucaoSql, [nome, email, senhaHash, cargo, instituicao]);

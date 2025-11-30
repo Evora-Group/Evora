@@ -268,7 +268,11 @@ module.exports = {
     obterCursoPorId,
     listarTurmasInstituicao,
     listarDisciplinasPorInstituicao,
-    listarCursosInstituicaoSimples
+    listarCursosInstituicaoSimples,
+    obterCursoEspecifico,
+    listarAlunosCurso,
+    obterEstatisticasCurso,
+    obterFrequenciaPorMesCurso
 }
 
 function listarAlunosAlerta(idInstituicao, tipo, limit, offset) {
@@ -397,4 +401,118 @@ function obterCursoPorId(idCurso) {
     console.log('Model: obtendo curso por id', idCurso);
     var instrucaoSql = `SELECT id_curso AS id, fkInstituicao, nome, IFNULL(descricao,'') AS descricao, IFNULL(modalidade,'') AS modalidade, IFNULL(duracao_semestres,0) AS duracao_semestres FROM curso WHERE id_curso = ? LIMIT 1;`;
     return database.executar(instrucaoSql, [idCurso]);
+}
+
+function obterCursoEspecifico(idCurso) {
+    console.log('Model: obtendo curso específico com alunos', idCurso);
+    const sql = `
+        SELECT 
+            c.id_curso,
+            c.nome,
+            (SELECT COUNT(DISTINCT m.fkAluno) 
+             FROM turma t2
+             JOIN matricula m ON t2.id_turma = m.fkTurma
+             WHERE t2.fkCurso = c.id_curso) AS total_alunos
+        FROM curso c
+        WHERE c.id_curso = ?
+    `;
+    return database.executar(sql, [idCurso]);
+}
+
+function listarAlunosCurso(idCurso) {
+    console.log('Model: listando alunos do curso', idCurso);
+    const sql = `
+        SELECT DISTINCT
+            a.ra,
+            a.nome,
+            a.email,
+            t.nome_sigla AS turma,
+            c.nome AS curso,
+            (SELECT IFNULL(AVG(av.nota), 0) 
+             FROM avaliacao av 
+             JOIN matricula m2 ON av.fkMatricula = m2.id_matricula 
+             WHERE m2.fkAluno = a.ra) AS media_nota,
+            (SELECT IFNULL((SUM(f.presente) / COUNT(f.id_frequencia)) * 100, 0) 
+             FROM frequencia f 
+             JOIN matricula m3 ON f.fkMatricula = m3.id_matricula 
+             WHERE m3.fkAluno = a.ra) AS frequencia,
+            CASE 
+                WHEN (SELECT AVG(av.nota) FROM avaliacao av JOIN matricula m2 ON av.fkMatricula = m2.id_matricula WHERE m2.fkAluno = a.ra) >= 8 
+                  AND (SELECT (SUM(f.presente) / COUNT(f.id_frequencia)) * 100 FROM frequencia f JOIN matricula m3 ON f.fkMatricula = m3.id_matricula WHERE m3.fkAluno = a.ra) >= 75 
+                THEN 'Ótimo'
+                WHEN (SELECT AVG(av.nota) FROM avaliacao av JOIN matricula m2 ON av.fkMatricula = m2.id_matricula WHERE m2.fkAluno = a.ra) >= 6 
+                  AND (SELECT (SUM(f.presente) / COUNT(f.id_frequencia)) * 100 FROM frequencia f JOIN matricula m3 ON f.fkMatricula = m3.id_matricula WHERE m3.fkAluno = a.ra) >= 75 
+                THEN 'Regular'
+                ELSE 'Atenção'
+            END AS desempenho
+        FROM aluno a
+        JOIN matricula m ON a.ra = m.fkAluno
+        JOIN turma t ON m.fkTurma = t.id_turma
+        JOIN curso c ON t.fkCurso = c.id_curso
+        WHERE c.id_curso = ?
+        ORDER BY a.nome ASC
+    `;
+    return database.executar(sql, [idCurso]);
+}
+
+function obterEstatisticasCurso(idCurso) {
+    console.log('Model: obtendo estatísticas do curso', idCurso);
+    const sql = `
+        SELECT 
+            -- Estatísticas gerais
+            COUNT(DISTINCT m.fkAluno) AS total_alunos,
+            
+            -- Distribuição de notas
+            (SELECT COUNT(*) FROM (
+                SELECT a.ra FROM aluno a
+                JOIN matricula m2 ON a.ra = m2.fkAluno
+                JOIN turma t2 ON m2.fkTurma = t2.id_turma
+                WHERE t2.fkCurso = ${idCurso}
+                HAVING (SELECT AVG(av.nota) FROM avaliacao av JOIN matricula m3 ON av.fkMatricula = m3.id_matricula WHERE m3.fkAluno = a.ra) >= 8
+            ) AS above_avg) AS alunos_acima_media,
+            
+            (SELECT COUNT(*) FROM (
+                SELECT a.ra FROM aluno a
+                JOIN matricula m2 ON a.ra = m2.fkAluno
+                JOIN turma t2 ON m2.fkTurma = t2.id_turma
+                WHERE t2.fkCurso = ${idCurso}
+                HAVING (SELECT AVG(av.nota) FROM avaliacao av JOIN matricula m3 ON av.fkMatricula = m3.id_matricula WHERE m3.fkAluno = a.ra) >= 6 
+                  AND (SELECT AVG(av.nota) FROM avaliacao av JOIN matricula m3 ON av.fkMatricula = m3.id_matricula WHERE m3.fkAluno = a.ra) < 8
+            ) AS at_avg) AS alunos_na_media,
+            
+            (SELECT COUNT(*) FROM (
+                SELECT a.ra FROM aluno a
+                JOIN matricula m2 ON a.ra = m2.fkAluno
+                JOIN turma t2 ON m2.fkTurma = t2.id_turma
+                WHERE t2.fkCurso = ${idCurso}
+                HAVING (SELECT AVG(av.nota) FROM avaliacao av JOIN matricula m3 ON av.fkMatricula = m3.id_matricula WHERE m3.fkAluno = a.ra) < 6
+            ) AS below_avg) AS alunos_abaixo_media,
+            
+            -- Frequência média
+            IFNULL(AVG(
+                (SELECT IFNULL((SUM(f.presente) / COUNT(f.id_frequencia)) * 100, 0) 
+                 FROM frequencia f 
+                 WHERE f.fkMatricula = m.id_matricula)
+            ), 0) AS frequencia_media
+        FROM matricula m
+        JOIN turma t ON m.fkTurma = t.id_turma
+        WHERE t.fkCurso = ?
+    `;
+    return database.executar(sql, [idCurso]);
+}
+
+function obterFrequenciaPorMesCurso(idCurso) {
+    console.log('Model: obtendo frequência por mês do curso', idCurso);
+    const sql = `
+        SELECT 
+            MONTH(f.data_aula) AS mes,
+            ROUND(AVG(f.presente) * 100, 2) AS frequencia_media
+        FROM frequencia f
+        JOIN matricula m ON f.fkMatricula = m.id_matricula
+        JOIN turma t ON m.fkTurma = t.id_turma
+        WHERE t.fkCurso = ?
+        GROUP BY MONTH(f.data_aula)
+        ORDER BY MONTH(f.data_aula) ASC
+    `;
+    return database.executar(sql, [idCurso]);
 }

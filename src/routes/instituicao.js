@@ -52,4 +52,20 @@ router.get("/listarDisciplinas/:idInstituicao", function (req, res) {
     instituicaoController.listarDisciplinas(req, res);
 });
 
+router.get("/obterCursoEspecifico/:idCurso", function (req, res) {
+    instituicaoController.obterCursoEspecifico(req, res);
+});
+
+router.get("/listarAlunosCurso/:idCurso", function (req, res) {
+    instituicaoController.listarAlunosCurso(req, res);
+});
+
+router.get("/obterEstatisticasCurso/:idCurso", function (req, res) {
+    instituicaoController.obterEstatisticasCurso(req, res);
+});
+
+router.get("/obterFrequenciaPorMesCurso/:idCurso", function (req, res) {
+    instituicaoController.obterFrequenciaPorMesCurso(req, res);
+});
+
 module.exports = router;

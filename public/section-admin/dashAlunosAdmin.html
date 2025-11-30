@@ -234,20 +234,26 @@
 
 <script>
 
-    // === FILTRAR ALUNOS POR RA OU NOME ===
+    // Função para remover acentuações
+    function removerAcentos(texto) {
+        return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
+    // === FILTRAR ALUNOS POR RA, NOME OU DESEMPENHO (SEM ACENTOS) ===
     document.addEventListener("DOMContentLoaded", () => {
         const inputPesquisa = document.getElementById("input_pesquisa");
         const tabela = document.getElementById("corpo_tabela_alunos");
 
         inputPesquisa.addEventListener("keyup", () => {
-            const filtro = inputPesquisa.value.toLowerCase().trim();
+            const filtro = removerAcentos(inputPesquisa.value.toLowerCase().trim());
             const linhas = tabela.getElementsByTagName("tr");
 
             for (let linha of linhas) {
-                const ra = linha.children[0].textContent.toLowerCase();
-                const nome = linha.children[1].textContent.toLowerCase();
+                const ra = removerAcentos(linha.children[0].textContent.toLowerCase());
+                const nome = removerAcentos(linha.children[1].textContent.toLowerCase());
+                const desempenho = removerAcentos(linha.children[5].textContent.toLowerCase());
 
-                if (ra.includes(filtro) || nome.includes(filtro)) {
+                if (ra.includes(filtro) || nome.includes(filtro) || desempenho.includes(filtro)) {
                     linha.style.display = "";
                 } else {
                     linha.style.display = "none";

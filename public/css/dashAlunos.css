@@ -540,6 +540,14 @@
         height: auto;
     }
 
+    header {
+       
+    }
+    
+    header .img_logo {
+        width: 120px !important; /* Tamanho fixo para logo não sumir */
+    }
+
     .section_main {
         width: 100%;
         display: flex;
@@ -615,7 +623,9 @@
         justify-content: space-between !important;
         align-items: center;
         width: 100%;
-        padding: 15px;
+        height: 8%;
+        padding: 10px 15px;
+        box-shadow: var(--card-shadow);
     }
 
     .botao-sair-mobile {

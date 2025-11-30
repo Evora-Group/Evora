@@ -2,7 +2,7 @@ var database = require("../database/config");
 
 function listarInstituicoes() {
     var instrucaoSql = `
-        SELECT nome FROM instituicao ORDER BY nome DESC;
+        SELECT id_instituicao, nome FROM instituicao ORDER BY nome DESC;
     `;
     console.log("Executando listagem de instituições");
     return database.executar(instrucaoSql);

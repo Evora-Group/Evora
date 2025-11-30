@@ -298,6 +298,49 @@ function listarCursosInstituicao(page = 1, limit = 15, q = '', professor = '', s
         }).catch(e => console.error('Erro ao listar cursos paginados', e));
 }
 
+function listarCursosInstituicaoParaProfessor(page = 1, limit = 15, q = '', professor = '', situacao = '') {
+    const fkInstituicao = sessionStorage.getItem("fkInstituicao");
+    if (!fkInstituicao) return;
+    const qParam = q ? `&q=${encodeURIComponent(q)}` : '';
+    const profParam = professor ? `&professor=${encodeURIComponent(professor)}` : '';
+    const sitParam = situacao ? `&situacao=${encodeURIComponent(situacao)}` : '';
+    fetch(`/instituicao/listarCursosInstituicao/${fkInstituicao}?page=${page}&limit=${limit}${qParam}${profParam}${sitParam}`)
+        .then(r => r.json())
+        .then(data => {
+            const cursos = data.cursos || [];
+            const total = data.total || 0;
+            const currentPage = data.page || page;
+            const perPage = data.limit || limit;
+            const container = document.getElementById('cursos_lista');
+            const semMsg = document.getElementById('sem_cursos_msg');
+            const cabecalho = document.querySelector('.cabecalho');
+            const tituloLista = document.getElementById('container_course');
+            const pagination = document.getElementById('pagination_controls');
+            if (container) container.innerHTML = '';
+            if (!cursos.length) {
+                if (semMsg) { semMsg.style.display = 'block'; semMsg.innerText = 'não há cursos na sua instituição'; }
+                if (cabecalho) cabecalho.style.display = 'none';
+                if (tituloLista) tituloLista.style.display = 'none';
+                if (pagination) pagination.innerHTML = '';
+                return;
+            }
+            if (semMsg) semMsg.style.display = 'none';
+            if (cabecalho) cabecalho.style.display = '';
+            if (tituloLista) tituloLista.style.display = '';
+            cursos.forEach(c => {
+                if (!container) return;
+                container.innerHTML += `
+                <div class="curso_row">
+                    <div class="coluna_cursos"><a class="link" href="dashCursoEspecifico.html?cursoId=${c.id}"><p>${c.nome}</p></a></div>
+                    <div class="coluna_quantidade"><p>${c.quantidade_alunos}</p></div>
+                    <div class="coluna_descricao"><p>${c.descricao}</p></div>
+                    <div class="coluna_modalidade"><p>${c.modalidade}</p></div>
+                </div>`;
+            });
+            if (pagination) renderPaginationWithHandler(pagination, total, perPage, currentPage, (p) => listarCursosInstituicao(p, perPage, q, professor, situacao));
+        }).catch(e => console.error('Erro ao listar cursos paginados', e));
+}
+
 function renderPaginationWithHandler(container, totalItems, perPage, currentPage, onPage) {
     const totalPages = Math.ceil(totalItems / perPage) || 1;
     container.innerHTML = '';

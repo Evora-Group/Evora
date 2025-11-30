@@ -948,19 +948,16 @@ select {
     border-radius: 4px;
 }
 
-/* Cores Baseadas na Imagem */
 .legend-color-box.green {
-    background-color: #00FF00;
+    background-color: #2ecc71;
 }
 
-/* Verde-limão */
 .legend-color-box.blue {
-    background-color: #1F78B4;
+    background-color: #f1c40f;
 }
 
-/* Azul escuro/Ciano */
 .legend-color-box.orange {
-    background-color: #ff3300ff;
+    background-color: #e74c3c;
 }
 
 /* Laranja escuro */

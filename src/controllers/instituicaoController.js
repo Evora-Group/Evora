@@ -196,6 +196,58 @@ function listarTurmasInstituicao(req, res) {
         });
 }
 
+function obterCursoEspecifico(req, res) {
+    const idCurso = req.params.idCurso;
+
+    instituicaoModel.obterCursoEspecifico(idCurso)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado[0]);
+            } else {
+                res.status(204).send("Curso não encontrado!");
+            }
+        }).catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function listarAlunosCurso(req, res) {
+    const idCurso = req.params.idCurso;
+
+    instituicaoModel.listarAlunosCurso(idCurso)
+        .then(function (resultado) {
+            res.status(200).json(resultado);
+        }).catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function obterEstatisticasCurso(req, res) {
+    const idCurso = req.params.idCurso;
+
+    instituicaoModel.obterEstatisticasCurso(idCurso)
+        .then(function (resultado) {
+            res.status(200).json(resultado);
+        }).catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function obterFrequenciaPorMesCurso(req, res) {
+    const idCurso = req.params.idCurso;
+
+    instituicaoModel.obterFrequenciaPorMesCurso(idCurso)
+        .then(function (resultado) {
+            res.status(200).json(resultado);
+        }).catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
 module.exports = {
     listarInstituicoes,
     buscarInstituicao,
@@ -208,5 +260,9 @@ module.exports = {
     deletarCurso,
     obterCurso,
     listarTurmasInstituicao,
-    listarDisciplinas
+    listarDisciplinas,
+    obterCursoEspecifico,
+    listarAlunosCurso,
+    obterEstatisticasCurso,
+    obterFrequenciaPorMesCurso
 };

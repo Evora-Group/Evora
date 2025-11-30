@@ -178,44 +178,56 @@
     var senhaVar = "";
 
     function verificarEmail() {
-
         var email = email_id.value
         var nome_usuario = fullName.value
-        var nome_instituicao = instituicao.value
+        
+        // Pega o elemento input e o valor digitado
+        var input_instituicao = document.getElementById("instituicao");
+        var nome_instituicao_digitado = input_instituicao.value;
 
-        if (
-            email == "" ||
-            nome_usuario == "" ||
-            nome_instituicao == ""
-        ) {
+        // Lógica para pegar o ID baseado no nome selecionado no Datalist
+        var lista_opcoes = document.getElementById("instituicoes").options;
+        var id_encontrado = null;
 
-            alert("Preencha todos os campos")
-
-        } else if (!email.includes("@") || !email.includes(".")) {
-
-            alert("Insira um email válido")
-
-        } else {
-
-            validarEmail(email).then((existe) => {
-
-                if (existe === true) {
-                
-                    alert("Esse email já está em uso!")
-                
-                } else {
-
-                    buscarInstituicao(nome_instituicao);
-                    emailVar = email;
-                    nomeVar = nome_usuario;
-
-                    pass_bar()
-
-                }
-            });
-
+        // Varre as opções para ver qual tem o mesmo nome que foi digitado
+        for (var i = 0; i < lista_opcoes.length; i++) {
+            if (lista_opcoes[i].value === nome_instituicao_digitado) {
+                // Pega o ID que escondemos no atributo data-id
+                id_encontrado = lista_opcoes[i].getAttribute("data-id");
+                break;
+            }
         }
 
+        // Validações
+        if (email == "" || nome_usuario == "" || nome_instituicao_digitado == "") {
+            alert("Preencha todos os campos");
+            return;
+        } 
+        
+        if (id_encontrado == null) {
+            alert("Selecione uma instituição válida da lista!");
+            return; // Impede de continuar se o ID não for achado
+        }
+
+        if (!email.includes("@") || !email.includes(".")) {
+            alert("Insira um email válido");
+            return;
+        }
+
+        // Se chegou aqui, validamos o email na API (opcional, mantendo sua lógica)
+        validarEmail(email).then((existe) => {
+            if (existe === true) {
+                alert("Esse email já está em uso!");
+            } else {
+                // SUCESSO!
+                // Removemos o 'buscarInstituicao' antigo e salvamos o ID direto
+                instituicaoVar = id_encontrado; // <--- O ID VAI AQUI (ex: 589)
+                emailVar = email;
+                nomeVar = nome_usuario;
+
+                pass_bar();
+            }
+        });
     }
 
     function verificarCargo() {
@@ -593,44 +605,47 @@
     }
 
     function cadastrar() {
-
-        fetch("/user/cadastrar", {
+        // Rota ajustada para /user/cadastrar (baseado no seu controller user)
+        fetch("/user/cadastrar", { 
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
+                // LADO ESQUERDO: O que seu Controller espera (req.body.nomeServer)
+                // LADO DIREITO: A variável do Javascript com o valor correto
                 cargoServer: cargoVar,
                 nomeServer: nomeVar,
                 emailServer: emailVar,
                 senhaServer: senhaVar,
-                instituicaoServer: instituicaoVar,
-
+                
+                // O PULO DO GATO:
+                // Mandamos na variável 'instituicaoServer' o VALOR DO ID (ex: 589)
+                // que capturamos na função verificarEmail
+                instituicaoServer: instituicaoVar 
             }),
         })
-            .then(function (resposta) {
-                console.log("resposta: ", resposta);
+        .then(function (resposta) {
+            console.log("resposta: ", resposta);
 
-                if (resposta.ok) {
-
-                    console.log("Cadastro com sucesso")
-
-                    pass_bar()
-
-                    setTimeout(() => {
-                        window.location = "./login.html";
-                    }, 1000);
-
-                } else {
-                    console.log("Houve um erro ao tentar realizar o cadastro!")
-                    throw "Houve um erro ao tentar realizar o cadastro!";
-
-                }
-
-            })
-            .catch(function (resposta) {
-                console.log(`#ERRO: ${resposta}`);
-            });
+            if (resposta.ok) {
+                console.log("Cadastro com sucesso")
+                pass_bar()
+                setTimeout(() => {
+                    window.location = "./login.html";
+                }, 1000);
+            } else {
+                resposta.text().then(texto => {
+                    console.log("Erro: " + texto);
+                    // Mostra o erro sqlMessage que o controller devolve
+                    alert("Erro ao realizar cadastro: " + texto);
+                });
+                throw "Houve um erro ao tentar realizar o cadastro!";
+            }
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
 
         return false;
     }

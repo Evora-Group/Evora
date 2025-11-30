@@ -234,7 +234,11 @@
         justify-content: space-between !important;
         align-items: center;
         width: 100%;
-        padding: 15px;
+        padding: 10px 15px;
+    }
+
+    .header_info_usuario .img_logo{
+        width: 120px;
     }
 
     /* Faz o botão sair aparecer no mobile */
@@ -527,8 +531,13 @@
 }
 
 
+/* =========================================
+   MEDIA QUERY - MOBILE (CELULAR - 750px)
+   ========================================= */
+
 @media (max-width: 750px) {
-    /* --- 1. BODY E GERAL --- */
+
+    /* --- 1. AJUSTE GERAL --- */
     body {
         height: auto;
         overflow-x: hidden;
@@ -540,92 +549,25 @@
         height: auto;
     }
 
-    header {
-       
-    }
-    
-    header .img_logo {
-        width: 120px !important; /* Tamanho fixo para logo não sumir */
-    }
-
-    .section_main {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-
-        height: calc(100vh - 430px);
-        min-height: 300px;
-        /* Garante que não fique minúsculo */
-
-        padding: 10px;
-        gap: 10px;
-
-        /* Garante que o card não estoure a tela */
-        overflow: hidden;
-    }
-
-
-    .tabela thead,
-    .tabela thead tr,
-    .tabela thead th {
-        position: static !important;
-        /* O segredo: "static" é o comportamento padrão (rola junto) */
-        transform: none !important;
-        /* Remove transformações que criam novas camadas */
-        z-index: auto !important;
-        /* Reseta a ordem de empilhamento */
-        box-shadow: none !important;
-        /* Remove sombras */
-        border-bottom: solid 1px #000;
-        /* Garante uma borda simples */
-        background-color: transparent !important;
-        /* Remove fundos que possam estar tapando coisas */
-    }
-
-    /* 2. Se as linhas estiverem passando "por trás", damos um fundo branco para a tabela inteira */
-    .tabela {
-        background-color: var(--white-color);
-        position: static !important;
-    }
-
-    /* 3. Garante que o container permita o scroll */
-    .main_usuarios {
-        overflow-y: auto !important;
-        display: block;
-        /* Garante bloco simples */
-    }
-
-
-    /* --- 2. FORÇAR OS KPIS UM EMBAIXO DO OUTRO --- */
-    /* AQUI ESTÁ A CORREÇÃO: Adicionamos !important para ganhar do 1400px */
-    .header_kpis {
-        display: flex;
-        flex-direction: column !important;
-        /* Ganha do 'row' do 1400px */
-        height: auto;
-        gap: 30px !important;
-        flex-wrap: nowrap;
-        width: 100%;
-    }
-
-    /* Reseta o tamanho dos cards para ocuparem 100% da largura no celular */
-    main header .kpi {
-        width: 100% !important;
-        /* Ocupa a tela toda */
-        height: auto;
-        padding: 20px;
-    }
-
-    /* --- 3. DEMAIS AJUSTES (Mantidos do seu código) --- */
-
+    /* --- 2. HEADER COMPACTO (Igual dashConf) --- */
     .header_info_usuario {
         display: flex;
         justify-content: space-between !important;
         align-items: center;
         width: 100%;
-        height: 8%;
-        padding: 10px 15px;
+        
+        /* AQUI ESTÁ O SEGREDO DO TAMANHO: */
+        height: auto !important;       /* Remove os 8% fixos */
+        min-height: 60px;              /* Altura mínima segura */
+        padding: 10px 15px !important; /* Padding reduzido */
         box-shadow: var(--card-shadow);
+    }
+    
+    /* Controla a imagem para ela não empurrar a altura do header */
+    .header_info_usuario .img_logo {
+        width: 120px !important; 
+        height: auto !important;
+        object-fit: contain;
     }
 
     .botao-sair-mobile {
@@ -635,9 +577,10 @@
         font-size: 28px;
         color: #dd1c2f;
         text-decoration: none;
-        padding: 10px;
+        padding: 5px; /* Padding menor no botão */
     }
 
+    /* --- 3. MENU INFERIOR (ASIDE) --- */
     aside {
         position: fixed;
         bottom: 0;
@@ -650,16 +593,12 @@
         box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.15);
     }
 
-    aside section {
-        width: 100%;
-        display: block;
-        height: auto;
-    }
+    aside section { width: 100%; display: block; height: auto; }
 
     aside section ul {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: flex-start;
         overflow-x: auto;
         width: 100%;
         margin: 0;
@@ -668,8 +607,8 @@
 
     aside section ul li {
         width: auto;
-        min-width: 16%;
-        /* Tamanho aproximado de cada botão */
+        flex: 1; /* Divide o espaço igualmente entre os ícones */
+        min-width: 0;
         height: 60px;
         margin: 0;
     }
@@ -684,73 +623,97 @@
         text-align: center;
     }
 
-    aside section ul li a i {
-        font-size: 22px;
-        margin: 0;
-    }
+    aside section ul li a i { font-size: 22px; margin: 0; }
 
-    .botao-sair {
-        display: none !important;
-    }
+    .botao-sair { display: none !important; }
 
-    main .section_dash {
+    /* Truque: Configurações -> Conf. */
+    aside section ul li a[href*="dashConf"] { font-size: 0 !important; }
+    aside section ul li a[href*="dashConf"] i { font-size: 22px !important; margin-bottom: 2px; }
+    aside section ul li a[href*="dashConf"]::after { content: "Conf."; font-size: 10px !important; display: block; }
+
+
+    /* --- 4. CONTEÚDO PRINCIPAL (TABELA) --- */
+    .section_main {
         width: 100%;
-        padding: 10px;
-        height: auto;
-        display: block;
-    }
-
-    .section_dash .main_dash {
-        height: auto;
-        padding: 15px;
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        height: calc(100vh - 430px); 
+        min-height: 300px;
+        padding: 10px;
+        gap: 10px;
+        overflow: hidden;
     }
 
-    .div_titulo_kpi h1 {
-        font-size: 40px;
+    .main_usuarios {
+        flex: 1;
+        overflow-y: auto !important;
+        overflow-x: auto;
+        width: 100%;
+        background-color: var(--white-color);
     }
 
-    .kpi_header .div_titulo_kpi {
-        align-items: center;
-        text-align: center;
+    .tabela {
+        width: 100%;
+        min-width: 600px;
+    }
+
+    /* Correção do Header da Tabela */
+    .tabela thead, .tabela thead tr, .tabela thead th {
+        position: static !important;
+        transform: none !important;
+        box-shadow: none !important;
+        border-bottom: solid 1px #000;
+        background-color: transparent !important;
+    }
+    
+    .tabela th, .tabela td {
+        font-size: 12px;
+        padding: 8px 4px;
+    }
+
+    /* --- 5. CARDS DE KPI --- */
+    .header_kpis {
+        display: flex;
+        flex-direction: column !important;
+        height: auto;
+        gap: 30px !important;
         width: 100%;
     }
 
-    /* Ajuste Donut Chart */
-    #kpi_donutchart>div {
+    main header .kpi {
+        flex: none !important;
+        width: 100% !important;
+        height: auto;
+        padding: 20px;
+        min-height: auto;
+    }
+
+    .div_titulo_kpi h1 { font-size: 40px; }
+    .kpi_header .div_titulo_kpi { align-items: center; text-align: center; width: 100%; }
+
+    #kpi_donutchart > div {
         flex-direction: column !important;
         align-items: center !important;
         gap: 20px;
     }
 
-    .parteInfo,
-    .parteGraf {
-        width: 100% !important;
-        display: flex;
-        justify-content: center;
-        text-align: center;
-    }
-
+    .parteInfo, .parteGraf { width: 100% !important; display: flex; justify-content: center; text-align: center; }
+    
     .grafico_container {
-        width: 100%;
-        height: auto !important;
-        min-height: 180px;
-        padding: 10px 0;
-        margin: 0;
+        width: 100%; height: auto !important; min-height: 180px; padding: 10px 0; margin: 0;
+    }
+    
+    .circular-progress { transform: scale(0.85); margin: auto; }
+    .kpi_footer, .div_comparativo { display: none; }
+
+    .div_progress_bar {
+        border-top: solid 2px rgba(128, 128, 128, 0.341);
+        padding-top: 30px;
+        margin-top: none !important;
     }
 
-    .circular-progress {
-        transform: scale(0.85);
-        margin: auto;
-    }
-
-    .kpi_footer,
-    .div_comparativo {
-        display: none;
-    }
-
+    /* --- 6. FILTROS E MODAIS --- */
     .header_usuarios {
         flex-direction: column;
         height: auto;
@@ -758,72 +721,14 @@
         margin-bottom: 20px;
     }
 
-    .input_pesquisa,
-    .div_criar_usuario {
-        width: 100%;
-        height: 50px;
-    }
-
-    .main_usuarios {
-        overflow-x: auto;
-        width: 100%;
-    }
-
-    .tabela {
-        min-width: 700px;
-    }
+    .input_pesquisa, .div_criar_usuario { width: 100%; height: 50px; }
 
     dialog {
-        max-width: 95%;
-        width: 95%;
-        height: auto;
-        max-height: 85vh;
-        overflow-y: auto;
-        top: 50%;
+        max-width: 95%; width: 95%; height: auto; max-height: 85vh; overflow-y: auto; top: 50%;
     }
-
-    .form_modal {
-        height: auto;
-        gap: 15px;
-    }
-
-    .div_dois_inputs {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .div_input_menor,
-    .div_input_maior {
-        width: 100%;
-    }
-
-    .form_modal input,
-    select {
-        height: 50px;
-    }
-
-    .div_footer .div_criar_usuario,
-    .div_footer .div_editar_usuario {
-        width: 100%;
-    }
-
-         /* 1. Seleciona especificamente o link de Configurações */
-    /* O seletor [href*="dashConf"] pega qualquer link que tenha "dashConf" no endereço */
-    aside section ul li a[href*="dashConf"] {
-        font-size: 0 !important; /* Esconde a palavra "Configurações" */
-    }
-
-    /* 2. Restaura o tamanho do ícone (que sumiria junto com a fonte 0) */
-    aside section ul li a[href*="dashConf"] i {
-        font-size: 22px !important; 
-        margin-bottom: 2px;         
-    }
-
-    /* 3. Insere o novo texto "Conf." */
-    aside section ul li a[href*="dashConf"]::after {
-        content: "Conf.";           
-        font-size: 10px !important; 
-        display: block;             /* Garante que fique em baixo do ícone */
-    }
-
+    .form_modal { height: auto; gap: 15px; }
+    .div_dois_inputs { flex-direction: column; gap: 15px; }
+    .div_input_menor, .div_input_maior { width: 100%; }
+    .form_modal input, select { height: 50px; }
+    .div_footer .div_criar_usuario, .div_footer .div_editar_usuario { width: 100%; }
 }

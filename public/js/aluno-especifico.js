@@ -67,12 +67,22 @@ document.addEventListener('DOMContentLoaded', function () {
 function plotarGrafico(dados) {
     const ctx = document.getElementById('meuGraficoDeLinha').getContext('2d');
 
+    // VERIFICAÇÃO DE LARGURA DE TELA
+    const isMobile = window.innerWidth < 700; 
+
+    // Define tamanhos baseados no dispositivo
+    const tamanhoFonte = isMobile ? 10 : 12; // Fonte menor no celular
+    const larguraPonto = isMobile ? 2 : 3;   // Ponto menor no celular
+
     let labels = [];
     let dadosFreq = [];
     let dadosNota = [];
 
     dados.forEach(reg => {
+        // Se for mobile, talvez queira abreviar o nome da disciplina (opcional)
+        // ex: reg.disciplina.substring(0, 3) 
         labels.push(reg.disciplina);
+        
         let nota = Number(reg.nota);
         let freq = Number(reg.frequencia);
 
@@ -80,10 +90,11 @@ function plotarGrafico(dados) {
         if (isNaN(freq)) freq = 0;
 
         dadosFreq.push(freq);
-        dadosNota.push(nota * 10); // Nota * 10 para escala do gráfico
+        dadosNota.push(nota * 10);
     });
 
     if (window.meuGrafico) window.meuGrafico.destroy();
+    
     window.meuGrafico = new Chart(ctx, {
         type: 'line',
         data: {
@@ -94,26 +105,47 @@ function plotarGrafico(dados) {
                     data: dadosFreq,
                     borderColor: 'rgb(54, 162, 235)',
                     backgroundColor: 'rgb(54, 162, 235)',
-                    borderWidth: 3,
-                    tension: 0.4
+                    borderWidth: larguraPonto, // Usa a variável ajustada
+                    tension: 0.4,
+                    pointRadius: larguraPonto // Bolinha menor no celular
                 },
                 {
                     label: 'Nota',
                     data: dadosNota,
                     borderColor: 'rgb(173, 216, 230)',
                     backgroundColor: 'rgb(173, 216, 230)',
-                    borderWidth: 2,
-                    tension: 0.4
+                    borderWidth: larguraPonto - 1,
+                    tension: 0.4,
+                    pointRadius: larguraPonto
                 }
             ]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
+            maintainAspectRatio: false, // ISSO É ESSENCIAL (já estava no seu código)
+            plugins: { 
+                legend: { display: false },
+                tooltip: {
+                    bodyFont: { size: tamanhoFonte + 2 },
+                    titleFont: { size: tamanhoFonte + 2 }
+                }
+            },
             scales: {
-                x: { grid: { display: false } },
-                y: { min: 0, max: 100 }
+                x: { 
+                    grid: { display: false },
+                    ticks: {
+                        font: { size: tamanhoFonte }, // Fonte dinâmica
+                        maxRotation: 45, // Evita girar demais o texto
+                        minRotation: 0
+                    }
+                },
+                y: { 
+                    min: 0, 
+                    max: 100,
+                    ticks: {
+                        font: { size: tamanhoFonte } // Fonte dinâmica
+                    }
+                }
             }
         }
     });

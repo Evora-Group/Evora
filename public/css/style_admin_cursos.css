@@ -947,9 +947,12 @@ dialog::backdrop {
 }
 
 /* ============================================== */
-/* RESPONSIVIDADE */
+/* RESPONSIVIDADE - PADRÃO DO SITE */
 /* ============================================== */
 
+/* =========================================
+   TABLETS E TELAS MÉDIAS (1024px)
+   ========================================= */
 @media (max-width: 1024px) {
     /* Ajustes para tablets */
     
@@ -988,17 +991,147 @@ dialog::backdrop {
     .div_criar_usuario {
         width: 100%;
     }
+
+    /* Modais ajustados para tablet */
+    dialog {
+        max-width: 60%;
+    }
+
+    #modal_criar_curso {
+        max-width: 60%;
+    }
+
+    #modal_editar_curso {
+        max-width: 50%;
+    }
+
+    #modal_remover_usuario {
+        max-width: 45%;
+    }
 }
 
+/* =========================================
+   PADRÃO NAVBAR MOBILE (Universal - 1000px)
+   ========================================= */
+@media (max-width: 1000px) { 
+    /* 1. Ajuste do Corpo da Página */
+    body {
+        padding-bottom: 90px; /* Espaço para a barra não cobrir conteúdo */
+        overflow-x: hidden;
+    }
+
+    main {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* 2. Header e Botão Sair do Topo */
+    .header_info_usuario {
+        padding: 10px 15px;
+        display: flex;
+        justify-content: space-between !important;
+        align-items: center;
+        width: 100%;
+    }
+
+    .header_info_usuario .img_logo {
+        width: 120px;
+    }
+
+    .botao-sair-mobile {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        color: #dd1c2f;
+        padding: 10px;
+        text-decoration: none;
+    }
+
+    /* 3. Transformação do Menu (Aside -> Bottom Bar) */
+    aside {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+        padding: 0;
+        z-index: 1000;
+        background-color: var(--primary-color);
+        box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    aside section {
+        width: 100%;
+        display: block;
+        height: auto;
+    }
+
+    aside section ul {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        width: 100%;
+        margin: 0;
+        padding: 5px 0;
+        overflow-x: auto;
+    }
+
+    aside section ul li {
+        width: auto;
+        flex: 1;
+        min-width: 0;
+        height: 60px;
+        margin: 0;
+    }
+
+    aside section ul li a {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+        font-size: 10px;
+        gap: 2px;
+        height: 100%;
+        text-align: center;
+    }
+
+    aside section ul li a i {
+        font-size: 22px;
+        margin: 0;
+    }
+
+    /* Esconde o botão sair antigo */
+    .botao-sair {
+        display: none !important;
+    }
+
+    /* Ajuste da seção principal */
+    main .section_dash {
+        width: 100%;
+        padding: 10px;
+    }
+
+    /* Paginação ajustada para mobile */
+    #pagination_controls {
+        left: 0;
+        bottom: 70px; /* Acima da navbar mobile */
+    }
+
+    /* Ajuste de Configurações para "Conf." */
+    aside section ul li a[href*="dashConf"] { font-size: 0 !important; }
+    aside section ul li a[href*="dashConf"] i { font-size: 22px !important; margin-bottom: 2px; }
+    aside section ul li a[href*="dashConf"]::after { content: "Conf."; font-size: 10px !important; display: block; }
+}
+
+/* =========================================
+   MOBILE MÉDIO (768px)
+   ========================================= */
 @media (max-width: 768px) {
     /* 1. Layout Principal */
     main {
         flex-direction: column;
         height: auto;
-    }
-
-    aside {
-        display: none; /* Esconde menu lateral em mobile */
     }
 
     main .section_dash {
@@ -1009,26 +1142,32 @@ dialog::backdrop {
 
     .section_dash .main_dash {
         padding: 15px;
+        gap: 15px;
     }
 
     /* 2. Header */
-    header .img_logo {
+    .header_info_usuario .img_logo {
         max-width: 120px;
     }
 
     /* 3. KPIs */
-    .header_kpis {
+    .section_dash .main_dash .header_kpis {
         flex-direction: column;
-        gap: 20px;
-        padding: 20px 10px;
+        height: auto;
+        padding: 15px 10px;
+        gap: 15px;
     }
 
-    .header_kpis .kpi {
+    .header_kpis .kpi,
+    .header_kpis .kpi_menor,
+    .header_kpis .kpi_maior {
         width: 100%;
+        height: auto;
+        min-height: 100px;
     }
 
-    .kpi::before {
-        display: none; /* Remove bordas verticais */
+    .kpi .kpi_header {
+        padding: 15px;
     }
 
     .div_titulo_kpi h1 {
@@ -1039,31 +1178,45 @@ dialog::backdrop {
         font-size: calc(var(--font-title) * 0.9);
     }
 
-    /* 4. Header de pesquisa e botões */
+    /* 4. Seção principal (tabela) */
+    .section_main {
+        height: auto;
+        min-height: 400px;
+        padding: 10px;
+    }
+
+    /* 5. Header de pesquisa e botões */
     .header_usuarios {
         flex-direction: column;
         height: auto;
         gap: 10px;
-        padding: 10px;
+        padding: 10px 0;
     }
 
     .input_pesquisa {
         width: 100%;
         height: 45px;
+        font-size: 14px;
     }
 
     .div_criar_usuario {
         width: 100%;
         height: 45px;
+        border-radius: 5px;
     }
 
-    /* 5. Tabela responsiva */
+    .div_criar_usuario p {
+        font-size: 14px;
+    }
+
+    /* 6. Tabela responsiva */
     .main_usuarios {
         overflow-x: auto;
+        max-height: 300px;
     }
 
     .tabela {
-        min-width: 600px; /* Permite scroll horizontal */
+        min-width: 600px;
         font-size: 13px;
     }
 
@@ -1072,12 +1225,12 @@ dialog::backdrop {
         padding: 8px 5px;
     }
 
-    /* 6. Paginação */
+    /* 7. Paginação */
     #pagination_controls {
-        left: 0;
         flex-wrap: wrap;
         gap: 5px;
-        padding: 15px 5px;
+        padding: 10px 5px;
+        bottom: 70px;
     }
 
     #pagination_controls button {
@@ -1085,27 +1238,80 @@ dialog::backdrop {
         font-size: 12px;
     }
 
-    /* 7. Modais */
-    .dialog_modal {
-        padding: 10px;
+    /* 8. Modais responsivos */
+    dialog {
+        max-width: 90%;
+        width: 90%;
+    }
+
+    #modal_criar_curso {
+        max-width: 90%;
+        height: auto;
+        max-height: 85vh;
+    }
+
+    #modal_editar_curso {
+        max-width: 90%;
+        height: auto;
+        max-height: 85vh;
+    }
+
+    #modal_remover_usuario {
+        max-width: 90%;
+        height: auto;
     }
 
     .div_main_modal {
-        width: 95%;
+        width: 100%;
         padding: 15px;
+        border-radius: 15px;
+    }
+
+    .div_main_modal h3 {
+        font-size: 18px;
     }
 
     .form_modal {
+        gap: 8px;
+        height: auto;
+    }
+
+    .form_modal label {
+        font-size: 14px;
+        padding-bottom: 5px;
+    }
+
+    .form_modal input,
+    .form_modal textarea,
+    .form_modal select {
+        font-size: 14px;
+        height: 40px;
+    }
+
+    .form_modal textarea {
+        min-height: 80px;
+    }
+
+    .div_footer {
+        padding: 10px;
+        height: auto;
         gap: 10px;
     }
 
-    .input_modal {
-        font-size: 14px;
+    .div_footer .div_criar_usuario {
+        width: 100%;
+        height: 45px;
     }
 
-    /* 8. Progress bars no KPI */
+    .div_editar_usuario {
+        width: 45%;
+        height: 40px;
+    }
+
+    /* 9. Progress bars no KPI */
     .div_progress_bars {
         padding: 5px;
+        max-height: 150px;
     }
 
     .div_cursos_progress_bar {
@@ -1116,11 +1322,46 @@ dialog::backdrop {
     .progress_bar {
         width: 100%;
     }
+
+    /* 10. Modal de remoção */
+    #modal_remover_usuario .div_info_excluir h1 {
+        font-size: calc(var(--font-title) * 1.2);
+    }
+
+    #modal_remover_usuario .div_info_excluir p {
+        font-size: 14px;
+    }
+
+    #modal_remover_usuario .div_btn_remover_usuario {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #modal_remover_usuario .div_btn_remover_usuario .div_editar_usuario,
+    #modal_remover_usuario .div_btn_remover_usuario #div_excluir_usuario {
+        width: 100%;
+        height: 45px;
+    }
 }
 
+/* =========================================
+   MOBILE PEQUENO (480px)
+   ========================================= */
 @media (max-width: 480px) {
     /* Ajustes extras para mobile pequeno */
     
+    .header_info_usuario {
+        padding: 8px 10px;
+    }
+
+    .header_info_usuario .img_logo {
+        width: 100px;
+    }
+
+    .section_dash .main_dash {
+        padding: 10px;
+    }
+
     .div_titulo_kpi h1 {
         font-size: calc(var(--font-title) * 1.5);
     }
@@ -1129,8 +1370,14 @@ dialog::backdrop {
         font-size: calc(var(--font-title) * 0.8);
     }
 
+    .kpi .kpi_header {
+        padding: 10px;
+    }
+
+    /* Tabela ainda menor */
     .tabela {
         font-size: 11px;
+        min-width: 500px;
     }
 
     .tabela th,
@@ -1138,17 +1385,62 @@ dialog::backdrop {
         padding: 6px 3px;
     }
 
+    /* Paginação compacta */
+    #pagination_controls {
+        padding: 8px 5px;
+    }
+
     #pagination_controls button {
         padding: 5px 8px;
         font-size: 11px;
     }
 
+    /* Modais ainda mais compactos */
+    dialog {
+        max-width: 95%;
+        width: 95%;
+    }
+
     .div_main_modal {
-        width: 98%;
-        padding: 10px;
+        padding: 12px;
     }
 
     .div_main_modal h3 {
-        font-size: 18px;
+        font-size: 16px;
+    }
+
+    .form_modal label {
+        font-size: 13px;
+    }
+
+    .form_modal input,
+    .form_modal textarea,
+    .form_modal select {
+        font-size: 13px;
+        height: 38px;
+    }
+
+    /* Navbar mobile mais compacta */
+    aside section ul li {
+        height: 55px;
+    }
+
+    aside section ul li a {
+        font-size: 9px;
+    }
+
+    aside section ul li a i {
+        font-size: 20px;
+    }
+
+    /* Botões de ação */
+    .div_criar_usuario,
+    .div_editar_usuario {
+        height: 40px;
+    }
+
+    .div_criar_usuario p,
+    .div_editar_usuario p {
+        font-size: 13px;
     }
 }

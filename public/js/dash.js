@@ -311,15 +311,27 @@ function listarCursosInstituicao(page = 1, limit = 15, q = '', professor = '', s
                     </div>`;
                 }
 
-                // 3. ADICIONADO: Preenche Mobile
-                // Atenção: Ajustei o link para dashCursoEspecificoAdmin.html conforme a versão desktop desta função
+                // 3. ADICIONADO: Preenche Mobile com todas as informações
                 if (container_mobile) {
                     container_mobile.innerHTML += `
-                        <div class="curso_row">
-                            <a class="link" href="dashCursoEspecificoAdmin.html?cursoId=${c.id}">
-                                <p>${c.nome}</p>
-                            </a>
-                        </div>
+                        <a class="link" href="dashCursoEspecificoAdmin.html?cursoId=${c.id}">
+                            <div class="curso_card_mobile">
+                                <div class="curso_card_header">
+                                    <h3>${c.nome}</h3>
+                                    <span class="badge_modalidade">${c.modalidade}</span>
+                                </div>
+                                <div class="curso_card_info">
+                                    <div class="info_item">
+                                        <span class="info_label">Alunos</span>
+                                        <span class="info_value">${c.quantidade_alunos}</span>
+                                    </div>
+                                    <div class="info_item info_descricao">
+                                        <span class="info_label">Descrição</span>
+                                        <span class="info_value">${c.descricao || 'Sem descrição'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
                     `;
                 }
             });
@@ -400,13 +412,26 @@ function listarCursosInstituicaoParaProfessor(page = 1, limit = 15, q = '', prof
                         <div class="coluna_modalidade"><p>${c.modalidade}</p></div>
                     </div>`;
 
-                // Template Mobile
+                // Template Mobile com todas as informações
                 htmlMobile += `
-                    <div class="curso_row" >
-                        <a class="link" href="dashCursoEspecifico.html?cursoId=${c.id}">
-                            <p>${c.nome}</p>
-                        </a>
-                    </div>`;
+                    <a class="link" href="dashCursoEspecifico.html?cursoId=${c.id}">
+                        <div class="curso_card_mobile">
+                            <div class="curso_card_header">
+                                <h3>${c.nome}</h3>
+                                <span class="badge_modalidade">${c.modalidade}</span>
+                            </div>
+                            <div class="curso_card_info">
+                                <div class="info_item">
+                                    <span class="info_label">Alunos</span>
+                                    <span class="info_value">${c.quantidade_alunos}</span>
+                                </div>
+                                <div class="info_item info_descricao">
+                                    <span class="info_label">Descrição</span>
+                                    <span class="info_value">${c.descricao || 'Sem descrição'}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>`;
             });
 
             // Inserção no DOM

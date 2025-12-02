@@ -187,7 +187,7 @@ aside .active {
 
 main .section_dash {
 
-    width: 85%;
+    width: 100vw;
     height: 100%;
     display: flex;
     align-items: center;
@@ -602,6 +602,7 @@ main .section_dash {
     gap: calc(var(--gap)*0.2);
     height: 8vh;
     border-bottom: solid 1px var(--fade-color-dark);
+    height: auto;
 }
 
 .chart-container-mobile ul li p{
@@ -620,18 +621,16 @@ main .section_dash {
 
 @media (max-width: 1024px) {
 
-    .section_main {
-        flex-direction: column;
-        height: auto;
-        gap: 30px;
+    .section_dash{
+        display: flex;
+        width: 100vw;
+        height: 100vh;
     }
 
-    /* Faz ambos os gráficos ocuparem 100% da largura */
-    .section_main .chart-container,
-    .section_main .donut-container {
-        width: 100%;
-        height: auto;
-        /* Altura automática */
+    .section_dash .section_main{
+        display: flex;
+        height: 54%;
+        gap: 20px;
     }
 
     .div_titulo_kpi h1 {
@@ -645,6 +644,220 @@ main .section_dash {
     .donut-center-text strong {
         font-size: 2rem;
     }
+
+    .donut-container {
+        width: 50%;
+    }
+
+ 
+
+    .chart-container{
+        display: none;
+    }
+
+
+    .chart-container-mobile{
+        display: flex;
+        flex-direction: column;
+    }
+
+       .chart-container-mobile {
+        width: 50%;
+        padding: 40px;
+    }
+
+
+
+    /* 3. KPIs */
+    .section_dash .main_dash .header_kpis {
+        /* flex-direction: column; */
+        /* Empilha os KPIs */
+        /* gap: 20px; */
+        padding: 20px 10px;
+        justify-content: initial;
+        width: auto;
+        overflow-x: auto;
+        scrollbar-width: none;
+        height: 20vh
+    }
+
+    .header_kpis .kpi {
+        width: 500px;
+        /* Cada KPI ocupa 100% */
+    }
+
+    .header_kpis .kpi .kpi_header{
+        width: 45vw;
+        
+    }
+    
+
+    .bar-chart .label {
+        font-size: calc(var(--font-title)*0.55);
+        font-weight: 500;
+    }
+
+    .bar-value{
+        font-size: calc(var(--font-family)*0.6);
+    }
+    
+
+    .kpi::before {
+        display: none;
+        /* Remove todas as bordas verticais */
+    }
+
+    /* 4. Gráficos */
+    .donut-chart {
+        /* Ajusta o gráfico de rosca para não ficar gigante */
+        width: 80%;
+        max-width: 300px;
+        /* Limite máximo */
+    }
+
+    .bar-chart {
+        padding: 10px;
+        height: 20vh;
+        overflow: auto;
+    }
+
+    
+
+    /* 5. Fontes */
+    .div_titulo_kpi h1 {
+        font-size: calc(var(--font-title)* 1.6);
+        /* Menor */
+    }
+
+    .indicativos-desc {
+        font-size: 18px;
+    }
+
+    #titulo-entrada {
+        font-size: 1.3rem;
+    }
+
+    #descricao-entrada {
+        font-size: 1rem;
+    }
+
+    .donut-center-text strong {
+        font-size: 1.8rem;
+        /* Menor */
+    }
+
+    .donut-center-text span {
+        font-size: 1rem;
+        /* Menor */
+    }
+}
+
+
+/* =========================================
+   PADRÃO NAVBAR MOBILE (Universal)
+   ========================================= */
+
+@media (max-width: 1000px) { 
+
+    /* 1. Ajuste do Corpo da Página */
+    body {
+        padding-bottom: 90px; /* Espaço para a barra não cobrir conteúdo */
+        overflow-x: hidden;
+    }
+
+    main {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+
+    /* 2. Header e Botão Sair do Topo */
+    .header_info_usuario {
+        padding: 10px 15px;
+        display: flex;
+        justify-content: space-between !important;
+        align-items: center;
+        width: 100%;
+    }
+
+    .header_info_usuario .img_logo {
+        width: 120px;
+    }
+
+    .botao-sair-mobile {
+        display: flex !important; /* Faz aparecer */
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        color: #dd1c2f;
+        padding: 10px;
+        text-decoration: none;
+    }
+
+    /* 3. Transformação do Menu (Aside -> Bottom Bar) */
+    aside {
+        position: fixed;        /* Fixa na tela */
+        bottom: 0;              /* Cola no chão */
+        left: 0;
+        width: 100%;            /* Largura total */
+        height: auto;
+        padding: 0;
+        z-index: 1000;          /* Fica por cima de tudo */
+        background-color: var(--primary-color);
+        box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.15); /* Sombra para separar */
+    }
+
+    aside section {
+        width: 100%;
+        display: block;
+        height: auto;
+    }
+
+    aside section ul {
+        display: flex;
+        flex-direction: row;        /* Itens lado a lado */
+        justify-content: flex-start;
+        width: 100%;
+        margin: 0;
+        padding: 5px 0;
+        overflow-x: auto;           /* Scroll se a tela for muito pequena */
+    }
+
+
+    aside section ul li {
+        width: auto;
+        flex: 1; 
+        min-width: 0; 
+        height: 60px;
+        margin: 0;
+    }
+
+    aside section ul li a {
+        flex-direction: column; 
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+        font-size: 10px; /* Texto pequeno */
+        gap: 2px;
+        height: 100%;
+        text-align: center;
+    }
+
+    aside section ul li a i {
+        font-size: 22px; /* Ícone ajustado */
+        margin: 0;
+    }
+
+    /* Esconde o botão sair antigo */
+    .botao-sair {
+        display: none !important;
+    }
+
+    /* 4. Truque opcional: Mudar "Configurações" para "Conf." no mobile */
+    aside section ul li a[href*="dashConf"] { font-size: 0 !important; }
+    aside section ul li a[href*="dashConf"] i { font-size: 22px !important; margin-bottom: 2px; }
+    aside section ul li a[href*="dashConf"]::after { content: "Conf."; font-size: 10px !important; display: block; }
 }
 
 @media (max-width: 768px) {
@@ -656,19 +869,27 @@ main .section_dash {
         height: auto;
     }
 
-    aside {
-        display: none;
-        /* ESCONDE O MENU LATERAL */
-    }
 
     main .section_dash {
-        width: 100%;
+        width: 100vw;
         height: auto;
         padding: 10px;
     }
 
     .section_dash .main_dash {
         padding: 15px;
+    }
+
+    .section_dash{
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .section_dash .section_main{
+        display: flex;
+        flex-direction: column;
     }
 
     .chart-container{
@@ -679,6 +900,7 @@ main .section_dash {
     .chart-container-mobile{
         display: flex;
         flex-direction: column;
+        width: 100%;
     }
 
     /* 2. Header */
@@ -701,7 +923,8 @@ main .section_dash {
         justify-content: initial;
         width: auto;
         overflow-x: auto;
-            scrollbar-width: none;
+        scrollbar-width: none;
+        height: 25vh
     }
 
     .header_kpis .kpi {
@@ -772,6 +995,15 @@ main .section_dash {
         font-size: 1rem;
         /* Menor */
     }
+
+    .donut-container {
+        width: 100%;
+    }
+
+
+.chart-container-mobile ul li{
+    height: 80px;
+}
 /* 
     .header_kpis .kpi{
     animation: scrollVaiVolta 30s linear infinite alternate;

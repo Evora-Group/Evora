@@ -124,7 +124,9 @@ function carregarAlunosCurso(idCurso) {
         .then(r => r.json())
         .then(alunos => {
             const tbody = document.querySelector('.corpo_tabela');
+            const tbody_mobile = document.querySelector('.corpo_tabela_mobile')
             tbody.innerHTML = '';
+            tbody_mobile.innerHTML = '';
 
             alunos.forEach(aluno => {
                 const classeDesempenho = getClasseDesempenho(aluno.desempenho);
@@ -141,6 +143,21 @@ function carregarAlunosCurso(idCurso) {
                         </td>
                         <td></td>
                     </tr>
+                `;
+                tbody_mobile.innerHTML += `
+
+                <tr onclick="irParaAlunoEspecifico(${aluno.ra})">
+                     <td>
+                                    <h3>${aluno.nome}</h3>
+                                    <p>${aluno.email}</p>
+                                    <p>${aluno.turma}</p>
+                                </td>
+                                <td>
+                                    <p class="${classeDesempenho}">${aluno.desempenho}</p>
+                                </td>
+
+                </tr>
+
                 `;
             });
         })

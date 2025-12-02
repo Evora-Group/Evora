@@ -258,9 +258,11 @@ function listarTurmas() {
 function listarCursosInstituicao(page = 1, limit = 15, q = '', professor = '', situacao = '') {
     const fkInstituicao = sessionStorage.getItem("fkInstituicao");
     if (!fkInstituicao) return;
+    
     const qParam = q ? `&q=${encodeURIComponent(q)}` : '';
     const profParam = professor ? `&professor=${encodeURIComponent(professor)}` : '';
     const sitParam = situacao ? `&situacao=${encodeURIComponent(situacao)}` : '';
+
     fetch(`/instituicao/listarCursosInstituicao/${fkInstituicao}?page=${page}&limit=${limit}${qParam}${profParam}${sitParam}`)
         .then(r => r.json())
         .then(data => {
@@ -268,12 +270,23 @@ function listarCursosInstituicao(page = 1, limit = 15, q = '', professor = '', s
             const total = data.total || 0;
             const currentPage = data.page || page;
             const perPage = data.limit || limit;
+
+            // Elementos Desktop
             const container = document.getElementById('cursos_lista');
             const semMsg = document.getElementById('sem_cursos_msg');
             const cabecalho = document.querySelector('.cabecalho');
             const tituloLista = document.getElementById('container_course');
             const pagination = document.getElementById('pagination_controls');
+
+            // 1. ADICIONADO: Captura o elemento Mobile
+            const container_mobile = document.getElementById('cursos_lista_mobile');
+
+            // Limpezas iniciais
             if (container) container.innerHTML = '';
+            
+            // 2. ADICIONADO: Limpa o container mobile antes de preencher
+            if (container_mobile) container_mobile.innerHTML = '';
+
             if (!cursos.length) {
                 if (semMsg) { semMsg.style.display = 'block'; semMsg.innerText = 'não há cursos na sua instituição'; }
                 if (cabecalho) cabecalho.style.display = 'none';
@@ -281,64 +294,138 @@ function listarCursosInstituicao(page = 1, limit = 15, q = '', professor = '', s
                 if (pagination) pagination.innerHTML = '';
                 return;
             }
+
             if (semMsg) semMsg.style.display = 'none';
             if (cabecalho) cabecalho.style.display = '';
             if (tituloLista) tituloLista.style.display = '';
+
             cursos.forEach(c => {
-                if (!container) return;
-                container.innerHTML += `
-                <div class="curso_row">
-                    <div class="coluna_cursos"><a class="link" href="dashCursoEspecificoAdmin.html?cursoId=${c.id}"><p>${c.nome}</p></a></div>
-                    <div class="coluna_quantidade"><p>${c.quantidade_alunos}</p></div>
-                    <div class="coluna_descricao"><p>${c.descricao}</p></div>
-                    <div class="coluna_modalidade"><p>${c.modalidade}</p></div>
-                </div>`;
+                // Preenche Desktop
+                if (container) {
+                    container.innerHTML += `
+                    <div class="curso_row">
+                        <div class="coluna_cursos"><a class="link" href="dashCursoEspecificoAdmin.html?cursoId=${c.id}"><p>${c.nome}</p></a></div>
+                        <div class="coluna_quantidade"><p>${c.quantidade_alunos}</p></div>
+                        <div class="coluna_descricao"><p>${c.descricao}</p></div>
+                        <div class="coluna_modalidade"><p>${c.modalidade}</p></div>
+                    </div>`;
+                }
+
+                // 3. ADICIONADO: Preenche Mobile
+                // Atenção: Ajustei o link para dashCursoEspecificoAdmin.html conforme a versão desktop desta função
+                if (container_mobile) {
+                    container_mobile.innerHTML += `
+                        <div class="curso_row">
+                            <a class="link" href="dashCursoEspecificoAdmin.html?cursoId=${c.id}">
+                                <p>${c.nome}</p>
+                            </a>
+                        </div>
+                    `;
+                }
             });
+
             if (pagination) renderPaginationWithHandler(pagination, total, perPage, currentPage, (p) => listarCursosInstituicao(p, perPage, q, professor, situacao));
         }).catch(e => console.error('Erro ao listar cursos paginados', e));
 }
 
+
 function listarCursosInstituicaoParaProfessor(page = 1, limit = 15, q = '', professor = '', situacao = '') {
     const fkInstituicao = sessionStorage.getItem("fkInstituicao");
     if (!fkInstituicao) return;
-    const qParam = q ? `&q=${encodeURIComponent(q)}` : '';
-    const profParam = professor ? `&professor=${encodeURIComponent(professor)}` : '';
-    const sitParam = situacao ? `&situacao=${encodeURIComponent(situacao)}` : '';
-    fetch(`/instituicao/listarCursosInstituicao/${fkInstituicao}?page=${page}&limit=${limit}${qParam}${profParam}${sitParam}`)
+
+    // 1. Organiza os parâmetros da URL de forma limpa
+    const params = new URLSearchParams({
+        page: page,
+        limit: limit,
+        q: q,
+        professor: professor,
+        situacao: situacao
+    });
+
+    fetch(`/instituicao/listarCursosInstituicao/${fkInstituicao}?${params.toString()}`)
         .then(r => r.json())
         .then(data => {
+            // Extração de dados
             const cursos = data.cursos || [];
             const total = data.total || 0;
             const currentPage = data.page || page;
             const perPage = data.limit || limit;
-            const container = document.getElementById('cursos_lista');
-            const semMsg = document.getElementById('sem_cursos_msg');
-            const cabecalho = document.querySelector('.cabecalho');
-            const tituloLista = document.getElementById('container_course');
-            const pagination = document.getElementById('pagination_controls');
-            if (container) container.innerHTML = '';
+
+            // 2. Seleção de Elementos DOM
+            const el = {
+                listaDesktop: document.getElementById('cursos_lista'),
+                listaMobile: document.getElementById('cursos_lista_mobile'),
+                msgVazio: document.getElementById('sem_cursos_msg'),
+                cabecalho: document.querySelector('.cabecalho'),
+                titulo: document.getElementById('container_course'),
+                paginacao: document.getElementById('pagination_controls')
+            };
+
+            // Limpeza inicial
+            if (el.listaDesktop) el.listaDesktop.innerHTML = '';
+            if (el.listaMobile) el.listaMobile.innerHTML = '';
+
+            // 3. Cenário: Nenhum curso encontrado
             if (!cursos.length) {
-                if (semMsg) { semMsg.style.display = 'block'; semMsg.innerText = 'não há cursos na sua instituição'; }
-                if (cabecalho) cabecalho.style.display = 'none';
-                if (tituloLista) tituloLista.style.display = 'none';
-                if (pagination) pagination.innerHTML = '';
-                return;
+                if (el.msgVazio) {
+                    el.msgVazio.style.display = 'block';
+                    el.msgVazio.innerText = 'Não há cursos na sua instituição';
+                }
+                if (el.cabecalho) el.cabecalho.style.display = 'none';
+                if (el.titulo) el.titulo.style.display = 'none';
+                if (el.paginacao) el.paginacao.innerHTML = '';
+                return; 
             }
-            if (semMsg) semMsg.style.display = 'none';
-            if (cabecalho) cabecalho.style.display = '';
-            if (tituloLista) tituloLista.style.display = '';
+
+            // 4. Cenário: Cursos encontrados (Reset de visibilidade)
+            if (el.msgVazio) el.msgVazio.style.display = 'none';
+            if (el.cabecalho) el.cabecalho.style.display = ''; // Volta ao padrão do CSS (flex/block)
+            if (el.titulo) el.titulo.style.display = '';
+
+            // 5. Montagem do HTML (Performance: Monta a string primeiro, insere depois)
+            let htmlDesktop = '';
+            let htmlMobile = '';
+
             cursos.forEach(c => {
-                if (!container) return;
-                container.innerHTML += `
-                <div class="curso_row">
-                    <div class="coluna_cursos"><a class="link" href="dashCursoEspecifico.html?cursoId=${c.id}"><p>${c.nome}</p></a></div>
-                    <div class="coluna_quantidade"><p>${c.quantidade_alunos}</p></div>
-                    <div class="coluna_descricao"><p>${c.descricao}</p></div>
-                    <div class="coluna_modalidade"><p>${c.modalidade}</p></div>
-                </div>`;
+                // Template Desktop
+                htmlDesktop += `
+                    <div class="curso_row">
+                        <div class="coluna_cursos">
+                            <a class="link" href="dashCursoEspecifico.html?cursoId=${c.id}">
+                                <p>${c.nome}</p>
+                            </a>
+                        </div>
+                        <div class="coluna_quantidade"><p>${c.quantidade_alunos}</p></div>
+                        <div class="coluna_descricao"><p>${c.descricao}</p></div>
+                        <div class="coluna_modalidade"><p>${c.modalidade}</p></div>
+                    </div>`;
+
+                // Template Mobile
+                htmlMobile += `
+                    <div class="curso_row" >
+                        <a class="link" href="dashCursoEspecifico.html?cursoId=${c.id}">
+                            <p>${c.nome}</p>
+                        </a>
+                    </div>`;
             });
-            if (pagination) renderPaginationWithHandler(pagination, total, perPage, currentPage, (p) => listarCursosInstituicao(p, perPage, q, professor, situacao));
-        }).catch(e => console.error('Erro ao listar cursos paginados', e));
+
+            // Inserção no DOM
+            if (el.listaDesktop) el.listaDesktop.innerHTML = htmlDesktop;
+            if (el.listaMobile) el.listaMobile.innerHTML = htmlMobile;
+
+            // 6. Configuração da Paginação
+            // Nota: Corrigi a chamada recursiva para chamar 'listarCursosInstituicaoParaProfessor'
+            if (el.paginacao) {
+                renderPaginationWithHandler(
+                    el.paginacao, 
+                    total, 
+                    perPage, 
+                    currentPage, 
+                    (p) => listarCursosInstituicaoParaProfessor(p, perPage, q, professor, situacao)
+                );
+            }
+
+        }).catch(e => console.error('Erro ao listar cursos (Professor):', e));
 }
 
 function renderPaginationWithHandler(container, totalItems, perPage, currentPage, onPage) {

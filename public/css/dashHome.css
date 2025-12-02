@@ -91,8 +91,8 @@ header section h1 {
 }
 
 header i {
-    font-size: 35px;
-    color: var(--primary-color);
+    font-size: calc(var(--font-title) * 1.5);
+    color: #9ca2a9cf;
 }
 
 .img_icon_usuario {
@@ -611,7 +611,10 @@ main .section_dash {
 
 }
 
-
+.header_info_usuario i {
+    font-size: calc(var(--font-title) * 1.5);
+    color: #9ca2a9cf;
+}
 
 
 
@@ -784,6 +787,7 @@ main .section_dash {
     .header_info_usuario .img_logo {
         width: 120px;
     }
+    
 
     .botao-sair-mobile {
         display: flex !important; /* Faz aparecer */

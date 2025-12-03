@@ -130,44 +130,6 @@ function taxaAprovacao(fkInstituicao) {
     return database.executar(instrucaoSql, [fkInstituicao]);
 }
 
-
-function comparativoTotalAlunos(fkInstituicao) {
-    const instrucaoSql = `
-        SELECT
-            atual,
-            anterior,
-            CASE WHEN anterior = 0 THEN NULL
-                 ELSE ROUND(((atual - anterior) / anterior) * 100, 1)
-            END AS variacaoPercent
-        FROM (
-            SELECT
-                (SELECT COUNT(DISTINCT a.ra)
-                 FROM matricula m
-                 JOIN turma t ON m.fkTurma = t.id_turma
-                 JOIN curso c ON t.fkCurso = c.id_curso
-                 JOIN aluno a ON a.ra = m.fkAluno
-                 WHERE m.ativo = 1
-                   AND c.fkInstituicao = ?
-                   AND m.data_matricula >= DATE_FORMAT(CURRENT_DATE, '%Y-%m-01')
-                   AND m.data_matricula <= LAST_DAY(CURRENT_DATE)
-                ) AS atual,
-
-                (SELECT COUNT(DISTINCT a.ra)
-                 FROM matricula m
-                 JOIN turma t ON m.fkTurma = t.id_turma
-                 JOIN curso c ON t.fkCurso = c.id_curso
-                 JOIN aluno a ON a.ra = m.fkAluno
-                 WHERE m.ativo = 1
-                   AND c.fkInstituicao = ?
-                   AND m.data_matricula >= DATE_FORMAT(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH), '%Y-%m-01')
-                   AND m.data_matricula <= LAST_DAY(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH))
-                ) AS anterior
-        ) AS sub;
-    `;
-    console.log("Comparativo de total de alunos (mês atual vs anterior)...");
-    return database.executar(instrucaoSql, [fkInstituicao, fkInstituicao]);
-}
-
 function comparativoAbaixoMedia(fkInstituicao) {
     const instrucaoSql = `
         SELECT
@@ -293,6 +255,53 @@ function comparativoNovasMatriculas(fkInstituicao) {
     return database.executar(instrucaoSql, [fkInstituicao, fkInstituicao]);
 }
 
+// Novo: calcula somente a variação do mês baseada em novas matrículas e inativações
+function variacaoMatriculasDoMes(fkInstituicao) {
+    const instrucaoSql = `
+        SELECT
+            novas_matriculas,
+            inativacoes,
+            (total_antes_mes + inativacoes) AS total_antes_mes,
+            (novas_matriculas - inativacoes) AS mudanca_liquida
+        FROM (
+            SELECT
+                -- Novas matrículas neste mês
+                (SELECT COUNT(*)
+                 FROM matricula m
+                 JOIN turma t ON m.fkTurma = t.id_turma
+                 JOIN curso c ON t.fkCurso = c.id_curso
+                 WHERE c.fkInstituicao = ?
+                   AND m.ativo = 1
+                   AND m.data_matricula >= DATE_FORMAT(CURRENT_DATE, '%Y-%m-01')
+                   AND m.data_matricula <= LAST_DAY(CURRENT_DATE)
+                ) AS novas_matriculas,
+
+                -- Inativações neste mês (alunos que foram desativados)
+                (SELECT COUNT(*)
+                 FROM matricula m
+                 JOIN turma t ON m.fkTurma = t.id_turma
+                 JOIN curso c ON t.fkCurso = c.id_curso
+                 WHERE c.fkInstituicao = ?
+                   AND m.ativo = 0
+                   AND m.data_atualizacao_status >= DATE_FORMAT(CURRENT_DATE, '%Y-%m-01')
+                   AND m.data_atualizacao_status <= LAST_DAY(CURRENT_DATE)
+                ) AS inativacoes,
+
+                -- Total de alunos que estavam ativos ANTES deste mês
+                (SELECT COUNT(DISTINCT a.ra)
+                 FROM matricula m
+                 JOIN turma t ON m.fkTurma = t.id_turma
+                 JOIN curso c ON t.fkCurso = c.id_curso
+                 JOIN aluno a ON a.ra = m.fkAluno
+                 WHERE m.ativo = 1
+                   AND c.fkInstituicao = ?
+                ) AS total_antes_mes
+        ) AS sub;
+    `;
+    
+    console.log("Calculando variação de matrículas do mês...");
+    return database.executar(instrucaoSql, [fkInstituicao, fkInstituicao, fkInstituicao]);
+}
 
 
 module.exports = {
@@ -302,11 +311,10 @@ module.exports = {
     novasMatriculas,
     top5Evasao,
     taxaAprovacao,
-    comparativoTotalAlunos,
-    comparativoAbaixoMedia,
+    comparativoAbaixoMedia, 
     comparativoTaxaAbandono,
-    comparativoNovasMatriculas
-    
+    comparativoNovasMatriculas,
+    variacaoMatriculasDoMes
 }
 
 

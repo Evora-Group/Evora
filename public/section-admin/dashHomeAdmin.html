@@ -63,7 +63,7 @@
                             </div>
                             <div class="div_titulo_kpi" id="div_situacao_1">
                                 <h1 id="totalMatriculado"></h1>
-                                <p class="p_titulo_kpi">Total Alunos</p>
+                                <p class="p_titulo_kpi">Total de Alunos matriculados e Ativos</p>
                                 <span class="indicativos-desc">
                                     <i id="seta" class="fi fi-sr-minus"></i>
                                     <p id="matriculadoAtualMes">+0,49% <span>Esse mês</span></p>
@@ -337,29 +337,32 @@
 
 
     function atualizarVariacaoTotalAlunos() {
-        fetch(`/dash/comparativoTotalAlunos/${idInstituicao}`)
+        fetch(`/dash/variacaoMatriculasDoMes/${idInstituicao}`)
             .then(res => res.json())
             .then(data => {
                 const texto = document.getElementById("matriculadoAtualMes");
                 const seta = document.getElementById("seta");
 
-                const atual = data.atual || 0;
-
-                if (data.direcao === "up") {
-                    seta.className = "fi fi-sr-arrow-up-right";
-                    seta.style.color = "#10b981"; // verde
-                    texto.style.color = "#10b981";
-                    texto.innerHTML = `+${data.variacao}% <span>Este mês</span>`;
-                } else if (data.direcao === "down") {
-                    seta.className = "fi fi-sr-arrow-down-left";
-                    seta.style.color = "#ef4444"; // vermelho
-                    texto.style.color = "#ef4444";
-                    texto.innerHTML = `${data.variacao}% <span>Este mês</span>`;
-                } else {
+                // Se não teve movimento neste mês
+                if (data.variacao === 0) {
                     seta.className = "fi fi-sr-minus";
                     seta.style.color = "#888";
                     texto.style.color = "#888";
                     texto.innerHTML = `0% <span>Este mês</span>`;
+                }
+                // Se teve aumento líquido (mais novas matrículas do que inativações)
+                else if (data.direcao === "up") {
+                    seta.className = "fi fi-sr-arrow-up-right";
+                    seta.style.color = "#10b981"; // verde
+                    texto.style.color = "#10b981";
+                    texto.innerHTML = `+${data.variacao}% <span>Este mês</span>`;
+                }
+                // Se teve diminuição líquida (mais inativações do que novas matrículas)
+                else if (data.direcao === "down") {
+                    seta.className = "fi fi-sr-arrow-down-left";
+                    seta.style.color = "#ef4444"; // vermelho
+                    texto.style.color = "#ef4444";
+                    texto.innerHTML = `-${data.variacao}% <span>Este mês</span>`;
                 }
             })
             .catch(err => {

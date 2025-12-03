@@ -57,4 +57,9 @@ router.get("/comparativoTotalAlunos/:idInstituicao", function (req, res) {
     dashHomeController.comparativoTotalAlunos(req, res);
 });
 
+// Nova rota: Variação de matrículas do mês (novas - inativações)
+router.get("/variacaoMatriculasDoMes/:idInstituicao", function (req, res) {
+    dashHomeController.variacaoMatriculasDoMes(req, res);
+});
+
 module.exports = router;

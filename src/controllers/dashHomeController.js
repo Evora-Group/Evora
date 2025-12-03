@@ -55,20 +55,25 @@ function comparativoAbaixoMedia(req, res) {
 
     dashModel.comparativoAbaixoMedia(id)
         .then(resultado => {
-            const atualNum = parseFloat(resultado[0].atual || 0);
-            const anteriorNum = parseFloat(resultado[0].anterior || 0);
+            const novosAlerta = parseInt(resultado[0].atualMes_novosAlerta || 0);
+            const melhorias = parseInt(resultado[0].anteriorMes_melhorias || 0); // Já vem negativo
 
-            let variacao = 0;
+            // A variação é a soma dos novos alertas com as melhorias (que são negativas)
+            let variacao = novosAlerta + melhorias; 
             let direcao = "equal";
 
-            if (anteriorNum > 0) {
-                variacao = ((atualNum - anteriorNum) / anteriorNum) * 100;
-                direcao = variacao > 0 ? "up" : variacao < 0 ? "down" : "equal";
+            if (variacao > 0) {
+                // Aumento líquido de alunos em alerta (PIOROU)
+                direcao = "up";
+            } else if (variacao < 0) {
+                // Diminuição líquida de alunos em alerta (MELHOROU)
+                direcao = "down";
             }
 
             res.json({
-                atual: Number(atualNum.toFixed(1)),
-                variacao: Number(variacao.toFixed(1)),
+                // O campo 'atual' não é mais usado para o total, mas sim para a variação total líquida.
+                // Vou manter o nome 'variacao' para o front-end, mas ele representa a diferença de alunos.
+                variacao: variacao, 
                 direcao: direcao
             });
         })

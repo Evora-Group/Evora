@@ -66,7 +66,7 @@
                                 <p class="p_titulo_kpi">Total de Alunos matriculados e Ativos</p>
                                 <span class="indicativos-desc">
                                     <i id="seta" class="fi fi-sr-minus"></i>
-                                    <p id="matriculadoAtualMes">+0,49% <span>Esse mês</span></p>
+                                    <p id="matriculadoAtualMes"> <span>Esse mês</span></p>
                                 </span>
                             </div>
                         </div>
@@ -79,10 +79,10 @@
                             </div>
                             <div class="div_titulo_kpi" id="div_situacao_2">
                                 <h1 id="indicativo-abaixo-media"></h1>
-                                <p class="p_titulo_kpi">Alunos Abaixo da Média no Semestre</p>
+                                <p class="p_titulo_kpi">Alunos Abaixo da Média em avaliações do Semestre</p>
                                 <span class="indicativos-desc">
                                     <i id="seta-abaixo" class="fi fi-sr-minus"></i>
-                                    <p id="indicativo-abaixo-semana"> +0,49% <span>Este semestre</span></p>
+                                    <p id="indicativo-abaixo-mensal"> <span>Este semestre</span></p>
                                 </span>
                             </div>
                         </div>
@@ -372,37 +372,45 @@
     }
 
 
-    function atualizarVariacaoAbaixoMedia() {
-        fetch(`/dash/comparativoAbaixoMedia/${idInstituicao}`)
-            .then(res => res.json())
-            .then(data => {
-                const texto = document.getElementById("indicativo-abaixo-semana");
-                const seta = document.getElementById("seta-abaixo");
+ function atualizarVariacaoAbaixoMedia() {
+    fetch(`/dash/comparativoAbaixoMedia/${idInstituicao}`)
+        .then(res => res.json())
+        .then(data => {
+            const texto = document.getElementById("indicativo-abaixo-mensal");
+            const seta = document.getElementById("seta-abaixo");
 
-                if (data.direcao === "up") {
-                    seta.className = "fi fi-sr-arrow-up-right";
-                    seta.style.color = "#ef4444"; // vermelho = aumento de alunos abaixo da média
-                    texto.style.color = "#ef4444";
-                    texto.innerHTML = `+${data.variacao}% <span>Este semestre</span>`;
-                }
-                else if (data.direcao === "down") {
-                    seta.className = "fi fi-sr-arrow-down-left";
-                    seta.style.color = "#10b981"; // verde = diminuiu
-                    texto.style.color = "#10b981";
-                    texto.innerHTML = `${data.variacao}% <span>Este semestre</span>`;
-                }
-                else {
-                    seta.className = "fi fi-sr-minus";
-                    seta.style.color = "#888";
-                    texto.style.color = "#888";
-                    texto.innerHTML = `0% <span>Este semestre</span>`;
-                }
-            })
-            .catch(err => {
-                console.error("Erro comparativo abaixo da média:", err);
-                document.getElementById("indicativo-abaixo-semana").innerHTML = "Erro";
-            });
-    }
+            const variacaoAbsoluta = Math.abs(data.variacao);
+            const textoVariacao = `${variacaoAbsoluta} Aluno${variacaoAbsoluta !== 1 ? 's' : ''}`;
+
+            if (data.direcao === "up") {
+                // PIOROU: Aumento líquido de alunos em atenção Este mês (Vermelho)
+                seta.className = "fi fi-sr-arrow-up-right";
+                seta.style.color = "#ef4444"; 
+                texto.style.color = "#ef4444";
+                // Exibe: +X Alunos
+                texto.innerHTML = `+${textoVariacao} <span>em atenção Este mês</span>`;
+            }
+            else if (data.direcao === "down") {
+                // MELHOROU: Diminuição líquida de alunos em atenção Este mês (Verde)
+                seta.className = "fi fi-sr-arrow-down-left";
+                seta.style.color = "#10b981"; 
+                texto.style.color = "#10b981";
+                // Exibe: -X Alunos
+                texto.innerHTML = `-${textoVariacao} <span>em atenção Este mês</span>`;
+            }
+            else {
+                // Nenhuma Mudança Líquida (Cinza)
+                seta.className = "fi fi-sr-minus";
+                seta.style.color = "#888";
+                texto.style.color = "#888";
+                texto.innerHTML = `Nenhuma variação <span>em atenção Este mês</span>`;
+            }
+        })
+        .catch(err => {
+            console.error("Erro comparativo abaixo da média:", err);
+            document.getElementById("indicativo-abaixo-mensal").innerHTML = "Erro";
+        });
+}
 
     function atualizarVariacaoAbandono() {
         fetch(`/dash/comparativoAbandono/${idInstituicao}`)

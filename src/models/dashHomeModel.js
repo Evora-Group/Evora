@@ -15,28 +15,32 @@ function totalAlunos(fkInstituicao) {
         WHERE m.ativo = 1
         AND c.fkInstituicao = ?;
     `;
-    
-    console.log("Buscando total de alunos matriculados...");
     return database.executar(instrucaoSql, [fkInstituicao]);
 }
 
 function alunosAbaixoMedia(fkInstituicao) {
     const instrucaoSql = `
-        SELECT 
-            (SUM(CASE WHEN a.nota < 6 THEN 1 ELSE 0 END) / COUNT(*)) * 100 
-            AS percentual_media_baixa
-        FROM avaliacao a
-        JOIN matricula m ON m.id_matricula = a.fkMatricula
-        JOIN turma t ON t.id_turma = m.fkTurma
-        JOIN curso c ON c.id_curso = t.fkCurso
-        WHERE c.fkInstituicao = ?
-        AND a.data_avaliacao >= CASE 
-            WHEN MONTH(NOW()) BETWEEN 1 AND 6 THEN DATE_FORMAT(NOW(), '%Y-01-01')
-            ELSE DATE_FORMAT(NOW(), '%Y-07-01')
-        END;
+
+        SELECT
+            IF(COUNT(sub.fkAluno) = 0, 
+            0, 
+            SUM(CASE WHEN sub.media_geral_aluno < 6 THEN 1 ELSE 0 END) / COUNT(sub.fkAluno) * 100
+            ) AS percentual_media_baixa
+        FROM (
+            SELECT
+                m.fkAluno,
+                AVG(a.nota) AS media_geral_aluno  -- Renomeado para refletir que é a média geral
+            FROM avaliacao a
+            JOIN matricula m ON m.id_matricula = a.fkMatricula
+            JOIN turma t ON t.id_turma = m.fkTurma
+            JOIN curso c ON c.id_curso = t.fkCurso
+            WHERE 
+                c.fkInstituicao = ? 
+                AND m.ativo = 1 
+            GROUP BY 
+                m.fkAluno
+        ) AS sub;
     `;
-    
-    console.log("Buscando % de alunos abaixo da média no último mês");
     return database.executar(instrucaoSql, [fkInstituicao]);
 }
 
@@ -56,7 +60,6 @@ function taxaAbandono(fkInstituicao) {
             ELSE DATE_FORMAT(NOW(), '%Y-07-01')
         END;
     `;
-    console.log("Buscando taxa de abandono no último mês");
     return database.executar(instrucaoSql, [fkInstituicao]);
 }
 
@@ -73,8 +76,6 @@ function novasMatriculas(fkInstituicao) {
             ELSE DATE_FORMAT(NOW(), '%Y-07-01')
         END;
     `;
-    
-    console.log("Buscando novas matrículas no último mês");
     return database.executar(instrucaoSql, [fkInstituicao]);
 }
 
@@ -107,8 +108,6 @@ function top5Evasao(fkInstituicao) {
         ORDER BY percentual DESC
         LIMIT 5;
     `;
-
-    console.log("Buscando Top 5 cursos com maior risco de evasão");
     return database.executar(instrucaoSql, [fkInstituicao]);
 }
 
@@ -125,47 +124,61 @@ function taxaAprovacao(fkInstituicao) {
         WHERE c.fkInstituicao = ?
         AND a.data_avaliacao >= DATE_SUB(NOW(), INTERVAL 30 DAY);
     `;
-    
-    console.log("Buscando taxa de aprovação média no último mês");
     return database.executar(instrucaoSql, [fkInstituicao]);
 }
 
 function comparativoAbaixoMedia(fkInstituicao) {
     const instrucaoSql = `
+        WITH 
+        media_mes_atual AS (
+            SELECT
+                m.fkAluno,
+                AVG(a.nota) AS media_aluno
+            FROM avaliacao a
+            JOIN matricula m ON m.id_matricula = a.fkMatricula
+            JOIN curso c ON c.id_curso = (SELECT fkCurso FROM turma WHERE id_turma = m.fkTurma)
+            WHERE c.fkInstituicao = ? 
+              AND m.ativo = 1 
+              AND a.data_avaliacao >= DATE_FORMAT(NOW(), '%Y-%m-01')
+              AND a.data_avaliacao <= LAST_DAY(NOW())
+            GROUP BY m.fkAluno
+        ),
+        media_mes_anterior AS (
+            SELECT
+                m.fkAluno,
+                AVG(a.nota) AS media_aluno
+            FROM avaliacao a
+            JOIN matricula m ON m.id_matricula = a.fkMatricula
+            JOIN curso c ON c.id_curso = (SELECT fkCurso FROM turma WHERE id_turma = m.fkTurma)
+            WHERE c.fkInstituicao = ? 
+              AND m.ativo = 1 
+              AND a.data_avaliacao >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 MONTH), '%Y-%m-01')
+              AND a.data_avaliacao <= LAST_DAY(DATE_SUB(NOW(), INTERVAL 1 MONTH))
+            GROUP BY m.fkAluno
+        )
         SELECT
-            -- Semestre atual
-            (SELECT 
-                (SUM(CASE WHEN a.nota < 6 THEN 1 ELSE 0 END) / COUNT(*)) * 100
-             FROM avaliacao a
-             JOIN matricula m ON m.id_matricula = a.fkMatricula
-             JOIN turma t ON t.id_turma = m.fkTurma
-             JOIN curso c ON t.fkCurso = c.id_curso
-             WHERE c.fkInstituicao = ?
-               AND a.data_avaliacao >= CASE 
-                   WHEN MONTH(NOW()) BETWEEN 1 AND 6 THEN DATE_FORMAT(NOW(), '%Y-01-01')
-                   ELSE DATE_FORMAT(NOW(), '%Y-07-01')
-               END
-            ) AS atual,
+            -- 1. Alunos NOVOS EM ALERTA (abaixo da média AGORA, mas NÃO no mês anterior)
+            (
+                SELECT COUNT(t1.fkAluno)
+                FROM media_mes_atual t1
+                LEFT JOIN media_mes_anterior t2 ON t1.fkAluno = t2.fkAluno
+                WHERE 
+                    t1.media_aluno < 6  -- Está abaixo da média no mês atual
+                    AND (t2.fkAluno IS NULL OR t2.media_aluno >= 6) -- OU não tinha avaliação, OU estava acima no mês anterior
+            ) AS atualMes_novosAlerta,
 
-            -- Semestre anterior
-            (SELECT 
-                (SUM(CASE WHEN a.nota < 6 THEN 1 ELSE 0 END) / COUNT(*)) * 100
-             FROM avaliacao a
-             JOIN matricula m ON m.id_matricula = a.fkMatricula
-             JOIN turma t ON t.id_turma = m.fkTurma
-             JOIN curso c ON t.fkCurso = c.id_curso
-             WHERE c.fkInstituicao = ?
-               AND a.data_avaliacao >= CASE 
-                   WHEN MONTH(NOW()) BETWEEN 1 AND 6 THEN DATE_FORMAT(NOW(), '%Y-07-01')
-                   ELSE DATE_FORMAT(NOW(), '%Y-01-01')
-               END
-               AND a.data_avaliacao < CASE 
-                   WHEN MONTH(NOW()) BETWEEN 1 AND 6 THEN DATE_FORMAT(NOW(), '%Y-01-01')
-                   ELSE DATE_FORMAT(NOW(), '%Y-07-01')
-               END
-            ) AS anterior
+            -- 2. Alunos que MELHORARAM (abaixo da média no Mês Anterior, mas NÃO AGORA)
+            (
+                SELECT COUNT(t1.fkAluno) * -1 -- Usamos *-1 para indicar que é uma "melhoria" (valor negativo)
+                FROM media_mes_anterior t1
+                LEFT JOIN media_mes_atual t2 ON t1.fkAluno = t2.fkAluno
+                WHERE 
+                    t1.media_aluno < 6 -- Estava abaixo da média no mês anterior
+                    AND (t2.fkAluno IS NULL OR t2.media_aluno >= 6) -- E não está mais abaixo (saiu da lista ou não teve avaliações)
+            ) AS anteriorMes_melhorias;
     `;
     
+    // Passamos os parâmetros da instituição para as duas CTEs
     return database.executar(instrucaoSql, [fkInstituicao, fkInstituicao]);
 }
 
@@ -214,7 +227,6 @@ function comparativoTaxaAbandono(fkInstituicao) {
                    AND m.data_matricula < '2025-07-01') AS total_anterior
         ) AS sub;
     `;
-
     return database.executar(instrucaoSql, [fkInstituicao, fkInstituicao, fkInstituicao, fkInstituicao]);
 }
 
@@ -298,8 +310,6 @@ function variacaoMatriculasDoMes(fkInstituicao) {
                 ) AS total_antes_mes
         ) AS sub;
     `;
-    
-    console.log("Calculando variação de matrículas do mês...");
     return database.executar(instrucaoSql, [fkInstituicao, fkInstituicao, fkInstituicao]);
 }
 

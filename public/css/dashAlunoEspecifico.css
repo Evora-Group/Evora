@@ -130,6 +130,7 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
+    gap: 10px;
 }
 
 .aluno_header img {
@@ -204,6 +205,35 @@
 .botao-sair-mobile{
     display: none;
 }
+
+
+.profile-picture-container {
+    position: relative;
+    width: 160px;
+    height: 160px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+
+    border: 2.4px solid #4d4d4d8a;
+}
+
+.profile-picture-container i {
+    padding-top: 0.5rem;
+    font-size: 5.5rem;
+    color: #4d4d4d83;
+}
+
+.edit-icon-button:hover {
+    transform: scale(1.1);
+}
+
+.edit-icon-button i {
+    font-size: 0.8rem;
+}
+
 
 /* =========================================
    MEDIA QUERIES - DASHBOARD ALUNO ESPECÍFICO

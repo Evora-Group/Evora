@@ -3,7 +3,12 @@ const dashModel = require("../models/dashHomeModel");
 function totalAlunos(req, res) {
     const id = req.params.idInstituicao;
     dashModel.totalAlunos(id)
-        .then(resultado => res.json(resultado[0]))
+        .then(resultado => {
+            // Suporta formato [rows, fields] ou rows
+            const rows = Array.isArray(resultado) && Array.isArray(resultado[0]) ? resultado[0] : resultado;
+            const row = Array.isArray(rows) ? rows[0] : rows;
+            res.json(row || {});
+        })
         .catch(erro => res.status(500).json(erro));
 }
 
@@ -51,20 +56,33 @@ function comparativoTotalAlunos(req, res) {
 
     dashModel.comparativoTotalAlunos(id)
         .then(resultado => {
-            const atualNum = parseFloat(resultado[0].atual || 0);
-            const anteriorNum = parseFloat(resultado[0].anterior || 0);
+            // normaliza retorno [rows, fields] ou rows
+            const rows = Array.isArray(resultado) && Array.isArray(resultado[0]) ? resultado[0] : resultado;
+            const row = Array.isArray(rows) ? rows[0] : rows;
+
+            const atualNum = Number(row?.atual || 0);
+            const anteriorNum = Number(row?.anterior || 0);
 
             let variacao = 0;
             let direcao = "equal";
 
-            if (anteriorNum > 0) {
-                variacao = ((atualNum - anteriorNum) / anteriorNum) * 100;
+            if (anteriorNum === 0) {
+                if (atualNum === 0) {
+                    variacao = 0;
+                    direcao = "equal";
+                } else {
+                    variacao = 100; // novo caso: anterior 0 e atual > 0 => crescimento "100%"
+                    direcao = "up";
+                }
+            } else {
+                variacao = Number((((atualNum - anteriorNum) / anteriorNum) * 100).toFixed(1));
                 direcao = variacao > 0 ? "up" : variacao < 0 ? "down" : "equal";
             }
 
             res.json({
                 atual: atualNum,
-                variacao: Number(variacao.toFixed(1)),
+                anterior: anteriorNum,
+                variacao: Math.abs(Number(variacao)), // valor exibido (positivo)
                 direcao: direcao
             });
         })

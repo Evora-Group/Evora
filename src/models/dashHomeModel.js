@@ -1,4 +1,4 @@
-const database = require("../database/config") 
+const database = require("../database/config");
 
 
 // KPI - Total alunos
@@ -6,14 +6,17 @@ function totalAlunos(fkInstituicao) {
     const instrucaoSql = `
         SELECT COUNT(DISTINCT a.ra) AS TotalAlunos
         FROM aluno a
-        JOIN matricula m ON m.fkAluno = a.ra
-        JOIN turma t ON t.id_turma = m.fkTurma
-        JOIN curso c ON c.id_curso = t.fkCurso
-        WHERE c.fkInstituicao = ?
-        AND a.data_cadastro >= DATE_SUB(NOW(), INTERVAL 30 DAY);
+        INNER JOIN matricula m 
+            ON a.ra = m.fkAluno
+        INNER JOIN turma t 
+            ON m.fkTurma = t.id_turma
+        INNER JOIN curso c 
+            ON t.fkCurso = c.id_curso
+        WHERE m.ativo = 1
+        AND c.fkInstituicao = ?;
     `;
     
-    console.log("Buscando total de alunos no último mês");
+    console.log("Buscando total de alunos matriculados...");
     return database.executar(instrucaoSql, [fkInstituicao]);
 }
 
@@ -131,27 +134,37 @@ function taxaAprovacao(fkInstituicao) {
 function comparativoTotalAlunos(fkInstituicao) {
     const instrucaoSql = `
         SELECT
-            -- Mês atual
-            (SELECT COUNT(*) 
-             FROM matricula m
-             JOIN turma t ON t.id_turma = m.fkTurma
-             JOIN curso c ON t.fkCurso = c.id_curso
-             WHERE c.fkInstituicao = ?
-               AND MONTH(m.data_matricula) = MONTH(NOW())
-               AND YEAR(m.data_matricula) = YEAR(NOW())
-            ) AS atual,
+            atual,
+            anterior,
+            CASE WHEN anterior = 0 THEN NULL
+                 ELSE ROUND(((atual - anterior) / anterior) * 100, 1)
+            END AS variacaoPercent
+        FROM (
+            SELECT
+                (SELECT COUNT(DISTINCT a.ra)
+                 FROM matricula m
+                 JOIN turma t ON m.fkTurma = t.id_turma
+                 JOIN curso c ON t.fkCurso = c.id_curso
+                 JOIN aluno a ON a.ra = m.fkAluno
+                 WHERE m.ativo = 1
+                   AND c.fkInstituicao = ?
+                   AND m.data_matricula >= DATE_FORMAT(CURRENT_DATE, '%Y-%m-01')
+                   AND m.data_matricula <= LAST_DAY(CURRENT_DATE)
+                ) AS atual,
 
-            -- Mês anterior
-            (SELECT COUNT(*) 
-             FROM matricula m
-             JOIN turma t ON t.id_turma = m.fkTurma
-             JOIN curso c ON t.fkCurso = c.id_curso
-             WHERE c.fkInstituicao = ?
-               AND MONTH(m.data_matricula) = MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH))
-               AND YEAR(m.data_matricula) = YEAR(DATE_SUB(NOW(), INTERVAL 1 MONTH))
-            ) AS anterior;
+                (SELECT COUNT(DISTINCT a.ra)
+                 FROM matricula m
+                 JOIN turma t ON m.fkTurma = t.id_turma
+                 JOIN curso c ON t.fkCurso = c.id_curso
+                 JOIN aluno a ON a.ra = m.fkAluno
+                 WHERE m.ativo = 1
+                   AND c.fkInstituicao = ?
+                   AND m.data_matricula >= DATE_FORMAT(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH), '%Y-%m-01')
+                   AND m.data_matricula <= LAST_DAY(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH))
+                ) AS anterior
+        ) AS sub;
     `;
-
+    console.log("Comparativo de total de alunos (mês atual vs anterior)...");
     return database.executar(instrucaoSql, [fkInstituicao, fkInstituicao]);
 }
 

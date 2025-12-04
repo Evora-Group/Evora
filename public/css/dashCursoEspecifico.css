@@ -500,9 +500,9 @@ summary {
 
 .main_usuarios {
     width: 100%;
-    height: 75%;
+    height: 100%;
     overflow-y: auto;
-    max-height: 75%;
+    max-height: 100%;
 }
 
 .tabela {
@@ -1051,7 +1051,15 @@ select {
 
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1500px) {
+
+    .section_main {
+        height: 300px !important;
+        overflow-x: auto;
+        overflow-y: auto;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
 
     #titulo-usuario {
 
@@ -1060,26 +1068,31 @@ select {
     }
 
     .main_usuarios {
+        overflow-x: auto;
+        width: 100%;
         max-height: 100%;
         height: 100%;
     }
 
-    .section-curso .main-curso {
-        /* border-radius: 15px; */
-        /* flex-direction: column-reverse; */
+.section-curso .main-curso {
+        border-radius: 15px;
+        flex-direction: column;
         width: 100%;
         height: 100%;
-
+        background-color: var(--white-color);
+        padding: calc(var(--padding) * 1.25);
+        box-shadow: var(--card-shadow);
     }
-
     main header .kpi {
         display: flex;
         flex-direction: column;
-        /* flex: 1 1 0; */
+        flex: 1 1 0;
         width: 0;
         min-width: 0;
-        min-height: 350px;
+        min-height: 0 !important;
         padding: 20px;
+        margin: 0;
+        height: 100%;
     }
 
     .section-curso .main-curso {
@@ -1102,10 +1115,11 @@ select {
         padding: calc(var(--padding) * 1.25);
     }
 
-    section.section-curso {
-        height: 85vh;
+section.section-curso{
+        height: 85%;
         margin: 0;
     }
+
 
     .btn_voltar_alunos {
         width: 20vw;
@@ -1114,13 +1128,16 @@ select {
 
     .section-curso .main-curso .header_kpis {
         width: 100%;
-        height: auto;
+        height: 265px;
         display: flex;
         flex-direction: column;
         gap: 20px;
         justify-content: center;
         align-items: center;
+        margin: 0;
     }
+
+    
 
     .chart-area {
         position: relative;
@@ -1130,17 +1147,29 @@ select {
 
     main {
         flex-direction: column;
-        height: 90%;
+        height: 100%;
     }
 
     body {
         height: 100vh;
+        overflow-x: hidden;
+        padding-bottom: 0px;
     }
+
+    .chart-title {
+        font-size: 1.5em;
+        font-weight: bold;
+        border-bottom: 2px solid #ddd;
+     padding-bottom: 10px;
+    margin-bottom: 0px;
+    }
+
+    
 
 
 }
 
-@media (max-width: 700px) {
+@media (max-width: 750px) {
 
     #titulo-usuario {
         font-size: calc(var(--font-title) * 1.3);
@@ -1149,6 +1178,10 @@ select {
     section.section-curso {
         height: auto;
 
+    }
+
+    .section-curso .main-curso .header_kpis {
+        height: auto;
     }
 
     .section_main{

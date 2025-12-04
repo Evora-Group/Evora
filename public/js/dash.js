@@ -11,57 +11,170 @@ function puxarNomeUsuario() {
 };
 
 
-let listaUsuariosGlobal = [];
+// let listaUsuariosGlobal = [];
 
-function listarUsuariosInstituicao() {
+// function listarUsuariosInstituicao() {
+//     const fkInstituicao = sessionStorage.getItem("fkInstituicao");
+    
+//     fetch(`/instituicao/listarUsuariosInstituicao/${fkInstituicao}`, {
+//         method: "GET",
+//         headers: {
+//             "Content-Type": "application/json"
+//         }
+//     }).then(function (resposta) {
+//         if (resposta.ok) {
+//             resposta.json().then(function (resposta) {
+//                 console.log("Dados recebidos: ", JSON.stringify(resposta));
+                
+//                 // 2. Salva os dados na variável global
+//                 listaUsuariosGlobal = resposta;
+
+//                 // --- Lógica dos KPIs (Total, Professores, Alunos, etc) ---
+//                 // Mantemos isso aqui para calcular com base no TOTAL, não no filtro
+//                 atualizarKPIs(listaUsuariosGlobal);
+
+//                 // 3. Chama a função que desenha a tabela passando a lista completa
+//                 renderizarTabela(listaUsuariosGlobal);
+                          
+//             });
+//         } else {
+//             console.error("Erro ao listar usuários: ", resposta.status);
+//         }
+//     }).catch(function (erro) {
+//         console.error("Erro na requisição: ", erro);
+//     });
+// }   
+
+// // Nova função apenas para desenhar a tabela (reutilizável)
+// function renderizarTabela(lista) {
+//     const corpoTabela = document.getElementById("corpo_tabela_usuarios");
+//     corpoTabela.innerHTML = ""; // Limpa a tabela antes de preencher
+
+//     lista.forEach(usuario => {
+
+//         if (usuario.tipo === 'Professor'){ 
+//             tdStatus = `<td>
+//                     <p class="p_status_${usuario.situacao}">${usuario.situacao}</p>
+//                 </td>`
+//         }else{
+//             tdStatus = `<td>
+//                     <p>N/A</p>
+//             </td>`
+//         }
+
+
+//         corpoTabela.innerHTML += `
+//             <tr>
+//                 <td>${usuario.id}</td>
+//                 <td>${usuario.nome}</td>
+//                 <td>${usuario.email}</td>
+//                 <td>${usuario.tipo}</td>
+//                 <td>${usuario.turma}</td>
+//                 <td>${usuario.curso}</td>
+//                 ${tdStatus}
+//                 <td onclick="definirVisitante(${usuario.id}, '${usuario.nome}', '${usuario.email}', '${usuario.tipo}', '${usuario.turma}', '${usuario.curso}', '${usuario.instituicao}', '${usuario.situacao}'); abrirModal('modal_editar_usuario'); listarInstituicoes()"><i class="fi fi-sr-pencil"></i></td>
+//                 <td onclick="definirVisitante(${usuario.id}, '${usuario.nome}', '${usuario.email}', '${usuario.tipo}', '${usuario.turma}', '${usuario.curso}', '${usuario.instituicao}', '${usuario.situacao}'), abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
+//                 </td>
+//             </tr>
+//         `;
+//     });
+// }
+
+// // Nova função de Pesquisa
+// function filtrarUsuarios() {
+//     // Pega o valor digitado e transforma em minúsculo
+//     const termo = document.getElementById('barra_pesquisa').value.toLowerCase();
+
+//     // Filtra a lista global
+//     const listaFiltrada = listaUsuariosGlobal.filter(usuario => {
+//         // Verifica se o termo está no ID ou no NOME
+//         // Converte ID para string para poder usar .includes()
+//         return usuario.id.toString().includes(termo) || 
+//                usuario.nome.toLowerCase().includes(termo);
+//     });
+
+//     // Redesenha a tabela apenas com os filtrados
+//     renderizarTabela(listaFiltrada);
+// }
+
+// // Função auxiliar para organizar os KPIs (retirei da listarUsuariosInstituicao para ficar limpo)
+// function atualizarKPIs(listaUsuarios) {
+//     const qtdUsuarios = listaUsuarios.length;
+    
+//     const listaProfessores = listaUsuarios.filter(usuario => usuario.tipo === "Professor");
+//     const qtdProfessores = listaProfessores.length;
+
+//     const listaAlunos = listaUsuarios.filter(usuario => usuario.tipo === "Aluno");
+//     const qtdAlunos = listaAlunos.length;
+
+//     const listaBloqueados = listaUsuarios.filter(usuario => usuario.situacao === "bloqueado" && usuario.tipo === "Professor");
+//     const qtdBloqueados = listaBloqueados.length;
+    
+//     const listaLiberados = listaUsuarios.filter(usuario => usuario.situacao === "liberado" && usuario.tipo === "Professor");
+//     const qtdLiberados = listaLiberados.length;
+
+//     // Atualiza o HTML dos KPIs
+//     document.querySelectorAll(".qtd_usuarios").forEach(el => el.innerHTML = qtdUsuarios);
+//     document.querySelectorAll(".qtd_professores").forEach(el => el.innerHTML = qtdProfessores);
+//     document.querySelectorAll(".qtd_alunos").forEach(el => el.innerHTML = qtdAlunos);
+//     document.querySelectorAll(".qtd_bloqueados").forEach(el => el.innerHTML = qtdBloqueados);
+//     document.querySelectorAll(".qtd_liberados").forEach(el => el.innerHTML = qtdLiberados); 
+
+//     const progressBarSituacao = document.getElementById("progress_bar_situacao");
+
+//     progressBarSituacao.innerHTML = `
+//         <progress id="progress_bar" value="${qtdLiberados}" max="${qtdBloqueados + qtdLiberados}"></progress>
+//     `;
+// }
+
+// Variável para controlar o estado da pesquisa
+let termoBuscaAtual = "";
+
+// Alteramos a função para receber a página
+function listarUsuariosInstituicao(pagina = 1) {
     const fkInstituicao = sessionStorage.getItem("fkInstituicao");
     
-    fetch(`/instituicao/listarUsuariosInstituicao/${fkInstituicao}`, {
+    // Constrói URL com parametros
+    const url = `/instituicao/listarUsuariosInstituicao/${fkInstituicao}?page=${pagina}&busca=${termoBuscaAtual}`;
+
+    fetch(url, {
         method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        }
+        headers: { "Content-Type": "application/json" }
     }).then(function (resposta) {
         if (resposta.ok) {
-            resposta.json().then(function (resposta) {
-                console.log("Dados recebidos: ", JSON.stringify(resposta));
+            resposta.json().then(function (dados) {
+                console.log("Dados recebidos: ", dados);
                 
-                // 2. Salva os dados na variável global
-                listaUsuariosGlobal = resposta;
+                // 1. Renderiza a Tabela (apenas os 10 itens recebidos)
+                renderizarTabela(dados.usuarios);
 
-                // --- Lógica dos KPIs (Total, Professores, Alunos, etc) ---
-                // Mantemos isso aqui para calcular com base no TOTAL, não no filtro
-                atualizarKPIs(listaUsuariosGlobal);
+                // 2. Atualiza os KPIs (usando os dados calculados no banco)
+                atualizarKPIs(dados.kpis);
 
-                // 3. Chama a função que desenha a tabela passando a lista completa
-                renderizarTabela(listaUsuariosGlobal);
-                          
+                // 3. Monta os botões de paginação
+                renderizarControlesPaginacao(dados.paginacao);
             });
         } else {
-            console.error("Erro ao listar usuários: ", resposta.status);
+            console.error("Erro ao listar usuários.");
         }
-    }).catch(function (erro) {
-        console.error("Erro na requisição: ", erro);
-    });
-}   
+    }).catch(erro => console.error("Erro na requisição: ", erro));
+}
 
-// Nova função apenas para desenhar a tabela (reutilizável)
+// Renderiza a tabela (Mantive sua lógica, apenas limpei um pouco)
 function renderizarTabela(lista) {
     const corpoTabela = document.getElementById("corpo_tabela_usuarios");
-    corpoTabela.innerHTML = ""; // Limpa a tabela antes de preencher
+    corpoTabela.innerHTML = "";
+
+    if(lista.length === 0) {
+        corpoTabela.innerHTML = "<tr><td colspan='9'>Nenhum usuário encontrado.</td></tr>";
+        return;
+    }
 
     lista.forEach(usuario => {
-
-        if (usuario.tipo === 'Professor'){ 
-            tdStatus = `<td>
-                    <p class="p_status_${usuario.situacao}">${usuario.situacao}</p>
-                </td>`
-        }else{
-            tdStatus = `<td>
-                    <p>N/A</p>
-            </td>`
-        }
-
+        let classeStatus = usuario.situacao === 'liberado' ? 'p_status_liberado' : 'p_status_bloqueado';
+        let siglaStatus = usuario.situacao === 'liberado' ? 'L' : 'B';
+        
+        let tdStatus = `<td><p class="${classeStatus}">${siglaStatus}</p></td>`;
 
         corpoTabela.innerHTML += `
             <tr>
@@ -69,63 +182,80 @@ function renderizarTabela(lista) {
                 <td>${usuario.nome}</td>
                 <td>${usuario.email}</td>
                 <td>${usuario.tipo}</td>
-                <td>${usuario.turma}</td>
-                <td>${usuario.curso}</td>
+                <td>${usuario.turma || '-'}</td>
+                <td>${usuario.curso || '-'}</td>
                 ${tdStatus}
                 <td onclick="definirVisitante(${usuario.id}, '${usuario.nome}', '${usuario.email}', '${usuario.tipo}', '${usuario.turma}', '${usuario.curso}', '${usuario.instituicao}', '${usuario.situacao}'); abrirModal('modal_editar_usuario'); listarInstituicoes()"><i class="fi fi-sr-pencil"></i></td>
-                <td onclick="definirVisitante(${usuario.id}, '${usuario.nome}', '${usuario.email}', '${usuario.tipo}', '${usuario.turma}', '${usuario.curso}', '${usuario.instituicao}', '${usuario.situacao}'), abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i>
-                </td>
+                <td onclick="definirVisitante(${usuario.id}, '${usuario.nome}', '${usuario.email}', '${usuario.tipo}', '${usuario.turma}', '${usuario.curso}', '${usuario.instituicao}', '${usuario.situacao}'); abrirModal('modal_remover_usuario')"><i class="fi fi-sr-trash"></i></td>
             </tr>
         `;
     });
 }
 
-// Nova função de Pesquisa
+// Atualiza os números do dashboard
+function atualizarKPIs(stats) {
+    // Agora pegamos direto do objeto stats vindo do back-end
+    if(!stats) return;
+
+    document.querySelectorAll(".qtd_usuarios").forEach(el => el.innerHTML = stats.total_geral);
+    document.querySelectorAll(".qtd_professores").forEach(el => el.innerHTML = stats.qtd_professores);
+    document.querySelectorAll(".qtd_alunos").forEach(el => el.innerHTML = stats.qtd_alunos);
+    document.querySelectorAll(".qtd_bloqueados").forEach(el => el.innerHTML = stats.qtd_bloqueados);
+    document.querySelectorAll(".qtd_liberados").forEach(el => el.innerHTML = stats.qtd_liberados);
+
+    const progressBar = document.getElementById("progress_bar");
+    if(progressBar) {
+        progressBar.value = stats.qtd_liberados;
+        progressBar.max = stats.total_geral; // ou bloqueados + liberados
+    }
+}
+
+// Função NOVA para criar os botões "Anterior 1 2 3 Próximo"
+function renderizarControlesPaginacao(paginacao) {
+    const container = document.getElementById("paginacao_container");
+    container.innerHTML = "";
+
+    const atual = paginacao.paginaAtual;
+    const total = paginacao.totalPaginas;
+
+    // Botão Anterior
+    const btnPrev = document.createElement("button");
+    btnPrev.innerHTML = "<";
+    btnPrev.className = "btn_paginacao";
+    btnPrev.disabled = atual === 1;
+    btnPrev.onclick = () => listarUsuariosInstituicao(atual - 1);
+    container.appendChild(btnPrev);
+
+    // Lógica para mostrar número limitado de botões (ex: mostra 5 páginas próximas)
+    let inicio = Math.max(1, atual - 2);
+    let fim = Math.min(total, atual + 2);
+
+    for (let i = inicio; i <= fim; i++) {
+        const btn = document.createElement("button");
+        btn.innerText = i;
+        btn.className = `btn_paginacao ${i === atual ? 'active' : ''}`;
+        btn.onclick = () => listarUsuariosInstituicao(i);
+        container.appendChild(btn);
+    }
+
+    // Botão Próximo
+    const btnNext = document.createElement("button");
+    btnNext.innerHTML = ">";
+    btnNext.className = "btn_paginacao";
+    btnNext.disabled = atual === total;
+    btnNext.onclick = () => listarUsuariosInstituicao(atual + 1);
+    container.appendChild(btnNext);
+}
+
+// Função de Pesquisa (Agora chama o back-end!)
 function filtrarUsuarios() {
-    // Pega o valor digitado e transforma em minúsculo
-    const termo = document.getElementById('barra_pesquisa').value.toLowerCase();
-
-    // Filtra a lista global
-    const listaFiltrada = listaUsuariosGlobal.filter(usuario => {
-        // Verifica se o termo está no ID ou no NOME
-        // Converte ID para string para poder usar .includes()
-        return usuario.id.toString().includes(termo) || 
-               usuario.nome.toLowerCase().includes(termo);
-    });
-
-    // Redesenha a tabela apenas com os filtrados
-    renderizarTabela(listaFiltrada);
+    const input = document.getElementById('barra_pesquisa');
+    termoBuscaAtual = input.value;
+    
+    // Reinicia na página 1 ao pesquisar
+    listarUsuariosInstituicao(1);
 }
 
-// Função auxiliar para organizar os KPIs (retirei da listarUsuariosInstituicao para ficar limpo)
-function atualizarKPIs(listaUsuarios) {
-    const qtdUsuarios = listaUsuarios.length;
-    
-    const listaProfessores = listaUsuarios.filter(usuario => usuario.tipo === "Professor");
-    const qtdProfessores = listaProfessores.length;
-
-    const listaAlunos = listaUsuarios.filter(usuario => usuario.tipo === "Aluno");
-    const qtdAlunos = listaAlunos.length;
-
-    const listaBloqueados = listaUsuarios.filter(usuario => usuario.situacao === "bloqueado" && usuario.tipo === "Professor");
-    const qtdBloqueados = listaBloqueados.length;
-    
-    const listaLiberados = listaUsuarios.filter(usuario => usuario.situacao === "liberado" && usuario.tipo === "Professor");
-    const qtdLiberados = listaLiberados.length;
-
-    // Atualiza o HTML dos KPIs
-    document.querySelectorAll(".qtd_usuarios").forEach(el => el.innerHTML = qtdUsuarios);
-    document.querySelectorAll(".qtd_professores").forEach(el => el.innerHTML = qtdProfessores);
-    document.querySelectorAll(".qtd_alunos").forEach(el => el.innerHTML = qtdAlunos);
-    document.querySelectorAll(".qtd_bloqueados").forEach(el => el.innerHTML = qtdBloqueados);
-    document.querySelectorAll(".qtd_liberados").forEach(el => el.innerHTML = qtdLiberados); 
-
-    const progressBarSituacao = document.getElementById("progress_bar_situacao");
-
-    progressBarSituacao.innerHTML = `
-        <progress id="progress_bar" value="${qtdLiberados}" max="${qtdBloqueados + qtdLiberados}"></progress>
-    `;
-}
 
 function listarCursos() {
 

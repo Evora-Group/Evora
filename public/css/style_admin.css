@@ -859,3 +859,28 @@ dialog::backdrop {
     height: 60%;
     font-size: var(--font-title);
 }
+
+.paginacao_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    margin-top: 10px;
+}
+.btn_paginacao {
+    padding: 5px 12px;
+    border: 1px solid var(--primary-color);
+    background: transparent;
+    cursor: pointer;
+    border-radius: 5px;
+    color: var(--primary-color);
+}
+.btn_paginacao.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+.btn_paginacao:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

@@ -23,19 +23,41 @@ function buscarInstituicao(req, res) {
             res.status(500).json(erro.sqlMessage);
         });
 }
-
 function listarUsuariosInstituicao(req, res) {
     const idInstituicao = req.params.idInstituicao;
+    const page = parseInt(req.query.page) || 1; 
+    const limit = 10;
+    const busca = req.query.busca || '';
 
-    instituicaoModel.listarUsuariosInstituicao(idInstituicao)
-        .then(function (resultado) {
-            res.json(resultado);
+    instituicaoModel.listarUsuariosInstituicao(idInstituicao, page, limit, busca)
+        .then(function (resultados) {
+            
+            // Resultado 0: Os dados da tabela (filtrados)
+            const usuarios = resultados[0];
+            
+            // Resultado 1: Total da busca (para calcular páginas 1, 2, 3...)
+            const totalBusca = resultados[1][0].total_busca;
+            
+            // Resultado 2: KPIs Globais (Estáticos, ignoram a busca)
+            const kpis = resultados[2][0];
+
+            const totalPaginas = Math.ceil(totalBusca / limit);
+
+            res.json({
+                usuarios: usuarios,
+                kpis: kpis, // Envia os KPIs fixos
+                paginacao: {
+                    paginaAtual: page,
+                    totalPaginas: totalPaginas,
+                    totalRegistros: totalBusca // Envia o total filtrado para a lógica de paginação
+                }
+            });
         }).catch(function (erro) {
-            console.log(erro);
-            console.log("\nHouve um erro ao listar usuários da instituição! Erro: ", erro.sqlMessage);
+            console.log("\nHouve um erro ao listar usuários! Erro: ", erro.sqlMessage);
             res.status(500).json(erro.sqlMessage);
         });
 }
+
 
 function listarAlunosInstituicao(req, res) {
     var idInstituicao = req.params.idInstituicao;

@@ -109,10 +109,73 @@ function listarAlunosInstituicao(idInstituicao, limit, offset) {
 function listarInstituicoes() { return database.executar(`SELECT id_instituicao, nome FROM instituicao ORDER BY nome DESC;`); }
 function buscarInstituicao(nome) { return database.executar(`SELECT id_instituicao FROM instituicao WHERE nome = ? LIMIT 1;`, [nome]); }
 
-function listarUsuariosInstituicao(idInstituicao) {
-    var instrucaoSql = `SELECT U.id_usuario AS id, U.nome, U.email, 'Professor' AS tipo, (SELECT GROUP_CONCAT(DISTINCT T.nome_sigla SEPARATOR ', ') FROM usuario_turma UT JOIN turma T ON UT.fkTurma = T.id_turma WHERE UT.fkUsuario = U.id_usuario) AS turma, (SELECT GROUP_CONCAT(DISTINCT C.nome SEPARATOR ', ') FROM usuario_turma UT JOIN turma T ON UT.fkTurma = T.id_turma JOIN curso C ON T.fkCurso = C.id_curso WHERE UT.fkUsuario = U.id_usuario) AS curso, I.nome AS instituicao, CASE WHEN U.ativo = 1 THEN 'liberado' ELSE 'bloqueado' END AS situacao FROM usuario U JOIN instituicao I ON U.fkInstituicao = I.id_instituicao WHERE I.id_instituicao = ? AND U.cargo = 'Professor' UNION ALL SELECT A.ra AS id, A.nome, A.email, 'Aluno' AS tipo, T.nome_sigla AS turma, C.nome AS curso, I.nome AS instituicao, CASE WHEN M.ativo = 1 THEN 'liberado' ELSE 'bloqueado' END AS situacao FROM aluno A JOIN matricula M ON A.ra = M.fkAluno JOIN turma T ON M.fkTurma = T.id_turma JOIN curso C ON T.fkCurso = C.id_curso JOIN instituicao I ON C.fkInstituicao = I.id_instituicao WHERE I.id_instituicao = ? ORDER BY tipo DESC, nome ASC;`;
-    return database.executar(instrucaoSql, [idInstituicao, idInstituicao]);
+
+function listarUsuariosInstituicao(idInstituicao, page = 1, limit = 10, busca = '') {
+    const offset = (page - 1) * limit;
+    
+    // Filtro APENAS para a busca e paginação
+    let filtroBusca = '';
+    if (busca) {
+        filtroBusca = `WHERE nome LIKE '%${busca}%' OR id LIKE '%${busca}%'`;
+    }
+
+    // 1. QUERY DE DADOS (Tabela) - Usa o Filtro
+    const instrucaoSql = `
+        SELECT * FROM (
+            SELECT 
+                U.id_usuario AS id, U.nome, U.email, 'Professor' AS tipo, 
+                (SELECT GROUP_CONCAT(DISTINCT T.nome_sigla SEPARATOR ', ') FROM usuario_turma UT JOIN turma T ON UT.fkTurma = T.id_turma WHERE UT.fkUsuario = U.id_usuario) AS turma, 
+                (SELECT GROUP_CONCAT(DISTINCT C.nome SEPARATOR ', ') FROM usuario_turma UT JOIN turma T ON UT.fkTurma = T.id_turma JOIN curso C ON T.fkCurso = C.id_curso WHERE UT.fkUsuario = U.id_usuario) AS curso, 
+                I.nome AS instituicao, CASE WHEN U.ativo = 1 THEN 'liberado' ELSE 'bloqueado' END AS situacao 
+            FROM usuario U JOIN instituicao I ON U.fkInstituicao = I.id_instituicao 
+            WHERE I.id_instituicao = ${idInstituicao} AND U.cargo = 'Professor'
+            UNION ALL 
+            SELECT 
+                A.ra AS id, A.nome, A.email, 'Aluno' AS tipo, T.nome_sigla AS turma, C.nome AS curso, I.nome AS instituicao, CASE WHEN M.ativo = 1 THEN 'liberado' ELSE 'bloqueado' END AS situacao 
+            FROM aluno A JOIN matricula M ON A.ra = M.fkAluno JOIN turma T ON M.fkTurma = T.id_turma JOIN curso C ON T.fkCurso = C.id_curso JOIN instituicao I ON C.fkInstituicao = I.id_instituicao 
+            WHERE I.id_instituicao = ${idInstituicao}
+        ) AS TabelaUnificada
+        ${filtroBusca} 
+        ORDER BY tipo DESC, nome ASC
+        LIMIT ${limit} OFFSET ${offset};
+    `;
+
+    // 2. QUERY PARA PAGINAÇÃO - Usa o Filtro
+    // Serve para saber quantas páginas gerar baseado no que o usuário pesquisou
+    const instrucaoTotalBusca = `
+        SELECT COUNT(*) as total_busca FROM (
+             SELECT U.nome, U.id_usuario as id FROM usuario U WHERE U.fkInstituicao = ${idInstituicao} AND U.cargo = 'Professor'
+             UNION ALL
+             SELECT A.nome, A.ra as id FROM aluno A JOIN matricula M ON A.ra = M.fkAluno JOIN turma T ON M.fkTurma = T.id_turma JOIN curso C ON T.fkCurso = C.id_curso WHERE C.fkInstituicao = ${idInstituicao}
+        ) AS TabelaBusca
+        ${filtroBusca};
+    `;
+
+    // 3. QUERY PARA KPIS (DASHBOARD) - NÃO Usa o Filtro (Sempre traz o total real)
+    const instrucaoKpisGlobal = `
+        SELECT 
+            COUNT(*) as total_geral,
+            SUM(CASE WHEN tipo = 'Professor' THEN 1 ELSE 0 END) as qtd_professores,
+            SUM(CASE WHEN tipo = 'Aluno' THEN 1 ELSE 0 END) as qtd_alunos,
+            SUM(CASE WHEN situacao = 'bloqueado' THEN 1 ELSE 0 END) as qtd_bloqueados,
+            SUM(CASE WHEN situacao = 'liberado' THEN 1 ELSE 0 END) as qtd_liberados
+        FROM (
+             SELECT 'Professor' as tipo, CASE WHEN U.ativo = 1 THEN 'liberado' ELSE 'bloqueado' END AS situacao
+             FROM usuario U WHERE U.fkInstituicao = ${idInstituicao} AND U.cargo = 'Professor'
+             UNION ALL
+             SELECT 'Aluno' as tipo, CASE WHEN M.ativo = 1 THEN 'liberado' ELSE 'bloqueado' END AS situacao
+             FROM aluno A JOIN matricula M ON A.ra = M.fkAluno JOIN turma T ON M.fkTurma = T.id_turma JOIN curso C ON T.fkCurso = C.id_curso WHERE C.fkInstituicao = ${idInstituicao}
+        ) AS TabelaKpi;
+    `;
+
+    return Promise.all([
+        database.executar(instrucaoSql),
+        database.executar(instrucaoTotalBusca),
+        database.executar(instrucaoKpisGlobal)
+    ]);
 }
+
+
 
 function listarCursosInstituicao(idInstituicao, limit, offset, q, professor, situacao) {
     limit = limit ? parseInt(limit) : 15; offset = offset ? parseInt(offset) : 0;

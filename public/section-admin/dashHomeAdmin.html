@@ -225,7 +225,6 @@
 
     document.getElementById("nome-usuario").innerText = nomeUsuario;
 
-    // === KPIs ===
     function totalAlunos() {
         fetch(`/dash/totalAlunos/${idInstituicao}`)
             .then(res => res.json())
@@ -254,14 +253,11 @@
     }
 
 function atualizarTotalAlunosInativos() {
-    // A rota de fetch precisa ser ajustada para o novo nome da função/rota, ex: /dash/totalAlunosInativos/
     fetch(`/dash/totalAlunosInativos/${idInstituicao}`) 
         .then(res => res.json())
         .then(data => {
-            // Pega o valor (espera um número inteiro)
             const valor = parseInt(data.total_alunos_inativos || 0);
             
-            // Exibe apenas o número (e talvez a palavra 'Alunos')
             document.getElementById("indicativo-abandono").innerHTML = valor;
         })
         .catch(err => {
@@ -281,8 +277,6 @@ function atualizarTotalAlunosInativos() {
                 document.getElementById("indicativo-matricula").innerHTML = "Erro";
             });
     }
-
-    // === Gráfico Top 5 Evasão ===
     function graficoTop5Evasao() {
         const lista = document.querySelector(".bar-chart");
 
@@ -292,7 +286,7 @@ function atualizarTotalAlunosInativos() {
                 return res.json();
             })
             .then(data => {
-                lista.innerHTML = ""; // limpa o conteúdo estático
+                lista.innerHTML = ""; 
 
                 if (!data || data.length === 0) {
                     lista.innerHTML = '<li><span>Nenhum dado disponível</span></li>';
@@ -320,7 +314,6 @@ function atualizarTotalAlunosInativos() {
             });
     }
 
-    // === Gráfico Donut - Taxa de Aprovação ===
     function graficoTaxaAprovacao() {
         fetch(`/dash/taxaAprovacao/${idInstituicao}`)
             .then(res => res.json())
@@ -347,24 +340,21 @@ function atualizarTotalAlunosInativos() {
                 const texto = document.getElementById("matriculadoAtualMes");
                 const seta = document.getElementById("seta");
 
-                // Se não teve movimento neste mês
                 if (data.variacao === 0) {
                     seta.className = "fi fi-sr-minus";
                     seta.style.color = "#888";
                     texto.style.color = "#888";
                     texto.innerHTML = `0% <span>Este mês</span>`;
                 }
-                // Se teve aumento líquido (mais novas matrículas do que inativações)
                 else if (data.direcao === "up") {
                     seta.className = "fi fi-sr-arrow-up-right";
-                    seta.style.color = "#10b981"; // verde
+                    seta.style.color = "#10b981"; 
                     texto.style.color = "#10b981";
                     texto.innerHTML = `+${data.variacao}% <span>Este mês</span>`;
                 }
-                // Se teve diminuição líquida (mais inativações do que novas matrículas)
                 else if (data.direcao === "down") {
                     seta.className = "fi fi-sr-arrow-down-left";
-                    seta.style.color = "#ef4444"; // vermelho
+                    seta.style.color = "#ef4444";
                     texto.style.color = "#ef4444";
                     texto.innerHTML = `-${data.variacao}% <span>Este mês</span>`;
                 }
@@ -387,23 +377,18 @@ function atualizarTotalAlunosInativos() {
             const textoVariacao = `${variacaoAbsoluta} Aluno${variacaoAbsoluta !== 1 ? 's' : ''}`;
 
             if (data.direcao === "up") {
-                // PIOROU: Aumento líquido de alunos em atenção Este mês (Vermelho)
                 seta.className = "fi fi-sr-arrow-up-right";
                 seta.style.color = "#ef4444"; 
                 texto.style.color = "#ef4444";
-                // Exibe: +X Alunos
                 texto.innerHTML = `+${textoVariacao} <span>em atenção Este mês</span>`;
             }
             else if (data.direcao === "down") {
-                // MELHOROU: Diminuição líquida de alunos em atenção Este mês (Verde)
                 seta.className = "fi fi-sr-arrow-down-left";
                 seta.style.color = "#10b981"; 
                 texto.style.color = "#10b981";
-                // Exibe: -X Alunos
                 texto.innerHTML = `-${textoVariacao} <span>em atenção Este mês</span>`;
             }
             else {
-                // Nenhuma Mudança Líquida (Cinza)
                 seta.className = "fi fi-sr-minus";
                 seta.style.color = "#888";
                 texto.style.color = "#888";
@@ -417,7 +402,6 @@ function atualizarTotalAlunosInativos() {
 }
 
     function atualizarVariacaoRiscoContagem() { 
-    // Rota ajustada para o novo nome da função
     fetch(`/dash/comparativoRiscoContagem/${idInstituicao}`) 
         .then(res => res.json())
         .then(data => {
@@ -428,19 +412,16 @@ function atualizarTotalAlunosInativos() {
             const textoVariacao = `${variacaoAbsoluta} Aluno${variacaoAbsoluta !== 1 ? 's' : ''}`;
 
             if (data.direcao === "up") {
-                // 'up' = Aumento líquido de alunos em risco (PIOROU) -> Vermelho
                 seta.className = "fi fi-sr-arrow-up-right";
                 seta.style.color = "#ef4444"; 
                 texto.style.color = "#ef4444";
                 texto.innerHTML = `+${textoVariacao} <span>em Risco Este mês</span>`;
             } else if (data.direcao === "down") {
-                // 'down' = Diminuição líquida de alunos em risco (MELHOROU) -> Verde
                 seta.className = "fi fi-sr-arrow-down-left";
                 seta.style.color = "#10b981"; 
                 texto.style.color = "#10b981";
                 texto.innerHTML = `-${textoVariacao} <span>em Risco Este mês</span>`;
             } else {
-                // Nenhuma Mudança Líquida
                 seta.className = "fi fi-sr-minus";
                 seta.style.color = "#888";
                 texto.style.color = "#888";
@@ -459,20 +440,15 @@ function atualizarVariacaoNovasMatriculas() {
             const texto = document.getElementById("indicativoAtualMesMatriculas");
             const seta = document.getElementById("seta-matriculas");
 
-
-            // Verifica se a direção é "up"
             if (data.direcao === "up") {
                 seta.className = "fi fi-sr-arrow-up-right";
                 seta.style.color = "#10b981";
                 texto.style.color = "#10b981";
-                // A porcentagem já será 0 ou positiva
                 texto.innerHTML = `+${data.variacao}% <span>Este mês</span>`;
             } else { 
-                // Se não é "up", a direção é "equal" (pois eliminamos o "down")
                 seta.className = "fi fi-sr-minus";
                 seta.style.color = "#888";
                 texto.style.color = "#888";
-                // A variação será 0
                 texto.innerHTML = `0% <span>Este mês</span>`;
             }
         })

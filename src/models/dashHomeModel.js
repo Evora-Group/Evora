@@ -1,7 +1,5 @@
 const database = require("../database/config");
 
-
-// KPI - Total alunos
 function totalAlunos(fkInstituicao) {
     const instrucaoSql = `
         SELECT COUNT(DISTINCT a.ra) AS TotalAlunos
@@ -44,7 +42,6 @@ function alunosAbaixoMedia(fkInstituicao) {
     return database.executar(instrucaoSql, [fkInstituicao]);
 }
 
-// KPI - Total de Alunos com Matrícula Inativa
 function totalAlunosInativos(fkInstituicao) {
     const instrucaoSql = `
         SELECT 
@@ -59,7 +56,6 @@ function totalAlunosInativos(fkInstituicao) {
     return database.executar(instrucaoSql, [fkInstituicao]);
 }
 
-// KPI - Novas Matriculas
 function novasMatriculas(fkInstituicao) {
     const instrucaoSql = `
         SELECT COUNT(*) AS novas_matriculas
@@ -73,10 +69,6 @@ function novasMatriculas(fkInstituicao) {
     return database.executar(instrucaoSql, [fkInstituicao]);
 }
 
-
-
-// Top 5 cursos com maior risco de evasão - grafico
-// Critério cálculo: pega os alunos que possuem média abaixo de 6 e frequencia abaixo de 75 de acordo com seu curso
 function top5Evasao(fkInstituicao) {
     const instrucaoSql = `
         SELECT 
@@ -105,8 +97,6 @@ function top5Evasao(fkInstituicao) {
     return database.executar(instrucaoSql, [fkInstituicao]);
 }
 
-
-// Taxa de aprovação média - grafico
 function taxaAprovacao(fkInstituicao) {
     const instrucaoSql = `
         SELECT 
@@ -172,10 +162,8 @@ function comparativoAbaixoMedia(fkInstituicao) {
             ) AS anteriorMes_melhorias;
     `;
     
-    // Passamos os parâmetros da instituição para as duas CTEs
     return database.executar(instrucaoSql, [fkInstituicao, fkInstituicao]);
 }
-
 
 function comparativoRiscoContagem(fkInstituicao) { 
     const instrucaoSql = `
@@ -262,7 +250,6 @@ function comparativoNovasMatriculas(fkInstituicao) {
     return database.executar(instrucaoSql, [fkInstituicao, fkInstituicao]);
 }
 
-// Novo: calcula somente a variação do mês baseada em novas matrículas e inativações
 function variacaoMatriculasDoMes(fkInstituicao) {
     const instrucaoSql = `
         SELECT

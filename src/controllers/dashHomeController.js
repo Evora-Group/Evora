@@ -4,7 +4,6 @@ function totalAlunos(req, res) {
     const id = req.params.idInstituicao;
     dashModel.totalAlunos(id)
         .then(resultado => {
-            // Suporta formato [rows, fields] ou rows
             const rows = Array.isArray(resultado) && Array.isArray(resultado[0]) ? resultado[0] : resultado;
             const row = Array.isArray(rows) ? rows[0] : rows;
             res.json(row || {});
@@ -21,10 +20,8 @@ function alunosAbaixoMedia(req, res) {
 
 function totalAlunosInativos(req, res) {
     const id = req.params.idInstituicao;
-    // Assumindo que você renomeou a função no modelo para totalAlunosInativos
     dashModel.totalAlunosInativos(id)
         .then(resultado => {
-            // Retorna o valor inteiro da contagem
             res.json(resultado[0]); 
         })
         .catch(erro => res.status(500).json(erro));
@@ -36,9 +33,6 @@ function novasMatriculas(req, res) {
         .then(resultado => res.json(resultado[0]))
         .catch(erro => res.status(500).json(erro));
 }
-
-//=============================================//
-//==========Gráficos==========================//
 
 function top5Evasao(req, res) {
     const id = req.params.idInstituicao;
@@ -60,23 +54,17 @@ function comparativoAbaixoMedia(req, res) {
     dashModel.comparativoAbaixoMedia(id)
         .then(resultado => {
             const novosAlerta = parseInt(resultado[0].atualMes_novosAlerta || 0);
-            const melhorias = parseInt(resultado[0].anteriorMes_melhorias || 0); // Já vem negativo
-
-            // A variação é a soma dos novos alertas com as melhorias (que são negativas)
+            const melhorias = parseInt(resultado[0].anteriorMes_melhorias || 0); 
             let variacao = novosAlerta + melhorias; 
             let direcao = "equal";
 
             if (variacao > 0) {
-                // Aumento líquido de alunos em alerta (PIOROU)
                 direcao = "up";
             } else if (variacao < 0) {
-                // Diminuição líquida de alunos em alerta (MELHOROU)
                 direcao = "down";
             }
 
             res.json({
-                // O campo 'atual' não é mais usado para o total, mas sim para a variação total líquida.
-                // Vou manter o nome 'variacao' para o front-end, mas ele representa a diferença de alunos.
                 variacao: variacao, 
                 direcao: direcao
             });
@@ -87,31 +75,24 @@ function comparativoAbaixoMedia(req, res) {
         });
 }
 
-
-// Função do Controlador (dashHomeController.js)
 function comparativoRiscoContagem(req, res) { 
     const id = req.params.idInstituicao;
 
-    // Assumindo que você usa dashModel.comparativoRiscoContagem
     dashModel.comparativoRiscoContagem(id) 
         .then(resultado => {
             const novosEmRisco = parseInt(resultado[0].novos_em_risco || 0);
-            const melhorias = parseInt(resultado[0].alunos_que_melhoraram || 0); // Já vem negativo
-
-            // Variação Líquida: Novas Entradas na zona de risco + Saídas da zona de risco (negativo)
+            const melhorias = parseInt(resultado[0].alunos_que_melhoraram || 0); 
             let variacao = novosEmRisco + melhorias; 
             let direcao = "equal";
 
             if (variacao > 0) {
-                // Aumento líquido de alunos em risco (PIOROU)
                 direcao = "up";
             } else if (variacao < 0) {
-                // Diminuição líquida de alunos em risco (MELHOROU)
                 direcao = "down";
             }
 
             res.json({
-                variacao: variacao, // Número inteiro que representa a variação líquida
+                variacao: variacao, 
                 direcao: direcao
             });
         })
@@ -124,7 +105,7 @@ function comparativoRiscoContagem(req, res) {
 function comparativoNovasMatriculas(req, res) {
     const id = req.params.idInstituicao;
 
-    dashModel.comparativoNovasMatriculas(id) // Chama a função do Model com o SQL correto
+    dashModel.comparativoNovasMatriculas(id) 
         .then(resultado => {
             const atualNum = parseFloat(resultado[0].atual || 0);
             const anteriorNum = parseFloat(resultado[0].anterior || 0);
@@ -132,28 +113,21 @@ function comparativoNovasMatriculas(req, res) {
             let variacao = 0;
             let direcao = "equal";
 
-            // Se houve matrículas no mês anterior, calculamos a variação
             if (anteriorNum > 0) {
-                // Cálculo da variação
                 let diff = atualNum - anteriorNum;
                 
-                // *** A MUDANÇA É AQUI: Se a diferença for negativa (menos matrículas), forçamos para 0. ***
                 if (diff < 0) {
                     diff = 0;
                 }
 
                 variacao = (diff / anteriorNum) * 100;
                 
-                // A direção só será "up" se a variação for maior que 0
                 direcao = variacao > 0 ? "up" : "equal";
                 
             } else if (atualNum > 0) {
-                // Se não houve anterior, mas houve atual, é um crescimento de 100%
                 variacao = 100;
                 direcao = "up";
             }
-            // Se ambos são zero (anteriorNum=0 e atualNum=0), a variação e direcao continuam 0 e "equal"
-
             res.json({
                 atual: atualNum,
                 variacao: Number(variacao.toFixed(1)),
@@ -182,61 +156,37 @@ function variacaoMatriculasDoMes(req, res) {
             let variacao = 0;
             let direcao = "equal";
             let variacaoInatividade = 0;
-            let direcaoInatividade = ""; // Nova variável para lidar com a inatividade
+            let direcaoInatividade = "";
 
-            // --- Lógica para Variação Principal (Mudança Líquida) ---
-            
-            // Se não teve movimento no mês
             if (mudancaLiquida === 0) {
                 variacao = 0;
                 direcao = "equal";
             }
-            // Se tinha alunos antes
             else if (totalAntesMes > 0) {
                 variacao = Number((Math.abs(mudancaLiquida) / totalAntesMes * 100).toFixed(1));
                 direcao = mudancaLiquida > 0 ? "up" : "down";
             }
-            // Se não tinha alunos antes mas agora tem novas matrículas
             else if (totalAntesMes === 0 && novasMatriculas > 0) {
                 variacao = 100;
                 direcao = "up";
             }
-
-            // --- Lógica Adicional para Inativações (Sua nova regra) ---
             
             if (inativacoes > 0) {
-                // Cálculo do percentual de perda em comparação ao total ativo no mês passado
                 if (totalAntesMes > 0) {
-                    // Calculando o percentual de inativações (perda) sobre o total do mês anterior
                     variacaoInatividade = Number((inativacoes / totalAntesMes * 100).toFixed(1));
                 } else if (inativacoes > 0) {
-                    // Se não tinha alunos antes (totalAntesMes = 0) mas teve inativações,
-                    // isso sugere que os alunos foram matriculados e inativados no mesmo mês.
-                    // Neste caso, um valor de perda de 100% dos alunos que *poderiam* estar ativos
-                    // pode ser considerado, mas para a sua regra específica (comparar com o mês passado),
-                    // o totalAntesMes > 0 é o mais importante. Vamos manter em 0, focando na perda do mês passado.
-                    // Poderíamos usar `variacaoInatividade = 100` se quiséssemos mostrar a perda total, 
-                    // mas o foco é a comparação com o total **ativo mês passado**.
                     variacaoInatividade = 0; 
                 }
-                
-                // Força a direção como "down" para inatividade (perda)
                 direcaoInatividade = "down"; 
 
             } else {
                 variacaoInatividade = 0;
                 direcaoInatividade = "equal";
             }
-
-            // O seu requisito é que a `variacao` seja em vermelho e seta down, e com o percentual de perda.
-            // Para isso, faremos a `variacao` e a `direcao` **substituírem** os valores calculados
-            // da `mudancaLiquida` APENAS SE HOUVER INATIVAÇÕES, conforme a sua regra.
             if (inativacoes > 0) {
                 variacao = variacaoInatividade;
-                direcao = direcaoInatividade; // Será "down"
+                direcao = direcaoInatividade; 
             } 
-            // Se não houver inativações, a lógica da mudancaLiquida (positiva ou negativa) 
-            // será mantida como a variação principal.
 
 
             res.json({
@@ -244,8 +194,8 @@ function variacaoMatriculasDoMes(req, res) {
                 inativacoes: inativacoes,
                 totalAntesMes: totalAntesMes,
                 mudancaLiquida: mudancaLiquida,
-                variacao: variacao, // Pode ser a perda (%) se houver inativação
-                direcao: direcao    // Pode ser "down" se houver inativação
+                variacao: variacao, 
+                direcao: direcao    
             });
         })
         .catch(erro => {

@@ -1,734 +1,806 @@
-/* Estilo para o webkit (Chrome, Safari, Edge) */
-#progress_bar {
-    width: 100%;
-    height: 20px;
-    appearance: none;
-    /* Remove estilos padrão */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-color: #e0e0e0;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-/* Webkit (Chrome, Safari, Edge) */
-#progress_bar::-webkit-progress-bar {
-    background-color: #e0e0e0;
-    border-radius: 10px;
-}
-
-#progress_bar::-webkit-progress-value {
-    background-color: #e74c3c;
-    border-radius: 10px;
-    transition: background-color 0.3s ease;
-}
-
-/* Firefox */
-#progress_bar::-moz-progress-bar {
-    background-color: #e74c3c;
-    border-radius: 10px;
-    transition: background-color 0.3s ease;
-}
-
-/* Classes de cor para o progress bar */
-#progress_bar.progress-atencao::-webkit-progress-value {
-    background-color: #e74c3c !important;
-}
-
-#progress_bar.progress-atencao::-moz-progress-bar {
-    background-color: #e74c3c !important;
-}
-
-#progress_bar.progress-regular::-webkit-progress-value {
-    background-color: #f1c40f !important;
-}
-
-#progress_bar.progress-regular::-moz-progress-bar {
-    background-color: #f1c40f !important;
-}
-
-#progress_bar.progress-otimo::-webkit-progress-value {
-    background-color: #2ecc71 !important;
-}
-
-#progress_bar.progress-otimo::-moz-progress-bar {
-    background-color: #2ecc71 !important;
-}
-
-.p_status_atencao {
-    background-color: rgb(255, 199, 161);
-    border-radius: 15px;
-    color: var(--text-dark);
-    /* Adicionei uma cor para legibilidade */
-    padding: 5px 10px;
-    margin: 0;
-    /* Remove margem padrão do <p> */
-    display: inline-block;
-    /* Faz o fundo se ajustar ao texto */
-}
-
-.p_status_regular {
-    background-color: rgb(255, 253, 155);
-    border-radius: 15px;
-    color: var(--text-dark);
-    /* Adicionei uma cor para legibilidade */
-    padding: 5px 10px;
-    margin: 0;
-    /* Remove margem padrão do <p> */
-    display: inline-block;
-    /* Faz o fundo se ajustar ao texto */
-}
-
-.p_status_otimo {
-    background-color: rgb(150, 255, 150);
-    border-radius: 15px;
-    color: var(--text-dark);
-    /* Adicionei uma cor para legibilidade */
-    padding: 5px 10px;
-    margin: 0;
-    /* Remove margem padrão do <p> */
-    display: inline-block;
-    /* Faz o fundo se ajustar ao texto */
-}
-
-.grafico_container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-}
-
-.circular-progress {
-    /* variáveis controladas por JS */
-    --porcento: 85;
-    /* valor padrão (0-100) */
-    width: 170px;
-    height: 170px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-.circular-progress::before {
-    content: "";
-    width: 130px;
-    height: 130px;
-    background: white;
-    border-radius: 50%;
-    position: absolute;
-}
-
-.circular-progress span {
-    position: absolute;
-    font-size: 30px;
-    font-weight: 600;
-    color: #333;
-}
-
-.div_header_modal {
-    display: none;
-}
-
-.dialog_modal {
-    border-radius: 10px;
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.tabela tbody tr {
-    cursor: pointer;
-    transition: background-color .25s ease;
-}
-
-.tabela tbody tr:hover {
-    background-color: #e5efff;
-}
-
-.tabela {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-
-.tabela tbody tr:last-child {
-    border-bottom: none;
-}
-
-.botao-sair {
-    position: absolute;
-    bottom: 30px;
-    left: 80px;
-    right: 80px;
-
-    background-color: #dd1c2f;
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    padding: 12px;
-    border-radius: 5px;
-
-    /* --- Para alinhar o ícone e o texto --- */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    /* Espaço entre o ícone e o texto */
-}
-
-.botao-sair:hover {
-    background-color: #c82333;
-}
-
-#input_ra_edicao,
-#input_nome_edicao,
-#input_email_edicao :focus {
-    /* 4. A CHAVE: Remove o outline (a borda azul/laranja/padrão do navegador) */
-    outline: none;
-
-    /* 5. Garante que nenhuma borda seja adicionada no clique */
-    border: none;
-
-    /* 6. Opcional: Se você estiver usando `box-shadow` para foco, remova-o aqui */
-    box-shadow: none;
-}
-
-.parteInfo {
-    width: 65%;
-}
-
-.parteGraf {
-    width: 35%;
-}
-
-.botao-sair-mobile {
-    display: none;
-    /* No Desktop, ele não existe */
-}
-
-/* =========================================
-   MEDIA QUERIES - RESPONSIVIDADE COMPLETA
-   ========================================= */
-
-@media (max-width: 1500px) {
-
-    /* --- 1. AJUSTE DO CORPO (BODY) --- */
-    body {
-        height: auto;
-        overflow-x: hidden;
-        /* IMPORTANTE: Dá espaço para o menu fixo lá embaixo não cobrir o conteúdo */
-        padding-bottom: 90px;
-    }
-
-    main {
-        flex-direction: column;
-        height: auto;
-    }
-
-    /* --- 2. HEADER E BOTÃO DE SAIR --- */
-
-    /* Garante que o header espalhe: Logo na Esquerda <-> Botão na Direita */
-    .header_info_usuario {
-        display: flex;
-        justify-content: space-between !important;
-        align-items: center;
+    /* Estilo para o webkit (Chrome, Safari, Edge) */
+    #progress_bar {
         width: 100%;
-        padding: 10px 15px;
-    }
-
-    .header_info_usuario .img_logo{
-        width: 120px;
-    }
-
-    /* Faz o botão sair aparecer no mobile */
-    .botao-sair-mobile {
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        font-size: 28px;
-        /* Tamanho visível e clicável */
-        color: #dd1c2f;
-        /* Vermelho */
-        text-decoration: none;
-        cursor: pointer;
-        padding: 10px;
-    }
-
-    /* Esconde a section antiga (nome do usuário) se quiser economizar espaço, 
-       ou mantenha se preferir */
-    /* .header_info_usuario section { display: none; } */
-
-    /* --- 3. MENU INFERIOR (ASIDE) --- */
-    aside {
-        position: fixed;
-        /* Fixa na tela */
-        bottom: 0;
-        /* Cola no fundo */
-        left: 0;
-        width: 100%;
-        /* Largura total */
-        height: auto;
-        padding: 0;
-        z-index: 1000;
-        /* Fica por cima de tudo */
-        background-color: var(--primary-color);
-        box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.15);
-        /* Sombra para separar */
-    }
-
-    /* Removemos a section para ela não atrapalhar o layout */
-    aside section {
-        width: 100%;
-        display: block;
-        height: auto;
-    }
-
-    aside section ul {
-        display: flex;
-        flex-direction: row;
-        /* Ícones lado a lado */
-        justify-content: space-between;
-        overflow-x: auto;
-        /* Scroll lateral */
-        width: 100%;
-        margin: 0;
-        padding: 5px 0;
-    }
-
-
-
-    /* Itens do Menu */
-    aside section ul li {
-        width: auto;
-        min-width: 16%;
-        /* Tamanho aproximado de cada botão */
-        height: 60px;
-        margin: 0;
-    }
-
-    aside section ul li a {
-        flex-direction: column;
-        /* Ícone em cima, texto embaixo */
-        justify-content: center;
-        padding: 5px;
-        font-size: 10px;
-        gap: 2px;
-        height: 100%;
-        text-align: center;
-    }
-
-    aside section ul li a i {
-        font-size: 22px;
-        margin: 0;
-    }
-
-    /* Esconde o botão "SAIR" antigo da barra lateral */
-    .botao-sair {
-        display: none !important;
-    }
-
-
-    /* --- 4. ÁREA PRINCIPAL (DASHBOARD) --- */
-    main .section_dash {
-        width: 100%;
-        padding: 10px;
-        height: auto;
-        display: block;
-        /* Remove centralização forçada que quebra altura */
-    }
-
-    .section_dash .main_dash {
-        height: auto;
-        padding: 15px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    /* --- 5. KPIs E GRÁFICOS --- */
-
-    .header_kpis {
-        display: flex;
-        flex-direction: row !important;
-        /* Garante que fiquem lado a lado */
-        gap: 20px;
-        /* Espaço entre eles */
-        width: 100%;
-    }
-
-    main header .kpi {
-        display: flex;
-        /* Essencial */
-        flex-direction: column;
-        /* Essencial: organiza um embaixo do outro */
-
-        /* O resto você já tinha, mantenha: */
-        flex: 1 1 0;
-        width: 0;
-        min-width: 0;
-        min-height: 350px;
-        /* Precisa de uma altura mínima para sobrar espaço */
-        padding: 20px;
-    }
-
-    /* Títulos dos KPIs */
-    .div_titulo_kpi h1 {
-        font-size: 40px;
-    }
-
-    .kpi_header .div_titulo_kpi {
-        align-items: center;
-        text-align: center;
-        width: 100%;
-    }
-
-    #kpi_situacao {
-        border-bottom: none;
-    }
-
-    /* === AJUSTE ESPECÍFICO DO DONUT CHART === */
-
-    /* Pega a div filha direta do ID kpi_donutchart */
-    #kpi_donutchart>div {
-        flex-direction: column !important;
-        /* Texto em cima, Gráfico embaixo */
-        align-items: center !important;
-        gap: 20px;
-    }
-
-    /* Força as metades (Texto e Gráfico) a ocuparem 100% da largura */
-    .parteInfo,
-    .parteGraf {
-        width: 100% !important;
-        display: flex;
-        justify-content: center;
-        text-align: center;
-    }
-
-    /* Container do desenho do gráfico */
-    .grafico_container {
-        width: 100%;
-        height: auto !important;
-        min-height: 180px;
-        padding: 10px 0;
-        margin: 0;
-    }
-
-    /* Reduz o círculo do gráfico */
-    .circular-progress {
-        transform: scale(0.85);
-        margin: auto;
-    }
-
-    /* Esconde rodapés vazios se necessário */
-    .kpi_footer {
-        display: none;
-    }
-
-    .div_comparativo {
-        display: none;
-        /* Opcional: esconde detalhes no mobile se quiser limpar a tela */
-    }
-
-
-    /* --- 6. FILTROS E PESQUISA --- */
-    .section_main {
-        height: auto;
-    }
-
-    .header_usuarios {
-        flex-direction: column;
-        height: auto;
-        gap: 15px;
-        margin-bottom: 20px;
-    }
-
-    .input_pesquisa,
-    .div_criar_usuario {
-        width: 100%;
-        height: 50px;
-        /* Altura boa para toque */
-    }
-
-
-    /* --- 7. TABELA --- */
-    .main_usuarios {
-        overflow-x: auto;
-        /* Barra de rolagem horizontal */
-        width: 100%;
-    }
-
-    .tabela {
-        min-width: 700px;
-        /* Força largura mínima */
-    }
-
-
-    /* --- 8. MODAIS (POP-UPS) --- */
-    dialog {
-        max-width: 95%;
-        width: 95%;
-        height: auto;
-        max-height: 85vh;
-        overflow-y: auto;
-        top: 50%;
-        /* Garante centralização */
-    }
-
-    .form_modal {
-        height: auto;
-        gap: 15px;
-    }
-
-    .div_dois_inputs {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .div_input_menor,
-    .div_input_maior {
-        width: 100%;
-    }
-
-    .form_modal input,
-    select {
-        height: 50px;
-        /* Inputs mais altos para facilitar toque */
-    }
-
-    .div_footer .div_criar_usuario,
-    .div_footer .div_editar_usuario {
-        width: 100%;
-    }
-
-    .div_progress_bar {
-        border-top: solid 2px rgba(128, 128, 128, 0.341);
-        padding-top: 30px;
-        margin-top: auto;
-        /* Isso diz: "Empurre tudo o que estiver acima de mim para longe" */
-    }
-
-         /* 1. Seleciona especificamente o link de Configurações */
-    /* O seletor [href*="dashConf"] pega qualquer link que tenha "dashConf" no endereço */
-    aside section ul li a[href*="dashConf"] {
-        font-size: 0 !important; /* Esconde a palavra "Configurações" */
-    }
-
-    /* 2. Restaura o tamanho do ícone (que sumiria junto com a fonte 0) */
-    aside section ul li a[href*="dashConf"] i {
-        font-size: 22px !important; 
-        margin-bottom: 2px;         
-    }
-
-    /* 3. Insere o novo texto "Conf." */
-    aside section ul li a[href*="dashConf"]::after {
-        content: "Conf.";           
-        font-size: 10px !important; 
-        display: block;             /* Garante que fique em baixo do ícone */
-    }
-
-}
-
-
-/* =========================================
-   MEDIA QUERY - MOBILE (CELULAR - 750px)
-   ========================================= */
-
-@media (max-width: 750px) {
-
-    /* --- 1. AJUSTE GERAL --- */
-    body {
-        height: auto;
-        overflow-x: hidden;
-        padding-bottom: 90px;
-    }
-
-    main {
-        flex-direction: column;
-        height: auto;
-    }
-
-    /* --- 2. HEADER COMPACTO (Igual dashConf) --- */
-    .header_info_usuario {
-        display: flex;
-        justify-content: space-between !important;
-        align-items: center;
-        width: 100%;
-        
-        /* AQUI ESTÁ O SEGREDO DO TAMANHO: */
-        height: auto !important;       /* Remove os 8% fixos */
-        min-height: 60px;              /* Altura mínima segura */
-        padding: 10px 15px !important; /* Padding reduzido */
-        box-shadow: var(--card-shadow);
-    }
-    
-    /* Controla a imagem para ela não empurrar a altura do header */
-    .header_info_usuario .img_logo {
-        width: 120px !important; 
-        height: auto !important;
-        object-fit: contain;
-    }
-
-    .botao-sair-mobile {
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        font-size: 28px;
-        color: #dd1c2f;
-        text-decoration: none;
-        padding: 5px; /* Padding menor no botão */
-    }
-
-    /* --- 3. MENU INFERIOR (ASIDE) --- */
-    aside {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: auto;
-        padding: 0;
-        z-index: 1000;
-        background-color: var(--primary-color);
-        box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.15);
-    }
-
-    aside section { width: 100%; display: block; height: auto; }
-
-    aside section ul {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        overflow-x: auto;
-        width: 100%;
-        margin: 0;
-        padding: 5px 0;
-    }
-
-    aside section ul li {
-        width: auto;
-        flex: 1; /* Divide o espaço igualmente entre os ícones */
-        min-width: 0;
-        height: 60px;
-        margin: 0;
-    }
-
-    aside section ul li a {
-        flex-direction: column;
-        justify-content: center;
-        padding: 5px;
-        font-size: 10px;
-        gap: 2px;
-        height: 100%;
-        text-align: center;
-    }
-
-    aside section ul li a i { font-size: 22px; margin: 0; }
-
-    .botao-sair { display: none !important; }
-
-    /* Truque: Configurações -> Conf. */
-    aside section ul li a[href*="dashConf"] { font-size: 0 !important; }
-    aside section ul li a[href*="dashConf"] i { font-size: 22px !important; margin-bottom: 2px; }
-    aside section ul li a[href*="dashConf"]::after { content: "Conf."; font-size: 10px !important; display: block; }
-
-
-    /* --- 4. CONTEÚDO PRINCIPAL (TABELA) --- */
-    .section_main {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        height: calc(100vh - 430px); 
-        min-height: 300px;
-        padding: 10px;
-        gap: 10px;
+        height: 20px;
+        appearance: none;
+        /* Remove estilos padrão */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-color: #e0e0e0;
+        border-radius: 10px;
         overflow: hidden;
     }
 
-    .main_usuarios {
-        flex: 1;
-        overflow-y: auto !important;
-        overflow-x: auto;
+    /* Webkit (Chrome, Safari, Edge) */
+    #progress_bar::-webkit-progress-bar {
+        background-color: #e0e0e0;
+        border-radius: 10px;
+    }
+
+    #progress_bar::-webkit-progress-value {
+        background-color: #e74c3c;
+        border-radius: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+    /* Firefox */
+    #progress_bar::-moz-progress-bar {
+        background-color: #e74c3c;
+        border-radius: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+    /* Classes de cor para o progress bar */
+    #progress_bar.progress-atencao::-webkit-progress-value {
+        background-color: #e74c3c !important;
+    }
+
+    #progress_bar.progress-atencao::-moz-progress-bar {
+        background-color: #e74c3c !important;
+    }
+
+    #progress_bar.progress-regular::-webkit-progress-value {
+        background-color: #f1c40f !important;
+    }
+
+    #progress_bar.progress-regular::-moz-progress-bar {
+        background-color: #f1c40f !important;
+    }
+
+    #progress_bar.progress-otimo::-webkit-progress-value {
+        background-color: #2ecc71 !important;
+    }
+
+    #progress_bar.progress-otimo::-moz-progress-bar {
+        background-color: #2ecc71 !important;
+    }
+
+    .p_status_atencao {
+        background-color: rgb(255, 199, 161);
+        border-radius: 15px;
+        color: var(--text-dark);
+        /* Adicionei uma cor para legibilidade */
+        padding: 5px 10px;
+        margin: 0;
+        /* Remove margem padrão do <p> */
+        display: inline-block;
+        /* Faz o fundo se ajustar ao texto */
+    }
+
+    .p_status_regular {
+        background-color: rgb(255, 253, 155);
+        border-radius: 15px;
+        color: var(--text-dark);
+        /* Adicionei uma cor para legibilidade */
+        padding: 5px 10px;
+        margin: 0;
+        /* Remove margem padrão do <p> */
+        display: inline-block;
+        /* Faz o fundo se ajustar ao texto */
+    }
+
+    .p_status_otimo {
+        background-color: rgb(150, 255, 150);
+        border-radius: 15px;
+        color: var(--text-dark);
+        /* Adicionei uma cor para legibilidade */
+        padding: 5px 10px;
+        margin: 0;
+        /* Remove margem padrão do <p> */
+        display: inline-block;
+        /* Faz o fundo se ajustar ao texto */
+    }
+
+    .grafico_container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 100%;
-        background-color: var(--white-color);
+        height: 100%;
+    }
+
+    .circular-progress {
+        /* variáveis controladas por JS */
+        --porcento: 85;
+        /* valor padrão (0-100) */
+        width: 170px;
+        height: 170px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    .circular-progress::before {
+        content: "";
+        width: 130px;
+        height: 130px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+    }
+
+    .circular-progress span {
+        position: absolute;
+        font-size: 30px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .div_header_modal {
+        display: none;
+    }
+
+    .dialog_modal {
+        border-radius: 10px;
+        border: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .tabela tbody tr {
+        cursor: pointer;
+        transition: background-color .25s ease;
+    }
+
+    .tabela tbody tr:hover {
+        background-color: #e5efff;
     }
 
     .tabela {
-        width: 100%;
-        min-width: 600px;
+        border-collapse: collapse;
+        border-spacing: 0;
     }
 
-    /* Correção do Header da Tabela */
-    .tabela thead, .tabela thead tr, .tabela thead th {
-        position: static !important;
-        transform: none !important;
-        box-shadow: none !important;
-        border-bottom: solid 1px #000;
-        background-color: transparent !important;
-    }
-    
-    .tabela th, .tabela td {
-        font-size: 12px;
-        padding: 8px 4px;
+    .tabela tbody tr:last-child {
+        border-bottom: none;
     }
 
-    /* --- 5. CARDS DE KPI --- */
-    .header_kpis {
+    .botao-sair {
+        position: absolute;
+        bottom: 30px;
+        left: 80px;
+        right: 80px;
+
+        background-color: #dd1c2f;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 12px;
+        border-radius: 5px;
+
+        /* --- Para alinhar o ícone e o texto --- */
         display: flex;
-        flex-direction: column !important;
-        height: auto;
-        gap: 30px !important;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        /* Espaço entre o ícone e o texto */
+    }
+
+    .botao-sair:hover {
+        background-color: #c82333;
+    }
+
+    #input_ra_edicao,
+    #input_nome_edicao,
+    #input_email_edicao :focus {
+        /* 4. A CHAVE: Remove o outline (a borda azul/laranja/padrão do navegador) */
+        outline: none;
+
+        /* 5. Garante que nenhuma borda seja adicionada no clique */
+        border: none;
+
+        /* 6. Opcional: Se você estiver usando `box-shadow` para foco, remova-o aqui */
+        box-shadow: none;
+    }
+
+    .parteInfo {
+        width: 65%;
+    }
+
+    .parteGraf {
+        width: 35%;
+    }
+
+    .botao-sair-mobile {
+        display: none;
+        /* No Desktop, ele não existe */
+    }
+
+    #pagination_controls {
+        position: fixed;
+        bottom: 0;
+        left: 15%;
+        right: 0;
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        align-items: center;
+        padding: 15px 10px;
+        background: #fff;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+    }
+
+    /* =========================================
+    MEDIA QUERIES - RESPONSIVIDADE COMPLETA
+    ========================================= */
+
+    @media (max-width: 1500px) {
+
+        /* --- 1. AJUSTE DO CORPO (BODY) --- */
+        body {
+            height: auto;
+            overflow-x: hidden;
+            /* IMPORTANTE: Dá espaço para o menu fixo lá embaixo não cobrir o conteúdo */
+            padding-bottom: 90px;
+        }
+
+        main {
+            flex-direction: column;
+            height: auto;
+        }
+
+        #pagination_controls {
+        /* 1. O PULO DO GATO: Tira da tela e põe no fluxo do documento */
+        position: relative !important; 
+        bottom: auto !important;
+        left: auto !important;
+        right: auto !important;
+        
+        /* 2. Visual */
         width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        
+        /* 3. Espaçamento */
+        margin-top: 15px;      /* Afasta um pouco da tabela */
+        padding: 10px 0;       /* Respiro vertical */
+        
+        /* 4. Remove estilos de "barra fixa" */
+        background: transparent !important; 
+        box-shadow: none !important;
+        z-index: 1;
+        
+        /* 5. IMPORTANTE: Garante espaço extra embaixo para o menu não cobrir */
+        padding-bottom: 20px; 
     }
 
-    main header .kpi {
-        flex: none !important;
-        width: 100% !important;
-        height: auto;
-        padding: 20px;
-        min-height: auto;
+
+        /* --- 2. HEADER E BOTÃO DE SAIR --- */
+
+        /* Garante que o header espalhe: Logo na Esquerda <-> Botão na Direita */
+        .header_info_usuario {
+            display: flex;
+            justify-content: space-between !important;
+            align-items: center;
+            width: 100%;
+            padding: 10px 15px;
+        }
+
+        .header_info_usuario .img_logo{
+            width: 120px;
+        }
+
+        /* Faz o botão sair aparecer no mobile */
+        .botao-sair-mobile {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            /* Tamanho visível e clicável */
+            color: #dd1c2f;
+            /* Vermelho */
+            text-decoration: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        /* Esconde a section antiga (nome do usuário) se quiser economizar espaço, 
+        ou mantenha se preferir */
+        /* .header_info_usuario section { display: none; } */
+
+        /* --- 3. MENU INFERIOR (ASIDE) --- */
+        aside {
+            position: fixed;
+            /* Fixa na tela */
+            bottom: 0;
+            /* Cola no fundo */
+            left: 0;
+            width: 100%;
+            /* Largura total */
+            height: auto;
+            padding: 0;
+            z-index: 1000;
+            /* Fica por cima de tudo */
+            background-color: var(--primary-color);
+            box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.15);
+            /* Sombra para separar */
+        }
+
+        /* Removemos a section para ela não atrapalhar o layout */
+        aside section {
+            width: 100%;
+            display: block;
+            height: auto;
+        }
+
+        aside section ul {
+            display: flex;
+            flex-direction: row;
+            /* Ícones lado a lado */
+            justify-content: space-between;
+            overflow-x: auto;
+            /* Scroll lateral */
+            width: 100%;
+            margin: 0;
+            padding: 5px 0;
+        }
+
+
+
+        /* Itens do Menu */
+        aside section ul li {
+            width: auto;
+            min-width: 16%;
+            /* Tamanho aproximado de cada botão */
+            height: 60px;
+            margin: 0;
+        }
+
+        aside section ul li a {
+            flex-direction: column;
+            /* Ícone em cima, texto embaixo */
+            justify-content: center;
+            padding: 5px;
+            font-size: 10px;
+            gap: 2px;
+            height: 100%;
+            text-align: center;
+        }
+
+        aside section ul li a i {
+            font-size: 22px;
+            margin: 0;
+        }
+
+        /* Esconde o botão "SAIR" antigo da barra lateral */
+        .botao-sair {
+            display: none !important;
+        }
+
+
+        /* --- 4. ÁREA PRINCIPAL (DASHBOARD) --- */
+        main .section_dash {
+            width: 100%;
+            padding: 10px;
+            height: auto;
+            display: block;
+            /* Remove centralização forçada que quebra altura */
+        }
+
+        .section_dash .main_dash {
+            height: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* --- 5. KPIs E GRÁFICOS --- */
+
+        .header_kpis {
+            display: flex;
+            flex-direction: row !important;
+            /* Garante que fiquem lado a lado */
+            gap: 20px;
+            /* Espaço entre eles */
+            width: 100%;
+        }
+
+        main header .kpi {
+            display: flex;
+            /* Essencial */
+            flex-direction: column;
+            /* Essencial: organiza um embaixo do outro */
+
+            /* O resto você já tinha, mantenha: */
+            flex: 1 1 0;
+            width: 0;
+            min-width: 0;
+            min-height: 350px;
+            /* Precisa de uma altura mínima para sobrar espaço */
+            padding: 20px;
+        }
+
+        /* Títulos dos KPIs */
+        .div_titulo_kpi h1 {
+            font-size: 40px;
+        }
+
+        .kpi_header .div_titulo_kpi {
+            align-items: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        #kpi_situacao {
+            border-bottom: none;
+        }
+
+        /* === AJUSTE ESPECÍFICO DO DONUT CHART === */
+
+        /* Pega a div filha direta do ID kpi_donutchart */
+        #kpi_donutchart>div {
+            flex-direction: column !important;
+            /* Texto em cima, Gráfico embaixo */
+            align-items: center !important;
+            gap: 20px;
+        }
+
+        /* Força as metades (Texto e Gráfico) a ocuparem 100% da largura */
+        .parteInfo,
+        .parteGraf {
+            width: 100% !important;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* Container do desenho do gráfico */
+        .grafico_container {
+            width: 100%;
+            height: auto !important;
+            min-height: 180px;
+            padding: 10px 0;
+            margin: 0;
+        }
+
+        /* Reduz o círculo do gráfico */
+        .circular-progress {
+            transform: scale(0.85);
+            margin: auto;
+        }
+
+        /* Esconde rodapés vazios se necessário */
+        .kpi_footer {
+            display: none;
+        }
+
+        .div_comparativo {
+            display: none;
+            /* Opcional: esconde detalhes no mobile se quiser limpar a tela */
+        }
+
+
+        /* --- 6. FILTROS E PESQUISA --- */
+        .section_main {
+            height: auto;
+        }
+
+        .header_usuarios {
+            flex-direction: column;
+            height: auto;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input_pesquisa,
+        .div_criar_usuario {
+            width: 100%;
+            height: 50px;
+            /* Altura boa para toque */
+        }
+
+
+        /* --- 7. TABELA --- */
+        .main_usuarios {
+            overflow-x: auto;
+            /* Barra de rolagem horizontal */
+            width: 100%;
+        }
+
+        .tabela {
+            min-width: 700px;
+            /* Força largura mínima */
+        }
+
+
+        /* --- 8. MODAIS (POP-UPS) --- */
+        dialog {
+            max-width: 95%;
+            width: 95%;
+            height: auto;
+            max-height: 85vh;
+            overflow-y: auto;
+            top: 50%;
+            /* Garante centralização */
+        }
+
+        .form_modal {
+            height: auto;
+            gap: 15px;
+        }
+
+        .div_dois_inputs {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .div_input_menor,
+        .div_input_maior {
+            width: 100%;
+        }
+
+        .form_modal input,
+        select {
+            height: 50px;
+            /* Inputs mais altos para facilitar toque */
+        }
+
+        .div_footer .div_criar_usuario,
+        .div_footer .div_editar_usuario {
+            width: 100%;
+        }
+
+        .div_progress_bar {
+            border-top: solid 2px rgba(128, 128, 128, 0.341);
+            padding-top: 30px;
+            margin-top: auto;
+            /* Isso diz: "Empurre tudo o que estiver acima de mim para longe" */
+        }
+
+            /* 1. Seleciona especificamente o link de Configurações */
+        /* O seletor [href*="dashConf"] pega qualquer link que tenha "dashConf" no endereço */
+        aside section ul li a[href*="dashConf"] {
+            font-size: 0 !important; /* Esconde a palavra "Configurações" */
+        }
+
+        /* 2. Restaura o tamanho do ícone (que sumiria junto com a fonte 0) */
+        aside section ul li a[href*="dashConf"] i {
+            font-size: 22px !important; 
+            margin-bottom: 2px;         
+        }
+
+        /* 3. Insere o novo texto "Conf." */
+        aside section ul li a[href*="dashConf"]::after {
+            content: "Conf.";           
+            font-size: 10px !important; 
+            display: block;             /* Garante que fique em baixo do ícone */
+        }
+
     }
 
-    .div_titulo_kpi h1 { font-size: 40px; }
-    .kpi_header .div_titulo_kpi { align-items: center; text-align: center; width: 100%; }
 
-    #kpi_donutchart > div {
-        flex-direction: column !important;
-        align-items: center !important;
-        gap: 20px;
+    /* =========================================
+    MEDIA QUERY - MOBILE (CELULAR - 750px)
+    ========================================= */
+
+    @media (max-width: 750px) {
+
+        /* --- 1. AJUSTE GERAL --- */
+        body {
+            height: auto;
+            overflow-x: hidden;
+            padding-bottom: 90px;
+        }
+
+        main {
+            flex-direction: column;
+            height: auto;
+        }
+
+        /* Cole isso DENTRO do @media (max-width: 750px), substituindo o #pagination_controls antigo */
+
+    #pagination_controls {
+        /* 1. O PULO DO GATO: Tira da tela e põe no fluxo do documento */
+        position: relative !important; 
+        bottom: auto !important;
+        left: auto !important;
+        right: auto !important;
+        
+        /* 2. Visual */
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        
+        /* 3. Espaçamento */
+        margin-top: 15px;      /* Afasta um pouco da tabela */
+        padding: 10px 0;       /* Respiro vertical */
+        
+        /* 4. Remove estilos de "barra fixa" */
+        background: transparent !important; 
+        box-shadow: none !important;
+        z-index: 1;
+        
+        /* 5. IMPORTANTE: Garante espaço extra embaixo para o menu não cobrir */
+        padding-bottom: 20px; 
     }
 
-    .parteInfo, .parteGraf { width: 100% !important; display: flex; justify-content: center; text-align: center; }
-    
-    .grafico_container {
-        width: 100%; height: auto !important; min-height: 180px; padding: 10px 0; margin: 0;
-    }
-    
-    .circular-progress { transform: scale(0.85); margin: auto; }
-    .kpi_footer, .div_comparativo { display: none; }
+        /* --- 2. HEADER COMPACTO (Igual dashConf) --- */
+        .header_info_usuario {
+            display: flex;
+            justify-content: space-between !important;
+            align-items: center;
+            width: 100%;
+            
+            /* AQUI ESTÁ O SEGREDO DO TAMANHO: */
+            height: auto !important;       /* Remove os 8% fixos */
+            min-height: 60px;              /* Altura mínima segura */
+            padding: 10px 15px !important; /* Padding reduzido */
+            box-shadow: var(--card-shadow);
+        }
+        
+        /* Controla a imagem para ela não empurrar a altura do header */
+        .header_info_usuario .img_logo {
+            width: 120px !important; 
+            height: auto !important;
+            object-fit: contain;
+        }
 
-    .div_progress_bar {
-        border-top: solid 2px rgba(128, 128, 128, 0.341);
-        padding-top: 30px;
-        margin-top: none !important;
-    }
+        .botao-sair-mobile {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #dd1c2f;
+            text-decoration: none;
+            padding: 5px; /* Padding menor no botão */
+        }
 
-    /* --- 6. FILTROS E MODAIS --- */
-    .header_usuarios {
-        flex-direction: column;
-        height: auto;
-        gap: 15px;
-        margin-bottom: 20px;
-    }
+        /* --- 3. MENU INFERIOR (ASIDE) --- */
+        aside {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+            padding: 0;
+            z-index: 1000;
+            background-color: var(--primary-color);
+            box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.15);
+        }
 
-    .input_pesquisa, .div_criar_usuario { width: 100%; height: 50px; }
+        aside section { width: 100%; display: block; height: auto; }
 
-    dialog {
-        max-width: 95%; width: 95%; height: auto; max-height: 85vh; overflow-y: auto; top: 50%;
+        aside section ul {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            overflow-x: auto;
+            width: 100%;
+            margin: 0;
+            padding: 5px 0;
+        }
+
+        aside section ul li {
+            width: auto;
+            flex: 1; /* Divide o espaço igualmente entre os ícones */
+            min-width: 0;
+            height: 60px;
+            margin: 0;
+        }
+
+        aside section ul li a {
+            flex-direction: column;
+            justify-content: center;
+            padding: 5px;
+            font-size: 10px;
+            gap: 2px;
+            height: 100%;
+            text-align: center;
+        }
+
+        aside section ul li a i { font-size: 22px; margin: 0; }
+
+        .botao-sair { display: none !important; }
+
+        /* Truque: Configurações -> Conf. */
+        aside section ul li a[href*="dashConf"] { font-size: 0 !important; }
+        aside section ul li a[href*="dashConf"] i { font-size: 22px !important; margin-bottom: 2px; }
+        aside section ul li a[href*="dashConf"]::after { content: "Conf."; font-size: 10px !important; display: block; }
+
+
+        /* --- 4. CONTEÚDO PRINCIPAL (TABELA) --- */
+        .section_main {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 430px); 
+            min-height: 300px;
+            padding: 10px;
+            gap: 10px;
+            overflow: hidden;
+        }
+
+        .main_usuarios {
+            flex: 1;
+            overflow-y: auto !important;
+            overflow-x: auto;
+            width: 100%;
+            background-color: var(--white-color);
+        }
+
+        .tabela {
+            width: 100%;
+            min-width: 600px;
+        }
+
+        /* Correção do Header da Tabela */
+        .tabela thead, .tabela thead tr, .tabela thead th {
+            position: static !important;
+            transform: none !important;
+            box-shadow: none !important;
+            border-bottom: solid 1px #000;
+            background-color: transparent !important;
+        }
+        
+        .tabela th, .tabela td {
+            font-size: 12px;
+            padding: 8px 4px;
+        }
+
+        /* --- 5. CARDS DE KPI --- */
+        .header_kpis {
+            display: flex;
+            flex-direction: column !important;
+            height: auto;
+            gap: 30px !important;
+            width: 100%;
+        }
+
+        main header .kpi {
+            flex: none !important;
+            width: 100% !important;
+            height: auto;
+            padding: 20px;
+            min-height: auto;
+        }
+
+        .div_titulo_kpi h1 { font-size: 40px; }
+        .kpi_header .div_titulo_kpi { align-items: center; text-align: center; width: 100%; }
+
+        #kpi_donutchart > div {
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 20px;
+        }
+
+        .parteInfo, .parteGraf { width: 100% !important; display: flex; justify-content: center; text-align: center; }
+        
+        .grafico_container {
+            width: 100%; height: auto !important; min-height: 180px; padding: 10px 0; margin: 0;
+        }
+        
+        .circular-progress { transform: scale(0.85); margin: auto; }
+        .kpi_footer, .div_comparativo { display: none; }
+
+        .div_progress_bar {
+            border-top: solid 2px rgba(128, 128, 128, 0.341);
+            padding-top: 30px;
+            margin-top: none !important;
+        }
+
+        /* --- 6. FILTROS E MODAIS --- */
+        .header_usuarios {
+            flex-direction: column;
+            height: auto;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input_pesquisa, .div_criar_usuario { width: 100%; height: 50px; }
+
+        dialog {
+            max-width: 95%; width: 95%; height: auto; max-height: 85vh; overflow-y: auto; top: 50%;
+        }
+        .form_modal { height: auto; gap: 15px; }
+        .div_dois_inputs { flex-direction: column; gap: 15px; }
+        .div_input_menor, .div_input_maior { width: 100%; }
+        .form_modal input, select { height: 50px; }
+        .div_footer .div_criar_usuario, .div_footer .div_editar_usuario { width: 100%; }
     }
-    .form_modal { height: auto; gap: 15px; }
-    .div_dois_inputs { flex-direction: column; gap: 15px; }
-    .div_input_menor, .div_input_maior { width: 100%; }
-    .form_modal input, select { height: 50px; }
-    .div_footer .div_criar_usuario, .div_footer .div_editar_usuario { width: 100%; }
-}

@@ -109,7 +109,7 @@
                         <input type="search" id="input_pesquisa"
                             placeholder="Digite nome ou RA para procurar pelo aluno..." class="input_pesquisa">
                         <div class="div_criar_usuario" id="btnAbrirDialog"
-     onclick="listarInstituicoes(); popularTurmasCriar(sessionStorage.getItem('fkInstituicao')); popularCursosCriar(sessionStorage.getItem('fkInstituicao')); abrirModal('modal_criar_aluno')">
+                            onclick="listarInstituicoes(); popularTurmasCriar(sessionStorage.getItem('fkInstituicao')); popularCursosCriar(sessionStorage.getItem('fkInstituicao')); abrirModal('modal_criar_aluno')">
                             <p><strong>+ Criar Novo Aluno</strong></p>
                         </div>
 
@@ -134,6 +134,10 @@
 
                         </table>
 
+
+                        <div id="pagination_controls" style="display:flex; justify-content:center; margin-top:1rem;">
+                            <button disabled="">Prev</button><button class="current">1</button><button
+                                disabled="">Next</button></div>
                     </main>
                 </section>
             </main>
@@ -148,7 +152,8 @@
             <form class="form_modal">
 
                 <label for="ra">RA:</label>
-                <input type="text" class="input_modal" id="raCriar" onblur="buscarMockPorRa()" name="ra" placeholder="Digite o RA do aluno">
+                <input type="text" class="input_modal" id="raCriar" onblur="buscarMockPorRa()" name="ra"
+                    placeholder="Digite o RA do aluno">
 
 
                 <label for="nome_turma">Turma:</label>
@@ -295,60 +300,60 @@
             });
     }
 
-function buscarMockPorRa() {
-    const raDigitado = document.getElementById("raCriar").value.trim();
-    if (!raDigitado) return;
+    function buscarMockPorRa() {
+        const raDigitado = document.getElementById("raCriar").value.trim();
+        if (!raDigitado) return;
 
-    const mock = alunosMockParaCriacao.find(a => a.ra === raDigitado);
+        const mock = alunosMockParaCriacao.find(a => a.ra === raDigitado);
 
-    if (!mock) {
-        alert("RA não encontrado no mock!");
-        return null;
+        if (!mock) {
+            alert("RA não encontrado no mock!");
+            return null;
+        }
+
+        console.log("Mock encontrado:", mock);
+        return mock;
     }
 
-    console.log("Mock encontrado:", mock);
-    return mock;
-}
 
+    function criarAluno() {
+        const ra = raCriar.value.trim();
+        const turma = document.getElementById("select_turma_criar").value;
+        const fkCurso = document.getElementById("select_curso_criar").value;
 
-function criarAluno() {
-    const ra = raCriar.value.trim();
-    const turma = document.getElementById("select_turma_criar").value;
-    const fkCurso = document.getElementById("select_curso_criar").value;
+        if (!ra || !turma || !fkCurso) {
+            alert("Preencha RA, turma e curso.");
+            return;
+        }
 
-    if (!ra || !turma || !fkCurso) {
-        alert("Preencha RA, turma e curso.");
-        return;
-    }
+        const alunoMock = buscarMockPorRa();
+        if (!alunoMock) return;
 
-    const alunoMock = buscarMockPorRa();
-    if (!alunoMock) return;
-
-    fetch("/aluno/criar", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            ra: alunoMock.ra,
-            nome: alunoMock.nome,
-            email: alunoMock.email,
-            telefone: alunoMock.telefone,
-            turma,
-            fkCurso
+        fetch("/aluno/criar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                ra: alunoMock.ra,
+                nome: alunoMock.nome,
+                email: alunoMock.email,
+                telefone: alunoMock.telefone,
+                turma,
+                fkCurso
+            })
         })
-    })
-    .then(r => {
-        if (!r.ok) throw "Erro ao criar aluno";
-        return r.json();
-    })
-    .then(() => {
-        alert("Aluno criado com sucesso!");
-        fecharModal("modal_criar_aluno");
-        location.reload();
-    })
-    .catch(e => console.error(e));
-}
+            .then(r => {
+                if (!r.ok) throw "Erro ao criar aluno";
+                return r.json();
+            })
+            .then(() => {
+                alert("Aluno criado com sucesso!");
+                fecharModal("modal_criar_aluno");
+                location.reload();
+            })
+            .catch(e => console.error(e));
+    }
 
 
 

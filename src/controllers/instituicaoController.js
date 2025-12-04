@@ -38,14 +38,31 @@ function listarUsuariosInstituicao(req, res) {
 }
 
 function listarAlunosInstituicao(req, res) {
-    const idInstituicao = req.params.idInstituicao;
+    var idInstituicao = req.params.idInstituicao;
+    var page = parseInt(req.query.page) || 1;
+    
+    // 1. Limite ajustado para 14 alunos por página (conforme solicitado)
+    var limit = 14; 
+    var offset = (page - 1) * limit;
 
-    instituicaoModel.listarAlunosInstituicao(idInstituicao)
+    instituicaoModel.listarAlunosInstituicao(idInstituicao, limit, offset)
         .then(function (resultado) {
-            res.json(resultado);
-        }).catch(function (erro) {
-            console.log(erro);
-            console.log("\nHouve um erro ao listar alunos da instituição para página de Alunos de Painel Professor! Erro: ", erro.sqlMessage);
+            
+            var totalItems = resultado.totalItems;
+            var totalPages = Math.ceil(totalItems / limit);
+
+            // 2. Enviamos 'freqStats' junto com a resposta
+            res.json({
+                data: resultado.data,
+                currentPage: page,
+                totalPages: totalPages,
+                totalItems: totalItems,
+                kpiStats: resultado.kpiStats, // KPI Desempenho (Atencao, Regular, Otimo)
+                freqStats: resultado.freqStats // KPI Frequencia (Média Geral, Qtd Atenção)
+            });
+        })
+        .catch(function (erro) {
+            console.log("\nHouve um erro ao listar os alunos! Erro: ", erro.sqlMessage);
             res.status(500).json(erro.sqlMessage);
         });
 }

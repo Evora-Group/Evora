@@ -14,8 +14,8 @@ router.get("/alunosAbaixoMedia/:idInstituicao", function (req, res) {
 });
 
 // KPI: Taxa de abandono
-router.get("/taxaAbandono/:idInstituicao", function (req, res) {
-    dashHomeController.taxaAbandono(req, res);
+router.get("/totalAlunosInativos/:idInstituicao", function (req, res) {
+    dashHomeController.totalAlunosInativos(req, res);
 });
 
 // KPI: Novas matrículas
@@ -44,8 +44,8 @@ router.get("/comparativoAbaixoMedia/:idInstituicao", function (req, res) {
     dashHomeController.comparativoAbaixoMedia(req, res);
 });
 
-router.get("/comparativoAbandono/:idInstituicao", function (req, res) {
-    dashHomeController.comparativoAbandono(req, res);
+router.get("/comparativoRiscoContagem/:idInstituicao", function (req, res) {
+    dashHomeController.comparativoRiscoContagem(req, res);
 });
 
 // Comparativo novas matrículas

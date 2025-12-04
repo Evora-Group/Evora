@@ -63,7 +63,7 @@
                             </div>
                             <div class="div_titulo_kpi" id="div_situacao_1">
                                 <h1 id="totalMatriculado"></h1>
-                                <p class="p_titulo_kpi">Total de Alunos matriculados e Ativos</p>
+                                <p class="p_titulo_kpi">Total de Alunos</p>
                                 <span class="indicativos-desc">
                                     <i id="seta" class="fi fi-sr-minus"></i>
                                     <p id="matriculadoAtualMes"> <span>Esse mês</span></p>
@@ -79,7 +79,7 @@
                             </div>
                             <div class="div_titulo_kpi" id="div_situacao_2">
                                 <h1 id="indicativo-abaixo-media"></h1>
-                                <p class="p_titulo_kpi">Alunos Abaixo da Média em avaliações do Semestre</p>
+                                <p class="p_titulo_kpi">Alunos Abaixo da Média</p>
                                 <span class="indicativos-desc">
                                     <i id="seta-abaixo" class="fi fi-sr-minus"></i>
                                     <p id="indicativo-abaixo-mensal"> <span>Este semestre</span></p>
@@ -95,10 +95,10 @@
                             </div>
                             <div class="div_titulo_kpi" id="div_situacao_3">
                                 <h1 id="indicativo-abandono"></h1>
-                                <p class="p_titulo_kpi">Taxa de Abandono no Semestre</p>
+                                <p class="p_titulo_kpi">Abandono de Alunos</p>
                                 <span class="indicativos-desc">
                                     <i id="seta-abandono" class="fi fi-sr-minus"></i>
-                                    <p id="indicativo-abandono-semana">+0,91% <span>Este semestre</span></p>
+                                    <p id="indicativoAbandonoMensal"><span>Este semestre</span></p>
                                 </span>
                             </div>
                         </div>
@@ -253,18 +253,22 @@
             });
     }
 
-    function taxaAbandono() {
-        fetch(`/dash/taxaAbandono/${idInstituicao}`)
-            .then(res => res.json())
-            .then(data => {
-                const valor = Number(data.percentual_taxa_abandono).toFixed(1);
-                document.getElementById("indicativo-abandono").innerHTML = valor + "%";
-            })
-            .catch(err => {
-                console.error("Erro taxa abandono:", err);
-                document.getElementById("indicativo-abandono").innerHTML = "Erro";
-            });
-    }
+function atualizarTotalAlunosInativos() {
+    // A rota de fetch precisa ser ajustada para o novo nome da função/rota, ex: /dash/totalAlunosInativos/
+    fetch(`/dash/totalAlunosInativos/${idInstituicao}`) 
+        .then(res => res.json())
+        .then(data => {
+            // Pega o valor (espera um número inteiro)
+            const valor = parseInt(data.total_alunos_inativos || 0);
+            
+            // Exibe apenas o número (e talvez a palavra 'Alunos')
+            document.getElementById("indicativo-abandono").innerHTML = valor;
+        })
+        .catch(err => {
+            console.error("Erro total alunos inativos:", err);
+            document.getElementById("indicativo-abandono").innerHTML = "Erro";
+        });
+}
 
     function novasMatriculas() {
         fetch(`/dash/novasMatriculas/${idInstituicao}`)
@@ -412,38 +416,41 @@
         });
 }
 
-    function atualizarVariacaoAbandono() {
-        fetch(`/dash/comparativoAbandono/${idInstituicao}`)
-            .then(res => res.json())
-            .then(data => {
-                const texto = document.getElementById("indicativo-abandono-semana");
-                const seta = document.getElementById("seta-abandono");
-                const valorAtual = document.getElementById("indicativo-abandono");
+    function atualizarVariacaoRiscoContagem() { 
+    // Rota ajustada para o novo nome da função
+    fetch(`/dash/comparativoRiscoContagem/${idInstituicao}`) 
+        .then(res => res.json())
+        .then(data => {
+            const texto = document.getElementById("indicativoAbandonoMensal");
+            const seta = document.getElementById("seta-abandono");
 
-                // Atualiza o valor principal (sem apagar nada)
-                valorAtual.textContent = `${data.atual}%`;
+            const variacaoAbsoluta = Math.abs(data.variacao);
+            const textoVariacao = `${variacaoAbsoluta} Aluno${variacaoAbsoluta !== 1 ? 's' : ''}`;
 
-                if (data.direcao === "up") {
-                    seta.className = "fi fi-sr-arrow-up-right";
-                    seta.style.color = "#ef4444";
-                    texto.style.color = "#ef4444";
-                    texto.innerHTML = `+${data.variacao}% <span>Este semestre</span>`;
-                } else if (data.direcao === "down") {
-                    seta.className = "fi fi-sr-arrow-down-left";
-                    seta.style.color = "#10b981";
-                    texto.style.color = "#10b981";
-                    texto.innerHTML = `${data.variacao}% <span>Este semestre</span>`;
-                } else {
-                    seta.className = "fi fi-sr-minus";
-                    seta.style.color = "#888";
-                    texto.style.color = "#888";
-                    texto.innerHTML = `0% <span>Este semestre</span>`;
-                }
-            })
-            .catch(err => {
-                console.error("Erro comparativo taxa de abandono:", err);
-            });
-    }
+            if (data.direcao === "up") {
+                // 'up' = Aumento líquido de alunos em risco (PIOROU) -> Vermelho
+                seta.className = "fi fi-sr-arrow-up-right";
+                seta.style.color = "#ef4444"; 
+                texto.style.color = "#ef4444";
+                texto.innerHTML = `+${textoVariacao} <span>em Risco Este mês</span>`;
+            } else if (data.direcao === "down") {
+                // 'down' = Diminuição líquida de alunos em risco (MELHOROU) -> Verde
+                seta.className = "fi fi-sr-arrow-down-left";
+                seta.style.color = "#10b981"; 
+                texto.style.color = "#10b981";
+                texto.innerHTML = `-${textoVariacao} <span>em Risco Este mês</span>`;
+            } else {
+                // Nenhuma Mudança Líquida
+                seta.className = "fi fi-sr-minus";
+                seta.style.color = "#888";
+                texto.style.color = "#888";
+                texto.innerHTML = `0 Variação <span>Líquida</span>`;
+            }
+        })
+        .catch(err => {
+            console.error("Erro comparativo de risco (contagem):", err);
+        });
+}
 
 
     function atualizarVariacaoNovasMatriculas() {
@@ -485,11 +492,11 @@
         graficoTaxaAprovacao();
         totalAlunos();
         abaixoMedia();
-        taxaAbandono();
+        atualizarTotalAlunosInativos();
         novasMatriculas();
         atualizarVariacaoTotalAlunos();
         atualizarVariacaoAbaixoMedia();
-        atualizarVariacaoAbandono();
+        atualizarVariacaoRiscoContagem();
         atualizarVariacaoNovasMatriculas();
     };
 </script>

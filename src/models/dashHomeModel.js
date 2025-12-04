@@ -44,21 +44,17 @@ function alunosAbaixoMedia(fkInstituicao) {
     return database.executar(instrucaoSql, [fkInstituicao]);
 }
 
-
-// KPI - Porcentagem taxa de abandono
-function taxaAbandono(fkInstituicao) {
+// KPI - Total de Alunos com Matrícula Inativa
+function totalAlunosInativos(fkInstituicao) {
     const instrucaoSql = `
         SELECT 
-            (SUM(CASE WHEN m.ativo = 0 THEN 1 ELSE 0 END) / COUNT(*)) * 100 
-            AS percentual_taxa_abandono
+            COUNT(m.id_matricula) AS total_alunos_inativos
         FROM matricula m
         JOIN turma t ON t.id_turma = m.fkTurma
         JOIN curso c ON c.id_curso = t.fkCurso
-        WHERE c.fkInstituicao = ?
-        AND m.data_atualizacao_status >= CASE 
-            WHEN MONTH(NOW()) BETWEEN 1 AND 6 THEN DATE_FORMAT(NOW(), '%Y-01-01')
-            ELSE DATE_FORMAT(NOW(), '%Y-07-01')
-        END;
+        WHERE 
+            c.fkInstituicao = ? 
+            AND m.ativo = 0; -- Filtra apenas matrículas inativas
     `;
     return database.executar(instrucaoSql, [fkInstituicao]);
 }
@@ -183,51 +179,62 @@ function comparativoAbaixoMedia(fkInstituicao) {
 }
 
 
-function comparativoTaxaAbandono(fkInstituicao) {
+function comparativoRiscoContagem(fkInstituicao) { 
     const instrucaoSql = `
-        SELECT 
-            ROUND(COALESCE(abandono_atual, 0) * 100.0 / NULLIF(total_atual, 0), 2) AS atual,
-            ROUND(COALESCE(abandono_anterior, 0) * 100.0 / NULLIF(total_anterior, 0), 2) AS anterior
-        FROM (
+        WITH 
+        -- Alunos ATIVOS e sua frequência média no MÊS ATUAL
+        frequencia_mes_atual AS (
             SELECT
-                -- Alunos que entraram no semestre atual e hoje estão inativos
-                (SELECT COUNT(*) 
-                 FROM matricula m
-                 JOIN turma t ON m.fkTurma = t.id_turma
-                 JOIN curso c ON t.fkCurso = c.id_curso
-                 WHERE c.fkInstituicao = ?
-                   AND m.data_matricula >= '2025-07-01'
-                   AND m.ativo = 0) AS abandono_atual,
+                m.fkAluno,
+                AVG(f.presente) AS media_frequencia -- Usando a coluna 'presente'
+            FROM frequencia f
+            JOIN matricula m ON m.id_matricula = f.fkMatricula
+            JOIN turma t ON t.id_turma = m.fkTurma
+            JOIN curso c ON t.fkCurso = c.id_curso
+            WHERE c.fkInstituicao = ? 
+              AND m.ativo = 1 
+              AND f.data_aula >= DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
+              AND f.data_aula <= LAST_DAY(CURRENT_DATE())
+            GROUP BY m.fkAluno
+        ),
+        -- Alunos ATIVOS e sua frequência média no MÊS ANTERIOR
+        frequencia_mes_anterior AS (
+            SELECT
+                m.fkAluno,
+                AVG(f.presente) AS media_frequencia -- Usando a coluna 'presente'
+            FROM frequencia f
+            JOIN matricula m ON m.id_matricula = f.fkMatricula
+            JOIN turma t ON t.id_turma = m.fkTurma
+            JOIN curso c ON t.fkCurso = c.id_curso
+            WHERE c.fkInstituicao = ? 
+              AND m.ativo = 1 
+              AND f.data_aula >= DATE_FORMAT(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH), '%Y-%m-01')
+              AND f.data_aula <= LAST_DAY(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))
+            GROUP BY m.fkAluno
+        )
+        SELECT
+            -- 1. NOVOS EM RISCO: (Risco AGORA: < 0.75) E (NÃO estavam em risco ANTES: >= 0.75 ou sem dados)
+            (
+                SELECT COUNT(t1.fkAluno)
+                FROM frequencia_mes_atual t1
+                LEFT JOIN frequencia_mes_anterior t2 ON t1.fkAluno = t2.fkAluno
+                WHERE 
+                    t1.media_frequencia < 0.75  
+                    AND (t2.fkAluno IS NULL OR t2.media_frequencia >= 0.75) 
+            ) AS novos_em_risco,
 
-                -- Total de alunos que entraram no semestre atual
-                (SELECT COUNT(*) 
-                 FROM matricula m
-                 JOIN turma t ON m.fkTurma = t.id_turma
-                 JOIN curso c ON t.fkCurso = c.id_curso
-                 WHERE c.fkInstituicao = ?
-                   AND m.data_matricula >= '2025-07-01') AS total_atual,
-
-                -- Alunos que entraram no semestre anterior e hoje estão inativos
-                (SELECT COUNT(*) 
-                 FROM matricula m
-                 JOIN turma t ON m.fkTurma = t.id_turma
-                 JOIN curso c ON t.fkCurso = c.id_curso
-                 WHERE c.fkInstituicao = ?
-                   AND m.data_matricula >= '2025-01-01'
-                   AND m.data_matricula < '2025-07-01'
-                   AND m.ativo = 0) AS abandono_anterior,
-
-                -- Total de alunos do semestre anterior
-                (SELECT COUNT(*) 
-                 FROM matricula m
-                 JOIN turma t ON m.fkTurma = t.id_turma
-                 JOIN curso c ON t.fkCurso = c.id_curso
-                 WHERE c.fkInstituicao = ?
-                   AND m.data_matricula >= '2025-01-01'
-                   AND m.data_matricula < '2025-07-01') AS total_anterior
-        ) AS sub;
+            -- 2. ALUNOS QUE MELHORARAM: (Risco ANTES: < 0.75) E (NÃO estão em risco AGORA: >= 0.75 ou sem dados)
+            (
+                SELECT COUNT(t1.fkAluno) * -1 -- Valor negativo para indicar melhoria (saída da zona de risco)
+                FROM frequencia_mes_anterior t1
+                LEFT JOIN frequencia_mes_atual t2 ON t1.fkAluno = t2.fkAluno
+                WHERE 
+                    t1.media_frequencia < 0.75 
+                    AND (t2.fkAluno IS NULL OR t2.media_frequencia >= 0.75) 
+            ) AS alunos_que_melhoraram;
     `;
-    return database.executar(instrucaoSql, [fkInstituicao, fkInstituicao, fkInstituicao, fkInstituicao]);
+    
+    return database.executar(instrucaoSql, [fkInstituicao, fkInstituicao]);
 }
 
 
@@ -317,12 +324,12 @@ function variacaoMatriculasDoMes(fkInstituicao) {
 module.exports = {
     totalAlunos,
     alunosAbaixoMedia,
-    taxaAbandono,
+    totalAlunosInativos,
     novasMatriculas,
     top5Evasao,
     taxaAprovacao,
     comparativoAbaixoMedia, 
-    comparativoTaxaAbandono,
+    comparativoRiscoContagem,
     comparativoNovasMatriculas,
     variacaoMatriculasDoMes
 }

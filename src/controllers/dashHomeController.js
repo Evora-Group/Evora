@@ -19,10 +19,14 @@ function alunosAbaixoMedia(req, res) {
         .catch(erro => res.status(500).json(erro));
 }
 
-function taxaAbandono(req, res) {
+function totalAlunosInativos(req, res) {
     const id = req.params.idInstituicao;
-    dashModel.taxaAbandono(id)
-        .then(resultado => res.json(resultado[0]))
+    // Assumindo que você renomeou a função no modelo para totalAlunosInativos
+    dashModel.totalAlunosInativos(id)
+        .then(resultado => {
+            // Retorna o valor inteiro da contagem
+            res.json(resultado[0]); 
+        })
         .catch(erro => res.status(500).json(erro));
 }
 
@@ -84,30 +88,35 @@ function comparativoAbaixoMedia(req, res) {
 }
 
 
-function comparativoAbandono(req, res) {
+// Função do Controlador (dashHomeController.js)
+function comparativoRiscoContagem(req, res) { 
     const id = req.params.idInstituicao;
 
-    dashModel.comparativoTaxaAbandono(id)
+    // Assumindo que você usa dashModel.comparativoRiscoContagem
+    dashModel.comparativoRiscoContagem(id) 
         .then(resultado => {
-            const atualNum = parseFloat(resultado[0].atual || 0);
-            const anteriorNum = parseFloat(resultado[0].anterior || 0);
+            const novosEmRisco = parseInt(resultado[0].novos_em_risco || 0);
+            const melhorias = parseInt(resultado[0].alunos_que_melhoraram || 0); // Já vem negativo
 
-            let variacao = 0;
+            // Variação Líquida: Novas Entradas na zona de risco + Saídas da zona de risco (negativo)
+            let variacao = novosEmRisco + melhorias; 
             let direcao = "equal";
 
-            if (anteriorNum > 0) {
-                variacao = ((atualNum - anteriorNum) / anteriorNum) * 100;
-                direcao = variacao > 0 ? "up" : variacao < 0 ? "down" : "equal";
+            if (variacao > 0) {
+                // Aumento líquido de alunos em risco (PIOROU)
+                direcao = "up";
+            } else if (variacao < 0) {
+                // Diminuição líquida de alunos em risco (MELHOROU)
+                direcao = "down";
             }
 
             res.json({
-                atual: Number(atualNum.toFixed(1)),
-                variacao: Number(variacao.toFixed(1)),
+                variacao: variacao, // Número inteiro que representa a variação líquida
                 direcao: direcao
             });
         })
         .catch(erro => {
-            console.error("Erro comparativo taxa de abandono:", erro);
+            console.error("Erro comparativo de risco (contagem):", erro);
             res.status(500).json({ erro: "Erro ao calcular comparativo" });
         });
 }
@@ -233,12 +242,12 @@ function variacaoMatriculasDoMes(req, res) {
 module.exports = {
     totalAlunos,
     alunosAbaixoMedia,
-    taxaAbandono,
+    totalAlunosInativos,
     novasMatriculas,
     top5Evasao,
     taxaAprovacao,
     comparativoAbaixoMedia,
-    comparativoAbandono,
+    comparativoRiscoContagem,
     comparativoNovasMatriculas,
     variacaoMatriculasDoMes
 

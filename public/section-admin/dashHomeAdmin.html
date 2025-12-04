@@ -111,10 +111,10 @@
                             </div>
                             <div class="div_titulo_kpi" id="div_situacao_4">
                                 <h1 id="indicativo-matricula"></h1>
-                                <p class="p_titulo_kpi">Novas Mátriculas no Semestre</p>
+                                <p class="p_titulo_kpi">Novas Mátriculas no Mês</p>
                                 <span class="indicativos-desc">
                                     <i id="seta-matriculas" class="fi fi-sr-minus"></i>
-                                    <p id="indicativo-matricula-semana">+1,51% <span>Este semestre</span></p>
+                                    <p id="indicativoAtualMesMatriculas"><span>Este mês</span></p>
                                 </span>
                             </div>
                         </div>
@@ -452,39 +452,35 @@ function atualizarTotalAlunosInativos() {
         });
 }
 
+function atualizarVariacaoNovasMatriculas() {
+    fetch(`/dash/comparativoNovasMatriculas/${idInstituicao}`)
+        .then(res => res.json())
+        .then(data => {
+            const texto = document.getElementById("indicativoAtualMesMatriculas");
+            const seta = document.getElementById("seta-matriculas");
 
-    function atualizarVariacaoNovasMatriculas() {
-        fetch(`/dash/comparativoNovasMatriculas/${idInstituicao}`)
-            .then(res => res.json())
-            .then(data => {
-                const texto = document.getElementById("indicativo-matricula-semana");
-                const seta = document.getElementById("seta-matriculas");
-                const valorAtual = document.getElementById("indicativo-matricula");
 
-                valorAtual.textContent = data.atual;
-
-                if (data.direcao === "up") {
-                    seta.className = "fi fi-sr-arrow-up-right";
-                    seta.style.color = "#10b981";
-                    texto.style.color = "#10b981";
-                    texto.innerHTML = `+${data.variacao}% <span>Este semestre</span>`;
-                } else if (data.direcao === "down") {
-                    seta.className = "fi fi-sr-arrow-down-left";
-                    seta.style.color = "#ef4444";
-                    texto.style.color = "#ef4444";
-                    texto.innerHTML = `${data.variacao}% <span>Este semestre</span>`;
-                } else {
-                    seta.className = "fi fi-sr-minus";
-                    seta.style.color = "#888";
-                    texto.style.color = "#888";
-                    texto.innerHTML = `0% <span>Este semestre</span>`;
-                }
-            })
-            .catch(err => {
-                console.error("Erro comparativo novas matrículas:", err);
-                document.getElementById("indicativo-matricula-semana").innerHTML = "Erro";
-            });
-    }
+            // Verifica se a direção é "up"
+            if (data.direcao === "up") {
+                seta.className = "fi fi-sr-arrow-up-right";
+                seta.style.color = "#10b981";
+                texto.style.color = "#10b981";
+                // A porcentagem já será 0 ou positiva
+                texto.innerHTML = `+${data.variacao}% <span>Este mês</span>`;
+            } else { 
+                // Se não é "up", a direção é "equal" (pois eliminamos o "down")
+                seta.className = "fi fi-sr-minus";
+                seta.style.color = "#888";
+                texto.style.color = "#888";
+                // A variação será 0
+                texto.innerHTML = `0% <span>Este mês</span>`;
+            }
+        })
+        .catch(err => {
+            console.error("Erro comparativo novas matrículas:", err);
+            document.getElementById("indicativoAtualMesMatriculas").innerHTML = "Erro";
+        });
+}
 
 
     window.onload = function () {

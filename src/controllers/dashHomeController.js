@@ -121,11 +121,10 @@ function comparativoRiscoContagem(req, res) {
         });
 }
 
-
 function comparativoNovasMatriculas(req, res) {
     const id = req.params.idInstituicao;
 
-    dashModel.comparativoNovasMatriculas(id)
+    dashModel.comparativoNovasMatriculas(id) // Chama a função do Model com o SQL correto
         .then(resultado => {
             const atualNum = parseFloat(resultado[0].atual || 0);
             const anteriorNum = parseFloat(resultado[0].anterior || 0);
@@ -133,10 +132,27 @@ function comparativoNovasMatriculas(req, res) {
             let variacao = 0;
             let direcao = "equal";
 
+            // Se houve matrículas no mês anterior, calculamos a variação
             if (anteriorNum > 0) {
-                variacao = ((atualNum - anteriorNum) / anteriorNum) * 100;
-                direcao = variacao > 0 ? "up" : variacao < 0 ? "down" : "equal";
+                // Cálculo da variação
+                let diff = atualNum - anteriorNum;
+                
+                // *** A MUDANÇA É AQUI: Se a diferença for negativa (menos matrículas), forçamos para 0. ***
+                if (diff < 0) {
+                    diff = 0;
+                }
+
+                variacao = (diff / anteriorNum) * 100;
+                
+                // A direção só será "up" se a variação for maior que 0
+                direcao = variacao > 0 ? "up" : "equal";
+                
+            } else if (atualNum > 0) {
+                // Se não houve anterior, mas houve atual, é um crescimento de 100%
+                variacao = 100;
+                direcao = "up";
             }
+            // Se ambos são zero (anteriorNum=0 e atualNum=0), a variação e direcao continuam 0 e "equal"
 
             res.json({
                 atual: atualNum,

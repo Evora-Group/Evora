@@ -67,10 +67,8 @@ function novasMatriculas(fkInstituicao) {
         JOIN turma t ON t.id_turma = m.fkTurma
         JOIN curso c ON c.id_curso = t.fkCurso
         WHERE c.fkInstituicao = ?
-        AND m.data_matricula >= CASE 
-            WHEN MONTH(NOW()) BETWEEN 1 AND 6 THEN DATE_FORMAT(NOW(), '%Y-01-01')
-            ELSE DATE_FORMAT(NOW(), '%Y-07-01')
-        END;
+        AND YEAR(m.data_matricula) = YEAR(NOW())
+        AND MONTH(m.data_matricula) = MONTH(NOW());
     `;
     return database.executar(instrucaoSql, [fkInstituicao]);
 }
@@ -237,37 +235,27 @@ function comparativoRiscoContagem(fkInstituicao) {
     return database.executar(instrucaoSql, [fkInstituicao, fkInstituicao]);
 }
 
-
-// Comparativo de novas matrículas
 function comparativoNovasMatriculas(fkInstituicao) {
     const instrucaoSql = `
         SELECT
-            -- Semestre atual
+            -- Mês atual
             (SELECT COUNT(*) 
              FROM matricula m
              JOIN turma t ON m.fkTurma = t.id_turma
              JOIN curso c ON t.fkCurso = c.id_curso
              WHERE c.fkInstituicao = ?
-               AND m.data_matricula >= CASE 
-                   WHEN MONTH(NOW()) BETWEEN 1 AND 6 THEN DATE_FORMAT(NOW(), '%Y-01-01')
-                   ELSE DATE_FORMAT(NOW(), '%Y-07-01')
-               END
+               AND YEAR(m.data_matricula) = YEAR(NOW())
+               AND MONTH(m.data_matricula) = MONTH(NOW())
             ) AS atual,
 
-            -- Semestre anterior
+            -- Mês anterior
             (SELECT COUNT(*) 
              FROM matricula m
              JOIN turma t ON m.fkTurma = t.id_turma
              JOIN curso c ON t.fkCurso = c.id_curso
              WHERE c.fkInstituicao = ?
-               AND m.data_matricula >= CASE 
-                   WHEN MONTH(NOW()) BETWEEN 1 AND 6 THEN DATE_FORMAT(NOW(), '%Y-07-01')
-                   ELSE DATE_FORMAT(NOW(), '%Y-01-01')
-               END
-               AND m.data_matricula < CASE 
-                   WHEN MONTH(NOW()) BETWEEN 1 AND 6 THEN DATE_FORMAT(NOW(), '%Y-01-01')
-                   ELSE DATE_FORMAT(NOW(), '%Y-07-01')
-               END
+               AND YEAR(m.data_matricula) = YEAR(DATE_SUB(NOW(), INTERVAL 1 MONTH))
+               AND MONTH(m.data_matricula) = MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH))
             ) AS anterior
     `;
 

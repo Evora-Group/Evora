@@ -70,29 +70,45 @@ function novasMatriculas(fkInstituicao) {
 }
 
 function top5Evasao(fkInstituicao) {
-    const instrucaoSql = `
+    const instrucaoSql = `  
         SELECT 
             c.nome AS nomeCurso,
-            COUNT(DISTINCT CASE 
-                WHEN a.nota < 6 OR (f.total_presencas / f.total_aulas) < 0.75 
-                THEN m.id_matricula 
-            END) * 100 / COUNT(DISTINCT m.id_matricula) AS percentual
-        FROM curso c
-        JOIN turma t ON t.fkCurso = c.id_curso
-        JOIN matricula m ON m.fkTurma = t.id_turma
-        LEFT JOIN avaliacao a ON a.fkMatricula = m.id_matricula
+            COALESCE(
+                (
+                    -- NUMERADOR: Conta matrículas ATIVAS com frequência média < 75%
+                    COUNT(DISTINCT CASE 
+                        WHEN m.ativo = 1 AND f_aluno.freq_media < 0.75 
+                        THEN m.id_matricula 
+                    END) * 100.0
+                ) 
+                / NULLIF(
+                    -- DENOMINADOR: Total de alunos ATIVOS no curso
+                    COUNT(DISTINCT CASE WHEN m.ativo = 1 THEN m.id_matricula END), 
+                0), 
+            0) AS percentual
+        FROM 
+            curso c
+        LEFT JOIN 
+            turma t ON t.fkCurso = c.id_curso
+        LEFT JOIN 
+            matricula m ON m.fkTurma = t.id_turma
         LEFT JOIN (
-            SELECT fkMatricula, 
-                   SUM(presente) AS total_presencas, 
-                   COUNT(*) AS total_aulas
-            FROM frequencia
-            GROUP BY fkMatricula
-        ) f ON f.fkMatricula = m.id_matricula
-        WHERE c.fkInstituicao = ?
-        AND (a.data_avaliacao >= DATE_SUB(NOW(), INTERVAL 30 DAY) OR a.data_avaliacao IS NULL)
-        GROUP BY c.id_curso
-        ORDER BY percentual DESC
-        LIMIT 5;
+            -- Subconsulta: Calcula a frequência média GERAL por aluno (apenas para matrículas existentes)
+            SELECT 
+                fkMatricula, 
+                SUM(presente) / COUNT(*) AS freq_media
+            FROM 
+                frequencia
+            GROUP BY 
+                fkMatricula
+        ) f_aluno ON f_aluno.fkMatricula = m.id_matricula
+        WHERE 
+            c.fkInstituicao = ? 
+        GROUP BY 
+            c.id_curso, c.nome
+        ORDER BY 
+            percentual DESC
+        LIMIT 3;
     `;
     return database.executar(instrucaoSql, [fkInstituicao]);
 }
@@ -234,7 +250,7 @@ function comparativoNovasMatriculas(fkInstituicao) {
              WHERE c.fkInstituicao = ?
                AND YEAR(m.data_matricula) = YEAR(NOW())
                AND MONTH(m.data_matricula) = MONTH(NOW())
-            ) AS atual,
+            ) AS atualMes_novasMatriculas,
 
             -- Mês anterior
             (SELECT COUNT(*) 
@@ -244,7 +260,7 @@ function comparativoNovasMatriculas(fkInstituicao) {
              WHERE c.fkInstituicao = ?
                AND YEAR(m.data_matricula) = YEAR(DATE_SUB(NOW(), INTERVAL 1 MONTH))
                AND MONTH(m.data_matricula) = MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH))
-            ) AS anterior
+            ) AS anteriorMes_novasMatriculas;
     `;
 
     return database.executar(instrucaoSql, [fkInstituicao, fkInstituicao]);

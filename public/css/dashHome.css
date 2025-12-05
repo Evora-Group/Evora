@@ -365,7 +365,10 @@ main .section_dash {
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.067);
     width: 100%;
+    /* CORREÇÃO APLICADA: */
     height: 100%;
+    min-height: 350px; 
+    /* Fim da correção */
 
     display: flex;
     flex-direction: column;
@@ -386,7 +389,6 @@ main .section_dash {
     padding: 0;
     margin: 0;
 
-    padding: 40px 0;
     flex-grow: 1;
     /* Faz a <ul> ESTICAR para preencher o espaço vago */
     display: flex;
@@ -443,6 +445,12 @@ main .section_dash {
     flex-grow: 1;
     border-radius: 4px;
     height: 18px;
+    /* CORREÇÃO APLICADA: */
+    background-color: #f0f0f0; 
+    position: relative; /* ESSENCIAL para o .bar-value */
+    display: flex; 
+    align-items: center;
+    /* Fim da correção */
 }
 
 /* A barra vermelha */
@@ -451,6 +459,22 @@ main .section_dash {
     background-color: #e53e3e;
     border-radius: 4px;
 }
+
+/* CORREÇÃO APLICADA: Novo estilo para o valor percentual */
+.bar-value { 
+    position: absolute;
+    right: -45px; /* Move o valor 45px para a direita do wrapper */
+    top: 50%;
+    transform: translateY(-50%); /* Centraliza verticalmente */
+    
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+    white-space: nowrap; /* Evita que o texto quebre */
+    z-index: 2; 
+}
+/* Fim da correção */
+
 
 /* Eixo X (0, 25%, etc.) */
 .chart-axis {
@@ -484,7 +508,10 @@ main .section_dash {
     gap: 50px;
     margin-top: 30px;
     margin-bottom: 20px;
-    height: 50%;
+    /* CORREÇÃO APLICADA: Aumento da altura */
+    height: 65%;
+    min-height: 400px;
+    /* Fim da correção */
 }
 
 /* Define a largura do gráfico de barras */
@@ -719,7 +746,6 @@ main .section_dash {
     }
 
     .bar-chart {
-        padding: 10px;
         height: 20vh;
         overflow: auto;
     }
@@ -965,9 +991,10 @@ main .section_dash {
     }
 
     .bar-chart {
-        padding: 10px;
         height: 20vh;
         overflow: auto;
+        /* CORREÇÃO APLICADA: Re-adicionar padding para mobile */
+        padding: 10px; 
     }
 
     
@@ -1008,8 +1035,7 @@ main .section_dash {
 .chart-container-mobile ul li{
     height: 80px;
 }
-/* 
-    .header_kpis .kpi{
+/* .header_kpis .kpi{
     animation: scrollVaiVolta 30s linear infinite alternate;
 }
 
@@ -1021,4 +1047,8 @@ main .section_dash {
     transform: translateX(calc(-950px)); 
   }
 } */
+}
+
+.section_main .chart-container {
+    padding-right: 100px;
 }

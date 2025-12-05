@@ -884,3 +884,777 @@ dialog::backdrop {
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+/* ============================================== */
+/* RESPONSIVIDADE - PADRÃO DO SITE               */
+/* ============================================== */
+
+/* =========================================
+   TELAS GRANDES (1600px)
+   ========================================= */
+@media (max-width: 1600px) {
+    aside section ul li a {
+        font-size: 16px;
+        padding: 14%;
+        gap: 10px;
+    }
+
+    aside section ul li a i {
+        font-size: 20px;
+    }
+
+    aside section ul li {
+        height: 70px;
+    }
+
+    .botao-sair {
+        font-size: 14px;
+        padding: 10px;
+        left: 20%;
+        right: 20%;
+    }
+
+    aside section ul li a {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .div_titulo_kpi h1 {
+        font-size: calc(var(--font-title) * 2.2);
+    }
+
+    .p_titulo_kpi {
+        font-size: calc(var(--font-title) * 1);
+    }
+}
+
+/* =========================================
+   TABLETS E TELAS MÉDIAS (1024px)
+   ========================================= */
+@media (max-width: 1024px) {
+    /* Ajustes para tablets */
+    
+    .section_dash .main_dash .header_kpis {
+        flex-direction: column;
+        gap: 15px;
+        height: auto;
+        padding: 15px;
+    }
+
+    main header .kpi {
+        width: 100%;
+        height: auto;
+        min-height: 150px;
+    }
+
+    .kpi .kpi_header {
+        flex-direction: column;
+        height: auto;
+        gap: 15px;
+    }
+
+    .kpi_header .div_titulo_kpi {
+        width: 100%;
+        gap: calc(var(--gap) * 1);
+    }
+
+    .kpi_header .div_comparativo {
+        width: 100%;
+        display: flex;
+        gap: 20px;
+    }
+
+    .div_titulo_kpi h1 {
+        font-size: calc(var(--font-title) * 2);
+    }
+
+    .p_titulo_kpi {
+        font-size: calc(var(--font-title) * 0.9);
+    }
+
+    .tabela {
+        font-size: 14px;
+    }
+
+    .header_usuarios {
+        flex-direction: column;
+        height: auto;
+        gap: 10px;
+    }
+
+    .input_pesquisa {
+        width: 100%;
+        height: 45px;
+    }
+
+    .div_criar_usuario {
+        width: 100%;
+        height: 45px;
+        border-radius: 5px;
+    }
+
+    /* Modais ajustados para tablet */
+    dialog {
+        max-width: 60%;
+    }
+
+    #modal_criar_usuario {
+        max-width: 70%;
+    }
+
+    #modal_editar_usuario {
+        max-width: 70%;
+    }
+
+    #modal_remover_usuario {
+        max-width: 50%;
+    }
+}
+
+/* =========================================
+   PADRÃO NAVBAR MOBILE (Universal - 1000px)
+   ========================================= */
+@media (max-width: 1000px) {
+    /* 1. Ajuste do Corpo da Página */
+    body {
+        height: auto;
+        padding-bottom: 90px;
+        overflow-x: hidden;
+    }
+
+    main {
+        flex-direction: column;
+        height: auto;
+    }
+
+    /* 2. Header e Botão Sair Mobile */
+    .header_info_usuario {
+        padding: 10px 15px;
+        display: flex;
+        justify-content: space-between !important;
+        align-items: center;
+        width: 100%;
+    }
+
+    .header_info_usuario .img_logo {
+        width: 120px;
+    }
+
+    .botao-sair-mobile {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        color: #dd1c2f;
+        padding: 10px;
+        text-decoration: none;
+    }
+
+    /* 3. Transformação do Menu (Aside -> Bottom Bar) */
+    aside {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+        padding: 0;
+        z-index: 1000;
+        background-color: var(--primary-color);
+        box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    aside section {
+        width: 100%;
+        display: block;
+        height: auto;
+    }
+
+    aside section ul {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        width: 100%;
+        margin: 0;
+        padding: 5px 0;
+        overflow-x: auto;
+    }
+
+    aside section ul li {
+        width: auto;
+        flex: 1;
+        min-width: 0;
+        height: 60px;
+        margin: 0;
+    }
+
+    aside section ul li a {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+        font-size: 10px;
+        gap: 2px;
+        height: 100%;
+        text-align: center;
+    }
+
+    aside section ul li a i {
+        font-size: 22px;
+        margin: 0;
+    }
+
+    /* Esconde o botão sair antigo */
+    .botao-sair {
+        display: none !important;
+    }
+
+    /* Ajuste da seção principal */
+    main .section_dash {
+        width: 100%;
+        padding: 10px;
+        height: auto;
+    }
+
+    .section_dash .main_dash {
+        height: auto;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    /* KPIs empilhados */
+    .section_dash .main_dash .header_kpis {
+        flex-direction: column;
+        height: auto;
+        padding: 0;
+        gap: 15px;
+    }
+
+    main header .kpi {
+        width: 100%;
+        height: auto;
+        min-height: 130px;
+    }
+
+    /* Seção principal com tabela */
+    .section_main {
+        height: auto;
+        min-height: 350px;
+    }
+
+    /* Paginação */
+    .paginacao_container {
+        margin-bottom: 10px;
+    }
+
+    /* Ajuste de Configurações para "Conf." */
+    aside section ul li a[href*="dashConf"] {
+        font-size: 0 !important;
+    }
+    
+    aside section ul li a[href*="dashConf"] i {
+        font-size: 22px !important;
+        margin-bottom: 2px;
+    }
+    
+    aside section ul li a[href*="dashConf"]::after {
+        content: "Conf.";
+        font-size: 10px !important;
+        display: block;
+    }
+
+    /* Abreviações de menu longo */
+    aside section ul li a[href*="dash_admin.html"] {
+        font-size: 0 !important;
+    }
+    
+    aside section ul li a[href*="dash_admin.html"] i {
+        font-size: 22px !important;
+        margin-bottom: 2px;
+    }
+    
+    aside section ul li a[href*="dash_admin.html"]::after {
+        content: "Usuário";
+        font-size: 10px !important;
+        display: block;
+    }
+
+    aside section ul li a[href*="dash_admin_cursos"] {
+        font-size: 0 !important;
+    }
+    
+    aside section ul li a[href*="dash_admin_cursos"] i {
+        font-size: 22px !important;
+        margin-bottom: 2px;
+    }
+    
+    aside section ul li a[href*="dash_admin_cursos"]::after {
+        content: "Curso";
+        font-size: 10px !important;
+        display: block;
+    }
+}
+
+/* =========================================
+   MOBILE MÉDIO (768px)
+   ========================================= */
+@media (max-width: 768px) {
+    /* 1. Layout Principal */
+    main {
+        flex-direction: column;
+        height: auto;
+    }
+
+    main .section_dash {
+        width: 100%;
+        height: auto;
+        padding: 10px;
+    }
+
+    .section_dash .main_dash {
+        padding: 12px;
+        gap: 12px;
+    }
+
+    /* 2. Header */
+    .header_info_usuario .img_logo {
+        max-width: 110px;
+    }
+
+    /* 3. KPIs */
+    .section_dash .main_dash .header_kpis {
+        flex-direction: column;
+        height: auto;
+        padding: 0;
+        gap: 12px;
+    }
+
+    .header_kpis .kpi {
+        width: 100%;
+        height: auto;
+        min-height: 120px;
+        padding: 12px;
+    }
+
+    .kpi .kpi_header {
+        padding: 10px;
+        flex-direction: column;
+        height: auto;
+        gap: 10px;
+    }
+
+    .kpi_header .div_titulo_kpi {
+        width: 100%;
+        gap: 10px;
+    }
+
+    .kpi_header .div_comparativo {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .div_titulo_kpi h1 {
+        font-size: calc(var(--font-title) * 1.8);
+    }
+
+    .p_titulo_kpi {
+        font-size: calc(var(--font-title) * 0.85);
+    }
+
+    .kpi_footer {
+        padding: 10px;
+    }
+
+    .div_progress_bar {
+        padding: 8px;
+    }
+
+    #progress_bar {
+        height: 18px;
+    }
+
+    /* 4. Seção principal (tabela) */
+    .section_main {
+        height: auto;
+        min-height: 300px;
+        padding: 10px;
+    }
+
+    /* 5. Header de pesquisa e botões */
+    .header_usuarios {
+        flex-direction: column;
+        height: auto;
+        gap: 10px;
+        padding: 10px 0;
+    }
+
+    .input_pesquisa {
+        width: 100%;
+        height: 45px;
+        font-size: 14px;
+        border-radius: 5px;
+    }
+
+    .div_criar_usuario {
+        width: 100%;
+        height: 45px;
+        border-radius: 5px;
+    }
+
+    .div_criar_usuario p {
+        font-size: 14px;
+    }
+
+    /* 6. Tabela responsiva */
+    .main_usuarios {
+        overflow-x: auto;
+        max-height: 250px;
+    }
+
+    .tabela {
+        min-width: 550px;
+        font-size: 13px;
+    }
+
+    .tabela th,
+    .tabela td {
+        padding: 8px 5px;
+    }
+
+    .fi-sr-pencil,
+    .fi-sr-trash {
+        font-size: 18px;
+    }
+
+    /* 7. Paginação */
+    .paginacao_container {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 10px 5px;
+    }
+
+    .btn_paginacao {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    /* 8. Modais responsivos */
+    dialog {
+        max-width: 90%;
+        width: 90%;
+    }
+
+    #modal_criar_usuario {
+        max-width: 90%;
+        height: auto;
+        max-height: 85vh;
+    }
+
+    #modal_editar_usuario {
+        max-width: 90%;
+        height: auto;
+        max-height: 85vh;
+    }
+
+    #modal_remover_usuario {
+        max-width: 90%;
+        height: auto;
+    }
+
+    .div_header_modal {
+        height: auto;
+    }
+
+    .div_btn_usuario {
+        font-size: 14px;
+        padding: 10px;
+        height: 45px;
+    }
+
+    .div_main_modal {
+        width: 100%;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .div_main_modal h3 {
+        font-size: 16px;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .form_modal {
+        gap: 8px;
+        height: auto;
+    }
+
+    .form_modal label {
+        font-size: 14px;
+        padding-bottom: 5px;
+    }
+
+    .form_modal input,
+    .form_modal select {
+        font-size: 14px;
+        height: 40px;
+    }
+
+    .div_dois_inputs {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .div_input_maior,
+    .div_input_menor,
+    .div_input {
+        width: 100%;
+    }
+
+    .div_input_maior input,
+    .div_input_menor input,
+    .div_input input,
+    select {
+        height: 40px;
+    }
+
+    .div_footer {
+        padding: 10px;
+        height: auto;
+        gap: 10px;
+    }
+
+    .div_footer .div_criar_usuario {
+        width: 100%;
+        height: 45px;
+    }
+
+    .div_editar_usuario {
+        width: 100%;
+        height: 45px;
+    }
+
+    /* 9. Modal de remoção */
+    #modal_remover_usuario .div_info_excluir h1 {
+        font-size: calc(var(--font-title) * 1.2);
+    }
+
+    #modal_remover_usuario .div_info_excluir p {
+        font-size: 14px;
+    }
+
+    #modal_remover_usuario .div_btn_remover_usuario {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #modal_remover_usuario .div_btn_remover_usuario .div_editar_usuario,
+    #modal_remover_usuario .div_btn_remover_usuario #div_excluir_usuario {
+        width: 100%;
+        height: 45px;
+    }
+
+    /* Status circles menores */
+    .circulo_status_liberado,
+    .circulo_status_bloqueado {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* =========================================
+   MOBILE PEQUENO (480px)
+   ========================================= */
+@media (max-width: 480px) {
+    /* Ajustes extras para mobile pequeno */
+    
+    .header_info_usuario {
+        padding: 8px 10px;
+    }
+
+    .header_info_usuario .img_logo {
+        width: 90px;
+        min-width: 90px;
+    }
+
+    .section_dash .main_dash {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    /* KPIs mais compactos */
+    .header_kpis .kpi {
+        padding: 10px;
+        min-height: 100px;
+    }
+
+    .kpi .kpi_header {
+        padding: 8px;
+    }
+
+    .div_titulo_kpi h1 {
+        font-size: calc(var(--font-title) * 1.5);
+    }
+
+    .p_titulo_kpi {
+        font-size: calc(var(--font-title) * 0.75);
+    }
+
+    .kpi_footer {
+        padding: 8px;
+    }
+
+    .kpi_footer p {
+        font-size: 12px;
+    }
+
+    #progress_bar {
+        height: 15px;
+    }
+
+    /* Seção principal */
+    .section_main {
+        padding: 8px;
+        min-height: 250px;
+    }
+
+    .header_usuarios {
+        padding: 8px 0;
+    }
+
+    .input_pesquisa {
+        height: 40px;
+        font-size: 13px;
+    }
+
+    .div_criar_usuario {
+        height: 40px;
+    }
+
+    .div_criar_usuario p {
+        font-size: 12px;
+    }
+
+    /* Tabela ainda menor */
+    .main_usuarios {
+        max-height: 200px;
+    }
+
+    .tabela {
+        font-size: 11px;
+        min-width: 480px;
+    }
+
+    .tabela th,
+    .tabela td {
+        padding: 6px 3px;
+    }
+
+    .p_status_liberado,
+    .p_status_bloqueado {
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+
+    .fi-sr-pencil,
+    .fi-sr-trash {
+        font-size: 16px;
+    }
+
+    /* Paginação compacta */
+    .paginacao_container {
+        padding: 8px 5px;
+        gap: 5px;
+    }
+
+    .btn_paginacao {
+        padding: 5px 8px;
+        font-size: 11px;
+    }
+
+    /* Modais ainda mais compactos */
+    dialog {
+        max-width: 95%;
+        width: 95%;
+    }
+
+    .div_btn_usuario {
+        font-size: 12px;
+        padding: 8px;
+        height: 40px;
+        width: 40%;
+    }
+
+    .div_main_modal {
+        padding: 12px;
+    }
+
+    .div_main_modal h3 {
+        font-size: 14px;
+    }
+
+    .form_modal label {
+        font-size: 12px;
+    }
+
+    .form_modal input,
+    .form_modal select {
+        font-size: 12px;
+        height: 38px;
+    }
+
+    .div_input_maior input,
+    .div_input_menor input,
+    .div_input input,
+    select {
+        height: 38px;
+        font-size: 12px;
+    }
+
+    .div_footer .div_criar_usuario,
+    .div_editar_usuario {
+        height: 40px;
+    }
+
+    .div_footer .div_criar_usuario p,
+    .div_editar_usuario p {
+        font-size: 12px;
+    }
+
+    /* Modal de remoção */
+    #modal_remover_usuario .div_info_excluir h1 {
+        font-size: calc(var(--font-title) * 1);
+    }
+
+    #modal_remover_usuario .div_info_excluir p {
+        font-size: 12px;
+    }
+
+    #modal_remover_usuario .div_btn_remover_usuario .div_editar_usuario,
+    #modal_remover_usuario .div_btn_remover_usuario #div_excluir_usuario {
+        height: 40px;
+        font-size: 14px;
+    }
+
+    /* Status circles ainda menores */
+    .circulo_status_liberado,
+    .circulo_status_bloqueado {
+        width: 35px;
+        height: 35px;
+        font-size: 12px;
+    }
+
+    /* Navbar mobile mais compacta */
+    aside section ul li {
+        height: 55px;
+    }
+
+    aside section ul li a {
+        font-size: 9px;
+    }
+
+    aside section ul li a i {
+        font-size: 20px;
+    }
+}

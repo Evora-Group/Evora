@@ -696,6 +696,38 @@ function listarAlunosAlerta(tipo = 'preocupante', page = 1, limit = 15) {
 // FUNÇÕES PARA dash_admin_cursos.html (CRUD de Cursos)
 // =====================================================
 
+// Variável para armazenar todos os cursos para filtragem local
+let listaCursosGlobal = [];
+
+function filtrarCursosAdmin() {
+    const input = document.getElementById('pesquisa_curso');
+    if (!input) return;
+    const termo = input.value.toLowerCase().trim();
+    const corpoTabela = document.querySelector('.corpo_tabela');
+    if (!corpoTabela) return;
+
+    const cursosFiltrados = listaCursosGlobal.filter(c => {
+        const id = String(c.id_curso).toLowerCase();
+        const nome = (c.nome || '').toLowerCase();
+        return id.includes(termo) || nome.includes(termo);
+    });
+
+    corpoTabela.innerHTML = '';
+    const nomeInstituicao = sessionStorage.getItem("nomeInstituicao") || '-';
+    cursosFiltrados.forEach(c => {
+        const profAlocados = c.num_professores > 0 ? `${c.num_professores} professor(es)` : 'Nenhum';
+        corpoTabela.innerHTML += `
+        <tr>
+            <td>${c.id_curso}</td>
+            <td>${c.nome}</td>
+            <td>${nomeInstituicao}</td>
+            <td>${profAlocados}</td>
+            <td onclick="abrirModalEditar(${c.id_curso})"><i class="fi fi-sr-pencil"></i></td>
+            <td onclick="abrirModalRemover(${c.id_curso})"><i class="fi fi-sr-trash"></i></td>
+        </tr>`;
+    });
+}
+
 function listarCursosAdmin(page = 1, limit = 15) {
     const fkInstituicao = sessionStorage.getItem("fkInstituicao");
     if (!fkInstituicao) return;
@@ -709,6 +741,9 @@ function listarCursosAdmin(page = 1, limit = 15) {
             const perPage = data.limit || limit;
             const corpoTabela = document.querySelector('.corpo_tabela');
             const pagination = document.getElementById('pagination_controls');
+
+            // Armazena os cursos para filtragem local
+            listaCursosGlobal = cursos;
 
             if (corpoTabela) corpoTabela.innerHTML = '';
 
@@ -748,6 +783,8 @@ function atualizarKPIsAdmin() {
             if (divProgressBars) {
                 divProgressBars.innerHTML = '';
                 cursos.slice(0, 4).forEach(c => {
+                    const totalUsuarios = (c.quantidade_alunos || 0) + (c.num_professores || 0);
+                    const maxValue = totalUsuarios > 0 ? totalUsuarios : 1;
                     divProgressBars.innerHTML += `
                     <div class="div_progress_bar">
                         <div class="div_cursos_progress_bar">
@@ -756,7 +793,7 @@ function atualizarKPIsAdmin() {
                                     <p>${c.quantidade_alunos} Alunos</p>
                                     <p>${c.num_professores} Professores</p>
                                 </div>
-                                <progress class="progress_instituicao" value="${c.quantidade_alunos}" max="100">${c.quantidade_alunos}%</progress>
+                                <progress class="progress_instituicao" value="${c.quantidade_alunos}" max="${maxValue}"></progress>
                             </div>
                             <p>${c.id_curso} - ${c.nome}</p>
                         </div>

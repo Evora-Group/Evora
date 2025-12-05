@@ -68,4 +68,12 @@ router.get("/obterFrequenciaPorMesCurso/:idCurso", function (req, res) {
     instituicaoController.obterFrequenciaPorMesCurso(req, res);
 });
 
+router.get("/listarAlunosInstituicao/:idInstituicao", function (req, res) {
+    instituicaoController.listarAlunosInstituicao(req, res)
+})
+
+router.get("/kpis/:idInstituicao", function (req, res) {
+    instituicaoController.obterKpisAlunos(req, res)
+})
+
 module.exports = router;

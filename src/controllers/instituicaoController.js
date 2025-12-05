@@ -62,33 +62,39 @@ function listarUsuariosInstituicao(req, res) {
 function listarAlunosInstituicao(req, res) {
     var idInstituicao = req.params.idInstituicao;
     var page = parseInt(req.query.page) || 1;
-    
-    // 1. Limite ajustado para 14 alunos por página (conforme solicitado)
     var limit = 14; 
     var offset = (page - 1) * limit;
 
     instituicaoModel.listarAlunosInstituicao(idInstituicao, limit, offset)
         .then(function (resultado) {
-            
             var totalItems = resultado.totalItems;
             var totalPages = Math.ceil(totalItems / limit);
 
-            // 2. Enviamos 'freqStats' junto com a resposta
             res.json({
                 data: resultado.data,
                 currentPage: page,
                 totalPages: totalPages,
-                totalItems: totalItems,
-                kpiStats: resultado.kpiStats, // KPI Desempenho (Atencao, Regular, Otimo)
-                freqStats: resultado.freqStats // KPI Frequencia (Média Geral, Qtd Atenção)
+                totalItems: totalItems
+                // Não enviamos mais KPIs aqui!
             });
-        })
-        .catch(function (erro) {
-            console.log("\nHouve um erro ao listar os alunos! Erro: ", erro.sqlMessage);
+        }).catch(function (erro) {
+            console.log(erro);
             res.status(500).json(erro.sqlMessage);
         });
 }
 
+// NOVO CONTROLLER
+function obterKpisAlunos(req, res) {
+    var idInstituicao = req.params.idInstituicao;
+    
+    instituicaoModel.obterKpisAlunos(idInstituicao)
+        .then(function (resultado) {
+            res.json(resultado);
+        }).catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
 function listarCursosInstituicao(req, res) {
     const idInstituicao = req.params.idInstituicao;
 
@@ -303,5 +309,6 @@ module.exports = {
     obterCursoEspecifico,
     listarAlunosCurso,
     obterEstatisticasCurso,
-    obterFrequenciaPorMesCurso
+    obterFrequenciaPorMesCurso,
+    obterKpisAlunos
 };

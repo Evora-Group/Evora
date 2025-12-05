@@ -7,22 +7,23 @@ let cachePaginas = {}; // Cache local para armazenar páginas já carregadas
 // 1. FUNÇÃO PRINCIPAL: LISTAR ALUNOS (Com Cache e Prefetch)
 // =================================================================================
 
+let kpisCarregados = false; 
+
+// 1. FUNÇÃO PRINCIPAL: LISTAR ALUNOS (Leve e Rápida)
 function listarAlunosInstituicao(pagina = 1) {
     const fkInstituicao = sessionStorage.getItem("fkInstituicao");
     const containerPaginacao = document.getElementById('pagination_controls');
     
-    // 1. Verifica se já temos essa página no CACHE
+    // Lógica de Cache (Mantida)
     if (cachePaginas[pagina]) {
-        console.log(`[CACHE] Recuperando página ${pagina} da memória.`);
         renderizarDados(cachePaginas[pagina]);
-        // Pré-carrega a próxima página em background
         prefetchPagina(pagina + 1, fkInstituicao);
         return;
     }
 
-    // Feedback visual leve (só se não for cache)
     if (containerPaginacao) containerPaginacao.style.opacity = '0.6';
 
+    // Chama APENAS a lista (agora responde rápido)
     fetch(`/instituicao/listarAlunosInstituicao/${fkInstituicao}?page=${pagina}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" }
@@ -32,15 +33,64 @@ function listarAlunosInstituicao(pagina = 1) {
                 // Salva no Cache
                 cachePaginas[pagina] = dados;
                 
+                // Renderiza a Tabela
                 renderizarDados(dados);
                 
                 if (containerPaginacao) containerPaginacao.style.opacity = '1';
+                
+                // --- AQUI ESTÁ A MÁGICA ---
+                // Se for a primeira vez, chamamos os KPIs em background    
+                    carregarKpisEmBackground(fkInstituicao);
 
-                // Pré-carrega a próxima página silenciosamente
+
                 prefetchPagina(pagina + 1, fkInstituicao);
             });
         }
     }).catch(console.error);
+}
+
+// 2. NOVA FUNÇÃO: CARREGAR KPIS (Com Cache de SessionStorage)
+function carregarKpisEmBackground(idInstituicao) {
+    // Cria uma chave única para evitar conflitos se trocar de conta na mesma aba
+    const storageKey = `kpis_cache_${idInstituicao}`;
+    
+    // 1. Tenta pegar do SessionStorage primeiro
+    const kpisGuardados = sessionStorage.getItem(storageKey);
+
+    if (kpisGuardados) {
+        console.log("Recuperando KPIs do SessionStorage (Sem fetch)...");
+        const dados = JSON.parse(kpisGuardados);
+        
+        // Atualiza a tela imediatamente
+        atualizarKpiDesempenho(dados.kpiStats, 0);
+        atualizarKpiFrequencia(dados.freqStats);
+        return; // Para a execução aqui, não faz fetch
+    }
+
+    // 2. Se não tem no storage, busca na API
+    console.log("Iniciando carregamento dos KPIs (API)...");
+
+    fetch(`/instituicao/kpis/${idInstituicao}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+    })
+    .then(resposta => {
+        if (resposta.ok) return resposta.json();
+        throw new Error('Erro ao buscar KPIs');
+    })
+    .then(dados => {
+        console.log("KPIs carregados e salvos no SessionStorage!");
+        
+        // 3. Salva no SessionStorage para a próxima vez
+        sessionStorage.setItem(storageKey, JSON.stringify(dados));
+        
+        // Atualiza a tela
+        atualizarKpiDesempenho(dados.kpiStats, 0);
+        atualizarKpiFrequencia(dados.freqStats);
+    })
+    .catch(erro => {
+        console.error("Erro nos KPIs:", erro);
+    });
 }
 
 // Função para renderizar os dados (separada para ser usada pelo cache)

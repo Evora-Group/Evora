@@ -16,7 +16,7 @@ function buscarAlunoPorRa(raAluno) {
         INNER JOIN turma t ON m.fkTurma = t.id_turma
         INNER JOIN curso c ON t.fkCurso = c.id_curso
         INNER JOIN instituicao i ON c.fkInstituicao = i.id_instituicao
-        WHERE a.ra = ${raAluno};
+        WHERE a.ra = ${raAluno}
         AND m.ativo = 1`;
 
     console.log("Executando busca de aluno de ra:", raAluno);

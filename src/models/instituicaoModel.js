@@ -11,6 +11,7 @@ function listarAlunosInstituicao(idInstituicao, limit, offset) {
         INNER JOIN turma t ON m.fkTurma = t.id_turma
         INNER JOIN curso c ON t.fkCurso = c.id_curso
         WHERE c.fkInstituicao = ${idInstituicao}
+        AND m.ativo = 1
         LIMIT ${limit} OFFSET ${offset};
     `;
 
@@ -21,7 +22,8 @@ function listarAlunosInstituicao(idInstituicao, limit, offset) {
         JOIN matricula m ON a.ra = m.fkAluno
         JOIN turma t ON m.fkTurma = t.id_turma
         JOIN curso c ON t.fkCurso = c.id_curso
-        WHERE c.fkInstituicao = ${idInstituicao};
+        WHERE c.fkInstituicao = ${idInstituicao}
+        AND m.ativo = 1;
     `;
 
     // Apenas executa lista e total. É muito mais rápido!
@@ -63,6 +65,7 @@ function obterKpisAlunos(idInstituicao) {
             JOIN curso c ON t.fkCurso = c.id_curso
             LEFT JOIN avaliacao av ON av.fkMatricula = m.id_matricula
             WHERE c.fkInstituicao = ${idInstituicao}
+            And m.ativo = 1
             GROUP BY m.id_matricula
         ) as sub;
     `;
@@ -80,6 +83,7 @@ function obterKpisAlunos(idInstituicao) {
             JOIN curso c ON t.fkCurso = c.id_curso
             JOIN frequencia f ON f.fkMatricula = m.id_matricula
             WHERE c.fkInstituicao = ${idInstituicao}
+            AND m.ativo = 1
             GROUP BY m.fkAluno
         ) as sub;
     `;
@@ -189,7 +193,7 @@ function listarTurmasInstituicao(id) { return database.executar(`SELECT t.id_tur
 function listarDisciplinasPorInstituicao(id) { return database.executar(`SELECT nome FROM disciplina WHERE fkInstituicao = ? ORDER BY nome ASC;`, [id]); }
 
 function listarAlunosAlerta(id, tipo, limit, offset) {
-    const baseSql = `SELECT a.ra, a.nome, a.email, t.nome_sigla AS turma, c.nome AS curso, (SELECT IFNULL(AVG(av.nota), 0) FROM avaliacao av JOIN matricula m2 ON av.fkMatricula = m2.id_matricula WHERE m2.fkAluno = a.ra) AS media_nota, (SELECT IFNULL((SUM(f.presente) / COUNT(f.id_frequencia)) * 100, 0) FROM frequencia f JOIN matricula m3 ON f.fkMatricula = m3.id_matricula WHERE m3.fkAluno = a.ra) AS frequencia FROM aluno a JOIN matricula m ON a.ra = m.fkAluno JOIN turma t ON m.fkTurma = t.id_turma JOIN curso c ON t.fkCurso = c.id_curso WHERE c.fkInstituicao = ?`;
+    const baseSql = `SELECT a.ra, a.nome, a.email, t.nome_sigla AS turma, c.nome AS curso, (SELECT IFNULL(AVG(av.nota), 0) FROM avaliacao av JOIN matricula m2 ON av.fkMatricula = m2.id_matricula WHERE m2.fkAluno = a.ra) AS media_nota, (SELECT IFNULL((SUM(f.presente) / COUNT(f.id_frequencia)) * 100, 0) FROM frequencia f JOIN matricula m3 ON f.fkMatricula = m3.id_matricula WHERE m3.fkAluno = a.ra) AS frequencia FROM aluno a JOIN matricula m ON a.ra = m.fkAluno JOIN turma t ON m.fkTurma = t.id_turma JOIN curso c ON t.fkCurso = c.id_curso WHERE c.fkInstituicao = ? AND m.ativo = 1`;
     let filtro = (tipo === 'preocupante') ? 'WHERE base.media_nota < 6 AND base.frequencia < 75' : (tipo === 'atencao' ? 'WHERE (base.media_nota >= 5 AND base.media_nota < 6) OR (base.frequencia >= 70 AND base.frequencia < 75)' : 'WHERE 1=0');
     return database.executar(`SELECT COUNT(*) AS total FROM (${baseSql}) AS base ${filtro}`, [id]).then(c => { var t = (c&&c.length)?c[0].total:0; return database.executar(`SELECT base.*, CASE WHEN base.media_nota < 6 AND base.frequencia < 75 THEN 'Média e presença baixas' WHEN base.media_nota < 6 THEN 'Média baixa' WHEN base.frequencia < 75 THEN 'Presença baixa' ELSE '-' END AS descricao FROM (${baseSql}) AS base ${filtro} ORDER BY base.nome LIMIT ? OFFSET ?`, [id, limit, offset]).then(a => ({total: t, alunos: a})); });
 }

@@ -115,14 +115,41 @@ function top5Evasao(fkInstituicao) {
 
 function taxaAprovacao(fkInstituicao) {
     const instrucaoSql = `
-        SELECT 
-            (SUM(CASE WHEN a.nota >= 6 THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS percentualAprovacao
-        FROM avaliacao a
-        JOIN matricula m ON m.id_matricula = a.fkMatricula
-        JOIN turma t ON t.id_turma = m.fkTurma
-        JOIN curso c ON c.id_curso = t.fkCurso
-        WHERE c.fkInstituicao = ?
-        AND a.data_avaliacao >= DATE_SUB(NOW(), INTERVAL 30 DAY);
+        SELECT
+            -- 1. Calcula o percentual: (Aprovados * 100) / Total de Alunos Ativos
+            COALESCE(
+                (SUM(CASE WHEN t2.avg_nota >= 6 AND t3.avg_freq >= 0.75 THEN 1 ELSE 0 END) * 100.0)
+                / NULLIF(COUNT(m.id_matricula), 0),
+            0) AS percentualAprovacao
+        FROM
+            matricula m
+        JOIN
+            turma t1 ON t1.id_turma = m.fkTurma
+        JOIN
+            curso c ON c.id_curso = t1.fkCurso
+        LEFT JOIN (
+            -- T2: Subconsulta para calcular a Média de Notas (AVG(nota)) por aluno
+            SELECT
+                fkMatricula,
+                AVG(nota) AS avg_nota
+            FROM
+                avaliacao
+            GROUP BY
+                fkMatricula
+        ) AS t2 ON t2.fkMatricula = m.id_matricula
+        LEFT JOIN (
+            -- T3: Subconsulta para calcular a Média de Frequência (SUM(presente) / COUNT(*)) por aluno
+            SELECT
+                fkMatricula,
+                (SUM(presente) / COUNT(id_frequencia)) AS avg_freq
+            FROM
+                frequencia
+            GROUP BY
+                fkMatricula
+        ) AS t3 ON t3.fkMatricula = m.id_matricula
+        WHERE
+            c.fkInstituicao = ?  -- Filtra pela instituição
+            AND m.ativo = 1;     -- Filtra por Matrículas Ativas
     `;
     return database.executar(instrucaoSql, [fkInstituicao]);
 }

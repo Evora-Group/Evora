@@ -107,8 +107,8 @@ function comparativoNovasMatriculas(req, res) {
 
     dashModel.comparativoNovasMatriculas(id) 
         .then(resultado => {
-            const atualNum = parseFloat(resultado[0].atual || 0);
-            const anteriorNum = parseFloat(resultado[0].anterior || 0);
+            const atualNum = parseFloat(resultado[0].atualMes_novasMatriculas || 0);
+            const anteriorNum = parseFloat(resultado[0].anteriorMes_novasMatriculas || 0);
 
             let variacao = 0;
             let direcao = "equal";

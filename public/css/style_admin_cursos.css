@@ -542,6 +542,7 @@ main header .kpi_maior{
   .tabela{
     width: 100%;
     overflow-y: scroll;
+    border-collapse: collapse;
   }
 
   .corpo_tabela{
@@ -565,7 +566,7 @@ main header .kpi_maior{
 /* Aplica o fundo e a borda nos 'th' */
 .tabela thead th {
   background-color: var(--white-color);
-  padding: 15px 10px; /* Controla a altura */
+  padding: 15px 5px; /* Controla a altura */
   border-bottom: solid 2px black;
   
   /* Garantia extra para o sticky funcionar 
@@ -576,7 +577,7 @@ main header .kpi_maior{
 
 
 .tabela td {
-    padding: 8px 10px; /* reduzido: menos espaço vertical entre linhas */
+    padding: 8px 5px; /* reduzido: menos espaço horizontal entre colunas */
     text-align: center;
 }
 
@@ -659,9 +660,42 @@ dialog::backdrop {
 
 #modal_criar_curso{
     max-width: 40%;
-    height: 60%;
-    box-shadow: var(--card-shadow);
+    width: 100%;
+    height: 75%;
+    background: none;
+}
+
+#modal_criar_curso .div_main_modal{
+    height: 100%;
     border-radius: 15px;
+    padding: var(--padding);
+    justify-content: unset;
+    gap: calc(var(--gap) * 0.25);
+    background: var(--white-color);
+}
+
+#modal_criar_curso .div_main_modal h3{
+    height: 5%;
+}
+
+#modal_criar_curso .form_modal{
+    height: 70%;
+    justify-content: space-around;
+}
+
+#modal_criar_curso .form_modal label{
+    height: 100%;
+    padding-bottom: calc(var(--padding)*0.5);
+}
+
+#modal_criar_curso .div_footer{
+    height: 20%;
+    padding: var(--padding);
+}
+
+#modal_criar_curso .div_footer .div_criar_usuario{
+    width: 30%;
+    height: 55%;
 }
 
 .circulo_status {

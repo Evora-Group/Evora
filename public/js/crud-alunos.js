@@ -7,22 +7,23 @@ let cachePaginas = {}; // Cache local para armazenar páginas já carregadas
 // 1. FUNÇÃO PRINCIPAL: LISTAR ALUNOS (Com Cache e Prefetch)
 // =================================================================================
 
+let kpisCarregados = false; 
+
+// 1. FUNÇÃO PRINCIPAL: LISTAR ALUNOS (Leve e Rápida)
 function listarAlunosInstituicao(pagina = 1) {
     const fkInstituicao = sessionStorage.getItem("fkInstituicao");
     const containerPaginacao = document.getElementById('pagination_controls');
     
-    // 1. Verifica se já temos essa página no CACHE
+    // Lógica de Cache (Mantida)
     if (cachePaginas[pagina]) {
-        console.log(`[CACHE] Recuperando página ${pagina} da memória.`);
         renderizarDados(cachePaginas[pagina]);
-        // Pré-carrega a próxima página em background
         prefetchPagina(pagina + 1, fkInstituicao);
         return;
     }
 
-    // Feedback visual leve (só se não for cache)
     if (containerPaginacao) containerPaginacao.style.opacity = '0.6';
 
+    // Chama APENAS a lista (agora responde rápido)
     fetch(`/instituicao/listarAlunosInstituicao/${fkInstituicao}?page=${pagina}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" }
@@ -32,15 +33,53 @@ function listarAlunosInstituicao(pagina = 1) {
                 // Salva no Cache
                 cachePaginas[pagina] = dados;
                 
+                // Renderiza a Tabela
                 renderizarDados(dados);
                 
                 if (containerPaginacao) containerPaginacao.style.opacity = '1';
+                
+                // --- AQUI ESTÁ A MÁGICA ---
+                // Se for a primeira vez, chamamos os KPIs em background
+                if (!kpisCarregados) {
+                    carregarKpisEmBackground(fkInstituicao);
+                }
 
-                // Pré-carrega a próxima página silenciosamente
                 prefetchPagina(pagina + 1, fkInstituicao);
             });
         }
     }).catch(console.error);
+}
+
+// 2. NOVA FUNÇÃO: CARREGAR KPIS (Pesada, roda em paralelo)
+function carregarKpisEmBackground(idInstituicao) {
+    console.log("Iniciando carregamento dos KPIs...");
+    
+    // Opcional: Colocar um "Carregando..." ou spinner nos números dos KPIs
+    // document.getElementById('count_atencao').textContent = '...';
+
+    fetch(`/instituicao/kpis/${idInstituicao}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+    })
+    .then(resposta => {
+        if (resposta.ok) {
+            return resposta.json();
+        }
+        throw new Error('Erro ao buscar KPIs');
+    })
+    .then(dados => {
+        // Quando os dados chegarem (pode demorar uns 2s), atualiza a tela
+        console.log("KPIs carregados com sucesso!");
+        
+        // Usa as funções auxiliares que você já tem
+        atualizarKpiDesempenho(dados.kpiStats, 0); // O 0 é porque não precisamos mais do total aqui
+        atualizarKpiFrequencia(dados.freqStats);
+        
+        kpisCarregados = true; // Impede que recarregue ao mudar de página
+    })
+    .catch(erro => {
+        console.error("Erro nos KPIs:", erro);
+    });
 }
 
 // Função para renderizar os dados (separada para ser usada pelo cache)

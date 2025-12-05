@@ -1,8 +1,7 @@
 var database = require("../database/config");
 
 function listarAlunosInstituicao(idInstituicao, limit, offset) {
-    
-    // 1. Query da Lista
+    // 1. Query da Lista (Otimizada)
     var instrucaoSql = `
         SELECT 
             a.ra, a.nome, a.email, t.nome_sigla AS turma, c.nome AS curso,
@@ -15,7 +14,7 @@ function listarAlunosInstituicao(idInstituicao, limit, offset) {
         LIMIT ${limit} OFFSET ${offset};
     `;
 
-    // 2. Query do Total
+    // 2. Query do Total (Para paginação)
     var instrucaoTotal = `
         SELECT COUNT(a.ra) as total 
         FROM aluno a
@@ -25,37 +24,32 @@ function listarAlunosInstituicao(idInstituicao, limit, offset) {
         WHERE c.fkInstituicao = ${idInstituicao};
     `;
 
-    // Tratamento de dados (Função auxiliar para não repetir código)
-    const tratarAlunos = (lista) => {
-        return lista.map(aluno => {
-            let status = 'Regular';
-            let media = parseFloat(aluno.media_notas);
-            if (!media && media !== 0) status = 'Atenção';
-            else if (media >= 8) status = 'Ótimo';
-            else if (media < 6) status = 'Atenção';
-            return { ...aluno, desempenho: status };
-        });
-    };
+    // Apenas executa lista e total. É muito mais rápido!
+    return Promise.all([
+        database.executar(instrucaoSql),
+        database.executar(instrucaoTotal)
+    ]).then(function (resultados) {
+        // Função auxiliar de tratamento (mantida)
+        const tratarAlunos = (lista) => {
+            return lista.map(aluno => {
+                let status = 'Regular';
+                let media = parseFloat(aluno.media_notas);
+                if (!media && media !== 0) status = 'Atenção';
+                else if (media >= 8) status = 'Ótimo';
+                else if (media < 6) status = 'Atenção';
+                return { ...aluno, desempenho: status };
+            });
+        };
 
-    // --- CENÁRIO 1: NAVEGAÇÃO (Páginas 2, 3...) ---
-    // Executa apenas Lista e Total em paralelo. Pula as KPIs pesadas.
-    if (offset > 0) {
-        return Promise.all([
-            database.executar(instrucaoSql),
-            database.executar(instrucaoTotal)
-        ]).then(function (resultados) {
-            return {
-                data: tratarAlunos(resultados[0]),
-                totalItems: resultados[1][0].total,
-                kpiStats: null, // Mantém o cache do front
-                freqStats: null // Mantém o cache do front
-            };
-        });
-    }
+        return {
+            data: tratarAlunos(resultados[0]),
+            totalItems: resultados[1][0].total
+        };
+    });
+}
 
-    // --- CENÁRIO 2: CARGA INICIAL (Página 1) ---
-    // Executa TUDO em paralelo. O tempo será definido pela query mais lenta, não pela soma.
-    
+// NOVA FUNÇÃO: Executa apenas os cálculos pesados
+function obterKpisAlunos(idInstituicao) {
     // 3. KPI Desempenho
     var instrucaoKpiNotas = `
         SELECT 
@@ -89,18 +83,13 @@ function listarAlunosInstituicao(idInstituicao, limit, offset) {
         ) as sub;
     `;
 
-    // Promise.all dispara os 4 tiros de canhão ao mesmo tempo no banco
     return Promise.all([
-        database.executar(instrucaoSql),
-        database.executar(instrucaoTotal),
         database.executar(instrucaoKpiNotas),
         database.executar(instrucaoKpiFreq)
     ]).then(function (resultados) {
         return {
-            data: tratarAlunos(resultados[0]),
-            totalItems: resultados[1][0].total,
-            kpiStats: resultados[2][0],
-            freqStats: resultados[3][0] || { frequencia_geral: 0, kpi_atencao_freq: 0 }
+            kpiStats: resultados[0][0],
+            freqStats: resultados[1][0] || { frequencia_geral: 0, kpi_atencao_freq: 0 }
         };
     });
 }
@@ -215,7 +204,7 @@ function obterFrequenciaPorMesCurso(id) { return database.executar(`SELECT MONTH
 
 module.exports = {
     listarInstituicoes, buscarInstituicao, listarUsuariosInstituicao,
-    listarAlunosInstituicao, // <--- FUNÇÃO OTIMIZADA AQUI
+    listarAlunosInstituicao, obterKpisAlunos, 
     listarCursosInstituicao, listarAlunosAlerta, criarCurso, editarCurso, deletarCurso, obterCursoPorId,
     listarTurmasInstituicao, listarDisciplinasPorInstituicao, listarCursosInstituicaoSimples,
     obterCursoEspecifico, listarAlunosCurso, obterEstatisticasCurso, obterFrequenciaPorMesCurso

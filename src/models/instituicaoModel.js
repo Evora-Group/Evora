@@ -50,23 +50,24 @@ function listarAlunosInstituicao(idInstituicao, limit, offset) {
 
 // NOVA FUNÇÃO: Executa apenas os cálculos pesados
 function obterKpisAlunos(idInstituicao) {
-    // 3. KPI Desempenho
+    // 3. KPI Desempenho (OTIMIZADO com JOIN)
     var instrucaoKpiNotas = `
         SELECT 
-            COALESCE(SUM(CASE WHEN COALESCE(sub.media, 0) < 6 THEN 1 ELSE 0 END), 0) as kpi_atencao,
+            COALESCE(SUM(CASE WHEN sub.media < 6 THEN 1 ELSE 0 END), 0) as kpi_atencao,
             COALESCE(SUM(CASE WHEN sub.media >= 6 AND sub.media < 8 THEN 1 ELSE 0 END), 0) as kpi_regular,
             COALESCE(SUM(CASE WHEN sub.media >= 8 THEN 1 ELSE 0 END), 0) as kpi_otimo
         FROM (
-            SELECT (SELECT AVG(av.nota) FROM avaliacao av WHERE av.fkMatricula = m.id_matricula) as media
-            FROM aluno a
-            JOIN matricula m ON a.ra = m.fkAluno
+            SELECT AVG(av.nota) as media
+            FROM matricula m
             JOIN turma t ON m.fkTurma = t.id_turma
             JOIN curso c ON t.fkCurso = c.id_curso
+            LEFT JOIN avaliacao av ON av.fkMatricula = m.id_matricula
             WHERE c.fkInstituicao = ${idInstituicao}
+            GROUP BY m.id_matricula
         ) as sub;
     `;
 
-    // 4. KPI Frequência
+    // 4. KPI Frequência (Já estava razoável, mas mantendo o padrão)
     var instrucaoKpiFreq = `
         SELECT 
             ROUND(AVG(sub.freq), 0) as frequencia_geral,
@@ -74,15 +75,16 @@ function obterKpisAlunos(idInstituicao) {
         FROM (
             SELECT 
                 (SUM(f.presente) / COUNT(f.id_frequencia)) * 100 as freq
-            FROM frequencia f
-            JOIN matricula m ON f.fkMatricula = m.id_matricula
+            FROM matricula m
             JOIN turma t ON m.fkTurma = t.id_turma
             JOIN curso c ON t.fkCurso = c.id_curso
+            JOIN frequencia f ON f.fkMatricula = m.id_matricula
             WHERE c.fkInstituicao = ${idInstituicao}
             GROUP BY m.fkAluno
         ) as sub;
     `;
 
+    // MANTENHA O PROMISE.ALL - ELE É RÁPIDO!
     return Promise.all([
         database.executar(instrucaoKpiNotas),
         database.executar(instrucaoKpiFreq)
@@ -93,7 +95,6 @@ function obterKpisAlunos(idInstituicao) {
         };
     });
 }
-
 
 function listarInstituicoes() { return database.executar(`SELECT id_instituicao, nome FROM instituicao ORDER BY nome DESC;`); }
 function buscarInstituicao(nome) { return database.executar(`SELECT id_instituicao FROM instituicao WHERE nome = ? LIMIT 1;`, [nome]); }

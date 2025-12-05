@@ -39,10 +39,9 @@ function listarAlunosInstituicao(pagina = 1) {
                 if (containerPaginacao) containerPaginacao.style.opacity = '1';
                 
                 // --- AQUI ESTÁ A MÁGICA ---
-                // Se for a primeira vez, chamamos os KPIs em background
-                if (!kpisCarregados) {
+                // Se for a primeira vez, chamamos os KPIs em background    
                     carregarKpisEmBackground(fkInstituicao);
-                }
+
 
                 prefetchPagina(pagina + 1, fkInstituicao);
             });
@@ -50,32 +49,44 @@ function listarAlunosInstituicao(pagina = 1) {
     }).catch(console.error);
 }
 
-// 2. NOVA FUNÇÃO: CARREGAR KPIS (Pesada, roda em paralelo)
+// 2. NOVA FUNÇÃO: CARREGAR KPIS (Com Cache de SessionStorage)
 function carregarKpisEmBackground(idInstituicao) {
-    console.log("Iniciando carregamento dos KPIs...");
+    // Cria uma chave única para evitar conflitos se trocar de conta na mesma aba
+    const storageKey = `kpis_cache_${idInstituicao}`;
     
-    // Opcional: Colocar um "Carregando..." ou spinner nos números dos KPIs
-    // document.getElementById('count_atencao').textContent = '...';
+    // 1. Tenta pegar do SessionStorage primeiro
+    const kpisGuardados = sessionStorage.getItem(storageKey);
+
+    if (kpisGuardados) {
+        console.log("Recuperando KPIs do SessionStorage (Sem fetch)...");
+        const dados = JSON.parse(kpisGuardados);
+        
+        // Atualiza a tela imediatamente
+        atualizarKpiDesempenho(dados.kpiStats, 0);
+        atualizarKpiFrequencia(dados.freqStats);
+        return; // Para a execução aqui, não faz fetch
+    }
+
+    // 2. Se não tem no storage, busca na API
+    console.log("Iniciando carregamento dos KPIs (API)...");
 
     fetch(`/instituicao/kpis/${idInstituicao}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" }
     })
     .then(resposta => {
-        if (resposta.ok) {
-            return resposta.json();
-        }
+        if (resposta.ok) return resposta.json();
         throw new Error('Erro ao buscar KPIs');
     })
     .then(dados => {
-        // Quando os dados chegarem (pode demorar uns 2s), atualiza a tela
-        console.log("KPIs carregados com sucesso!");
+        console.log("KPIs carregados e salvos no SessionStorage!");
         
-        // Usa as funções auxiliares que você já tem
-        atualizarKpiDesempenho(dados.kpiStats, 0); // O 0 é porque não precisamos mais do total aqui
+        // 3. Salva no SessionStorage para a próxima vez
+        sessionStorage.setItem(storageKey, JSON.stringify(dados));
+        
+        // Atualiza a tela
+        atualizarKpiDesempenho(dados.kpiStats, 0);
         atualizarKpiFrequencia(dados.freqStats);
-        
-        kpisCarregados = true; // Impede que recarregue ao mudar de página
     })
     .catch(erro => {
         console.error("Erro nos KPIs:", erro);

@@ -25,14 +25,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const barCanvas = document.getElementById('barChart');
     if (barCanvas) {
         const barCtx = barCanvas.getContext('2d');
-        const labelsBar = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro'];
+        const labelsBar = ['Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
         new Chart(barCtx, {
             type: 'bar',
             data: {
                 labels: labelsBar,
                 datasets: [{
                     label: 'Nota média',
-                    data: [5, 2, 10, 4, 8, 7, 6, 4, 7, 5],
+                    data: [5, 2, 10, 4, 8, 7],
                     backgroundColor: 'blue',
                     borderWidth: 0
                 }]
@@ -124,7 +124,7 @@ function carregarAlunosCurso(idCurso) {
         .then(r => r.json())
         .then(alunos => {
             const tbody = document.querySelector('.corpo_tabela');
-            const tbody_mobile = document.querySelector('.corpo_tabela_mobile');
+            const tbody_mobile = document.querySelector('.corpo_tabela_mobile')
             tbody.innerHTML = '';
             tbody_mobile.innerHTML = '';
 
@@ -166,7 +166,7 @@ function carregarAlunosCurso(idCurso) {
 
 function irParaAlunoEspecifico(raAluno) {
     sessionStorage.setItem("raAlunoDetalhe", raAluno);
-    window.location.href = 'alunoEspecifico.html';
+    window.location.href = 'alunoEspecificoAdmin.html';
 }
 
 function getClasseDesempenho(desempenho) {
@@ -201,6 +201,7 @@ function carregarEstatisticasCurso(idCurso) {
         .catch(e => console.error('Erro ao obter estatísticas:', e));
 }
 
+
 function carregarFrequenciaPorMes(idCurso) {
     fetch(`/instituicao/obterFrequenciaPorMesCurso/${idCurso}`)
         .then(r => {
@@ -209,32 +210,34 @@ function carregarFrequenciaPorMes(idCurso) {
         })
         .then(frequencias => {
             console.log('Frequências por mês recebidas:', frequencias);
-            
-            const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho'];
-            const dadosFrequencia = new Array(7).fill(0);
 
-            if (frequencias && Array.isArray(frequencias) && frequencias.length > 0) {
-                // Mapear dados retornados para cada mês
+            // Meses alvo (índice 0..6 = Junho..Dezembro)
+            const meses = ['Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+            const dadosFrequencia = new Array(meses.length).fill(0);
+
+            if (Array.isArray(frequencias) && frequencias.length > 0) {
                 frequencias.forEach(freq => {
-                    const indice = freq.mes - 1;
-                    if (indice >= 0 && indice < 7) {
-                        dadosFrequencia[indice] = parseFloat(freq.frequencia_media) || 0;
+                    const mes = Number(freq.mes); // 1..12
+                    const valor = parseFloat(freq.frequencia_media) || 0;
+
+                    // Mapear 6..12 -> 0..6
+                    if (mes >= 6 && mes <= 12) {
+                        const indice = mes - 6;
+                        dadosFrequencia[indice] = valor;
                     }
                 });
             }
 
-            console.log('Dados de frequência processados:', dadosFrequencia);
-            
-            // Desenhar gráfico com dados
+            console.log('Dados de frequência processados (Jun–Dez):', dadosFrequencia);
             desenharGraficoFrequencia(dadosFrequencia);
         })
         .catch(e => {
             console.error('Erro ao obter frequência por mês:', e);
-            // Desenha com zeros em caso de erro
-            const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho'];
+            const meses = ['Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
             desenharGraficoFrequencia(new Array(meses.length).fill(0));
         });
 }
+
 
 function desenharGraficoNotas(acima, na_media, abaixo) {
     const notasCanvas = document.getElementById('notasChart');
@@ -281,40 +284,55 @@ function desenharGraficoNotas(acima, na_media, abaixo) {
     window.notasChartInstance = new Chart(notasCanvas, configNotas);
 }
 
+
 function desenharGraficoFrequencia(frequenciaMedia) {
-    console.log('Desenhando gráfico de frequência com dados:', frequenciaMedia);
-    
-    const frequenciaCanvas = document.getElementById('frequenciaChart');
-    if (!frequenciaCanvas) {
-        console.error('Canvas frequenciaChart não encontrado!');
+    console.log('Desenhando gráfico de frequência com dados brutos:', frequenciaMedia);
+
+    const canvas = document.getElementById('frequenciaChart');
+    if (!canvas) {
+        console.error('Canvas #frequenciaChart não encontrado!');
         return;
     }
 
     // Destruir gráfico anterior se existir
-    if (window.frequenciaChartInstance) {
-        window.frequenciaChartInstance.destroy();
+    if (window.frequenciaChartInstance && typeof window.frequenciaChartInstance.destroy === 'function') {
+        try {
+            window.frequenciaChartInstance.destroy();
+        } catch (e) {
+            console.warn('Falha ao destruir gráfico anterior:', e);
+        }
     }
 
-    // Dados de frequência por mês
-    const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho'];
-    
-    // Se frequenciaMedia é um array (dados por mês), usar diretamente
-    // Caso contrário, criar array com o mesmo valor para todos os meses
-    let dadosFrequencia = Array.isArray(frequenciaMedia) 
-        ? frequenciaMedia 
-        : meses.map(() => frequenciaMedia);
+    // Meses alvo (sempre 7 posições)
+    const meses = ['Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
-    // Garantir que todos os valores são números válidos
+    // Normalização do array recebido:
+    // - Se for número único, repete para 7 posições
+    // - Se for array, ajusta para ter exatamente 7 itens
+    let dadosFrequencia;
+    if (Array.isArray(frequenciaMedia)) {
+        dadosFrequencia = frequenciaMedia.slice(0, 7);
+        if (dadosFrequencia.length < 7) {
+            dadosFrequencia = dadosFrequencia.concat(new Array(7 - dadosFrequencia.length).fill(0));
+        }
+    } else {
+        const valorUnico = parseFloat(frequenciaMedia);
+        const safeValor = isNaN(valorUnico) ? 0 : valorUnico;
+        dadosFrequencia = new Array(meses.length).fill(safeValor);
+    }
+
+    // Converter para números válidos e clamp 0..100
     dadosFrequencia = dadosFrequencia.map(v => {
         const num = parseFloat(v);
-        return isNaN(num) ? 0 : num;
+        if (isNaN(num)) return 0;
+        return Math.max(0, Math.min(100, num));
     });
 
-    console.log('Dados finais para o gráfico:', dadosFrequencia);
+    console.log('Dados finais normalizados (Jun–Dez):', dadosFrequencia);
 
     try {
-        const frequenciaCtx = frequenciaCanvas.getContext('2d');
-        window.frequenciaChartInstance = new Chart(frequenciaCtx, {
+        const ctx = canvas.getContext('2d');
+        window.frequenciaChartInstance = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: meses,
@@ -334,18 +352,31 @@ function desenharGraficoFrequencia(frequenciaMedia) {
                     y: {
                         beginAtZero: true,
                         max: 100,
-                        ticks: { callback: (value) => value + '%' }
+                        ticks: {
+                            callback: (value) => `${value}%`
+                        }
                     },
-                    x: { grid: { display: false } }
+                    x: {
+                        grid: { display: false }
+                    }
                 },
                 plugins: {
                     legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => {
+                                const v = ctx.parsed.y ?? 0;
+                                return `Frequência: ${v}%`;
+                            }
+                        }
+                    },
                     datalabels: {
                         display: false
                     }
                 }
             }
         });
+
         console.log('Gráfico de frequência criado com sucesso');
     } catch (error) {
         console.error('Erro ao criar gráfico de frequência:', error);

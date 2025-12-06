@@ -65,7 +65,11 @@ function listarAlunosInstituicao(req, res) {
     var limit = 14; 
     var offset = (page - 1) * limit;
 
-    instituicaoModel.listarAlunosInstituicao(idInstituicao, limit, offset)
+    // 1. CAPTURA O TERMO DE BUSCA (Ex: "João")
+    var busca = req.query.busca || "";
+
+    // 2. ENVIA O TERMO 'BUSCA' PARA O MODEL
+    instituicaoModel.listarAlunosInstituicao(idInstituicao, limit, offset, busca)
         .then(function (resultado) {
             var totalItems = resultado.totalItems;
             var totalPages = Math.ceil(totalItems / limit);
@@ -75,7 +79,6 @@ function listarAlunosInstituicao(req, res) {
                 currentPage: page,
                 totalPages: totalPages,
                 totalItems: totalItems
-                // Não enviamos mais KPIs aqui!
             });
         }).catch(function (erro) {
             console.log(erro);

@@ -106,62 +106,9 @@
                         </div>
 
                     </header>
-                    <section class="section_filter_usuarios">
-
-
-                        <!-- <details class="filtro-dropdown">
-
-                            <summary class="titulo_sumario">
-                                filtrar por
-                            </summary>
-
-                            <div class="filtro-lista">
-                                <label>
-
-                                    <details>
-
-                                        <summary><input type="checkbox"> Tipo</summary>
-
-                                        <div class="tipo_de_usuario">
-
-                                            <label><input type="checkbox"> professor</label>
-                                            <label><input type="checkbox"> aluno</label>
-
-                                        </div>
-
-                                    </details>
-                                </label>
-                                <label>
-                                    <input type="checkbox"> Turma
-                                </label>
-                                <label>
-                                    <input type="checkbox"> Curso
-                                </label>
-                                <label>
-                                    <input type="checkbox"> Situação
-                                </label>
-                                <label>
-                                    <input type="checkbox"> Instituição
-                                </label>
-                                <label>
-                                    <input type="checkbox"> Limpar
-                                </label>
-                            </div>
-
-                        </details> -->
-                    </section>
+                   
 
                     <main class="main_usuarios">
-    <table class="tabela">
-       <tbody class="corpo_tabela" id="corpo_tabela_usuarios">
-       </tbody>
-    </table>
-</main>
-
-<div id="paginacao_container" class="paginacao_container">
-    </div>
-
-                    <!-- <main class="main_usuarios">
                         <table class="tabela">
                             <thead>
                                 <tr>
@@ -176,6 +123,16 @@
                                     <th></th>
                                 </tr>
                             </thead>
+                            <tbody class="corpo_tabela" id="corpo_tabela_usuarios">
+                            </tbody>
+                        </table>
+                    </main>
+
+                    <div id="paginacao_container" class="paginacao_container">
+                    </div>
+
+                    <!-- <main class="main_usuarios">
+                        <table class="tabela">
                             <tbody class="corpo_tabela" id="corpo_tabela_usuarios">
 
 
@@ -271,10 +228,10 @@
 
                     <div class="div_input_maior" id="div_input_disciplina_editar" style="display: none;">
                         <label for="nome_disciplina">Disciplina:</label>
-    <input list="lista_disciplinas" type="text" id="input_disciplina_prof" name="nome_disciplina" 
-           placeholder="Qual matéria? (Ex: Banco de Dados)">
-    <datalist id="lista_disciplinas">
-        </datalist>
+                        <input list="lista_disciplinas" type="text" id="input_disciplina_prof" name="nome_disciplina"
+                            placeholder="Qual matéria? (Ex: Banco de Dados)">
+                        <datalist id="lista_disciplinas">
+                        </datalist>
                     </div>
                 </div>
 
@@ -663,70 +620,70 @@
         }).catch(erro => console.error("Erro:", erro));
     }
 
-function salvarEdicao() {
-    const id = sessionStorage.getItem('idVisitante');
-    const tipo = sessionStorage.getItem('tipoVisitante');
-    const modal = document.getElementById('modal_editar_usuario');
+    function salvarEdicao() {
+        const id = sessionStorage.getItem('idVisitante');
+        const tipo = sessionStorage.getItem('tipoVisitante');
+        const modal = document.getElementById('modal_editar_usuario');
 
-    // 1. Captura os valores dos inputs
-    const nome = modal.querySelector('input[name="nome"]').value;
-    const email = modal.querySelector('input[name="email"]').value;
-    
-    // --- CORREÇÃO AQUI ---
-    // Estava pegando '#turma_editar_usuario' (que é a lista). 
-    // O correto é '#turma_editar' (que é o input).
-    const nomeTurma = modal.querySelector('#turma_editar').value; 
+        // 1. Captura os valores dos inputs
+        const nome = modal.querySelector('input[name="nome"]').value;
+        const email = modal.querySelector('input[name="email"]').value;
 
-    // 2. Captura a Disciplina (apenas se for Professor)
-    let disciplina = "";
-    if (tipo === 'Professor') {
-        const inputDisc = modal.querySelector('#input_disciplina_prof'); // Verifique se o ID no HTML de editar está correto
-        // No seu HTML de editar, o ID do input de disciplina está como 'input_disciplina_prof' (igual ao de criar).
-        // Isso pode gerar conflito. O ideal seria usar ids unicos. 
-        // Vou usar o seletor genérico do modal para tentar pegar o correto:
-        if (inputDisc) disciplina = inputDisc.value;
-    }
+        // --- CORREÇÃO AQUI ---
+        // Estava pegando '#turma_editar_usuario' (que é a lista). 
+        // O correto é '#turma_editar' (que é o input).
+        const nomeTurma = modal.querySelector('#turma_editar').value;
 
-    // 3. Captura o Status
-    const divStatus = document.getElementById('div_status_editar');
-    const statusTexto = divStatus.getAttribute('data-status') || 'liberado'; 
-    const ativo = (statusTexto === 'liberado') ? 1 : 0;
-
-    const corpo = {
-        nome: nome,
-        email: email,
-        turma: nomeTurma,
-        disciplina: disciplina,
-        ativo: ativo
-    };
-
-    let url;
-    if (tipo === 'Aluno') {
-        url = `/usuarios/editarAluno/${id}`;
-    } else {
-        url = `/usuarios/editarUsuario/${id}`;
-    }
-
-    fetch(url, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(corpo)
-    }).then(function (resposta) {
-        if (resposta.ok) {
-            alert("Editado com sucesso!");
-            listarUsuariosInstituicao(); 
-            fecharModal('modal_editar_usuario');
-        } else {
-            resposta.text().then(texto => {
-                alert("Erro ao editar: " + texto);
-            });
+        // 2. Captura a Disciplina (apenas se for Professor)
+        let disciplina = "";
+        if (tipo === 'Professor') {
+            const inputDisc = modal.querySelector('#input_disciplina_prof'); // Verifique se o ID no HTML de editar está correto
+            // No seu HTML de editar, o ID do input de disciplina está como 'input_disciplina_prof' (igual ao de criar).
+            // Isso pode gerar conflito. O ideal seria usar ids unicos. 
+            // Vou usar o seletor genérico do modal para tentar pegar o correto:
+            if (inputDisc) disciplina = inputDisc.value;
         }
-    }).catch(function (erro) {
-        console.error("Erro no fetch:", erro);
-    });
-}
+
+        // 3. Captura o Status
+        const divStatus = document.getElementById('div_status_editar');
+        const statusTexto = divStatus.getAttribute('data-status') || 'liberado';
+        const ativo = (statusTexto === 'liberado') ? 1 : 0;
+
+        const corpo = {
+            nome: nome,
+            email: email,
+            turma: nomeTurma,
+            disciplina: disciplina,
+            ativo: ativo
+        };
+
+        let url;
+        if (tipo === 'Aluno') {
+            url = `/usuarios/editarAluno/${id}`;
+        } else {
+            url = `/usuarios/editarUsuario/${id}`;
+        }
+
+        fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(corpo)
+        }).then(function (resposta) {
+            if (resposta.ok) {
+                alert("Editado com sucesso!");
+                listarUsuariosInstituicao();
+                fecharModal('modal_editar_usuario');
+            } else {
+                resposta.text().then(texto => {
+                    alert("Erro ao editar: " + texto);
+                });
+            }
+        }).catch(function (erro) {
+            console.error("Erro no fetch:", erro);
+        });
+    }
 
 
     function definirVisitante(id, nome, email, tipo, turma, curso, instituicao, situacao) {
@@ -889,7 +846,7 @@ function salvarEdicao() {
 
     }
 
-    
+
 
 
 </script>

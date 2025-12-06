@@ -163,8 +163,6 @@
                 sessionStorage.setItem("emailUsuario", email);
                 sessionStorage.setItem("cargoUsuario", cargo);
 
-                // Atualiza UI imediatamente
-                document.getElementById("h1_nome_usuario").innerText = nome;
             })
             .catch(err => {
                 console.error("Erro na atualização:", err);

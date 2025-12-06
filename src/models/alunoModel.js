@@ -57,7 +57,7 @@ function listarCursosInstituicao(fkInstituicao) {
     console.log("ACESSANDO MODEL: listando cursos disponíveis da instituição", fkInstituicao);
     const instrucaoSql = `
         SELECT id_curso, nome 
-        FROM Curso 
+        FROM curso 
         WHERE fkInstituicao = ${fkInstituicao};
     `;
 
@@ -73,8 +73,8 @@ function listarTurmasInstituicao(fkInstituicao) {
     const instrucaoSql = `
         SELECT DISTINCT nome_sigla
         FROM turma t
-        INNER JOIN Curso c ON t.fkCurso = c.id_curso 
-        INNER JOIN Instituicao i ON c.fkInstituicao = i.id_instituicao
+        INNER JOIN curso c ON t.fkCurso = c.id_curso 
+        INNER JOIN instituicao i ON c.fkInstituicao = i.id_instituicao
         WHERE c.fkInstituicao = ${fkInstituicao};
     `;
 

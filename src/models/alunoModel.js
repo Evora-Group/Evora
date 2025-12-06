@@ -17,7 +17,7 @@ function buscarAlunoPorRa(raAluno) {
         INNER JOIN curso c ON t.fkCurso = c.id_curso
         INNER JOIN instituicao i ON c.fkInstituicao = i.id_instituicao
         WHERE a.ra = ${raAluno};
-        AND m.ativo = 1`;
+        `;
 
     console.log("Executando busca de aluno de ra:", raAluno);
     return database.executar(instrucaoSql);
@@ -45,7 +45,7 @@ function buscarFrequenciaGeral(idUsuario) {
         LEFT JOIN frequencia f 
             ON f.fkMatricula = m.id_matricula
         WHERE u.id_usuario = ${idUsuario}
-        AND m.ativo = 1
+        
         GROUP BY a.ra, a.nome;
     `;
     return database.executar(sql);
@@ -101,7 +101,7 @@ function buscarDesempenhoPorRa(raAluno, fkInstituicao) {
         LEFT JOIN avaliacao av ON m.id_matricula = av.fkMatricula AND d.id_disciplina = av.fkDisciplina
         LEFT JOIN frequencia f ON m.id_matricula = f.fkMatricula AND d.id_disciplina = f.fkDisciplina
         WHERE m.fkAluno = ${raAluno} AND c.fkInstituicao = ${fkInstituicao}
-        AND m.ativo = 1
+        
         GROUP BY d.id_disciplina, d.nome;
     `;
 
@@ -212,7 +212,7 @@ FROM (
         JOIN curso c ON c.id_curso = t.fkCurso
         JOIN frequencia f ON f.fkMatricula = m.id_matricula
     WHERE c.fkInstituicao = ${idInstituicao}
-    AND m.ativo = 1
+    
     GROUP BY a.ra
 ) AS freqAluno;
 

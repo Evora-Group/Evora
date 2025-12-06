@@ -198,24 +198,27 @@ function criarMatricula(ra, turma, fkCurso) {
 }
 
 function kpiFreqInstituicao(idInstituicao) {
-    const instrucaoSql = `
-        SELECT 
-    ROUND(AVG(freqAluno.freq_percentual), 0) AS frequenciaGeral,
-    SUM(CASE WHEN freqAluno.freq_percentual < 75 THEN 1 ELSE 0 END) AS emAtencao
-FROM (
-    SELECT
-        a.ra,
-        (SUM(f.presente) / COUNT(f.id_frequencia)) * 100 AS freq_percentual
-    FROM aluno a
-        JOIN matricula m ON m.fkAluno = a.ra
-        JOIN turma t ON t.id_turma = m.fkTurma
-        JOIN curso c ON c.id_curso = t.fkCurso
-        JOIN frequencia f ON f.fkMatricula = m.id_matricula
-    WHERE c.fkInstituicao = ${idInstituicao}
-    
-    GROUP BY a.ra
-) AS freqAluno;
+    const instrucaoSql = `SELECT 
+            -- Calcula a porcentagem de alunos que NÃO estão em atenção
+            TRUNCATE(
+                (SUM(CASE WHEN freqAluno.freq_percentual >= 75 THEN 1 ELSE 0 END) / COUNT(*)) * 100, 
+            0) AS frequenciaGeral,
+            
+            -- Mantém a contagem de quantos alunos estão ruins (para o rodapé)
+            SUM(CASE WHEN freqAluno.freq_percentual < 75 THEN 1 ELSE 0 END) AS emAtencao
 
+        FROM (
+            SELECT
+                a.ra,
+                (SUM(f.presente) / COUNT(f.id_frequencia)) * 100 AS freq_percentual
+            FROM aluno a
+                JOIN matricula m ON m.fkAluno = a.ra
+                JOIN turma t ON t.id_turma = m.fkTurma
+                JOIN curso c ON c.id_curso = t.fkCurso
+                JOIN frequencia f ON f.fkMatricula = m.id_matricula
+            WHERE c.fkInstituicao = ${idInstituicao}
+            GROUP BY a.ra
+        ) AS freqAluno;
     `;
 
     return database.executar(instrucaoSql);

@@ -51,27 +51,12 @@ function listarAlunosInstituicao(pagina = 1) {
 
 // 2. NOVA FUNÇÃO: CARREGAR KPIS (Com Cache de SessionStorage)
 function carregarKpisEmBackground(idInstituicao) {
-    // Cria uma chave única para evitar conflitos se trocar de conta na mesma aba
-    const storageKey = `kpis_cache_${idInstituicao}`;
-    
-    // 1. Tenta pegar do SessionStorage primeiro
-    const kpisGuardados = sessionStorage.getItem(storageKey);
+    console.log("Buscando KPIs atualizados na API...");
 
-    if (kpisGuardados) {
-        console.log("Recuperando KPIs do SessionStorage (Sem fetch)...");
-        const dados = JSON.parse(kpisGuardados);
-        
-        // Atualiza a tela imediatamente
-        atualizarKpiDesempenho(dados.kpiStats, 0);
-        atualizarKpiFrequencia(dados.freqStats);
-        return; // Para a execução aqui, não faz fetch
-    }
-
-    // 2. Se não tem no storage, busca na API
-    console.log("Iniciando carregamento dos KPIs (API)...");
-
+    // 'cache: no-store' garante que o navegador não use memória antiga
     fetch(`/instituicao/kpis/${idInstituicao}`, {
         method: "GET",
+        cache: 'no-store', 
         headers: { "Content-Type": "application/json" }
     })
     .then(resposta => {
@@ -79,17 +64,12 @@ function carregarKpisEmBackground(idInstituicao) {
         throw new Error('Erro ao buscar KPIs');
     })
     .then(dados => {
-        console.log("KPIs carregados e salvos no SessionStorage!");
-        
-        // 3. Salva no SessionStorage para a próxima vez
-        sessionStorage.setItem(storageKey, JSON.stringify(dados));
-        
-        // Atualiza a tela
+        // Atualiza os gráficos na tela imediatamente
         atualizarKpiDesempenho(dados.kpiStats, 0);
         atualizarKpiFrequencia(dados.freqStats);
     })
     .catch(erro => {
-        console.error("Erro nos KPIs:", erro);
+        console.error("Erro ao carregar KPIs:", erro);
     });
 }
 
@@ -406,10 +386,23 @@ function confirmarEdicao() {
     const novoCurso = document.getElementById("select_curso_edicao").value;
     const novaTurma = document.getElementById("select_turma_edicao").value;
     const raAluno = sessionStorage.getItem("raAlunoEmEdicao");
-    fetch(`/aluno/editar/${raAluno}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ curso: novoCurso, turma: novaTurma }) })
+
+    fetch(`/aluno/editar/${raAluno}`, { 
+        method: "PUT", 
+        headers: { "Content-Type": "application/json" }, 
+        body: JSON.stringify({ curso: novoCurso, turma: novaTurma }) 
+    })
     .then(res => {
-        if (res.ok) { alert("Atualizado com sucesso!"); location.reload(); } else { alert("Erro ao atualizar."); }
-    });
+        if (res.ok) { 
+            alert("Atualizado com sucesso!");
+            // Apenas recarrega. Como a função de KPIs acima força a busca, 
+            // os dados virão certos automaticamente.
+            location.reload(); 
+        } else { 
+            alert("Erro ao atualizar."); 
+        }
+    })
+    .catch(erro => console.error("Erro na edição:", erro));
 }
 
 function irParaAlunoEspecifico(raAluno) {

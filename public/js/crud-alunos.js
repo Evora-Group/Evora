@@ -2,6 +2,7 @@
 let paginaAtual = 1;
 let totalPaginasGlobal = 1;
 let cachePaginas = {}; // Cache local para armazenar páginas já carregadas
+let termoPesquisaAtual = '';
 
 // =================================================================================
 // 1. FUNÇÃO PRINCIPAL: LISTAR ALUNOS (Com Cache e Prefetch)
@@ -10,40 +11,50 @@ let cachePaginas = {}; // Cache local para armazenar páginas já carregadas
 let kpisCarregados = false; 
 
 // 1. FUNÇÃO PRINCIPAL: LISTAR ALUNOS (Leve e Rápida)
-function listarAlunosInstituicao(pagina = 1) {
+function listarAlunosInstituicao(pagina = 1, termoPesquisa = '') {
     const fkInstituicao = sessionStorage.getItem("fkInstituicao");
     const containerPaginacao = document.getElementById('pagination_controls');
     
-    // Lógica de Cache (Mantida)
-    if (cachePaginas[pagina]) {
-        renderizarDados(cachePaginas[pagina]);
-        prefetchPagina(pagina + 1, fkInstituicao);
+    // 1. ATUALIZA O FILTRO GLOBAL
+    termoPesquisaAtual = termoPesquisa;
+
+    // Chave de cache única: combina a página e o filtro
+    const cacheKey = `${pagina}_${termoPesquisa}`; 
+
+    // Lógica de Cache com Filtro
+    if (cachePaginas[cacheKey]) {
+        renderizarDados(cachePaginas[cacheKey]);
+        prefetchPagina(pagina + 1, fkInstituicao, termoPesquisa);
         return;
     }
 
     if (containerPaginacao) containerPaginacao.style.opacity = '0.6';
 
-    // Chama APENAS a lista (agora responde rápido)
-    fetch(`/instituicao/listarAlunosInstituicao/${fkInstituicao}?page=${pagina}`, {
+    // 2. INCLUI O FILTRO NA URL DE BUSCA
+    const urlBusca = `/instituicao/listarAlunosInstituicao/${fkInstituicao}?page=${pagina}&filtro=${termoPesquisa}`;
+
+    fetch(urlBusca, { 
         method: "GET",
         headers: { "Content-Type": "application/json" }
     }).then(function (resposta) {
         if (resposta.ok) {
             resposta.json().then(function (dados) {
-                // Salva no Cache
-                cachePaginas[pagina] = dados;
+                // Salva no Cache com a chave única
+                cachePaginas[cacheKey] = dados;
                 
                 // Renderiza a Tabela
                 renderizarDados(dados);
                 
                 if (containerPaginacao) containerPaginacao.style.opacity = '1';
                 
-                // --- AQUI ESTÁ A MÁGICA ---
-                // Se for a primeira vez, chamamos os KPIs em background    
-                    carregarKpisEmBackground(fkInstituicao);
+                // Se não há filtro e é a primeira página, carrega KPIs
+                if (termoPesquisa === '' && pagina === 1) {
+                    // carregarKpisEmBackground deve ser sua função original
+                    carregarKpisEmBackground(fkInstituicao); 
+                }
 
-
-                prefetchPagina(pagina + 1, fkInstituicao);
+                // Prefetch da PRÓXIMA página, mantendo o filtro
+                prefetchPagina(pagina + 1, fkInstituicao, termoPesquisa);
             });
         }
     }).catch(console.error);
@@ -125,29 +136,40 @@ function renderizarDados(dados) {
 }
 
 // Pré-carrega a próxima página sem travar a tela
-function prefetchPagina(proximaPagina, fkInstituicao) {
-    if (proximaPagina > totalPaginasGlobal || cachePaginas[proximaPagina]) return;
+// Pré-carrega a próxima página sem travar a tela
+function prefetchPagina(proximaPagina, fkInstituicao, termoPesquisa = '') {
+    // A variável totalPaginasGlobal é atualizada por renderizarDados
+    if (proximaPagina > totalPaginasGlobal) return; 
+    
+    // Chave de cache com filtro
+    const cacheKey = `${proximaPagina}_${termoPesquisa}`;
+    if (cachePaginas[cacheKey]) return; 
 
-    console.log(`[PREFETCH] Baixando página ${proximaPagina} em background...`);
-    fetch(`/instituicao/listarAlunosInstituicao/${fkInstituicao}?page=${proximaPagina}`)
+    console.log(`[PREFETCH] Baixando página ${proximaPagina} (Filtro: ${termoPesquisa || 'Nenhum'}) em background...`);
+    
+    // Inclui o filtro na requisição
+    const urlBusca = `/instituicao/listarAlunosInstituicao/${fkInstituicao}?page=${proximaPagina}&filtro=${termoPesquisa}`;
+
+    fetch(urlBusca)
         .then(r => r.json())
         .then(dados => {
-            cachePaginas[proximaPagina] = dados; // Apenas salva, não renderiza
+            cachePaginas[cacheKey] = dados; // Salva com a chave única
         });
 }
 
 // =================================================================================
 // 2. PAGINAÇÃO COM BOTÕES OTIMIZADA
 // =================================================================================
-
 function renderizarBotoesPaginacao(totalPages, currentPage) {
     const container = document.getElementById('pagination_controls');
     if (!container) return;
 
-    // Evita recriar o HTML se a paginação não mudou (Otimização)
-    if (container.dataset.lastPage == currentPage && container.dataset.total == totalPages) return;
+    // Evita recriar o HTML se a paginação e o filtro não mudaram
+    if (container.dataset.lastPage == currentPage && container.dataset.total == totalPages && container.dataset.filtro == termoPesquisaAtual) return;
     container.dataset.lastPage = currentPage;
     container.dataset.total = totalPages;
+    // SALVA O FILTRO ATUAL
+    container.dataset.filtro = termoPesquisaAtual; 
 
     container.innerHTML = ''; 
 
@@ -161,7 +183,8 @@ function renderizarBotoesPaginacao(totalPages, currentPage) {
         btn.style.cssText = isActive ? activeStyle : btnStyle;
         
         if (!isDisabled && !isActive) {
-            btn.onclick = () => listarAlunosInstituicao(pageTarget);
+            // **MUDANÇA AQUI:** Passa o filtro atual!
+            btn.onclick = () => listarAlunosInstituicao(pageTarget, termoPesquisaAtual); 
             btn.onmouseover = () => { btn.style.backgroundColor = "#f3f3f3"; };
             btn.onmouseout = () => { btn.style.backgroundColor = "white"; };
         }

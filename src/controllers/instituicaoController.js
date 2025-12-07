@@ -65,11 +65,11 @@ function listarAlunosInstituicao(req, res) {
     var limit = 14; 
     var offset = (page - 1) * limit;
 
-    // 1. CAPTURA O TERMO DE BUSCA (Ex: "João")
-    var busca = req.query.busca || "";
+    // 1. CAPTURA O TERMO DE FILTRO ENVIADO PELO FRONTEND
+    var filtro = req.query.filtro || ""; 
 
-    // 2. ENVIA O TERMO 'BUSCA' PARA O MODEL
-    instituicaoModel.listarAlunosInstituicao(idInstituicao, limit, offset, busca)
+    // 2. ENVIA O TERMO 'filtro' PARA O MODEL
+    instituicaoModel.listarAlunosInstituicao(idInstituicao, limit, offset, filtro)
         .then(function (resultado) {
             var totalItems = resultado.totalItems;
             var totalPages = Math.ceil(totalItems / limit);
@@ -85,6 +85,11 @@ function listarAlunosInstituicao(req, res) {
             res.status(500).json(erro.sqlMessage);
         });
 }
+
+module.exports = {
+    listarAlunosInstituicao,
+    // ... adicione outras funções exportadas
+};
 
 // NOVO CONTROLLER
 function obterKpisAlunos(req, res) {

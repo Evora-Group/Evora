@@ -1,21 +1,96 @@
 var database = require("../database/config");
 
-function listarAlunosInstituicao(idInstituicao, limit, offset) {
-    // 1. Query da Lista (Otimizada)
+function listarAlunosInstituicao(idInstituicao, limit, offset, filtro) {
+    
+    let condicaoBusca = "";
+    
+    if (filtro) {
+        
+        const filtroLowerCase = filtro.toLowerCase();
+
+        // 1. Definição das Subconsultas (Nota e Frequência)
+        const subqueryMediaNota = `(SELECT AVG(av.nota) FROM avaliacao av WHERE av.fkMatricula = m.id_matricula)`;
+        // CORREÇÃO DA FREQUÊNCIA: Soma Presenças (presente=1) / Total Aulas * 100
+        const subqueryMediaFrequencia = `(
+            (SELECT SUM(CASE WHEN f.presente = 1 THEN 1 ELSE 0 END) FROM frequencia f WHERE f.fkMatricula = m.id_matricula) 
+            / (SELECT COUNT(f.id_frequencia) FROM frequencia f WHERE f.fkMatricula = m.id_matricula) 
+            * 100
+        )`;
+        
+        // 2. Tradução dos Termos de Desempenho para Condições SQL
+        
+        // Regras para SQL:
+        const STATUS_OTIMO = `(${subqueryMediaNota} >= 8 AND ${subqueryMediaFrequencia} >= 75)`;
+        
+        // ATENÇÃO: (Nota < 6) OU (Freq < 75) OU (Dados NULOS)
+        const STATUS_ATENCAO = `(
+            ${subqueryMediaNota} < 6 OR 
+            ${subqueryMediaFrequencia} < 75 OR 
+            ${subqueryMediaNota} IS NULL OR 
+            ${subqueryMediaFrequencia} IS NULL
+        )`;
+        
+        // REGULAR: (6 <= Nota < 8) E (Freq >= 75)
+        const STATUS_REGULAR = `(
+            ${subqueryMediaNota} >= 6 AND 
+            ${subqueryMediaNota} < 8 AND 
+            ${subqueryMediaFrequencia} >= 75
+        )`;
+        
+        let filtroDesempenho = '';
+        let isDesempenhoFilter = false; 
+
+        // Tenta traduzir o termo para uma condição de desempenho
+        if (filtroLowerCase === 'ótimo' || filtroLowerCase === 'excelente') {
+            filtroDesempenho = STATUS_OTIMO;
+            isDesempenhoFilter = true;
+        } else if (filtroLowerCase === 'atenção' || filtroLowerCase === 'baixo' || filtroLowerCase === 'nulo') {
+            filtroDesempenho = STATUS_ATENCAO;
+            isDesempenhoFilter = true;
+        } else if (filtroLowerCase === 'regular') {
+            filtroDesempenho = STATUS_REGULAR;
+            isDesempenhoFilter = true;
+        } 
+        
+        // 3. CONDIÇÃO GERAL (Decide se filtra por Desempenho OU por Nome/RA)
+        condicaoBusca = ` AND (`;
+
+        if (isDesempenhoFilter) {
+            // Se o usuário digitou 'atencao' ou 'ótimo', filtra APENAS pela condição de desempenho
+            condicaoBusca += filtroDesempenho;
+        } else {
+            // Caso contrário (é um Nome ou RA), filtra por LIKE
+            // Nota: Adicione `replace(/'/g, "''")` se for usar o LIKE diretamente sem parâmetros preparados.
+            condicaoBusca += `
+                a.nome LIKE '%${filtro}%' OR 
+                a.ra LIKE '%${filtro}%'
+            `;
+        }
+        
+        condicaoBusca += `)`; // Fecha o AND principal
+    }
+
+    // 4. Query da Lista (INCLUI media_frequencia no SELECT)
     var instrucaoSql = `
         SELECT 
             a.ra, a.nome, a.email, t.nome_sigla AS turma, c.nome AS curso,
-            (SELECT AVG(av.nota) FROM avaliacao av WHERE av.fkMatricula = m.id_matricula) as media_notas
+            (SELECT AVG(av.nota) FROM avaliacao av WHERE av.fkMatricula = m.id_matricula) as media_notas,
+            (
+                (SELECT SUM(CASE WHEN f.presente = 1 THEN 1 ELSE 0 END) FROM frequencia f WHERE f.fkMatricula = m.id_matricula) 
+                / (SELECT COUNT(f.id_frequencia) FROM frequencia f WHERE f.fkMatricula = m.id_matricula) 
+                * 100
+            ) as media_frequencia 
         FROM aluno a
         INNER JOIN matricula m ON a.ra = m.fkAluno
         INNER JOIN turma t ON m.fkTurma = t.id_turma
         INNER JOIN curso c ON t.fkCurso = c.id_curso
         WHERE c.fkInstituicao = ${idInstituicao}
         AND m.ativo = 1
+        ${condicaoBusca}
         LIMIT ${limit} OFFSET ${offset};
     `;
 
-    // 2. Query do Total (Para paginação)
+    // 5. Query do Total (APLICA A MESMA CONDICAO DE BUSCA)
     var instrucaoTotal = `
         SELECT COUNT(a.ra) as total 
         FROM aluno a
@@ -23,23 +98,37 @@ function listarAlunosInstituicao(idInstituicao, limit, offset) {
         JOIN turma t ON m.fkTurma = t.id_turma
         JOIN curso c ON t.fkCurso = c.id_curso
         WHERE c.fkInstituicao = ${idInstituicao}
-        AND m.ativo = 1;
+        AND m.ativo = 1
+        ${condicaoBusca}; 
     `;
 
-    // Apenas executa lista e total. É muito mais rápido!
+    // 6. Execução e Tratamento
     return Promise.all([
         database.executar(instrucaoSql),
         database.executar(instrucaoTotal)
     ]).then(function (resultados) {
-        // Função auxiliar de tratamento (mantida)
+        
         const tratarAlunos = (lista) => {
             return lista.map(aluno => {
                 let status = 'Regular';
-                let media = parseFloat(aluno.media_notas);
-                if (!media && media !== 0) status = 'Atenção';
-                else if (media >= 8) status = 'Ótimo';
-                else if (media < 6) status = 'Atenção';
-                return { ...aluno, desempenho: status };
+                const mediaNota = parseFloat(aluno.media_notas);
+                const mediaFreq = parseFloat(aluno.media_frequencia);
+
+                // Lógica de Desempenho no Frontend (Para renderizar o status)
+                if ((!mediaNota && mediaNota !== 0) || 
+                    (!mediaFreq && mediaFreq !== 0) || 
+                    mediaNota < 6 || 
+                    mediaFreq < 75) {
+                    status = 'Atenção';
+                } 
+                else if (mediaNota >= 8 && mediaFreq >= 75) {
+                    status = 'Ótimo';
+                }
+
+                return { 
+                    ...aluno, 
+                    desempenho: status 
+                };
             });
         };
 

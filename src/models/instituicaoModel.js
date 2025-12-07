@@ -141,43 +141,48 @@ function listarAlunosInstituicao(idInstituicao, limit, offset, filtro) {
 
 // NOVA FUNÇÃO: Executa apenas os cálculos pesados
 function obterKpisAlunos(idInstituicao) {
-    // 3. KPI Desempenho (OTIMIZADO com JOIN)
+    // 3. KPI Desempenho (CORRIGIDO: Trata NULL como 0)
     var instrucaoKpiNotas = `
         SELECT 
-            COALESCE(SUM(CASE WHEN sub.media < 6 THEN 1 ELSE 0 END), 0) as kpi_atencao,
-            COALESCE(SUM(CASE WHEN sub.media >= 6 AND sub.media < 8 THEN 1 ELSE 0 END), 0) as kpi_regular,
-            COALESCE(SUM(CASE WHEN sub.media >= 8 THEN 1 ELSE 0 END), 0) as kpi_otimo
+            SUM(CASE WHEN sub.media < 6 THEN 1 ELSE 0 END) as kpi_atencao,
+            SUM(CASE WHEN sub.media >= 6 AND sub.media < 8 THEN 1 ELSE 0 END) as kpi_regular,
+            SUM(CASE WHEN sub.media >= 8 THEN 1 ELSE 0 END) as kpi_otimo
         FROM (
-            SELECT AVG(av.nota) as media
+            SELECT 
+                -- COALESCE garante que se a média for NULL (aluno novo), vire 0
+                COALESCE(AVG(av.nota), 0) as media 
             FROM matricula m
             JOIN turma t ON m.fkTurma = t.id_turma
             JOIN curso c ON t.fkCurso = c.id_curso
             LEFT JOIN avaliacao av ON av.fkMatricula = m.id_matricula
             WHERE c.fkInstituicao = ${idInstituicao}
-            And m.ativo = 1
+            AND m.ativo = 1
             GROUP BY m.id_matricula
         ) as sub;
     `;
 
-    // 4. KPI Frequência (Já estava razoável, mas mantendo o padrão)
+    // 4. KPI Frequência (CORRIGIDO: Usa LEFT JOIN e trata NULL como 0)
     var instrucaoKpiFreq = `
         SELECT 
             ROUND(AVG(sub.freq), 0) as frequencia_geral,
             COUNT(CASE WHEN sub.freq < 75 THEN 1 END) as kpi_atencao_freq
         FROM (
             SELECT 
-                (SUM(f.presente) / COUNT(f.id_frequencia)) * 100 as freq
+                -- Se não tiver chamada (COUNT = 0), define frequência como 0
+                COALESCE(
+                    (SUM(CASE WHEN f.presente = 1 THEN 1 ELSE 0 END) / NULLIF(COUNT(f.id_frequencia), 0)) * 100, 
+                0) as freq
             FROM matricula m
             JOIN turma t ON m.fkTurma = t.id_turma
             JOIN curso c ON t.fkCurso = c.id_curso
-            JOIN frequencia f ON f.fkMatricula = m.id_matricula
+            -- LEFT JOIN para incluir alunos sem chamada registrada
+            LEFT JOIN frequencia f ON f.fkMatricula = m.id_matricula
             WHERE c.fkInstituicao = ${idInstituicao}
             AND m.ativo = 1
-            GROUP BY m.fkAluno
+            GROUP BY m.id_matricula
         ) as sub;
     `;
 
-    // MANTENHA O PROMISE.ALL - ELE É RÁPIDO!
     return Promise.all([
         database.executar(instrucaoKpiNotas),
         database.executar(instrucaoKpiFreq)

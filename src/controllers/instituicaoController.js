@@ -86,11 +86,6 @@ function listarAlunosInstituicao(req, res) {
         });
 }
 
-module.exports = {
-    listarAlunosInstituicao,
-    // ... adicione outras funções exportadas
-};
-
 // NOVO CONTROLLER
 function obterKpisAlunos(req, res) {
     var idInstituicao = req.params.idInstituicao;

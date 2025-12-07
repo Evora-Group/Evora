@@ -18,10 +18,11 @@ function listarAlunosInstituicao(pagina = 1, termoPesquisa = '') {
     // 1. ATUALIZA O FILTRO GLOBAL
     termoPesquisaAtual = termoPesquisa;
 
-    // Chave de cache única: combina a página e o filtro
+    // Chave de cache única
     const cacheKey = `${pagina}_${termoPesquisa}`; 
 
-    // Lógica de Cache com Filtro
+    // Se tiver em cache E não for a primeira carga após uma edição/criação (opcional), usa cache
+    // Nota: Se acabou de criar um aluno, o reload da página limpa a memória RAM, então o cache começa vazio.
     if (cachePaginas[cacheKey]) {
         renderizarDados(cachePaginas[cacheKey]);
         prefetchPagina(pagina + 1, fkInstituicao, termoPesquisa);
@@ -30,30 +31,30 @@ function listarAlunosInstituicao(pagina = 1, termoPesquisa = '') {
 
     if (containerPaginacao) containerPaginacao.style.opacity = '0.6';
 
-    // 2. INCLUI O FILTRO NA URL DE BUSCA
     const urlBusca = `/instituicao/listarAlunosInstituicao/${fkInstituicao}?page=${pagina}&filtro=${termoPesquisa}`;
 
     fetch(urlBusca, { 
         method: "GET",
+        cache: 'no-store', // <--- IMPORTANTE: Garante que traga o aluno novo recém-criado
         headers: { "Content-Type": "application/json" }
     }).then(function (resposta) {
         if (resposta.ok) {
             resposta.json().then(function (dados) {
-                // Salva no Cache com a chave única
+                // Salva no Cache
                 cachePaginas[cacheKey] = dados;
                 
-                // Renderiza a Tabela
+                // Renderiza APENAS a Tabela
                 renderizarDados(dados);
                 
                 if (containerPaginacao) containerPaginacao.style.opacity = '1';
                 
-                // Se não há filtro e é a primeira página, carrega KPIs
+                // BUSCA KPIS SEPARADAMENTE (Fonte da Verdade)
+                // Executa apenas na primeira página e sem filtro para garantir os dados gerais
                 if (termoPesquisa === '' && pagina === 1) {
-                    // carregarKpisEmBackground deve ser sua função original
                     carregarKpisEmBackground(fkInstituicao); 
                 }
 
-                // Prefetch da PRÓXIMA página, mantendo o filtro
+                // Prefetch da próxima página
                 prefetchPagina(pagina + 1, fkInstituicao, termoPesquisa);
             });
         }
@@ -84,19 +85,17 @@ function carregarKpisEmBackground(idInstituicao) {
     });
 }
 
-// Função para renderizar os dados (separada para ser usada pelo cache)
 function renderizarDados(dados) {
     const listaAlunos = dados.data || []; 
     const totalItems = dados.totalItems || 0;
     
-    // Atualiza variáveis globais
+    // Atualiza variáveis globais de controle
     paginaAtual = dados.currentPage;
     totalPaginasGlobal = dados.totalPages || 1;
 
     // Renderiza Tabela
     const corpoTabela = document.getElementById("corpo_tabela_alunos");
     if (corpoTabela) {
-        // Usamos um DocumentFragment para manipular o DOM apenas uma vez (Mais rápido)
         const fragment = document.createDocumentFragment();
         
         listaAlunos.forEach(aluno => {
@@ -120,19 +119,15 @@ function renderizarDados(dados) {
         corpoTabela.appendChild(fragment);
     }
 
-    // Renderiza Controles
+    // Renderiza Controles de Paginação
     renderizarBotoesPaginacao(totalPaginasGlobal, paginaAtual);
 
-    // Atualiza Totais e KPIs apenas se necessário (evita reflow)
+    // Atualiza apenas o contador da tabela (ex: "Mostrando 10 de 50")
     document.querySelectorAll(".qtd_alunos").forEach(el => {
         if (el.innerHTML != totalItems) el.innerHTML = totalItems;
     });
 
-    // Se as KPIs vierem nulas no cache (pág 2+), mantemos a anterior ou recalculamos
-    if (dados.kpiStats) {
-        atualizarKpiDesempenho(dados.kpiStats, totalItems);
-        atualizarKpiFrequencia(dados.freqStats);
-    }
+    // --- REMOVIDO: A atualização de KPI foi retirada daqui para evitar conflito ---
 }
 
 // Pré-carrega a próxima página sem travar a tela
@@ -262,32 +257,50 @@ function atualizarCircularProgress(porcentagem) {
     circ.style.background = `conic-gradient(${cor} ${porcentagem * 3.6}deg, #e0e0e0 0deg)`;
 }
 
-function atualizarKpiDesempenho(stats, totalTotal) {
+function atualizarKpiDesempenho(stats, totalIgnorado) {
     if (!stats) return;
+
+    // Garante que sejam números
     const countAtencao = Number(stats.kpi_atencao || 0);
     const countRegular = Number(stats.kpi_regular || 0);
     const countOtimo = Number(stats.kpi_otimo || 0);
 
+    // SOMA O TOTAL REAL AQUI (Isso corrige o erro da barra de progresso)
+    const totalRealKPI = countAtencao + countRegular + countOtimo;
+
+    // Atualiza os Textos do HTML
     document.getElementById('count_atencao').textContent = `${countAtencao} atenção`;
     document.getElementById('count_regular').textContent = `${countRegular} regular`;
     document.getElementById('count_otimo').textContent = `${countOtimo} ótimo`;
 
+    // Lógica para decidir qual status mostrar em destaque
     const max = Math.max(countAtencao, countRegular, countOtimo);
     let escolhido = 'N/A';
-    if (countAtencao === max && max >= 0) escolhido = 'atenção';
-    else if (countRegular === max && max >= 0) escolhido = 'regular';
-    else if (countOtimo === max && max >= 0) escolhido = 'ótimo';
+    
+    // Critério de desempate: Atenção > Regular > Ótimo
+    if (countAtencao === max && max > 0) escolhido = 'atenção';
+    else if (countRegular === max && max > 0) escolhido = 'regular';
+    else if (countOtimo === max && max > 0) escolhido = 'ótimo';
 
-    const countEscolhido = (escolhido === 'atenção') ? countAtencao : (escolhido === 'regular') ? countRegular : (escolhido === 'ótimo') ? countOtimo : 0;
+    const countEscolhido = (escolhido === 'atenção') ? countAtencao : 
+                           (escolhido === 'regular') ? countRegular : 
+                           (escolhido === 'ótimo') ? countOtimo : 0;
 
     const kpiTexto = document.getElementById('kpi_texto_desempenho');
-    if (kpiTexto) kpiTexto.textContent = `${countEscolhido} ${escolhido !== 'N/A' ? escolhido.toUpperCase() : ''}`;
+    if (kpiTexto) {
+        kpiTexto.textContent = `${countEscolhido} ${escolhido !== 'N/A' ? escolhido.toUpperCase() : ''}`;
+    }
 
+    // Atualiza Barra de Progresso
     const progress = document.getElementById('progress_bar');
     if (progress) {
-        const totalValido = totalTotal > 0 ? totalTotal : 1;
-        const percent = Math.round((countEscolhido / totalValido) * 100);
+        // Usa o total calculado acima como base para a porcentagem
+        const denominador = totalRealKPI > 0 ? totalRealKPI : 1;
+        const percent = Math.round((countEscolhido / denominador) * 100);
+        
         progress.value = percent;
+        
+        // Remove classes antigas e adiciona a nova cor
         progress.classList.remove('progress-atencao', 'progress-regular', 'progress-otimo');
         if (escolhido === 'atenção') progress.classList.add('progress-atencao');
         else if (escolhido === 'regular') progress.classList.add('progress-regular');

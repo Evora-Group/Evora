@@ -960,9 +960,7 @@ dialog::backdrop {
     }
 
     .kpi_header .div_comparativo {
-        width: 100%;
-        display: flex;
-        gap: 20px;
+        display: none;
     }
 
     .div_titulo_kpi h1 {
@@ -1249,10 +1247,7 @@ dialog::backdrop {
     }
 
     .kpi_header .div_comparativo {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
+        display: none;
     }
 
     .div_titulo_kpi h1 {

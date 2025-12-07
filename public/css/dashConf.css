@@ -440,6 +440,10 @@ main .section-conf {
     }
 }
 
+#form-none {
+    display: none;
+}
+
 @media (max-width: 1000px) {
 
     /* 1. Seleciona especificamente o link de Configurações */

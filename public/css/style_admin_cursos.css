@@ -85,7 +85,7 @@ body{
 
 .header_info_usuario i{
     font-size: calc(var(--font-title)* 1.5);
-    color: var(--primary-color);
+    color: rgba(156, 162, 169, 0.81);
 }
 
 .img_icon_usuario{

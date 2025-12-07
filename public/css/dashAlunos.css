@@ -223,29 +223,33 @@
     } */
 
     .paginacao_container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    margin-top: 10px;
-}
-.btn_paginacao {
-    padding: 5px 12px;
-    border: 1px solid var(--primary-color);
-    background: transparent;
-    cursor: pointer;
-    border-radius: 5px;
-    color: var(--primary-color);
-}
-.btn_paginacao.active {
-    background-color: var(--primary-color);
-    color: white;
-}
-.btn_paginacao:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        margin-top: 10px;
+    }
+
+    .btn_paginacao {
+        padding: 5px 12px;
+        border: 1px solid var(--primary-color);
+        background: transparent;
+        cursor: pointer;
+        border-radius: 5px;
+        color: var(--primary-color);
+    }
+
+    .btn_paginacao.active {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .btn_paginacao:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
     /* =========================================
     MEDIA QUERIES - RESPONSIVIDADE COMPLETA
     ========================================= */
@@ -265,32 +269,7 @@
             height: auto;
         }
 
-        #pagination_controls {
-        /* 1. O PULO DO GATO: Tira da tela e põe no fluxo do documento */
-        position: relative !important; 
-        bottom: auto !important;
-        left: auto !important;
-        right: auto !important;
-        
-        /* 2. Visual */
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 5px;
-        
-        /* 3. Espaçamento */
-        margin-top: 15px;      /* Afasta um pouco da tabela */
-        padding: 10px 0;       /* Respiro vertical */
-        
-        /* 4. Remove estilos de "barra fixa" */
-        background: transparent !important; 
-        box-shadow: none !important;
-        z-index: 1;
-        
-        /* 5. IMPORTANTE: Garante espaço extra embaixo para o menu não cobrir */
-        padding-bottom: 20px; 
-    }
+
 
 
         /* --- 2. HEADER E BOTÃO DE SAIR --- */
@@ -304,7 +283,7 @@
             padding: 10px 15px;
         }
 
-        .header_info_usuario .img_logo{
+        .header_info_usuario .img_logo {
             width: 120px;
         }
 
@@ -576,23 +555,25 @@
             /* Isso diz: "Empurre tudo o que estiver acima de mim para longe" */
         }
 
-            /* 1. Seleciona especificamente o link de Configurações */
+        /* 1. Seleciona especificamente o link de Configurações */
         /* O seletor [href*="dashConf"] pega qualquer link que tenha "dashConf" no endereço */
         aside section ul li a[href*="dashConf"] {
-            font-size: 0 !important; /* Esconde a palavra "Configurações" */
+            font-size: 0 !important;
+            /* Esconde a palavra "Configurações" */
         }
 
         /* 2. Restaura o tamanho do ícone (que sumiria junto com a fonte 0) */
         aside section ul li a[href*="dashConf"] i {
-            font-size: 22px !important; 
-            margin-bottom: 2px;         
+            font-size: 22px !important;
+            margin-bottom: 2px;
         }
 
         /* 3. Insere o novo texto "Conf." */
         aside section ul li a[href*="dashConf"]::after {
-            content: "Conf.";           
-            font-size: 10px !important; 
-            display: block;             /* Garante que fique em baixo do ícone */
+            content: "Conf.";
+            font-size: 10px !important;
+            display: block;
+            /* Garante que fique em baixo do ícone */
         }
 
     }
@@ -616,52 +597,26 @@
             height: auto;
         }
 
-        /* Cole isso DENTRO do @media (max-width: 750px), substituindo o #pagination_controls antigo */
-
-    #pagination_controls {
-        /* 1. O PULO DO GATO: Tira da tela e põe no fluxo do documento */
-        position: relative !important; 
-        bottom: auto !important;
-        left: auto !important;
-        right: auto !important;
-        
-        /* 2. Visual */
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 5px;
-        
-        /* 3. Espaçamento */
-        margin-top: 15px;      /* Afasta um pouco da tabela */
-        padding: 10px 0;       /* Respiro vertical */
-        
-        /* 4. Remove estilos de "barra fixa" */
-        background: transparent !important; 
-        box-shadow: none !important;
-        z-index: 1;
-        
-        /* 5. IMPORTANTE: Garante espaço extra embaixo para o menu não cobrir */
-        padding-bottom: 20px; 
-    }
-
         /* --- 2. HEADER COMPACTO (Igual dashConf) --- */
         .header_info_usuario {
             display: flex;
             justify-content: space-between !important;
             align-items: center;
             width: 100%;
-            
+
             /* AQUI ESTÁ O SEGREDO DO TAMANHO: */
-            height: auto !important;       /* Remove os 8% fixos */
-            min-height: 60px;              /* Altura mínima segura */
-            padding: 10px 15px !important; /* Padding reduzido */
+            height: auto !important;
+            /* Remove os 8% fixos */
+            min-height: 60px;
+            /* Altura mínima segura */
+            padding: 10px 15px !important;
+            /* Padding reduzido */
             box-shadow: var(--card-shadow);
         }
-        
+
         /* Controla a imagem para ela não empurrar a altura do header */
         .header_info_usuario .img_logo {
-            width: 120px !important; 
+            width: 120px !important;
             height: auto !important;
             object-fit: contain;
         }
@@ -673,7 +628,8 @@
             font-size: 28px;
             color: #dd1c2f;
             text-decoration: none;
-            padding: 5px; /* Padding menor no botão */
+            padding: 5px;
+            /* Padding menor no botão */
         }
 
         /* --- 3. MENU INFERIOR (ASIDE) --- */
@@ -689,7 +645,11 @@
             box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.15);
         }
 
-        aside section { width: 100%; display: block; height: auto; }
+        aside section {
+            width: 100%;
+            display: block;
+            height: auto;
+        }
 
         aside section ul {
             display: flex;
@@ -703,7 +663,8 @@
 
         aside section ul li {
             width: auto;
-            flex: 1; /* Divide o espaço igualmente entre os ícones */
+            flex: 1;
+            /* Divide o espaço igualmente entre os ícones */
             min-width: 0;
             height: 60px;
             margin: 0;
@@ -719,26 +680,42 @@
             text-align: center;
         }
 
-        aside section ul li a i { font-size: 22px; margin: 0; }
+        aside section ul li a i {
+            font-size: 22px;
+            margin: 0;
+        }
 
-        .botao-sair { display: none !important; }
+        .botao-sair {
+            display: none !important;
+        }
 
         /* Truque: Configurações -> Conf. */
-        aside section ul li a[href*="dashConf"] { font-size: 0 !important; }
-        aside section ul li a[href*="dashConf"] i { font-size: 22px !important; margin-bottom: 2px; }
-        aside section ul li a[href*="dashConf"]::after { content: "Conf."; font-size: 10px !important; display: block; }
+        aside section ul li a[href*="dashConf"] {
+            font-size: 0 !important;
+        }
+
+        aside section ul li a[href*="dashConf"] i {
+            font-size: 22px !important;
+            margin-bottom: 2px;
+        }
+
+        aside section ul li a[href*="dashConf"]::after {
+            content: "Conf.";
+            font-size: 10px !important;
+            display: block;
+        }
 
 
         /* --- 4. CONTEÚDO PRINCIPAL (TABELA) --- */
         .section_main {
+            box-shadow: var(--card-shadow);
+            border-radius: 20px;
             width: 100%;
+            height: 65%;
+            padding: var(--padding);
+            gap: calc(var(--gap) * 0.5);
             display: flex;
             flex-direction: column;
-            height: calc(100vh - 430px); 
-            min-height: 300px;
-            padding: 10px;
-            gap: 10px;
-            overflow: hidden;
         }
 
         .main_usuarios {
@@ -755,17 +732,20 @@
         }
 
         /* Correção do Header da Tabela */
-        .tabela thead, .tabela thead tr, .tabela thead th {
+        .tabela thead,
+        .tabela thead tr,
+        .tabela thead th {
             position: static !important;
             transform: none !important;
             box-shadow: none !important;
             border-bottom: solid 1px #000;
             background-color: transparent !important;
         }
-        
-        .tabela th, .tabela td {
-            font-size: 12px;
-            padding: 8px 4px;
+
+        .tabela th,
+        .tabela td {
+            /* font-size: 12px; */
+            padding: 6px 3px;
         }
 
         /* --- 5. CARDS DE KPI --- */
@@ -785,23 +765,47 @@
             min-height: auto;
         }
 
-        .div_titulo_kpi h1 { font-size: 40px; }
-        .kpi_header .div_titulo_kpi { align-items: center; text-align: center; width: 100%; }
+        .div_titulo_kpi h1 {
+            font-size: 40px;
+        }
 
-        #kpi_donutchart > div {
+        .kpi_header .div_titulo_kpi {
+            align-items: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        #kpi_donutchart>div {
             flex-direction: column !important;
             align-items: center !important;
             gap: 20px;
         }
 
-        .parteInfo, .parteGraf { width: 100% !important; display: flex; justify-content: center; text-align: center; }
-        
-        .grafico_container {
-            width: 100%; height: auto !important; min-height: 180px; padding: 10px 0; margin: 0;
+        .parteInfo,
+        .parteGraf {
+            width: 100% !important;
+            display: flex;
+            justify-content: center;
+            text-align: center;
         }
-        
-        .circular-progress { transform: scale(0.85); margin: auto; }
-        .kpi_footer, .div_comparativo { display: none; }
+
+        .grafico_container {
+            width: 100%;
+            height: auto !important;
+            min-height: 180px;
+            padding: 10px 0;
+            margin: 0;
+        }
+
+        .circular-progress {
+            transform: scale(0.85);
+            margin: auto;
+        }
+
+        .kpi_footer,
+        .div_comparativo {
+            display: none;
+        }
 
         .div_progress_bar {
             border-top: solid 2px rgba(128, 128, 128, 0.341);
@@ -817,14 +821,43 @@
             margin-bottom: 20px;
         }
 
-        .input_pesquisa, .div_criar_usuario { width: 100%; height: 50px; }
+        .input_pesquisa,
+        .div_criar_usuario {
+            width: 100%;
+            height: 50px;
+        }
 
         dialog {
-            max-width: 95%; width: 95%; height: auto; max-height: 85vh; overflow-y: auto; top: 50%;
+            max-width: 95%;
+            width: 95%;
+            height: auto;
+            max-height: 85vh;
+            overflow-y: auto;
+            top: 50%;
         }
-        .form_modal { height: auto; gap: 15px; }
-        .div_dois_inputs { flex-direction: column; gap: 15px; }
-        .div_input_menor, .div_input_maior { width: 100%; }
-        .form_modal input, select { height: 50px; }
-        .div_footer .div_criar_usuario, .div_footer .div_editar_usuario { width: 100%; }
+
+        .form_modal {
+            height: auto;
+            gap: 15px;
+        }
+
+        .div_dois_inputs {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .div_input_menor,
+        .div_input_maior {
+            width: 100%;
+        }
+
+        .form_modal input,
+        select {
+            height: 50px;
+        }
+
+        .div_footer .div_criar_usuario,
+        .div_footer .div_editar_usuario {
+            width: 100%;
+        }
     }

@@ -536,6 +536,10 @@ main .section-curso {
         padding: 1rem;
     }
 
+    .badge_modalidade{
+        display: none;
+    }
+
 
     section.section-curso{
         width: 100vw;
@@ -595,7 +599,9 @@ main .section-curso {
         flex-direction: column;
     }
 
-
+    .badge_modalidade{
+        display: none;
+    }
 
 
     /* 2. Header e Botão Sair do Topo */
@@ -698,6 +704,10 @@ main .section-curso {
     }
 
     .cursos{
+        display: none;
+    }
+    
+    .badge_modalidade{
         display: none;
     }
 
